@@ -424,6 +424,83 @@ async function fetchOneTab(id,e){
   document.getElementById('sync-lbl').textContent='Synced '+new Date().toLocaleTimeString();
 }
 
+// Refresh a single TDM sub-page and re-merge all TDM data
+async function fetchTdmSub(url, label, e){
+  if(e) e.stopPropagation();
+  const prod = PRODUCTS_DEF.find(p=>p.id==='tdm');
+  if(!prod) return;
+
+  // Mark the entry being refreshed (highlight the button briefly)
+  setSt('tdm', 'fetching');
+  renderTabBar(); renderFeed();
+
+  try{
+    const md  = await fetchFresh(url);
+    const rels = parseContent(md, prod, url);
+    // Tag the new items with their sub-label
+    rels.forEach(r=>{ r.changes.forEach(c=>{ c.subLabel = label === 'TDM GUI' ? 'GUI' : label; }); });
+    // Store keyed by URL so we can replace just this sub-page's data
+    if(!window._tdmSubData) window._tdmSubData = {};
+    window._tdmSubData[url] = rels;
+  } catch(err){
+    console.warn('TDM sub fetch error:', err.message);
+  }
+
+  // Re-merge all cached sub-pages
+  const tdmProd = PRODUCTS_DEF.find(p=>p.id==='tdm');
+  const allRels = [];
+  for(const entry of tdmProd.urls){
+    const cached = window._tdmSubData?.[entry.url];
+    if(cached) allRels.push(...cached);
+  }
+
+  if(allRels.length > 0){
+    // Re-run the TDM date-merge logic (same as doFetch)
+    const TYPE_PRIORITY = {breaking:0,security:1,feature:2,fix:3,improvement:4};
+    const MONTHS_MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,
+      august:8,september:9,october:10,november:11,december:12,
+      jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+    const dateToNum = s=>{
+      if(!s) return 0;
+      const s2=s.trim();
+      const m1=s2.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
+      if(m1){const mn=MONTHS_MAP[m1[2].toLowerCase()];if(mn)return parseInt(m1[3])*10000+mn*100+parseInt(m1[1]);}
+      const m2=s2.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
+      if(m2){const mn=MONTHS_MAP[m2[1].toLowerCase()];if(mn)return parseInt(m2[3])*10000+mn*100+parseInt(m2[2]);}
+      const m3=s2.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
+      if(m3)return parseInt(m3[1])*10000+parseInt(m3[2])*100+parseInt(m3[3]);
+      return 0;
+    };
+    const numToDisplay={};
+    const flat=[];
+    allRels.forEach(r=>{
+      const num=dateToNum(r.date);
+      const key=num||r.date||'Recent';
+      if(num&&!numToDisplay[num])numToDisplay[num]=r.date;
+      r.changes.forEach(c=>flat.push({...c,_key:key,_docsUrl:r.docsUrl}));
+    });
+    const byKey={},keyOrder=[];
+    flat.forEach(c=>{
+      const k=c._key;
+      if(!byKey[k]){byKey[k]=[];keyOrder.push(k);}
+      if(!byKey[k].some(x=>x.text===c.text))byKey[k].push(c);
+    });
+    keyOrder.forEach(k=>byKey[k].sort((a,b)=>(TYPE_PRIORITY[a.type]??5)-(TYPE_PRIORITY[b.type]??5)));
+    keyOrder.sort((a,b)=>{const na=typeof a==='number'?a:dateToNum(String(a));const nb=typeof b==='number'?b:dateToNum(String(b));return nb-na;});
+    const tdmMerged=keyOrder.filter(k=>byKey[k].length>0).map(k=>{
+      const display=numToDisplay[k]||String(k);
+      return{id:'tdm_'+String(k),productId:'tdm',product:tdmProd,version:display,date:display,changes:byKey[k],docsUrl:tdmProd.urls[0]?.url||tdmProd.urls[0],summary:makeSummary(byKey[k])};
+    });
+    releases['tdm']=tdmMerged;
+    latestVer['tdm']='';
+    latestDate['tdm']=tdmMerged[0]?.date||'';
+  }
+
+  setSt('tdm','done');
+  document.getElementById('sync-lbl').textContent='Synced '+new Date().toLocaleTimeString();
+  renderTabBar(); renderFeed();
+}
+
 async function doFetch(prod){
   const allRels=[], errs=[];
   const urlEntries = Array.isArray(prod.urls[0]) ? prod.urls.map(u=>({url:u,label:null})) : prod.urls;
@@ -440,6 +517,11 @@ async function doFetch(prod){
           if(label) r.changes.forEach(c=>{ c.subLabel = label; });
         });
         allRels.push(...rel);
+        // Cache for TDM per-sub refresh
+        if(prod.id==='tdm'){
+          if(!window._tdmSubData) window._tdmSubData={};
+          window._tdmSubData[url]=rel;
+        }
       }
     } catch(e){ errs.push(`${url}: ${e.message}`); }
   }
@@ -744,10 +826,12 @@ function isVersionHeader(line){
 const GLOBAL_IGNORE = [
   /^internal\s+(fix(es)?\s+and\s+improvement|updates?|changes?)\.?$/i,
   /^internal\s+(fix|improvement)\.?$/i,
+  /^internal fixes and improvements\.?$/i,
+  /^this release of sql clone includes/i,
+  /^this release includes/i,
   /frequent\s+updates?\s+release/i,
   /\belectron\b/i,
   /RgCompare\.Cli/i,
-  // Flyway RC tags: a version number immediately followed by -rc
   /\bv?\d+\.\d+[\d.]*-rc\d+/i,
 ];
 
@@ -958,70 +1042,65 @@ function buildQ1HTML(changes, productName){
   const score = c => (c.text.match(/\b\w{5,}\b/g)||[]).length;
 
   // ── ONE PARAGRAPH — business-first, customer-centric, jargon-light ──
-  const sentences = [];
-
-  // What was the quarter's focus in plain business terms?
-  if(topThemes.length >= 2){
-    sentences.push(`${label} spent ${qi.badge} doubling down on ${topThemes[0]} and ${topThemes[1]}${topThemes[2]?', with notable progress on '+topThemes[2]+' as well':''} — areas that matter most to customers evaluating or renewing.`);
-  } else if(topThemes.length === 1){
-    sentences.push(`The team's energy in ${qi.badge} was clearly focused on ${topThemes[0]}, which is a strong signal for customers evaluating ${label}.`);
-  } else {
-    sentences.push(`${label} shipped a steady stream of improvements in ${qi.badge}, keeping the product competitive and customers happy.`);
-  }
-
-  // What did customers actually get?
-  const got = [];
-  if(features.length) got.push(`${features.length} new capability${features.length>1?'':' update'}`);
-  if(fixes.length)    got.push(`${fixes.length} reliability and usability fix${fixes.length>1?'es':''}`);
-  if(imps.length)     got.push(`${imps.length} quality-of-life improvement${imps.length>1?'s':''}`);
-  if(security.length) got.push(`${security.length} security update${security.length>1?'s':''}`);
-  if(got.length) sentences.push(`Customers upgrading this quarter will find ${got.join(', ')}.`);
-
-  // Headline customer-facing feature (in plain language)
+  // ── ONE-SENTENCE SUMMARY: where is the product going? ──────────────────
+  // No release counts. Synthesise direction from what actually shipped.
   const topFeat = [...features].sort((a,b)=>score(b)-score(a))[0];
-  if(topFeat){
-    sentences.push(`The standout addition was "${topFeat.text}," which opens new conversations with customers looking for exactly this kind of capability.`);
+
+  let summary = '';
+  if(topThemes.length >= 2){
+    const th1 = topThemes[0], th2 = topThemes[1];
+    if(topFeat){
+      summary = `${label} is clearly doubling down on ${th1} and ${th2} this quarter — the addition of "${topFeat.text}" is the clearest signal of where the product is headed.`;
+    } else {
+      summary = `${label}'s investment in ${th1} and ${th2} this quarter signals a deliberate push to strengthen those areas for customers who need them most.`;
+    }
+  } else if(topThemes.length === 1){
+    if(topFeat){
+      summary = `This quarter ${label} put its energy into ${topThemes[0]}, with "${topFeat.text}" as the headline move.`;
+    } else {
+      summary = `${label} continued to sharpen its ${topThemes[0]} story this quarter, which should resonate with prospects evaluating the product in that space.`;
+    }
+  } else if(topFeat){
+    summary = `The quarter's most notable move for ${label} was "${topFeat.text}" — a strong talking point for both new and existing customer conversations.`;
+  } else {
+    summary = `${label} focused on quality and stability this quarter, reinforcing its position as a reliable, well-maintained solution.`;
   }
 
-  // Breaking change heads-up (customer risk, not technical detail)
   if(breaking.length){
-    sentences.push(`There ${breaking.length===1?'is':'are'} ${breaking.length} change${breaking.length>1?'s':''} that require customers to take action before upgrading — flag these early to prevent surprises and maintain trust.`);
+    summary += ` Note: there ${breaking.length===1?'is a change':'are changes'} customers need to review before upgrading — get ahead of that conversation.`;
   }
 
-  // Forward-looking one-liner
-  if(topThemes.length){
-    sentences.push(`The consistent investment in ${topThemes[0]} tells a compelling product roadmap story that should resonate with both new prospects and renewal conversations.`);
-  }
-
-  const summary = sentences.join(' ');
-
-  // ── NEXT QUARTER BULLETS — AE conversation starters, not tech checklist ──
+  // ── NEXT QUARTER OUTLOOK: where is the solution growing? ──────────────
+  // Bullets are forward-looking signals derived from what shipped, not a task list.
   const bullets = [];
 
-  // Lead with the best new feature as a demo hook
-  const top2Feats = [...features].sort((a,b)=>score(b)-score(a)).slice(0,2);
-  top2Feats.forEach(f=>{
-    // Make the bullet customer-outcome focused, not feature-description focused
-    bullets.push(`Lead demos with "${f.text}" — this is your strongest door-opener with prospects asking "what's new?"`);
-  });
-
-  if(breaking.length){
-    bullets.push(`Get ahead of upgrade friction: brief your existing customers on the ${breaking.length} compatibility change${breaking.length>1?'s':''} before they hit them on their own.`);
-  }
-
-  if(security.length){
-    bullets.push(`Use the security updates as a trust signal with compliance-driven buyers — active security investment shows the product is enterprise-grade.`);
-  }
-
+  // Primary direction signal
   if(topThemes.length >= 1){
-    bullets.push(`In competitive deals, anchor on ${label}'s ${topThemes[0]} story — this quarter's releases give you fresh, concrete proof points.`);
+    bullets.push(`${label} is investing in ${topThemes[0]} — expect this to be a stronger part of the product story in customer conversations next quarter.`);
+  }
+  if(topThemes.length >= 2){
+    bullets.push(`The ${topThemes[1]} work this quarter lays groundwork for deeper capability — watch for this becoming a key differentiator as it matures.`);
   }
 
-  if(fixes.length >= 3){
-    bullets.push(`When a prospect raises concerns about stability or maturity, point to the ${fixes.length} fixes shipped this quarter as evidence that the team is highly responsive to customer feedback.`);
+  // Standout feature as a forward signal
+  if(topFeat){
+    bullets.push(`"${topFeat.text}" is a door-opener with the right prospects — bring this into demos and discovery calls where it fits.`);
   }
 
-  bullets.push(`Before your next customer call, spend 5 minutes with your SE reviewing the release notes — one of these changes will likely connect directly to something on the customer's agenda.`);
+  // Breaking changes signal product evolution
+  if(breaking.length){
+    bullets.push(`The breaking changes this quarter indicate the product is actively evolving its architecture — position this as a sign of maturity and long-term investment, not instability.`);
+  }
+
+  // Security/stability signals
+  if(security.length){
+    bullets.push(`Active security investment makes ${label} a safer bet for compliance-focused and enterprise buyers — lean into this with regulated-industry prospects.`);
+  } else if(fixes.length >= 3){
+    bullets.push(`The consistent reliability work signals a product team that listens — use this to counter maturity objections in enterprise deals.`);
+  }
+
+  // Always end with a prep prompt
+  bullets.push(`Review the latest notes with your SE before key calls — one of these changes is likely relevant to your next prospect's agenda.`);
 
   const bulletHTML = bullets.slice(0,5).map(b=>
     `<div class="cq-bullet"><div class="cq-dot"></div><span>${esc(b)}</span></div>`
@@ -1179,14 +1258,26 @@ function renderFeed(){
     const ver=latestVer[p?.id]||'';
     const dt =latestDate[p?.id]||'';
 
-    // Product header with refresh button
-    html+=`<div class="prod-page-hdr">
+    // Product header — TDM gets per-sub-section refresh buttons; others get a single refresh
+    const isTdmPage = activeTab === 'tdm';
+    const tdmSubs = isTdmPage ? [
+      { label:'Subsetter',  url:'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes' },
+      { label:'Anonymize',  url:'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes' },
+      { label:'TDM GUI',    url:'https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes' },
+      { label:'Workflows',  url:'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/using-workflows-rgworkflow/workflows-release-notes' },
+    ] : [];
+    const tdmSubButtons = tdmSubs.map(s=>
+      `<button class="btn btn-ghost" style="font-size:10px;padding:4px 9px" onclick="fetchTdmSub('${s.url}','${s.label}',event)">↻ ${s.label}</button>`
+    ).join('');
+    html+=`<div class="prod-page-hdr" style="flex-wrap:wrap;gap:8px">
       <div class="prod-page-icon" style="background:${p?.bg};color:${p?.color}">${p?.abbr}</div>
       <div class="prod-page-name">${p?.name||''}</div>
-      ${ver?`<div class="prod-page-ver">v${esc(ver)}</div>`:''}
-      ${dt?`<div class="prod-page-date">${esc(dt)}</div>`:''}
-      <button class="btn btn-ghost" onclick="fetchOneTab('${activeTab}',event)" style="font-size:11px;padding:5px 11px;margin-left:auto">↻ Refresh</button>
-      <a href="${p?.urls[0]?.url||p?.urls[0]||'#'}" target="_blank" class="btn btn-ghost" style="font-size:11px;padding:5px 11px">↗ Docs</a>
+      ${!isTdmPage&&ver?`<div class="prod-page-ver">v${esc(ver)}</div>`:''}
+      ${!isTdmPage&&dt?`<div class="prod-page-date">${esc(dt)}</div>`:''}
+      <div style="margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        ${isTdmPage ? tdmSubButtons : `<button class="btn btn-ghost" onclick="fetchOneTab('${activeTab}',event)" style="font-size:11px;padding:5px 11px">↻ Refresh</button>`}
+        <a href="${p?.urls[0]?.url||p?.urls[0]||'#'}" target="_blank" class="btn btn-ghost" style="font-size:11px;padding:5px 11px">↗ Docs</a>
+      </div>
     </div>`;
 
     if(errors[activeTab]){
@@ -1222,11 +1313,12 @@ function renderFeed(){
 }
 
 function changeRow(c){
-  // Type tag (New / Fix / Improved / Breaking / Security / Enterprise)
   const typeTag = `<span class="ctag ${CTAG[c.type]||'ctag-improvement'}">${CLABEL[c.type]||c.type}</span>`;
-  // Sub-area badge for TDM items (Subsetter / Anonymize / TDM GUI / Workflows)
+  // Only show a sub-area badge for TDM component labels — not for Enterprise or Security
+  const TDM_SUB_LABELS = new Set(['Subsetter','Anonymize','GUI','Workflows']);
+  const showSub = c.subLabel && TDM_SUB_LABELS.has(c.subLabel);
   const subBadgeLabel = c.subLabel === 'GUI' ? 'TDM GUI' : (c.subLabel||'');
-  const subBadge = c.subLabel
+  const subBadge = showSub
     ? `<span class="sub-badge sub-badge-${c.subLabel}">${esc(subBadgeLabel)}</span>`
     : '';
   return `<div class="change-item">
