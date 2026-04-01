@@ -966,7 +966,7 @@ function makeSummary(changes){
   if(b)parts.push(`${b} breaking change${b>1?'s':''}`);
   if(f)parts.push(`${f} new feature${f>1?'s':''}`);
   if(x)parts.push(`${x} bug fix${x>1?'es':''}`);
-  const rest=changes.length-f-x-b-s;
+  const rest=changes.length-f-x-b;
   if(rest)parts.push(`${rest} improvement${rest>1?'s':''}`);
   return parts.join(', ')||`${changes.length} change${changes.length!==1?'s':''}`;
 }
