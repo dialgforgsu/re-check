@@ -242,8 +242,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-hei
     <button class="chip" onclick="setChip('fix',this)">⬡ Fixes</button>
     <button class="chip" onclick="setChip('improvement',this)">↑ Improvements</button>
     <button class="chip" onclick="setChip('breaking',this)">⚡ Breaking</button>
-    <button class="chip" onclick="setChip('security',this)">⚿ Security</button>
-    <button class="chip" onclick="setChip('enterprise',this)">★ Enterprise</button>
+
   </div>
 
   <div class="filter-count" id="filter-count"></div>
@@ -456,7 +455,7 @@ async function fetchTdmSub(url, label, e){
 
   if(allRels.length > 0){
     // Re-run the TDM date-merge logic (same as doFetch)
-    const TYPE_PRIORITY = {breaking:0,security:1,feature:2,fix:3,improvement:4};
+    const TYPE_PRIORITY = {breaking:0,feature:1,fix:2,improvement:3};
     const MONTHS_MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,
       august:8,september:9,october:10,november:11,december:12,
       jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
@@ -531,27 +530,7 @@ async function doFetch(prod){
     setSt(prod.id,'err'); return;
   }
 
-  const TYPE_PRIORITY = {breaking:0,security:1,enterprise:2,feature:3,fix:4,improvement:5};
-
-  // ── MONITOR: tag enterprise items with subLabel='Enterprise' ──────────────
-  // Detect by section heading or text keywords; keeps the type (New/Fix/Improved)
-  // but adds an Enterprise badge so it shows as e.g. "New  Enterprise  note text"
-  if(prod.id === 'monitor'){
-    // Keyword match: items whose text OR section heading indicates enterprise scope
-    // Tag enterprise items: keep primary type (New/Fix/Improved) but add Enterprise subLabel.
-    // Detection: section heading contains "enterprise edition" OR text matches enterprise keywords.
-    const ENTERPRISE_RE = /\benterprise\b|\bbase\s*monitor\b|\bcustom\s*(alert|monitor|group)\b|\bmulti.?server\b|\badvanced\s*(alert|monitor|group|notif)\b|\bwindows\s+auth(entication)?\b|\bdomain\s+(account|auth|user)\b|\bsso\b|\bldap\b|\brad\b|\bms\s*entra\b|\bactive\s+directory\b|\bsql\s+agent\b|\bjob\s+(monitor|history|alert|step)\b|\bblocking\s+(alert|chain|detect)\b|\bquery\s+(plan|store|wait)\b|\bwait\s+stat\b|\bdeadlock\b|\blong.?running\s+quer|\bsla\b|\bservice.?level\b|\bfailover\b|\balways\s+on\b|\bavailability\s+group\b|\brole.?based\b|\bpermission\s+(group|set)\b|sql\s+audit\b|cis\s+benchmark|configuration\s+compliance\b/i;
-    // Track whether we are inside an Enterprise sub-section
-    let inEnterpriseSection = false;
-    allRels.forEach(r=>{
-      r.changes.forEach(c=>{
-        const sectionIsEnterprise = c.section && /\benterprise\b/i.test(c.section);
-        if(!c.subLabel && (sectionIsEnterprise || ENTERPRISE_RE.test(c.text))){
-          c.subLabel = 'Enterprise';
-        }
-      });
-    });
-  }
+  const TYPE_PRIORITY = {breaking:0,feature:1,fix:2,improvement:3};
 
   // ── TDM: merge ALL sub-pages into one unified list ──────────────────────────
   // Sub-pages (Subsetter, Anonymize, GUI, Workflows) have independent version
@@ -604,7 +583,7 @@ async function doFetch(prod){
       if(!byKey[k].some(x=>x.text===c.text)) byKey[k].push(c);
     });
 
-    // Sort each bucket: Breaking → Security → New → Fix → Improved
+    // Sort each bucket: Breaking → New → Fix → Improved
     keyOrder.forEach(k=>{
       byKey[k].sort((a,b)=>(TYPE_PRIORITY[a.type]??5)-(TYPE_PRIORITY[b.type]??5));
     });
@@ -982,9 +961,8 @@ function classifyCtx(text,section){
 
 function makeSummary(changes){
   const f=changes.filter(c=>c.type==='feature').length, x=changes.filter(c=>c.type==='fix').length;
-  const b=changes.filter(c=>c.type==='breaking').length, s=changes.filter(c=>c.type==='security').length;
+  const b=changes.filter(c=>c.type==='breaking').length;
   const parts=[];
-  if(s)parts.push(`${s} security fix${s>1?'es':''}`);
   if(b)parts.push(`${b} breaking change${b>1?'s':''}`);
   if(f)parts.push(`${f} new feature${f>1?'s':''}`);
   if(x)parts.push(`${x} bug fix${x>1?'es':''}`);
@@ -1011,98 +989,118 @@ function buildQ1HTML(changes, productName){
   if(!changes.length) return '';
   const qi = currentQuarterInfo();
 
-  // Business-focused value theme detection — language customers and AEs use
+  // Redgate database priority weights: SQL Server 50%, Oracle 30%, Postgres 20%, MySQL 10%
+  // Peripheral DBs (MariaDB, Cassandra, ClickHouse, Mongo) get low weight.
+  const DB_WEIGHT = {
+    'sql server':1.0,'mssql':1.0,'azure sql':1.0,'ssms':1.0,'fabric sql':1.0,
+    'postgresql':0.9,'postgres':0.9,
+    'oracle':0.85,
+    'mysql':0.7,
+    'mariadb':0.2,'clickhouse':0.15,'cassandra':0.15,'mongodb':0.2,'databricks':0.2,
+  };
+
+  const isPeripheral = c => {
+    const t = c.text.toLowerCase();
+    return /\bmariadb\b|\bclickhouse\b|\bcassandra\b|\bdatabricks\b|\bmongodb\b|\bdocumentdb\b/.test(t)
+      && !/\bsql server\b|\bpostgres|\boracle\b|\bmysql\b/.test(t);
+  };
+
+  const dbScore = c => {
+    const t = c.text.toLowerCase();
+    let w = 0;
+    for(const [db, weight] of Object.entries(DB_WEIGHT)){
+      if(t.includes(db)) w = Math.max(w, weight);
+    }
+    if(w === 0) w = 0.6; // cross-platform or unspecified
+    const typeBoost = {feature:1.4, breaking:1.3, fix:1.0, improvement:0.9}[c.type] || 1.0;
+    const wordBoost = Math.min(1.3, 1 + (c.text.split(/\s+/).length - 5) * 0.04);
+    return w * typeBoost * wordBoost;
+  };
+
+  const features = changes.filter(c=>c.type==='feature');
+  const fixes    = changes.filter(c=>c.type==='fix');
+  const breaking = changes.filter(c=>c.type==='breaking');
+  const imps     = changes.filter(c=>c.type==='improvement');
+
+  // Rank features by DB relevance, deprioritising peripheral database changes
+  const coreFeatures = features.filter(c=>!isPeripheral(c)).sort((a,b)=>dbScore(b)-dbScore(a));
+  const topFeat   = coreFeatures[0] || features.sort((a,b)=>dbScore(b)-dbScore(a))[0];
+  const secondFeat = coreFeatures[1];
+  const coreChanges = changes.filter(c=>!isPeripheral(c));
+
+  // Theme detection anchored to Redgate's core DB markets
   const valueThemes = [
-    { label:'AI-powered productivity',   re:/(ai|prompt ai|ai completion|intelligen|copilot|machine learn|smart suggest)/i },
-    { label:'reliability and stability', re:/(crash|fix|error|fail|incorrect|wrong|resolv|stable|reliab)/i },
-    { label:'enterprise readiness',      re:/(enterprise|compliance|secur|permission|sso|auth|audit|govern)/i },
-    { label:'cloud and hybrid data',     re:/(cloud|azure|aws|gcp|fabric|saas|hybrid|multi.cloud)/i },
-    { label:'developer speed',           re:/(speed|faster|perform|latency|optim|productiv|workflow|auto)/i },
-    { label:'data protection',           re:/(mask|anonymi|subset|pii|gdpr|data protect|sensitive)/i },
-    { label:'database DevOps',           re:/(deploy|migrat|pipeline|ci.cd|devops|schema change|flyway)/i },
-    { label:'SQL Server modernisation',  re:/(sql server 202|ssms 2[12]|azure sql|fabric sql|sql server upgrade)/i },
-    { label:'monitoring and alerting',   re:/(monitor|alert|baseline|health|observ|dashboard|metric)/i },
-    { label:'cross-platform support',    re:/(mysql|postgresql|postgres|oracle|mariadb|cross.platform|multi.db)/i },
+    { label:'SQL Server and Azure SQL modernisation', re:/(sql server 202|ssms 2[12]|azure sql|fabric sql|sql server upgrade|always on|linked server)/i },
+    { label:'PostgreSQL capability expansion',        re:/(postgresql|postgres|pg_stat|pglogical|aurora postgres)/i },
+    { label:'Oracle database support',               re:/(\boracle\b|plsql|pl\/sql|oracle rac)/i },
+    { label:'MySQL reliability and support',         re:/(\bmysql\b|innodb|aurora mysql)/i },
+    { label:'AI-assisted database development',      re:/(ai|prompt ai|ai completion|intelligen|copilot|machine learn|smart suggest)/i },
+    { label:'database schema migration and DevOps',  re:/(migrat|schema change|flyway|deploy|version|baseline|drift|pipeline|ci.cd)/i },
+    { label:'developer productivity',               re:/(speed|faster|perform|latency|optim|productiv|workflow|auto)/i },
+    { label:'data masking and test data management', re:/(mask|anonymi|subset|pii|gdpr|data protect|sensitive|test data)/i },
+    { label:'monitoring and performance alerting',   re:/(monitor|alert|baseline|health|observ|dashboard|metric|deadlock|wait stat|blocking)/i },
   ];
 
   const themeHits = valueThemes
-    .map(t=>({ label:t.label, count:changes.filter(c=>t.re.test(c.text)).length }))
-    .filter(t=>t.count>0)
-    .sort((a,b)=>b.count-a.count);
+    .map(t => ({ label:t.label, count:coreChanges.filter(c=>t.re.test(c.text)).length }))
+    .filter(t => t.count > 0)
+    .sort((a,b) => b.count - a.count);
 
-  const topThemes = themeHits.slice(0,3).map(t=>t.label);
-
-  const features   = changes.filter(c=>c.type==='feature');
-  const fixes      = changes.filter(c=>c.type==='fix');
-  const breaking   = changes.filter(c=>c.type==='breaking');
-  const security   = changes.filter(c=>c.type==='security');
-  const imps       = changes.filter(c=>c.type==='improvement');
-
+  const topThemes = themeHits.slice(0,2).map(t=>t.label);
   const label = productName || 'the Redgate portfolio';
-  const score = c => (c.text.match(/\b\w{5,}\b/g)||[]).length;
 
-  // ── ONE PARAGRAPH — business-first, customer-centric, jargon-light ──
-  // ── ONE-SENTENCE SUMMARY: where is the product going? ──────────────────
-  // No release counts. Synthesise direction from what actually shipped.
-  const topFeat = [...features].sort((a,b)=>score(b)-score(a))[0];
-
+  // ── CURRENT QUARTER SUMMARY ──────────────────────────────────────────────
+  // One paragraph: direction + why it matters to Redgate's SQL Server, Oracle,
+  // Postgres, and MySQL customer base. No release counts. Explain the "so what."
   let summary = '';
-  if(topThemes.length >= 2){
-    const th1 = topThemes[0], th2 = topThemes[1];
-    if(topFeat){
-      summary = `${label} is clearly doubling down on ${th1} and ${th2} this quarter — the addition of "${topFeat.text}" is the clearest signal of where the product is headed.`;
-    } else {
-      summary = `${label}'s investment in ${th1} and ${th2} this quarter signals a deliberate push to strengthen those areas for customers who need them most.`;
-    }
-  } else if(topThemes.length === 1){
-    if(topFeat){
-      summary = `This quarter ${label} put its energy into ${topThemes[0]}, with "${topFeat.text}" as the headline move.`;
-    } else {
-      summary = `${label} continued to sharpen its ${topThemes[0]} story this quarter, which should resonate with prospects evaluating the product in that space.`;
-    }
+
+  if(topThemes.length >= 2 && topFeat){
+    summary = `${label} used ${qi.badge} to push forward on ${topThemes[0]} and ${topThemes[1]}. The headline addition — "${topFeat.text}" — is significant because it directly strengthens what Redgate's SQL Server and Oracle customers can do day-to-day, making it a natural proof point in both new evaluations and renewal conversations.`;
+  } else if(topThemes.length >= 1 && topFeat){
+    summary = `The clearest signal from ${label} this quarter is a focused investment in ${topThemes[0]}. "${topFeat.text}" is the standout change — it matters because it closes a gap that SQL Server and PostgreSQL teams have had to work around, and that kind of friction reduction directly affects how quickly customers can adopt and trust the product.`;
   } else if(topFeat){
-    summary = `The quarter's most notable move for ${label} was "${topFeat.text}" — a strong talking point for both new and existing customer conversations.`;
+    summary = `${label}'s most meaningful move this quarter was "${topFeat.text}." For SQL Server and Oracle environments — where the majority of Redgate's customers operate — this represents a capability improvement that's worth raising directly in customer conversations rather than letting it go unnoticed in release notes.`;
   } else {
-    summary = `${label} focused on quality and stability this quarter, reinforcing its position as a reliable, well-maintained solution.`;
+    summary = `${label} concentrated on quality and reliability this quarter, shipping fixes that reduce friction for SQL Server and Oracle teams under pressure to operate more efficiently. This steady, consistent delivery matters because it's what enterprise customers expect from a vendor they're committing to long-term.`;
   }
 
   if(breaking.length){
-    summary += ` Note: there ${breaking.length===1?'is a change':'are changes'} customers need to review before upgrading — get ahead of that conversation.`;
+    summary += ` One important note: there ${breaking.length === 1 ? 'is a change that requires' : 'are ' + breaking.length + ' changes that require'} customer action before upgrading. Surface this proactively — it's far better to have that conversation on your terms than to have a customer discover it mid-upgrade.`;
   }
 
-  // ── NEXT QUARTER OUTLOOK: where is the solution growing? ──────────────
-  // Bullets are forward-looking signals derived from what shipped, not a task list.
+  // ── NEXT QUARTER OUTLOOK: where is the solution growing ─────────────────────
   const bullets = [];
 
-  // Primary direction signal
   if(topThemes.length >= 1){
-    bullets.push(`${label} is investing in ${topThemes[0]} — expect this to be a stronger part of the product story in customer conversations next quarter.`);
+    const isCoreDbnTheme = /(sql server|oracle|postgres|mysql)/i.test(topThemes[0]);
+    if(isCoreDbnTheme){
+      bullets.push(`${label} is deepening support in ${topThemes[0]} — this is directly relevant to the SQL Server and Oracle-heavy accounts that make up the majority of Redgate's pipeline. Use this quarter's work as evidence that the product is meeting customers where they actually are, not just where the market is trending.`);
+    } else {
+      bullets.push(`${label}'s push on ${topThemes[0]} this quarter is building capability that SQL Server and Oracle teams will benefit from — tie it back to the customer outcome (less manual work, faster deployments, fewer incidents) rather than the feature itself.`);
+    }
   }
+
   if(topThemes.length >= 2){
-    bullets.push(`The ${topThemes[1]} work this quarter lays groundwork for deeper capability — watch for this becoming a key differentiator as it matures.`);
+    bullets.push(`The ${topThemes[1]} investment is early but intentional — seed this into discovery conversations now so customers connect the dots when the next release lands. The teams tracking product direction closely are the ones who become the strongest internal champions.`);
   }
 
-  // Standout feature as a forward signal
-  if(topFeat){
-    bullets.push(`"${topFeat.text}" is a door-opener with the right prospects — bring this into demos and discovery calls where it fits.`);
+  if(topFeat && secondFeat){
+    bullets.push(`Lead with "${topFeat.text}" in demos — it lands best with SQL Server and Oracle audiences who feel the problem it solves. Pair it with "${secondFeat.text}" to show breadth. Together they tell a story of a product shipping meaningfully, not just maintaining.`);
+  } else if(topFeat){
+    bullets.push(`"${topFeat.text}" is your strongest talking point this quarter. Frame it around the customer outcome — what does it unblock, what risk does it reduce — rather than what it technically does. That framing resonates with both technical buyers and their managers.`);
   }
 
-  // Breaking changes signal product evolution
   if(breaking.length){
-    bullets.push(`The breaking changes this quarter indicate the product is actively evolving its architecture — position this as a sign of maturity and long-term investment, not instability.`);
+    bullets.push(`The architecture changes this quarter show the product is evolving deliberately, not just patching. Position this to strategic accounts as evidence of long-term R&D commitment — the kind of investment that makes a vendor a safe long-term bet for SQL Server and Oracle infrastructure.`);
   }
 
-  // Security/stability signals
-  if(security.length){
-    bullets.push(`Active security investment makes ${label} a safer bet for compliance-focused and enterprise buyers — lean into this with regulated-industry prospects.`);
-  } else if(fixes.length >= 3){
-    bullets.push(`The consistent reliability work signals a product team that listens — use this to counter maturity objections in enterprise deals.`);
+  if(fixes.length >= 3){
+    bullets.push(`${fixes.length} reliability fixes this quarter is a strong counter to any "is the product mature?" objection — especially for SQL Server teams where stability is non-negotiable. A vendor that ships this many fixes consistently is one that's listening to its customers.`);
   }
 
-  // Always end with a prep prompt
-  bullets.push(`Review the latest notes with your SE before key calls — one of these changes is likely relevant to your next prospect's agenda.`);
+  bullets.push(`Before your next call, identify which of these changes is most relevant to that customer's specific database environment. A precise, relevant example from the release notes is far more credible than a generic "we ship updates regularly" message.`);
 
-  const bulletHTML = bullets.slice(0,5).map(b=>
+  const bulletHTML = bullets.slice(0,5).map(b =>
     `<div class="cq-bullet"><div class="cq-dot"></div><span>${esc(b)}</span></div>`
   ).join('');
 
