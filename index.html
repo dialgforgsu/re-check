@@ -459,14 +459,14 @@ async function fetchTdmSub(url, label, e){
     const MONTHS_MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,
       august:8,september:9,october:10,november:11,december:12,
       jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
-    const dateToNum = s=>{
-      if(!s) return 0;
-      const s2=s.trim();
-      const m1=s2.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
+    const dateToNum = dateStr => {
+      if(!dateStr) return 0;
+      const normalized = dateStr.trim();
+      const m1 = normalized.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
       if(m1){const mn=MONTHS_MAP[m1[2].toLowerCase()];if(mn)return parseInt(m1[3])*10000+mn*100+parseInt(m1[1]);}
-      const m2=s2.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
+      const m2 = normalized.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
       if(m2){const mn=MONTHS_MAP[m2[1].toLowerCase()];if(mn)return parseInt(m2[3])*10000+mn*100+parseInt(m2[2]);}
-      const m3=s2.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
+      const m3 = normalized.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
       if(m3)return parseInt(m3[1])*10000+parseInt(m3[2])*100+parseInt(m3[3]);
       return 0;
     };
@@ -543,17 +543,17 @@ async function doFetch(prod){
       august:8,september:9,october:10,november:11,december:12,
       jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
 
-    const dateToNum = s => {
-      if(!s) return 0;
-      const s2 = s.trim();
+    const dateToNum = dateStr => {
+      if(!dateStr) return 0;
+      const normalized = dateStr.trim();
       // "14 March 2026"
-      const m1 = s2.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
+      const m1 = normalized.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
       if(m1){ const mn=MONTHS_MAP[m1[2].toLowerCase()]; if(mn) return parseInt(m1[3])*10000+mn*100+parseInt(m1[1]); }
       // "March 14, 2026" or "March 14 2026"
-      const m2 = s2.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
+      const m2 = normalized.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
       if(m2){ const mn=MONTHS_MAP[m2[1].toLowerCase()]; if(mn) return parseInt(m2[3])*10000+mn*100+parseInt(m2[2]); }
       // ISO 2026-03-14
-      const m3 = s2.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
+      const m3 = normalized.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
       if(m3) return parseInt(m3[1])*10000+parseInt(m3[2])*100+parseInt(m3[3]);
       return 0;
     };
@@ -947,12 +947,13 @@ function parseContent(text, prod, sourceUrl){
 }
 
 function classifyCtx(text,section){
-  const t=text.toLowerCase(), s=(section||'').toLowerCase();
+  const t = text.toLowerCase();
+  const sectionLower = (section||'').toLowerCase();
   if(/\bsecurit|vulnerabilit|\bcve\b|exploit/.test(t)) return 'security';
-  if(/fix(es)?|bug(s)?|\bissue(s)?\b|resolv|correct|patch/.test(s)) return 'fix';
-  if(/break|incompatib|no longer\s+support/.test(s)) return 'breaking';
-  if(/new\s*feature|feature(s)?|add(ed|ition)?|introduc|enabl|what.?s new/.test(s)) return 'feature';
-  if(/improv|enhanc|optim|perf|update|upgrad|change(s)?/.test(s)) return 'improvement';
+  if(/fix(es)?|bug(s)?|\bissue(s)?\b|resolv|correct|patch/.test(sectionLower)) return 'fix';
+  if(/break|incompatib|no longer\s+support/.test(sectionLower)) return 'breaking';
+  if(/new\s*feature|feature(s)?|add(ed|ition)?|introduc|enabl|what.?s new/.test(sectionLower)) return 'feature';
+  if(/improv|enhanc|optim|perf|update|upgrad|change(s)?/.test(sectionLower)) return 'improvement';
   if(/\bbreak(ing)?\b|incompatib|no longer support|drop(ped)?\s+support/.test(t)) return 'breaking';
   if(/\bfix(ed|es)?\b|\bbug\b|\bissue\b|\berror\b|\bcrash\b|exception|incorrect|wrong|\bfail(ed|s)?\b|resolv(ed)?|correct(ed)?/.test(t)) return 'fix';
   if(/\bnew\b|add(ed|s)?\b|introduc(ed)?|\bfeature\b|support(s|ed)?\s+for|enabl(ed)?|creat(ed)?|allow(s|ed)?|now support/.test(t)) return 'feature';
