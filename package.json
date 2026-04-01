@@ -1,0 +1,14 @@
+{
+  "name": "re-check-sqlite-server",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6",
+    "sqlite": "^4.1.1"
+  }
+}

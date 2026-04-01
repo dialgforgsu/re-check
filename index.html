@@ -210,6 +210,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-hei
 @keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:640px){.feed{padding:14px 12px}.logo-text{display:none}}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
 </head>
 <body>
 
@@ -260,6 +261,17 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-hei
 </div>
 
 <script>
+if(window.location.protocol === 'file:'){
+  document.body.innerHTML = `<div style="font-family:sans-serif;padding:20px;max-width:720px;margin:40px auto;background:#fff;color:#000;border:1px solid #ccc;border-radius:12px;line-height:1.4;">`+
+    `<h1>Do not open from file://</h1>`+
+    `<p>Browser local-file mode blocks APIs and script network access, causing this app to fail.</p>`+
+    `<p>Use a local server instead (recommended):</p>`+
+    `<pre>cd "c:\\Users\\gsupa\\Redgate Re-Check\\re-check"\nnpm install\nnpm start\nopen http://localhost:3000</pre>`+
+    `<p>or use any static server extension (Live Server).</p>`+
+    `</div>`;
+  throw new Error('file:// mode not supported');
+}
+
 /* ═══════════════════════════════════════════
    PRODUCTS
    TDM: multiple named sub-pages, each tagged
@@ -315,6 +327,107 @@ let errors     = {};
 let busy       = false;
 let dragId     = null;
 
+// SQLite / cache layer (sql.js in-browser) to persist fetch results between page loads
+const DB_STORAGE_KEY = 'rg_release_db_v1';
+const SNAPSHOT_TTL = 1000 * 60 * 30; // 30 mins
+let sqlDb = null;
+let initSqlJsFn = null;
+
+function parseDateToTimestamp(date){
+  if(!date) return 0;
+  const parsed = Date.parse(date);
+  if(!isNaN(parsed)) return parsed;
+  const normalized = normaliseDate(date);
+  const parsed2 = Date.parse(normalized);
+  return isNaN(parsed2) ? 0 : parsed2;
+}
+
+function getOrderedByLatest(){
+  return getOrdered().slice().sort((a,b)=>parseDateToTimestamp(latestDate[b.id]||'') - parseDateToTimestamp(latestDate[a.id]||''));
+}
+
+function canUseServerApi(){
+  return (window.location.protocol === 'http:' || window.location.protocol === 'https:') && window.location.hostname && window.location.hostname !== '';
+}
+
+async function initDb(){
+  if(sqlDb) return;
+  if(!window.initSqlJs) {
+    console.warn('sql.js is not loaded; persistence disabled');
+    return;
+  }
+  if(!initSqlJsFn) initSqlJsFn = window.initSqlJs;
+  const SQL = await initSqlJsFn({ locateFile: file => 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/' + file });
+  const stored = localStorage.getItem(DB_STORAGE_KEY);
+  if(stored){
+    try{ sqlDb = new SQL.Database(Uint8Array.from(JSON.parse(stored))); }
+    catch(e){ console.warn('DB restore failed, creating new DB',e); sqlDb = new SQL.Database(); }
+  } else {
+    sqlDb = new SQL.Database();
+  }
+  sqlDb.run('CREATE TABLE IF NOT EXISTS url_cache(url TEXT PRIMARY KEY, productId TEXT, body TEXT, hash TEXT, updatedAt INTEGER)');
+  sqlDb.run('CREATE TABLE IF NOT EXISTS product_snapshot(productId TEXT PRIMARY KEY, latestDate TEXT, latestVer TEXT, data TEXT, updatedAt INTEGER)');
+  saveDb();
+}
+
+function saveDb(){
+  if(!sqlDb) return;
+  const data = sqlDb.export();
+  localStorage.setItem(DB_STORAGE_KEY, JSON.stringify(Array.from(data)));
+}
+
+function getUrlCache(url){
+  if(!sqlDb) return null;
+  const stmt = sqlDb.prepare('SELECT productId,body,hash,updatedAt FROM url_cache WHERE url = ?');
+  stmt.bind([url]);
+  if(!stmt.step()){ stmt.free(); return null; }
+  const row = stmt.getAsObject ? stmt.getAsObject() : null;
+  stmt.free();
+  if(!row) return null;
+  return {productId: row.productId, body: row.body, hash: row.hash, updatedAt: row.updatedAt};
+}
+
+function setUrlCache(url, productId, body, hash){
+  if(!sqlDb) return;
+  const stmt = sqlDb.prepare('INSERT OR REPLACE INTO url_cache(url, productId, body, hash, updatedAt) VALUES(?,?,?,?,?)');
+  stmt.bind([url, productId, body, hash, Date.now()]);
+  stmt.step(); stmt.free();
+  saveDb();
+}
+
+function getProductSnapshot(productId){
+  if(!sqlDb) return null;
+  const stmt = sqlDb.prepare('SELECT latestDate, latestVer, data, updatedAt FROM product_snapshot WHERE productId = ?');
+  stmt.bind([productId]);
+  if(!stmt.step()){ stmt.free(); return null; }
+  const row = stmt.getAsObject ? stmt.getAsObject() : null;
+  stmt.free();
+  if(!row) return null;
+  return {latestDate: row.latestDate, latestVer: row.latestVer, data: row.data, updatedAt: row.updatedAt};
+}
+
+function setProductSnapshot(productId, latestDateVal, latestVerVal, dataObj){
+  if(!sqlDb) return;
+  const stmt = sqlDb.prepare('INSERT OR REPLACE INTO product_snapshot(productId, latestDate, latestVer, data, updatedAt) VALUES(?,?,?,?,?)');
+  stmt.bind([productId, latestDateVal||'', latestVerVal||'', JSON.stringify(dataObj), Date.now()]);
+  stmt.step(); stmt.free();
+  saveDb();
+}
+
+function loadProductSnapshot(productId){
+  const snapshot = getProductSnapshot(productId);
+  if(!snapshot) return null;
+  if(Date.now() - snapshot.updatedAt > SNAPSHOT_TTL) return null;
+  try { return JSON.parse(snapshot.data); } catch(e){ return null; }
+}
+
+function hashString(str){
+  const buf = new TextEncoder().encode(str);
+  return crypto.subtle.digest('SHA-256', buf).then(hashBuf=>{
+    return Array.from(new Uint8Array(hashBuf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  });
+}
+
 const CTAG   = {feature:'ctag-feature',fix:'ctag-fix',improvement:'ctag-improvement',breaking:'ctag-breaking',security:'ctag-security'};
 const CLABEL = {feature:'New',fix:'Fix',improvement:'Improved',breaking:'Breaking',security:'Security'};
 
@@ -325,8 +438,19 @@ function getOrdered(){return tabOrder.map(id=>PRODUCTS_DEF.find(p=>p.id===id)).f
 /* ═══════════════════════════════════════════
    BOOT
 ═══════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded',async ()=>{
   setTheme(localStorage.getItem('rg_theme')||'dark');
+  await initDb();
+
+  // hydrate releases from snapshot cache where available
+  PRODUCTS_DEF.forEach(p=>{
+    const snapshot = getProductSnapshot(p.id);
+    if(snapshot && Date.now() - snapshot.updatedAt <= SNAPSHOT_TTL){
+      try{ const data = JSON.parse(snapshot.data); releases[p.id] = data; latestDate[p.id] = snapshot.latestDate||''; latestVer[p.id] = snapshot.latestVer||''; statuses[p.id] = 'done'; }
+      catch(e){ console.warn('snapshot parse failed', e); }
+    }
+  });
+
   renderTabBar();
   renderFeed();
 });
@@ -347,7 +471,8 @@ function renderTabBar(){
     <div class="tab-meta">${loaded?loaded+' loaded':'drag to reorder'}</div>
   </div>`;
 
-  html += getOrdered().map(p=>{
+  const ordered = activeTab==='all' ? getOrderedByLatest() : getOrdered();
+  html += ordered.map(p=>{
     const st  = statuses[p.id]||'';
     const ver = latestVer[p.id]||'';
     const dt  = latestDate[p.id]||'';
@@ -493,6 +618,7 @@ async function fetchTdmSub(url, label, e){
     releases['tdm']=tdmMerged;
     latestVer['tdm']='';
     latestDate['tdm']=tdmMerged[0]?.date||'';
+    setProductSnapshot('tdm', latestDate['tdm'], latestVer['tdm'], tdmMerged);
   }
 
   setSt('tdm','done');
@@ -501,28 +627,179 @@ async function fetchTdmSub(url, label, e){
 }
 
 async function doFetch(prod){
+  if(!canUseServerApi()){
+    return await doFetchRemote(prod);
+  }
+
+  // Prefer server-side fetch + snapshot if API is available.
+  try{
+    const apiRes = await fetch(`/api/fetch/${prod.id}`);
+    if(!apiRes.ok) throw new Error(`${apiRes.status} ${apiRes.statusText}`);
+    const payload = await apiRes.json();
+    if(payload?.error) throw new Error(payload.error);
+
+    const rawRes = await fetch(`/api/raw/${prod.id}`);
+    if(!rawRes.ok) throw new Error(`${rawRes.status} ${rawRes.statusText}`);
+    const rawEntries = await rawRes.json();
+    const allRels = [];
+
+    for(const entry of rawEntries){
+      const rel = parseContent(entry.rawBody || '', prod, entry.url);
+      rel.forEach(r=>{
+        // In TDM, URLs correspond to subpages; preserve sub-label if present in URL record.
+        if(prod.id==='tdm' && entry.url){
+          const label = entry.url.includes('subsetter') ? 'Subsetter' : entry.url.includes('anonymize') ? 'Anonymize' : entry.url.includes('gui') ? 'GUI' : entry.url.includes('workflows') ? 'Workflows' : '';
+          if(label) r.changes.forEach(c=>c.subLabel = label);
+        }
+      });
+      allRels.push(...rel);
+    }
+
+    // Reuse same merge logic as doFetchRemote by shortcutting with in-memory data.
+    if(!allRels.length){
+      errors[prod.id] = 'No release notes found in server-cached pages.';
+      setSt(prod.id,'err');
+      return;
+    }
+
+    const TYPE_PRIORITY = {breaking:0,feature:1,fix:2,improvement:3};
+
+    if(prod.id==='tdm'){
+      // (same merge logic as original doFetch for TDM)
+      const MONTHS_MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+      const dateToNum = dateStr => {
+        if(!dateStr) return 0;
+        const normalized = dateStr.trim();
+        const m1 = normalized.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
+        if(m1){ const mn=MONTHS_MAP[m1[2].toLowerCase()]; if(mn) return parseInt(m1[3])*10000+mn*100+parseInt(m1[1]); }
+        const m2 = normalized.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
+        if(m2){ const mn=MONTHS_MAP[m2[1].toLowerCase()]; if(mn) return parseInt(m2[3])*10000+mn*100+parseInt(m2[2]); }
+        const m3 = normalized.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
+        if(m3) return parseInt(m3[1])*10000+parseInt(m3[2])*100+parseInt(m3[3]);
+        return 0;
+      };
+
+      const numToDisplay={};
+      const flat=[];
+      allRels.forEach(r=>{
+        const num=dateToNum(r.date);
+        const key=num||r.date||'Recent';
+        if(num&&!numToDisplay[num]) numToDisplay[num]=r.date;
+        r.changes.forEach(c=>flat.push({...c,_key:key,_docsUrl:r.docsUrl}));
+      });
+
+      const byKey={}, keyOrder=[];
+      flat.forEach(c=>{ const k=c._key; if(!byKey[k]){ byKey[k]=[]; keyOrder.push(k);} if(!byKey[k].some(x=>x.text===c.text)) byKey[k].push(c); });
+      keyOrder.forEach(k=>byKey[k].sort((a,b)=>(TYPE_PRIORITY[a.type]??5)-(TYPE_PRIORITY[b.type]??5)));
+      keyOrder.sort((a,b)=>{const na=typeof a==='number'?a:dateToNum(String(a)); const nb=typeof b==='number'?b:dateToNum(String(b)); return nb-na;});
+
+      const tdmMerged = keyOrder.filter(k=>byKey[k].length>0).map(k=>{
+        const display = numToDisplay[k] || String(k);
+        return{id:'tdm_'+String(k),productId:'tdm',product:prod,version:display,date:display,changes:byKey[k],docsUrl:prod.urls[0]||'',summary:makeSummary(byKey[k])};
+      });
+
+      releases[prod.id] = tdmMerged;
+      latestVer[prod.id] = '';
+      latestDate[prod.id] = tdmMerged[0]?.date || '';
+      setSt(prod.id,'done');
+      return;
+    }
+
+    const byVer = {}, verOrder=[];
+    allRels.forEach(r=>{
+      if(!byVer[r.version]){ byVer[r.version] = { ...r, changes:[] }; verOrder.push(r.version); }
+      const seen = new Set(byVer[r.version].changes.map(c=>c.text));
+      r.changes.forEach(c=>{ if(!seen.has(c.text)){ seen.add(c.text); byVer[r.version].changes.push(c); } });
+      if(!byVer[r.version].date && r.date) byVer[r.version].date = r.date;
+    });
+
+    verOrder.forEach(v=>{ byVer[v].changes.sort((a,b)=>(TYPE_PRIORITY[a.type]??5)-(TYPE_PRIORITY[b.type]??5)); });
+    const merged = verOrder.map(v=>byVer[v]);
+    const meaningful = merged.filter(r=>r.changes.length>0);
+
+    if(!meaningful.length){
+      errors[prod.id]='All versions contain no meaningful changes.';
+      setSt(prod.id,'err');
+      return;
+    }
+
+    releases[prod.id] = meaningful;
+    latestVer[prod.id] = meaningful[0].version;
+    latestDate[prod.id] = meaningful[0].date || '';
+    setSt(prod.id, 'done');
+    return;
+  } catch(serverErr){
+    console.warn('server fetch failed:', serverErr);
+    return await doFetchRemote(prod);
+  }
+}
+
+async function doFetchRemote(prod){
   const allRels=[], errs=[];
   const urlEntries = Array.isArray(prod.urls[0]) ? prod.urls.map(u=>({url:u,label:null})) : prod.urls;
+
+  // If there is a fresh cached snapshot, use it and avoid network request.
+  const existingSnapshot = loadProductSnapshot(prod.id);
+  if(existingSnapshot){
+    releases[prod.id] = existingSnapshot;
+    latestVer[prod.id] = existingSnapshot[0]?.version || '';
+    latestDate[prod.id] = existingSnapshot[0]?.date || '';
+    setSt(prod.id,'done');
+    return;
+  }
 
   for(const entry of urlEntries){
     const url   = entry.url   || entry;
     const label = entry.label || null;
+    const urlCache = getUrlCache(url);
+    let md;
+    let fetchedHash = null;
+
     try{
       // Always fetch fresh — add timestamp to bust Jina's cache
-      const md  = await fetchFresh(url);
+      md  = await fetchFresh(url);
+      fetchedHash = await hashString(md);
+
+      if(urlCache && urlCache.hash === fetchedHash){
+        try{
+          const cachedRels = JSON.parse(urlCache.body || '[]');
+          if(Array.isArray(cachedRels) && cachedRels.length){
+            cachedRels.forEach(r=>{
+              if(label) r.changes.forEach(c=>{ c.subLabel = label; });
+              allRels.push(r);
+            });
+            continue;
+          }
+        } catch(e){ /* parse fail, fall back to fresh parse */ }
+      }
+
       const rel = parseContent(md, prod, url);
       if(rel.length>0){
         rel.forEach(r=>{
           if(label) r.changes.forEach(c=>{ c.subLabel = label; });
         });
         allRels.push(...rel);
-        // Cache for TDM per-sub refresh
+        setUrlCache(url,prod.id,JSON.stringify(rel),fetchedHash);
         if(prod.id==='tdm'){
           if(!window._tdmSubData) window._tdmSubData={};
           window._tdmSubData[url]=rel;
         }
       }
-    } catch(e){ errs.push(`${url}: ${e.message}`); }
+    } catch(e){
+      if(urlCache && urlCache.body){
+        try{
+          const cachedRels = JSON.parse(urlCache.body || '[]');
+          if(Array.isArray(cachedRels) && cachedRels.length){
+            cachedRels.forEach(r=>{
+              if(label) r.changes.forEach(c=>{ c.subLabel = label; });
+              allRels.push(r);
+            });
+            continue;
+          }
+        } catch(err){ }
+      }
+      errs.push(`${url}: ${e.message}`);
+    }
   }
 
   if(!allRels.length){
@@ -652,6 +929,7 @@ async function doFetch(prod){
   releases[prod.id]  = meaningful;
   latestVer[prod.id] = meaningful[0].version;
   latestDate[prod.id]= meaningful[0].date||'';
+  setProductSnapshot(prod.id, latestDate[prod.id], latestVer[prod.id], meaningful);
   setSt(prod.id,'done');
 }
 
@@ -986,7 +1264,8 @@ function currentQuarterInfo(){
   return      {label:'Q4',badge:'Q4 '+y,period:'Oct 1 – Dec 31, '+y,next:'Q1 '+(y+1)};
 }
 
-function buildQ1HTML(changes, productName){
+function buildQ1HTML(allData, productName){
+  const changes = Array.isArray(allData) && allData.length && allData[0] && allData[0].change ? allData.map(d=>d.change) : allData;
   if(!changes.length) return '';
   const qi = currentQuarterInfo();
 
@@ -1050,19 +1329,33 @@ function buildQ1HTML(changes, productName){
   const topThemes = themeHits.slice(0,2).map(t=>t.label);
   const label = productName || 'the Redgate portfolio';
 
+  // Build product hotspot context for 'All Products' view
+  let portfolioContext = '';
+  if(!productName){
+    const prodCounts = allData.reduce((acc, d) => {
+      const n = d.prod?.name || 'Unknown';
+      acc[n] = (acc[n] || 0) + 1;
+      return acc;
+    }, {});
+    const topProducts = Object.entries(prodCounts).sort((a,b)=>b[1]-a[1]).slice(0,3);
+    if(topProducts.length){
+      portfolioContext = `Top activity is coming from ${topProducts.map(([p,c])=>`${p} (${c})`).join(', ')}. `;
+    }
+  }
+
   // ── CURRENT QUARTER SUMMARY ──────────────────────────────────────────────
   // One paragraph: direction + why it matters to Redgate's SQL Server, Oracle,
   // Postgres, and MySQL customer base. No release counts. Explain the "so what."
   let summary = '';
 
   if(topThemes.length >= 2 && topFeat){
-    summary = `${label} used ${qi.badge} to push forward on ${topThemes[0]} and ${topThemes[1]}. The headline addition — "${topFeat.text}" — is significant because it directly strengthens what Redgate's SQL Server and Oracle customers can do day-to-day, making it a natural proof point in both new evaluations and renewal conversations.`;
+    summary = `${portfolioContext}${label} used ${qi.badge} to push forward on ${topThemes[0]} and ${topThemes[1]}. The headline addition — "${topFeat.text}" — is significant because it directly strengthens what Redgate's SQL Server and Oracle customers can do day-to-day, making it a natural proof point in both new evaluations and renewal conversations.`;
   } else if(topThemes.length >= 1 && topFeat){
-    summary = `The clearest signal from ${label} this quarter is a focused investment in ${topThemes[0]}. "${topFeat.text}" is the standout change — it matters because it closes a gap that SQL Server and PostgreSQL teams have had to work around, and that kind of friction reduction directly affects how quickly customers can adopt and trust the product.`;
+    summary = `${portfolioContext}The clearest signal from ${label} this quarter is a focused investment in ${topThemes[0]}. "${topFeat.text}" is the standout change — it matters because it closes a gap that SQL Server and PostgreSQL teams have had to work around, and that kind of friction reduction directly affects how quickly customers can adopt and trust the product.`;
   } else if(topFeat){
-    summary = `${label}'s most meaningful move this quarter was "${topFeat.text}." For SQL Server and Oracle environments — where the majority of Redgate's customers operate — this represents a capability improvement that's worth raising directly in customer conversations rather than letting it go unnoticed in release notes.`;
+    summary = `${portfolioContext}${label}'s most meaningful move this quarter was "${topFeat.text}." For SQL Server and Oracle environments — where the majority of Redgate's customers operate — this represents a capability improvement that's worth raising directly in customer conversations rather than letting it go unnoticed in release notes.`;
   } else {
-    summary = `${label} concentrated on quality and reliability this quarter, shipping fixes that reduce friction for SQL Server and Oracle teams under pressure to operate more efficiently. This steady, consistent delivery matters because it's what enterprise customers expect from a vendor they're committing to long-term.`;
+    summary = `${portfolioContext}${label} concentrated on quality and reliability this quarter, shipping fixes that reduce friction for SQL Server and Oracle teams under pressure to operate more efficiently. This steady, consistent delivery matters because it's what enterprise customers expect from a vendor they're committing to long-term.`;
   }
 
   if(breaking.length){
@@ -1182,10 +1475,10 @@ function renderFeed(){
   // ── Q1 ──
   if(!q&&typeFilter==='all'&&allData.length>0){
     if(activeTab==='all'){
-      html+=buildQ1HTML(allData.map(d=>d.change),null);
+      html+=buildQ1HTML(allData,null);
     } else {
       const p=PRODUCTS_DEF.find(p=>p.id===activeTab);
-      html+=buildQ1HTML(allData.map(d=>d.change),p?.name||'');
+      html+=buildQ1HTML(allData,p?.name||'');
     }
   }
 
@@ -1193,7 +1486,7 @@ function renderFeed(){
   if(activeTab==='all'){
     // ── SALES ENGINEER HIGHLIGHT CARDS ──
     // One card per product, showing the most impactful items curated for SEs.
-    const loadedProds = getOrdered().filter(p=>(releases[p.id]||[]).length>0);
+    const loadedProds = getOrderedByLatest().filter(p=>(releases[p.id]||[]).length>0);
     if(!loadedProds.length){
       // Nothing loaded yet — show nudge
       html+='';
