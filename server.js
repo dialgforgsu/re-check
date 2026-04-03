@@ -405,6 +405,24 @@ app.get('/', (req,res) => res.sendFile(path.join(__dirname,'index.html')));
 
 app.get('/api/products', (req,res) => res.json(PRODUCTS_DEF));
 
+// Serves the full parsed contents of release_notes.md directly — no DB, always works.
+// Shape: { [productId]: [ { sourceUrl, version, date, docsUrl, changes[] } ] }
+app.get('/api/snapshot', (req,res) => {
+  const blocks = parseReleaseNotesFile();
+  const out = {};
+  for(const [url, { productId, releases }] of Object.entries(blocks)){
+    if(!out[productId]) out[productId] = [];
+    releases.forEach(r => out[productId].push({
+      sourceUrl: url,
+      version:   r.version,
+      date:      r.date,
+      docsUrl:   r.docsUrl,
+      changes:   r.changes,
+    }));
+  }
+  res.json(out);
+});
+
 // Returns pre-parsed releases for a product from the persistent DB (seeded from release_notes.md)
 app.get('/api/releases/:productId', async (req,res) => {
   await openDb();

@@ -524,9 +524,17 @@ document.addEventListener('DOMContentLoaded',async ()=>{
   await initDb();
 
   if(canUseServerApi()){
-    // Load straight from the persistent DB (seeded from release_notes.md on server start).
-    // No external network requests — this is instant local data.
-    await Promise.allSettled(getOrdered().map(p=>loadFromDb(p)));
+    // Read release_notes.md directly from the server — instant, no external network.
+    try{
+      const res = await fetch('/api/snapshot');
+      if(res.ok){
+        const snapshot = await res.json();
+        getOrdered().forEach(p=>{
+          const entries = snapshot[p.id];
+          if(entries && entries.length) applyDbEntries(p, entries);
+        });
+      }
+    } catch(e){ console.warn('snapshot load failed:', e); }
   } else {
     // Offline / file:// fallback — hydrate from in-browser sql.js snapshot cache
     PRODUCTS_DEF.forEach(p=>{
@@ -725,21 +733,7 @@ async function fetchTdmSub(url, label, e){
   renderTabBar(); renderFeed();
 }
 
-/* Load releases from the persistent server DB (seeded from release_notes.md).
-   Called on page load only — no external network requests whatsoever. */
-async function loadFromDb(prod){
-  try{
-    const relRes = await fetch(`/api/releases/${prod.id}`);
-    if(!relRes.ok) throw new Error(`${relRes.status}`);
-    const entries = await relRes.json();
-    applyDbEntries(prod, entries);
-  } catch(e){
-    console.warn(`loadFromDb failed for ${prod.id}:`, e);
-    // Leave status blank — no error shown, just nothing loaded
-  }
-}
-
-/* Apply pre-parsed DB entries to in-memory state (shared by both load and refresh paths). */
+/* Apply pre-parsed entries to in-memory state (shared by page load and refresh paths). */
 function applyDbEntries(prod, entries){
   const allRels = [];
   for(const entry of entries){
