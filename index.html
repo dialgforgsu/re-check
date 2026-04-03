@@ -66,6 +66,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-hei
 [data-theme="light"] .tab-date{color:#000!important;}
 [data-theme="dark"] .tab-date{color:#fff!important;}
 .tab-ver{color:var(--rg);font-weight:500}
+.tab-utd{font-size:9px;font-weight:600;color:#16a34a;letter-spacing:.02em}
 .tab-dot{width:6px;height:6px;border-radius:50%;background:var(--t3);flex-shrink:0;transition:background .12s}
 .tab.fetching .tab-dot{background:var(--amber)!important;animation:pulse .7s ease-in-out infinite}
 .tab.done .tab-dot{background:var(--green)!important}
@@ -236,6 +237,7 @@ select { padding: 6px 10px; border: 0.5px solid var(--color-border-secondary); b
 .loading-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);animation:shim 1.4s ease infinite}
 @keyframes shim{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 .err-banner{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.18);border-radius:7px;padding:10px 14px;font-size:11px;color:#f87171;font-family:'DM Mono',monospace;margin-bottom:12px}
+.utd-banner{background:rgba(22,163,74,.07);border:1px solid rgba(22,163,74,.2);border-radius:7px;padding:10px 16px;font-size:12px;font-weight:600;color:#16a34a;margin-bottom:16px;letter-spacing:.01em}
 
 .release-group{margin-bottom:28px;animation:fadeUp .2s ease both}
 
@@ -402,6 +404,7 @@ let latestVer  = {};
 let latestDate = {};
 let releases   = {};   // id -> [{version,date,changes,summary,docsUrl}]
 let errors     = {};
+let upToDate   = {};   // id -> true when last check found no new versions
 let busy       = false;
 let dragId     = null;
 
@@ -520,14 +523,22 @@ document.addEventListener('DOMContentLoaded',async ()=>{
   setTheme(localStorage.getItem('rg_theme')||'dark');
   await initDb();
 
-  // hydrate releases from snapshot cache where available
-  PRODUCTS_DEF.forEach(p=>{
-    const snapshot = getProductSnapshot(p.id);
-    if(snapshot && Date.now() - snapshot.updatedAt <= SNAPSHOT_TTL){
-      try{ const data = JSON.parse(snapshot.data); releases[p.id] = data; latestDate[p.id] = snapshot.latestDate||''; latestVer[p.id] = snapshot.latestVer||''; statuses[p.id] = 'done'; }
-      catch(e){ console.warn('snapshot parse failed', e); }
-    }
-  });
+  if(canUseServerApi()){
+    // Load from persistent server DB — instant, no external network requests.
+    // The server seeds itself on startup from stored rawBody, so data is always available.
+    PRODUCTS_DEF.forEach(p=>setSt(p.id,'fetching'));
+    renderTabBar(); renderFeed();
+    await Promise.allSettled(getOrdered().map(p=>doFetch(p,{checkForUpdates:false})));
+  } else {
+    // Offline / file:// fallback — hydrate from in-browser sql.js snapshot cache
+    PRODUCTS_DEF.forEach(p=>{
+      const snapshot = getProductSnapshot(p.id);
+      if(snapshot && Date.now()-snapshot.updatedAt <= SNAPSHOT_TTL){
+        try{ const data=JSON.parse(snapshot.data); releases[p.id]=data; latestDate[p.id]=snapshot.latestDate||''; latestVer[p.id]=snapshot.latestVer||''; statuses[p.id]='done'; }
+        catch(e){ console.warn('snapshot parse failed',e); }
+      }
+    });
+  }
 
   renderTabBar();
   renderFeed();
@@ -566,7 +577,8 @@ function renderTabBar(){
       <div class="tab-meta">
         ${ver?`<span class="tab-ver">v${esc(ver)}</span>`:''}
         ${dt?`<span class="tab-date">${esc(dt)}</span>`:''}
-        ${!ver?`<span class="tab-date">not fetched</span>`:''}
+        ${!ver&&st!=='fetching'?`<span class="tab-date">not fetched</span>`:''}
+        ${upToDate[p.id]&&ver?`<span class="tab-utd">✓ up to date</span>`:''}
       </div>
       <button class="tab-fetch-btn" title="Refresh ${p.name}" onclick="fetchOneTab('${p.id}',event)">${st==='fetching'?'…':'↓'}</button>
     </div>`;
@@ -715,40 +727,48 @@ async function fetchTdmSub(url, label, e){
   renderTabBar(); renderFeed();
 }
 
-async function doFetch(prod){
+async function doFetch(prod, { checkForUpdates=true }={}){
   if(!canUseServerApi()){
-    return await doFetchRemote(prod);
+    if(checkForUpdates) return await doFetchRemote(prod);
+    return;
   }
 
-  // Prefer server-side fetch + snapshot if API is available.
   try{
-    const apiRes = await fetch(`/api/fetch/${prod.id}`);
-    if(!apiRes.ok) throw new Error(`${apiRes.status} ${apiRes.statusText}`);
-    const payload = await apiRes.json();
-    if(payload?.error) throw new Error(payload.error);
+    // When refreshing: ask the server to check for new versions against live pages.
+    // Returns { upToDate, newVersions[] } — if upToDate, no need to reload releases.
+    if(checkForUpdates){
+      const chkRes = await fetch(`/api/check/${prod.id}`);
+      if(!chkRes.ok) throw new Error(`${chkRes.status} ${chkRes.statusText}`);
+      const chk = await chkRes.json();
+      if(chk?.error) throw new Error(chk.error);
 
-    const rawRes = await fetch(`/api/raw/${prod.id}`);
-    if(!rawRes.ok) throw new Error(`${rawRes.status} ${rawRes.statusText}`);
-    const rawEntries = await rawRes.json();
+      if(chk.upToDate && releases[prod.id]?.length){
+        // Already have data loaded and server says nothing changed
+        upToDate[prod.id] = true;
+        setSt(prod.id, 'done');
+        return;
+      }
+      upToDate[prod.id] = chk.upToDate;
+    }
+
+    // Load pre-parsed releases from the persistent DB (seeded from release_notes.md)
+    const relRes = await fetch(`/api/releases/${prod.id}`);
+    if(!relRes.ok) throw new Error(`${relRes.status} ${relRes.statusText}`);
+    const rawEntries = await relRes.json();
     const allRels = [];
 
     for(const entry of rawEntries){
-      const rel = parseContent(entry.rawBody || '', prod, entry.url);
-      rel.forEach(r=>{
-        // In TDM, URLs correspond to subpages; preserve sub-label if present in URL record.
-        if(prod.id==='tdm' && entry.url){
-          const label = entry.url.includes('subsetter') ? 'Subsetter' : entry.url.includes('anonymize') ? 'Anonymize' : entry.url.includes('gui') ? 'GUI' : entry.url.includes('workflows') ? 'Workflows' : '';
-          if(label) r.changes.forEach(c=>c.subLabel = label);
-        }
-      });
-      allRels.push(...rel);
+      const changes = (entry.changes||[]).slice();
+      if(prod.id==='tdm' && entry.sourceUrl){
+        const label = entry.sourceUrl.includes('subsetter') ? 'Subsetter' : entry.sourceUrl.includes('anonymize') ? 'Anonymize' : entry.sourceUrl.includes('gui') ? 'GUI' : entry.sourceUrl.includes('workflows') ? 'Workflows' : '';
+        if(label) changes.forEach(c=>c.subLabel = label);
+      }
+      allRels.push({ version: entry.version, date: entry.date, changes, docsUrl: entry.docsUrl, product: prod });
     }
 
-    // Reuse same merge logic as doFetchRemote by shortcutting with in-memory data.
     if(!allRels.length){
-      // Fall back to client-side fetch rather than showing an error — the server
-      // may have cached HTML (from allorigins fallback) that parseContent can't handle.
-      return await doFetchRemote(prod);
+      if(checkForUpdates) return await doFetchRemote(prod);
+      return;
     }
 
     const TYPE_PRIORITY = {breaking:0,feature:1,fix:2,improvement:3};
@@ -1610,6 +1630,14 @@ function renderFeed(){
     });
   }
 
+  // ── UP TO DATE BANNER ──
+  if(!anyFetching && !q && typeFilter==='all'){
+    const loadedProds = prods.filter(p=>releases[p.id]?.length>0);
+    if(loadedProds.length>0 && loadedProds.every(p=>upToDate[p.id])){
+      html+=`<div class="utd-banner">✓ All release notes are up to date</div>`;
+    }
+  }
+
   // ── Q1 ──
   let q1HTML = '';
   if(!q && typeFilter==='all' && allData.length>0){
@@ -1787,7 +1815,7 @@ function setChip(f,el){
 }
 
 function clearAll(){
-  releases={}; errors={}; statuses={}; latestVer={}; latestDate={};
+  releases={}; errors={}; statuses={}; latestVer={}; latestDate={}; upToDate={};
   activeTab='all';
   document.getElementById('sync-lbl').textContent='Not synced';
   document.getElementById('prog-fill').style.width='0%';
