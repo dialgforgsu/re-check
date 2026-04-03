@@ -524,11 +524,9 @@ document.addEventListener('DOMContentLoaded',async ()=>{
   await initDb();
 
   if(canUseServerApi()){
-    // Load from persistent server DB — instant, no external network requests.
-    // The server seeds itself on startup from stored rawBody, so data is always available.
-    PRODUCTS_DEF.forEach(p=>setSt(p.id,'fetching'));
-    renderTabBar(); renderFeed();
-    await Promise.allSettled(getOrdered().map(p=>doFetch(p,{checkForUpdates:false})));
+    // Load straight from the persistent DB (seeded from release_notes.md on server start).
+    // No external network requests — this is instant local data.
+    await Promise.allSettled(getOrdered().map(p=>loadFromDb(p)));
   } else {
     // Offline / file:// fallback — hydrate from in-browser sql.js snapshot cache
     PRODUCTS_DEF.forEach(p=>{
@@ -727,120 +725,115 @@ async function fetchTdmSub(url, label, e){
   renderTabBar(); renderFeed();
 }
 
-async function doFetch(prod, { checkForUpdates=true }={}){
-  if(!canUseServerApi()){
-    if(checkForUpdates) return await doFetchRemote(prod);
+/* Load releases from the persistent server DB (seeded from release_notes.md).
+   Called on page load only — no external network requests whatsoever. */
+async function loadFromDb(prod){
+  try{
+    const relRes = await fetch(`/api/releases/${prod.id}`);
+    if(!relRes.ok) throw new Error(`${relRes.status}`);
+    const entries = await relRes.json();
+    applyDbEntries(prod, entries);
+  } catch(e){
+    console.warn(`loadFromDb failed for ${prod.id}:`, e);
+    // Leave status blank — no error shown, just nothing loaded
+  }
+}
+
+/* Apply pre-parsed DB entries to in-memory state (shared by both load and refresh paths). */
+function applyDbEntries(prod, entries){
+  const allRels = [];
+  for(const entry of entries){
+    const changes = (entry.changes||[]).slice();
+    if(prod.id==='tdm' && entry.sourceUrl){
+      const label = entry.sourceUrl.includes('subsetter') ? 'Subsetter'
+                  : entry.sourceUrl.includes('anonymize') ? 'Anonymize'
+                  : entry.sourceUrl.includes('gui')       ? 'GUI'
+                  : entry.sourceUrl.includes('workflows') ? 'Workflows' : '';
+      if(label) changes.forEach(c=>c.subLabel = label);
+    }
+    allRels.push({ version: entry.version, date: entry.date, changes, docsUrl: entry.docsUrl, product: prod });
+  }
+
+  if(!allRels.length) return;
+
+  const TYPE_PRIORITY = {breaking:0,feature:1,fix:2,improvement:3};
+
+  if(prod.id==='tdm'){
+    const MONTHS_MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,jan:1,feb:2,mar:3,apr:4,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+    const dateToNum = dateStr => {
+      if(!dateStr) return 0;
+      const s = dateStr.trim();
+      const m1 = s.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
+      if(m1){ const mn=MONTHS_MAP[m1[2].toLowerCase()]; if(mn) return parseInt(m1[3])*10000+mn*100+parseInt(m1[1]); }
+      const m2 = s.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
+      if(m2){ const mn=MONTHS_MAP[m2[1].toLowerCase()]; if(mn) return parseInt(m2[3])*10000+mn*100+parseInt(m2[2]); }
+      const m3 = s.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
+      if(m3) return parseInt(m3[1])*10000+parseInt(m3[2])*100+parseInt(m3[3]);
+      return 0;
+    };
+    const numToDisplay={}, flat=[];
+    allRels.forEach(r=>{
+      const num=dateToNum(r.date), key=num||r.date||'Recent';
+      if(num&&!numToDisplay[num]) numToDisplay[num]=r.date;
+      r.changes.forEach(c=>flat.push({...c,_key:key,_docsUrl:r.docsUrl}));
+    });
+    const byKey={}, keyOrder=[];
+    flat.forEach(c=>{ const k=c._key; if(!byKey[k]){byKey[k]=[];keyOrder.push(k);} if(!byKey[k].some(x=>x.text===c.text)) byKey[k].push(c); });
+    keyOrder.forEach(k=>byKey[k].sort((a,b)=>(TYPE_PRIORITY[a.type]??5)-(TYPE_PRIORITY[b.type]??5)));
+    keyOrder.sort((a,b)=>{ const na=typeof a==='number'?a:dateToNum(String(a)); const nb=typeof b==='number'?b:dateToNum(String(b)); return nb-na; });
+    const tdmMerged = keyOrder.filter(k=>byKey[k].length>0).map(k=>({
+      id:'tdm_'+String(k), productId:'tdm', product:prod,
+      version: numToDisplay[k]||String(k), date: numToDisplay[k]||String(k),
+      changes: byKey[k], docsUrl: prod.urls[0]||'', summary: makeSummary(byKey[k])
+    }));
+    releases[prod.id]=tdmMerged; latestVer[prod.id]=''; latestDate[prod.id]=tdmMerged[0]?.date||'';
+    setProductSnapshot(prod.id, latestDate[prod.id], latestVer[prod.id], tdmMerged);
+    setSt(prod.id,'done');
     return;
   }
 
+  const byVer={}, verOrder=[];
+  allRels.forEach(r=>{
+    if(!byVer[r.version]){ byVer[r.version]={...r,changes:[]}; verOrder.push(r.version); }
+    const seen=new Set(byVer[r.version].changes.map(c=>c.text));
+    r.changes.forEach(c=>{ if(!seen.has(c.text)){seen.add(c.text);byVer[r.version].changes.push(c);} });
+    if(!byVer[r.version].date&&r.date) byVer[r.version].date=r.date;
+  });
+  verOrder.forEach(v=>byVer[v].changes.sort((a,b)=>(TYPE_PRIORITY[a.type]??5)-(TYPE_PRIORITY[b.type]??5)));
+  const meaningful = verOrder.map(v=>byVer[v]).filter(r=>r.changes.length>0);
+  if(!meaningful.length) return;
+  releases[prod.id]=meaningful; latestVer[prod.id]=meaningful[0].version; latestDate[prod.id]=meaningful[0].date||'';
+  setProductSnapshot(prod.id, latestDate[prod.id], latestVer[prod.id], meaningful);
+  setSt(prod.id,'done');
+}
+
+/* Check live sites for new versions. Called only when user clicks Fetch All / refresh. */
+async function doFetch(prod){
+  if(!canUseServerApi()){
+    return await doFetchRemote(prod);
+  }
   try{
-    // When refreshing: ask the server to check for new versions against live pages.
-    // Returns { upToDate, newVersions[] } — if upToDate, no need to reload releases.
-    if(checkForUpdates){
-      const chkRes = await fetch(`/api/check/${prod.id}`);
-      if(!chkRes.ok) throw new Error(`${chkRes.status} ${chkRes.statusText}`);
-      const chk = await chkRes.json();
-      if(chk?.error) throw new Error(chk.error);
+    // Ask server to fetch live page, hash-check, and store any new versions
+    const chkRes = await fetch(`/api/check/${prod.id}`);
+    if(!chkRes.ok) throw new Error(`${chkRes.status} ${chkRes.statusText}`);
+    const chk = await chkRes.json();
+    if(chk?.error) throw new Error(chk.error);
 
-      if(chk.upToDate && releases[prod.id]?.length){
-        // Already have data loaded and server says nothing changed
-        upToDate[prod.id] = true;
-        setSt(prod.id, 'done');
-        return;
-      }
-      upToDate[prod.id] = chk.upToDate;
-    }
+    upToDate[prod.id] = chk.upToDate;
 
-    // Load pre-parsed releases from the persistent DB (seeded from release_notes.md)
-    const relRes = await fetch(`/api/releases/${prod.id}`);
-    if(!relRes.ok) throw new Error(`${relRes.status} ${relRes.statusText}`);
-    const rawEntries = await relRes.json();
-    const allRels = [];
-
-    for(const entry of rawEntries){
-      const changes = (entry.changes||[]).slice();
-      if(prod.id==='tdm' && entry.sourceUrl){
-        const label = entry.sourceUrl.includes('subsetter') ? 'Subsetter' : entry.sourceUrl.includes('anonymize') ? 'Anonymize' : entry.sourceUrl.includes('gui') ? 'GUI' : entry.sourceUrl.includes('workflows') ? 'Workflows' : '';
-        if(label) changes.forEach(c=>c.subLabel = label);
-      }
-      allRels.push({ version: entry.version, date: entry.date, changes, docsUrl: entry.docsUrl, product: prod });
-    }
-
-    if(!allRels.length){
-      if(checkForUpdates) return await doFetchRemote(prod);
-      return;
-    }
-
-    const TYPE_PRIORITY = {breaking:0,feature:1,fix:2,improvement:3};
-
-    if(prod.id==='tdm'){
-      // (same merge logic as original doFetch for TDM)
-      const MONTHS_MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
-      const dateToNum = dateStr => {
-        if(!dateStr) return 0;
-        const normalized = dateStr.trim();
-        const m1 = normalized.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
-        if(m1){ const mn=MONTHS_MAP[m1[2].toLowerCase()]; if(mn) return parseInt(m1[3])*10000+mn*100+parseInt(m1[1]); }
-        const m2 = normalized.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
-        if(m2){ const mn=MONTHS_MAP[m2[1].toLowerCase()]; if(mn) return parseInt(m2[3])*10000+mn*100+parseInt(m2[2]); }
-        const m3 = normalized.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
-        if(m3) return parseInt(m3[1])*10000+parseInt(m3[2])*100+parseInt(m3[3]);
-        return 0;
-      };
-
-      const numToDisplay={};
-      const flat=[];
-      allRels.forEach(r=>{
-        const num=dateToNum(r.date);
-        const key=num||r.date||'Recent';
-        if(num&&!numToDisplay[num]) numToDisplay[num]=r.date;
-        r.changes.forEach(c=>flat.push({...c,_key:key,_docsUrl:r.docsUrl}));
-      });
-
-      const byKey={}, keyOrder=[];
-      flat.forEach(c=>{ const k=c._key; if(!byKey[k]){ byKey[k]=[]; keyOrder.push(k);} if(!byKey[k].some(x=>x.text===c.text)) byKey[k].push(c); });
-      keyOrder.forEach(k=>byKey[k].sort((a,b)=>(TYPE_PRIORITY[a.type]??5)-(TYPE_PRIORITY[b.type]??5)));
-      keyOrder.sort((a,b)=>{const na=typeof a==='number'?a:dateToNum(String(a)); const nb=typeof b==='number'?b:dateToNum(String(b)); return nb-na;});
-
-      const tdmMerged = keyOrder.filter(k=>byKey[k].length>0).map(k=>{
-        const display = numToDisplay[k] || String(k);
-        return{id:'tdm_'+String(k),productId:'tdm',product:prod,version:display,date:display,changes:byKey[k],docsUrl:prod.urls[0]||'',summary:makeSummary(byKey[k])};
-      });
-
-      releases[prod.id] = tdmMerged;
-      latestVer[prod.id] = '';
-      latestDate[prod.id] = tdmMerged[0]?.date || '';
-      setProductSnapshot(prod.id, latestDate[prod.id], latestVer[prod.id], tdmMerged);
+    if(chk.upToDate){
+      // Nothing changed — keep current data, just mark up to date
       setSt(prod.id,'done');
       return;
     }
 
-    const byVer = {}, verOrder=[];
-    allRels.forEach(r=>{
-      if(!byVer[r.version]){ byVer[r.version] = { ...r, changes:[] }; verOrder.push(r.version); }
-      const seen = new Set(byVer[r.version].changes.map(c=>c.text));
-      r.changes.forEach(c=>{ if(!seen.has(c.text)){ seen.add(c.text); byVer[r.version].changes.push(c); } });
-      if(!byVer[r.version].date && r.date) byVer[r.version].date = r.date;
-    });
-
-    verOrder.forEach(v=>{ byVer[v].changes.sort((a,b)=>(TYPE_PRIORITY[a.type]??5)-(TYPE_PRIORITY[b.type]??5)); });
-    const merged = verOrder.map(v=>byVer[v]);
-    const meaningful = merged.filter(r=>r.changes.length>0);
-
-    if(!meaningful.length){
-      errors[prod.id]='All versions contain no meaningful changes.';
-      setSt(prod.id,'err');
-      return;
-    }
-
-    releases[prod.id] = meaningful;
-    latestVer[prod.id] = meaningful[0].version;
-    latestDate[prod.id] = meaningful[0].date || '';
-    setProductSnapshot(prod.id, latestDate[prod.id], latestVer[prod.id], meaningful);
-    setSt(prod.id, 'done');
-    return;
+    // New versions found — reload releases from DB and re-render
+    const relRes = await fetch(`/api/releases/${prod.id}`);
+    if(!relRes.ok) throw new Error(`${relRes.status} ${relRes.statusText}`);
+    const entries = await relRes.json();
+    applyDbEntries(prod, entries);
   } catch(serverErr){
-    console.warn('server fetch failed:', serverErr);
+    console.warn('doFetch failed:', serverErr);
     return await doFetchRemote(prod);
   }
 }
