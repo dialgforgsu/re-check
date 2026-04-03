@@ -736,9 +736,9 @@ async function doFetch(prod){
 
     // Reuse same merge logic as doFetchRemote by shortcutting with in-memory data.
     if(!allRels.length){
-      errors[prod.id] = 'No release notes found in server-cached pages.';
-      setSt(prod.id,'err');
-      return;
+      // Fall back to client-side fetch rather than showing an error — the server
+      // may have cached HTML (from allorigins fallback) that parseContent can't handle.
+      return await doFetchRemote(prod);
     }
 
     const TYPE_PRIORITY = {breaking:0,feature:1,fix:2,improvement:3};
@@ -780,6 +780,7 @@ async function doFetch(prod){
       releases[prod.id] = tdmMerged;
       latestVer[prod.id] = '';
       latestDate[prod.id] = tdmMerged[0]?.date || '';
+      setProductSnapshot(prod.id, latestDate[prod.id], latestVer[prod.id], tdmMerged);
       setSt(prod.id,'done');
       return;
     }
@@ -805,6 +806,7 @@ async function doFetch(prod){
     releases[prod.id] = meaningful;
     latestVer[prod.id] = meaningful[0].version;
     latestDate[prod.id] = meaningful[0].date || '';
+    setProductSnapshot(prod.id, latestDate[prod.id], latestVer[prod.id], meaningful);
     setSt(prod.id, 'done');
     return;
   } catch(serverErr){
@@ -1070,23 +1072,30 @@ function stripSidebar(md){
   let articleStart = 0;
   let consecutiveShort = 0;
 
+  let found = false;
   for(let i=0;i<lines.length;i++){
     const l = lines[i].trim();
     // A line that looks like a proper section heading or version heading
     // signals the start of the actual article content.
     if(/^#{1,3}\s+.{10,}/.test(l) && !/^\[/.test(l)){
-      articleStart = i;
+      // Skip page-title headings (e.g. "# ProductName X.Y+ Release Notes - Product Documentation")
+      // that contain a version range or Confluence page-title suffix — these aren't article content.
+      if(/\d+\.\d+[\d.]*\+/.test(l) || /[-–]\s*product\s+documentation/i.test(l) ||
+         /^#{1,2}\s+\S.+?\s+v?\d+\.\d+\s+release\s+notes?\s*$/i.test(l)){
+        continue;
+      }
+      articleStart = i; found = true;
       break;
     }
     // If we see a long paragraph line it's also content
     if(l.length > 80 && !l.startsWith('[') && !l.startsWith('-')){
-      articleStart = i;
+      articleStart = i; found = true;
       break;
     }
   }
 
   // If we couldn't find a clear start, return as-is
-  if(articleStart === 0) return md;
+  if(!found) return md;
   return lines.slice(articleStart).join('\n');
 }
 
@@ -1145,7 +1154,14 @@ function isVersionHeader(line){
   if(/^https?:\/\/\S+$/.test(line)) return false;          // entire line is a bare URL
   if(/\.jar|\.zip|\.war|\.tar/.test(line)&&!/^#/.test(line)) return false; // archive file ref outside heading
   if(line.split(/\s+/).length > 20) return false;
-  if(/^#{1,5}\s/.test(line))                              return true;
+  if(/^#{1,5}\s/.test(line)){
+    // Reject page-title headings: version range like "14.1+" or Confluence title suffix
+    if(/\d+\.\d+[\d.]*\+/.test(line)) return false;
+    if(/[-–]\s*product\s+documentation/i.test(line)) return false;
+    // Reject "# ProductName X.Y release notes" (2-part version + "release notes" = page title, not a release)
+    if(/^#{1,2}\s+\S.+?\s+v?\d+\.\d+\s+release\s+notes?\s*$/i.test(line)) return false;
+    return true;
+  }
   if(/^\*{1,2}[^*]+\*{1,2}$/.test(line.trim()))          return true;
   if(/^version\s+\d/i.test(line.trim()))                  return true;
   if(/^v?\d+\.\d+[\d.]*\s*([-–(]|$)/i.test(line.trim())) return true;
@@ -1195,7 +1211,7 @@ function parseContent(text, prod, sourceUrl){
   let cur      = null;
   let curSec   = '';
 
-  const NOISE = /^(skip to|on this page|table of contents|contents|navigation|edit this page|copy link|print\s*$|share\s*$|send feedback|last modified|created by|owned by|labels:|space:|home\s*$|search\s*$|log in|sign in|sign up|×\s*$|close\s*$|menu\s*$|breadcrumb|was this helpful|yes\s*$|no\s*$)/i;
+  const NOISE = /^(skip to|on this page|table of contents|contents|navigation|edit this page|copy link|print\s*$|share\s*$|send feedback|last modified|created by|owned by|labels:|space:|home\s*$|search\s*$|log in|sign in|sign up|×\s*$|close\s*$|menu\s*$|breadcrumb|was this helpful|yes\s*$|no\s*$|page last updated|published\s+\d)/i;
   const isNoise = l => l.length<3 || NOISE.test(l) || /^https?:\/\/\S+$/.test(l) || /^\|[-:\s|]+\|$/.test(l);
 
   const cleanMd = l => l
