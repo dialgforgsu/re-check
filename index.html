@@ -523,18 +523,13 @@ document.addEventListener('DOMContentLoaded',async ()=>{
   setTheme(localStorage.getItem('rg_theme')||'dark');
   await initDb();
 
-  if(canUseServerApi()){
-    // Read release_notes.md directly from the server — instant, no external network.
-    try{
-      const res = await fetch('/api/snapshot');
-      if(res.ok){
-        const snapshot = await res.json();
-        getOrdered().forEach(p=>{
-          const entries = snapshot[p.id];
-          if(entries && entries.length) applyDbEntries(p, entries);
-        });
-      }
-    } catch(e){ console.warn('snapshot load failed:', e); }
+  if(window.__RN_SNAPSHOT__){
+    // Data was embedded directly into the page by the server from release_notes.md.
+    // Available synchronously — no network request needed.
+    getOrdered().forEach(p=>{
+      const entries = window.__RN_SNAPSHOT__[p.id];
+      if(entries && entries.length) applyDbEntries(p, entries);
+    });
   } else {
     // Offline / file:// fallback — hydrate from in-browser sql.js snapshot cache
     PRODUCTS_DEF.forEach(p=>{

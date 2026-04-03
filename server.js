@@ -401,7 +401,26 @@ app.use((req,res,next)=>{
   next();
 });
 app.use(express.static(path.join(__dirname)));
-app.get('/', (req,res) => res.sendFile(path.join(__dirname,'index.html')));
+
+// Serve index.html with the release_notes.md snapshot embedded as a <script> tag
+// so the client has the data immediately on load — no fetch required.
+app.get('/', (req,res) => {
+  const html = fs.readFileSync(path.join(__dirname,'index.html'), 'utf8');
+
+  const blocks = parseReleaseNotesFile();
+  const snapshot = {};
+  for(const [url, { productId, releases }] of Object.entries(blocks)){
+    if(!snapshot[productId]) snapshot[productId] = [];
+    releases.forEach(r => snapshot[productId].push({
+      sourceUrl: url, version: r.version, date: r.date, docsUrl: r.docsUrl, changes: r.changes
+    }));
+  }
+
+  const injection = `<script>window.__RN_SNAPSHOT__=${JSON.stringify(snapshot)};</script>`;
+  const injected  = html.replace('</head>', injection + '\n</head>');
+  res.setHeader('Content-Type','text/html');
+  res.send(injected);
+});
 
 app.get('/api/products', (req,res) => res.json(PRODUCTS_DEF));
 
