@@ -10,6 +10,14 @@
 :root{
   --rg:#C8102E;--rg-dim:rgba(200,16,46,0.09);--rg-glow:rgba(200,16,46,0.22);
   --green:#22c55e;--blue:#60a5fa;--amber:#f59e0b;--purple:#a78bfa;
+  --color-background-primary: var(--bg);
+  --color-background-secondary: var(--bg1);
+  --color-text-primary: var(--t1);
+  --color-text-secondary: var(--t2);
+  --color-border-secondary: var(--border);
+  --color-border-tertiary: var(--border2);
+  --border-radius-md: 6px;
+  --font-sans: 'Inter', sans-serif;
 }
 [data-theme="dark"]{
   --bg:#0b0b0e;--bg1:#111115;--bg2:#17171c;--bg3:#1e1e25;
@@ -53,7 +61,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-hei
 .tab.dragging{opacity:.3}
 .tab-name{font-family:'Inter',sans-serif;font-weight:600;font-size:12px;color:var(--t2);transition:color .12s;display:flex;align-items:center;gap:6px}
 .tab.active .tab-name,.tab:hover .tab-name{color:var(--t1)}
-.tab-meta{font-family:'DM Mono',monospace;font-size:9px;color:var(--t3);display:flex;align-items:center;gap:4px}
+.tab-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--t1);display:flex;align-items:center;gap:6px;font-weight:600}
+.tab-date{color:var(--t1);font-weight:700;letter-spacing:.02em;}
+[data-theme="light"] .tab-date{color:#000!important;}
+[data-theme="dark"] .tab-date{color:#fff!important;}
 .tab-ver{color:var(--rg);font-weight:500}
 .tab-dot{width:6px;height:6px;border-radius:50%;background:var(--t3);flex-shrink:0;transition:background .12s}
 .tab.fetching .tab-dot{background:var(--amber)!important;animation:pulse .7s ease-in-out infinite}
@@ -88,7 +99,22 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-hei
 .feed-wrap{flex:1;overflow-y:auto;overflow-x:hidden}
 .feed-wrap::-webkit-scrollbar{width:4px}
 .feed-wrap::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-.feed{max-width:920px;margin:0 auto;padding:20px 24px}
+.feed{max-width:1600px;margin:0 auto;padding:20px 24px}
+
+.all-products-columns{display:grid;grid-template-columns:320px 1fr 360px;gap:16px;align-items:start}
+@media (max-width:1500px){.all-products-columns{grid-template-columns:280px 1fr 320px;}}
+@media (max-width:1180px){.all-products-columns{grid-template-columns:1fr;}}
+.all-left-sticky{position:sticky;top:60px;height:fit-content;overflow-y:auto;max-height:calc(100vh - 120px);scrollbar-width:thin}
+.all-left-sticky::-webkit-scrollbar{width:4px}
+.all-left-sticky::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+.all-left,.all-right{display:flex;flex-direction:column;gap:14px}
+.all-middle{display:flex;flex-direction:column;gap:14px}
+.notes-panel{display:flex;flex-direction:column;gap:12px}
+.notes-product{background:var(--bg1);border:1px solid var(--border);border-radius:10px;padding:12px}
+.notes-product-hdr{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--t1);margin-bottom:8px}
+.notes-release{margin-bottom:10px}
+.notes-release-hdr{font-family:'DM Mono',monospace;font-size:11px;color:var(--t3);margin-bottom:6px}
+.notes-change-list{display:flex;flex-direction:column;gap:6px}
 
 /* PRODUCT PAGE HEADER (single-product view) */
 .prod-page-hdr{
@@ -99,14 +125,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-hei
 .prod-page-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;flex-shrink:0}
 .prod-page-name{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--t1);flex:1}
 .prod-page-ver{font-family:'DM Mono',monospace;font-size:11px;color:var(--rg);background:var(--rg-dim);border:1px solid rgba(200,16,46,.18);padding:3px 9px;border-radius:4px}
-.prod-page-date{font-family:'DM Mono',monospace;font-size:11px;color:var(--t3)}
+.prod-page-date{font-family:'DM Mono',monospace;font-size:11px;color:var(--t1);font-weight:600}
 
 /* PRODUCT GROUP HEADER (all-products view) */
 .rg-product-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 .rg-picon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:8px;font-weight:500;flex-shrink:0}
 .rg-pname{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--t1)}
 .rg-pver{font-family:'DM Mono',monospace;font-size:10px;color:var(--rg);background:var(--rg-dim);border:1px solid rgba(200,16,46,.16);padding:2px 7px;border-radius:3px}
-.rg-pdate{font-family:'DM Mono',monospace;font-size:10px;color:var(--t3)}
+.rg-pdate{font-family:'DM Mono',monospace;font-size:10px;color:var(--t1);font-weight:600}
 .rg-docslink{margin-left:auto;font-family:'DM Mono',monospace;font-size:10px;color:var(--t3);text-decoration:none;opacity:.6;transition:opacity .12s}
 .rg-docslink:hover{opacity:1;color:var(--rg)}
 
@@ -118,8 +144,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-hei
   border-bottom:2px solid var(--border);flex-wrap:wrap;
 }
 .ver-pill{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:var(--rg);background:var(--rg-dim);border:1px solid rgba(200,16,46,.2);padding:4px 12px;border-radius:5px;flex-shrink:0}
-.ver-date{font-family:'DM Mono',monospace;font-size:11px;color:var(--t2);font-weight:500}
+.ver-date{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--t1);}
 .ver-docslink{margin-left:auto;font-family:'DM Mono',monospace;font-size:10px;color:var(--t3);text-decoration:none;opacity:.6;transition:opacity .12s}
+
+[data-theme="light"] .ver-date,
+[data-theme="light"] .prod-page-date,
+[data-theme="light"] .rg-pdate { color: #000 !important; }
+
+[data-theme="dark"] .ver-date,
+[data-theme="dark"] .prod-page-date,
+[data-theme="dark"] .rg-pdate { color: #fff !important; }
 .ver-docslink:hover{opacity:1;color:var(--rg)}
 
 /* CHANGE ITEMS */
@@ -157,6 +191,40 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-hei
 .cq-bullets{display:flex;flex-direction:column;gap:6px}
 .cq-bullet{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:var(--t2);line-height:1.55}
 .cq-dot{width:5px;height:5px;border-radius:50%;background:var(--rg);flex-shrink:0;margin-top:6px}
+
+/* ROADMAP TRACKER */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.wrap { padding: 1rem 0; }
+.controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
+.controls select, .controls input { font-size: 13px; }
+.controls input[type=text] { padding: 6px 10px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); width: 200px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-weight: 500; font-size: 12px; color: var(--color-text-secondary); padding: 6px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); white-space: nowrap; }
+td { padding: 8px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); vertical-align: middle; color: var(--color-text-primary); }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--color-background-secondary); }
+.pill { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 99px; white-space: nowrap; }
+.pill-monitor   { background: #B5D4F4; color: #0C447C; }
+.pill-flyway    { background: #C0DD97; color: #27500A; }
+.pill-tdm       { background: #F5C4B3; color: #712B13; }
+.pill-prod      { background: #CECBF6; color: #3C3489; }
+.pill-dev   { background: #EEEDFE; color: #534AB7; }
+.pill-res   { background: #F1EFE8; color: #5F5E5A; }
+.progress-wrap { display: flex; align-items: center; gap: 8px; min-width: 130px; }
+.progress-bar { flex: 1; height: 6px; background: var(--color-background-secondary); border-radius: 99px; overflow: hidden; border: 0.5px solid var(--color-border-tertiary); }
+.progress-fill { height: 100%; border-radius: 99px; transition: width 0.2s; }
+.pct-label { font-size: 12px; color: var(--color-text-secondary); min-width: 30px; }
+input[type=range].mini { width: 80px; height: 16px; margin: 0; }
+.notes-input { font-size: 12px; padding: 4px 8px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); width: 180px; }
+.ref-input { font-size: 12px; padding: 4px 8px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); width: 120px; }
+.summary { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-bottom: 1.25rem; }
+.sum-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 12px; }
+.sum-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; }
+#assoc-preview ul { margin: 0; }
+#assoc-preview li { margin-bottom: 4px; }
+.sum-val { font-size: 20px; font-weight: 500; }
+select { padding: 6px 10px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); font-size: 13px; }
 
 /* EMPTY / LOADING */
 .empty{text-align:center;padding:60px 20px}
@@ -487,8 +555,8 @@ function renderTabBar(){
       </div>
       <div class="tab-meta">
         ${ver?`<span class="tab-ver">v${esc(ver)}</span>`:''}
-        ${dt?`<span style="opacity:.6">${esc(dt)}</span>`:''}
-        ${!ver?`<span>not fetched</span>`:''}
+        ${dt?`<span class="tab-date">${esc(dt)}</span>`:''}
+        ${!ver?`<span class="tab-date">not fetched</span>`:''}
       </div>
       <button class="tab-fetch-btn" title="Refresh ${p.name}" onclick="fetchOneTab('${p.id}',event)">${st==='fetching'?'…':'↓'}</button>
     </div>`;
@@ -505,6 +573,17 @@ function dEnd(){dragId=null;document.querySelectorAll('.tab').forEach(t=>t.class
 
 function switchTab(id){
   activeTab=id;
+
+  // Ensure roadmap filter defaults are reset when switching to All Products
+  if(id === 'all'){
+    const filterProd = document.getElementById('filterProd');
+    const filterPhase = document.getElementById('filterPhase');
+    const search = document.getElementById('search');
+    if(filterProd) filterProd.value = '';
+    if(filterPhase) filterPhase.value = '';
+    if(search) search.value = '';
+  }
+
   renderTabBar();renderFeed();
   const el=id==='all'?document.querySelector('.tab-all'):document.getElementById('tab-'+id);
   el?.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
@@ -1329,6 +1408,31 @@ function buildQ1HTML(allData, productName){
   const topThemes = themeHits.slice(0,2).map(t=>t.label);
   const label = productName || 'the Redgate portfolio';
 
+  // Detect primary databases/platforms affected by analyzing top features and themes
+  const detectPrimaryDBs = (feat, themes) => {
+    const dbs = [];
+    const text = feat ? feat.text.toLowerCase() : '';
+    const allText = text + ' ' + themes.join(' ').toLowerCase();
+    
+    if (/\bsql server\b|\bmssql\b|\bazure sql\b|\bfabric sql\b/.test(allText)) dbs.push('SQL Server');
+    if (/\boracle\b/.test(allText)) dbs.push('Oracle');
+    if (/\bpostgres\b|\bpostgresql\b/.test(allText)) dbs.push('PostgreSQL');
+    if (/\bmysql\b/.test(allText)) dbs.push('MySQL');
+    
+    // If no specific DBs detected, default based on Redgate's core markets
+    if (dbs.length === 0) {
+      if (themes.some(t => /sql server|azure sql/.test(t))) dbs.push('SQL Server');
+      if (themes.some(t => /oracle/.test(t))) dbs.push('Oracle');
+      if (themes.some(t => /postgres/.test(t))) dbs.push('PostgreSQL');
+      if (dbs.length === 0) dbs.push('SQL Server', 'Oracle'); // Default to core markets
+    }
+    
+    return dbs.slice(0, 2); // Limit to top 2
+  };
+
+  const primaryDBs = detectPrimaryDBs(topFeat, topThemes);
+  const dbText = primaryDBs.length === 1 ? primaryDBs[0] : primaryDBs.join(' and ');
+
   // Build product hotspot context for 'All Products' view
   let portfolioContext = '';
   if(!productName){
@@ -1349,52 +1453,52 @@ function buildQ1HTML(allData, productName){
   let summary = '';
 
   if(topThemes.length >= 2 && topFeat){
-    summary = `${portfolioContext}${label} used ${qi.badge} to push forward on ${topThemes[0]} and ${topThemes[1]}. The headline addition — "${topFeat.text}" — is significant because it directly strengthens what Redgate's SQL Server and Oracle customers can do day-to-day, making it a natural proof point in both new evaluations and renewal conversations.`;
+    summary = `${portfolioContext}${label} moved the needle on ${topThemes[0]} and ${topThemes[1]}. The headline update — "${topFeat.text}" — is a strong operational win for ${productName ? 'customers' : "Redgate's " + dbText + " customers"}, helping them reduce risk and accelerate adoption in the next quarter.`;
   } else if(topThemes.length >= 1 && topFeat){
-    summary = `${portfolioContext}The clearest signal from ${label} this quarter is a focused investment in ${topThemes[0]}. "${topFeat.text}" is the standout change — it matters because it closes a gap that SQL Server and PostgreSQL teams have had to work around, and that kind of friction reduction directly affects how quickly customers can adopt and trust the product.`;
+    summary = `${portfolioContext}This quarter is defined by a clear pivot toward ${topThemes[0]}. "${topFeat.text}" breaks an existing process bottleneck for ${dbText} teams, which should translate directly to easier deployments and lower support overhead.`;
   } else if(topFeat){
-    summary = `${portfolioContext}${label}'s most meaningful move this quarter was "${topFeat.text}." For SQL Server and Oracle environments — where the majority of Redgate's customers operate — this represents a capability improvement that's worth raising directly in customer conversations rather than letting it go unnoticed in release notes.`;
+    summary = `${portfolioContext}${label} delivered a key capability with "${topFeat.text}." For ${dbText} environments${productName ? '' : " — where the majority of Redgate's customers operate"}, this strengthens the core value proposition and gives sales a concrete demonstration of continued momentum.`;
   } else {
-    summary = `${portfolioContext}${label} concentrated on quality and reliability this quarter, shipping fixes that reduce friction for SQL Server and Oracle teams under pressure to operate more efficiently. This steady, consistent delivery matters because it's what enterprise customers expect from a vendor they're committing to long-term.`;
+    summary = `${portfolioContext}${label} focused on reliability and polish during this release cycle, shipping resolutions that reduce friction for ${dbText} teams under operational load. That stability work underpins customer confidence and supports larger enterprise deployments.`;
   }
 
   if(breaking.length){
-    summary += ` One important note: there ${breaking.length === 1 ? 'is a change that requires' : 'are ' + breaking.length + ' changes that require'} customer action before upgrading. Surface this proactively — it's far better to have that conversation on your terms than to have a customer discover it mid-upgrade.`;
+    summary += ` One important note: there ${breaking.length === 1 ? 'is a change that requires' : 'are changes that require'} customer action before upgrading. Surface this proactively — it's far better to have that conversation on your terms than to have a customer discover it mid-upgrade.`;
   }
 
   // ── NEXT QUARTER OUTLOOK: where is the solution growing ─────────────────────
   const bullets = [];
+  const coreOrder = ['sql server', 'oracle', 'postgres', 'mysql'];
+  const coreThemes = coreOrder
+    .map(core => topThemes.find(t => new RegExp(`\\b${core}\\b`, 'i').test(t)))
+    .filter(Boolean);
 
-  if(topThemes.length >= 1){
-    const isCoreDbnTheme = /(sql server|oracle|postgres|mysql)/i.test(topThemes[0]);
-    if(isCoreDbnTheme){
-      bullets.push(`${label} is deepening support in ${topThemes[0]} — this is directly relevant to the SQL Server and Oracle-heavy accounts that make up the majority of Redgate's pipeline. Use this quarter's work as evidence that the product is meeting customers where they actually are, not just where the market is trending.`);
-    } else {
-      bullets.push(`${label}'s push on ${topThemes[0]} this quarter is building capability that SQL Server and Oracle teams will benefit from — tie it back to the customer outcome (less manual work, faster deployments, fewer incidents) rather than the feature itself.`);
-    }
+  // Bullet 1: primary core data platform priority
+  if(coreThemes.length){
+    bullets.push(`${label} is prioritizing ${coreThemes[0]} this quarter — this aligns most closely with your major ${dbText} accounts and signals that the product is doubling down on core database reliability and compatibility.`);
+  } else if(topThemes.length){
+    bullets.push(`${label} is focusing on ${topThemes[0]} this quarter; align messaging to the outcome for ${dbText} teams (reduced risk, easier migrations, faster deployments).`);
+  } else {
+    bullets.push(`${label} continues to refine its core database strengths, and this consistency is a strong basis for long-term confidence in enterprise deployments.`);
   }
 
-  if(topThemes.length >= 2){
-    bullets.push(`The ${topThemes[1]} investment is early but intentional — seed this into discovery conversations now so customers connect the dots when the next release lands. The teams tracking product direction closely are the ones who become the strongest internal champions.`);
+  // Bullet 2: secondary theme from core or top themes
+  if(coreThemes.length >= 2){
+    bullets.push(`${label} is also investing in ${coreThemes[1]}, which reinforces support for a broader database portfolio and lets sales conversations be explicit about multi-platform compatibility.`);
+  } else if(topThemes.length >= 2){
+    bullets.push(`${label} has a secondary emphasis on ${topThemes[1]}, which can be framed as an incremental step toward deeper platform maturity and lower operational friction.`);
+  } else if(coreThemes.length === 1 && topThemes.length >= 2){
+    bullets.push(`${label} has additional progress outside the top core priority, showing the product is balancing core platform stability with strategic innovation.`);
   }
 
-  if(topFeat && secondFeat){
-    bullets.push(`Lead with "${topFeat.text}" in demos — it lands best with SQL Server and Oracle audiences who feel the problem it solves. Pair it with "${secondFeat.text}" to show breadth. Together they tell a story of a product shipping meaningfully, not just maintaining.`);
-  } else if(topFeat){
-    bullets.push(`"${topFeat.text}" is your strongest talking point this quarter. Frame it around the customer outcome — what does it unblock, what risk does it reduce — rather than what it technically does. That framing resonates with both technical buyers and their managers.`);
+  // Bullet 3: strategic takeaway + action
+  if(topFeat){
+    bullets.push(`${topFeat.text} is the strongest customer-facing narrative from this release cycle. Frame it as a business outcome for ${dbText} teams (e.g., lower downtime, fewer manual steps, more predictable deployments).`);
+  } else {
+    bullets.push(`Use the next release cycle to ask customers where they need the most risk reduction in database operations; connect that directly to the release patterns and priorities shown here.`);
   }
 
-  if(breaking.length){
-    bullets.push(`The architecture changes this quarter show the product is evolving deliberately, not just patching. Position this to strategic accounts as evidence of long-term R&D commitment — the kind of investment that makes a vendor a safe long-term bet for SQL Server and Oracle infrastructure.`);
-  }
-
-  if(fixes.length >= 3){
-    bullets.push(`${fixes.length} reliability fixes this quarter is a strong counter to any "is the product mature?" objection — especially for SQL Server teams where stability is non-negotiable. A vendor that ships this many fixes consistently is one that's listening to its customers.`);
-  }
-
-  bullets.push(`Before your next call, identify which of these changes is most relevant to that customer's specific database environment. A precise, relevant example from the release notes is far more credible than a generic "we ship updates regularly" message.`);
-
-  const bulletHTML = bullets.slice(0,5).map(b =>
+  const bulletHTML = bullets.slice(0,3).map(b =>
     `<div class="cq-bullet"><div class="cq-dot"></div><span>${esc(b)}</span></div>`
   ).join('');
 
@@ -1438,6 +1542,8 @@ function renderFeed(){
     d.change.text.toLowerCase().includes(q)
   );
 
+  // Keep the release notes in a global place for optional mapping later
+  window.allRoadmapReleaseNotes = allData;
   document.getElementById('filter-count').textContent=allData.length?`${allData.length} entr${allData.length!==1?'ies':'y'}`:'';
 
   // ── EMPTY / ERROR ──
@@ -1473,75 +1579,86 @@ function renderFeed(){
   }
 
   // ── Q1 ──
-  if(!q&&typeFilter==='all'&&allData.length>0){
+  let q1HTML = '';
+  if(!q && typeFilter==='all' && allData.length>0){
     if(activeTab==='all'){
-      html+=buildQ1HTML(allData,null);
+      q1HTML = buildQ1HTML(allData,null);
     } else {
-      const p=PRODUCTS_DEF.find(p=>p.id===activeTab);
-      html+=buildQ1HTML(allData,p?.name||'');
+      const p = PRODUCTS_DEF.find(p=>p.id===activeTab);
+      q1HTML = buildQ1HTML(allData,p?.name||'');
     }
   }
 
   // ── RENDER ──
   if(activeTab==='all'){
-    // ── SALES ENGINEER HIGHLIGHT CARDS ──
-    // One card per product, showing the most impactful items curated for SEs.
     const loadedProds = getOrderedByLatest().filter(p=>(releases[p.id]||[]).length>0);
     if(!loadedProds.length){
-      // Nothing loaded yet — show nudge
-      html+='';
+      html += '<div class="empty"><div class="ei">📋</div><div class="et">No release notes loaded</div><div class="ed">Click Fetch All or refresh one product.</div></div>';
     } else {
-      html+=`<div class="hl-grid">`;
-      loadedProds.forEach((p,pi)=>{
-        const allProdRels = releases[p.id]||[];
-        // Gather all changes across all versions, filtered by current type/search
-        const prodChanges = allData.filter(d=>d.prod.id===p.id).map(d=>d.change);
-        if(!prodChanges.length) return;
-
-        const ver  = latestVer[p.id]||'';
-        const dt   = latestDate[p.id]||'';
-        const docUrl = p.urls[0]?.url||p.urls[0]||'#';
-
-        // Pick highlights: SE-relevant = features + breaking + security first, then fixes/improvements
-        const features    = prodChanges.filter(c=>c.type==='feature').slice(0,3);
-        const breaking    = prodChanges.filter(c=>c.type==='breaking').slice(0,2);
-        const security    = prodChanges.filter(c=>c.type==='security').slice(0,2);
-        const enterprise  = prodChanges.filter(c=>c.type==='enterprise').slice(0,2);
-        const fixes       = prodChanges.filter(c=>c.type==='fix').slice(0,2);
-        const imps        = prodChanges.filter(c=>c.type==='improvement').slice(0,2);
-
-        // Combine: break + sec + enterprise first (critical/priority), then features, then fix/imp
-        let picks = [...breaking,...security,...enterprise,...features,...fixes,...imps];
-        // Deduplicate by text
-        const seen = new Set();
-        picks = picks.filter(c=>{ if(seen.has(c.text)) return false; seen.add(c.text); return true; });
-        picks = picks.slice(0,5);
-
-        const typeRowClass = {feature:'feat',fix:'fix',improvement:'imp',breaking:'brk',security:'sec',enterprise:'ent'};
-        const typeLabel    = {feature:'New',fix:'Fix',improvement:'Improved',breaking:'Breaking',security:'Security',enterprise:'Enterprise'};
-
-        const rows = picks.map(c=>`<div class="hl-row ${typeRowClass[c.type]||'imp'}">
-          <span class="hl-tag ${typeRowClass[c.type]||'imp'}">${typeLabel[c.type]||c.type}</span>
-          <span class="hl-text">${esc(c.text)}</span>
-        </div>`).join('');
-
-        html+=`<div class="hl-card" style="animation-delay:${pi*40}ms">
-          <div class="hl-card-hdr" onclick="switchTab('${p.id}')">
-            <div class="hl-picon" style="background:${p.bg};color:${p.color}">${p.abbr}</div>
-            <div class="hl-pname">${p.name}</div>
-            <div class="hl-meta">
-              ${ver?`<span class="hl-ver">v${esc(ver)}</span>`:''}
-              ${dt?`<span class="hl-date">${esc(dt)}</span>`:''}
-              <a href="${docUrl}" target="_blank" class="hl-goto" onclick="event.stopPropagation()">↗ docs</a>
-            </div>
-          </div>
-          <div class="hl-body">
-            ${rows||'<div class="hl-empty">No highlights match current filter.</div>'}
-            <button class="hl-view-btn" onclick="switchTab('${p.id}')">View all release notes →</button>
-          </div>
-        </div>`;
+      const notesByProd = {};
+      allData.forEach(d=>{
+        if(!notesByProd[d.prod.id]) notesByProd[d.prod.id] = [];
+        notesByProd[d.prod.id].push(d);
       });
-      html+=`</div>`;
+
+      let notesHTML = '<div class="notes-panel">';
+      getOrderedByLatest().forEach(p=>{
+        const productItems = notesByProd[p.id];
+        if(!productItems || !productItems.length) return;
+
+        // Show only latest release per product
+        const byVer = {};
+        productItems.forEach(d=>{
+          const key = d.release.version || d.release.date || 'Recent';
+          if(!byVer[key]) byVer[key] = {release:d.release, items:[]};
+          byVer[key].items.push(d.change);
+        });
+
+        const latestGroup = Object.values(byVer)
+          .sort((a,b)=>parseDateToTimestamp(b.release.date||'')-parseDateToTimestamp(a.release.date||''))[0];
+
+        if(!latestGroup) return;
+
+        notesHTML += `<div class="notes-product"><div class="notes-product-hdr">${esc(p.name)}</div>`;
+        notesHTML += `<div class="notes-release"><div class="notes-release-hdr">${latestGroup.release.version?`v${esc(latestGroup.release.version)}`:'Recent'}${latestGroup.release.date?` • ${esc(latestGroup.release.date)}`:''}</div><div class="notes-change-list">${latestGroup.items.slice(0,5).map(changeRow).join('')}</div></div>`;
+        notesHTML += '</div>';
+      });
+
+      notesHTML += '</div>';
+
+      html += `<div class="all-products-columns">
+  <div class="all-left-sticky" id="associated-panel"></div>
+  <div class="all-middle">
+    <div class="wrap">
+      ${q1HTML}
+      <div class="summary" id="summary"></div>
+      <div class="controls">
+          <select id="filterProd" onchange="renderRoadmap()">
+          <option value="">All products</option>
+          <option>Monitor</option><option>Flyway</option><option>TDM</option><option>Productivity</option>
+        </select>
+        <select id="filterPhase" onchange="renderRoadmap()">
+          <option value="">All phases</option>
+          <option>Developing</option><option>Researching</option>
+        </select>
+        <button id="map-roadmap-btn" class="btn btn-primary" onclick="mapRoadmapWithAI()">Map roadmap to release notes</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Product</th>
+            <th>Phase</th>
+            <th style="min-width:240px">Roadmap item</th>
+            <th style="min-width:180px">Associated changes</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="all-right">${notesHTML}</div>
+</div>`;
     }
 
   } else {
@@ -1559,7 +1676,10 @@ function renderFeed(){
       { label:'Workflows',  url:'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/using-workflows-rgworkflow/workflows-release-notes' },
     ] : [];
     const tdmSubButtons = tdmSubs.map(s=>
-      `<button class="btn btn-ghost" style="font-size:10px;padding:4px 9px" onclick="fetchTdmSub('${s.url}','${s.label}',event)">↻ ${s.label}</button>`
+      `<div style="display:flex;gap:2px">
+        <button class="btn btn-ghost" style="font-size:10px;padding:4px 9px" onclick="fetchTdmSub('${s.url}','${s.label}',event)">↻ ${s.label}</button>
+        <a href="${s.url}" target="_blank" class="btn btn-ghost" style="font-size:10px;padding:4px 6px" title="Open ${s.label} docs">↗</a>
+      </div>`
     ).join('');
     html+=`<div class="prod-page-hdr" style="flex-wrap:wrap;gap:8px">
       <div class="prod-page-icon" style="background:${p?.bg};color:${p?.color}">${p?.abbr}</div>
@@ -1568,13 +1688,16 @@ function renderFeed(){
       ${!isTdmPage&&dt?`<div class="prod-page-date">${esc(dt)}</div>`:''}
       <div style="margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
         ${isTdmPage ? tdmSubButtons : `<button class="btn btn-ghost" onclick="fetchOneTab('${activeTab}',event)" style="font-size:11px;padding:5px 11px">↻ Refresh</button>`}
-        <a href="${p?.urls[0]?.url||p?.urls[0]||'#'}" target="_blank" class="btn btn-ghost" style="font-size:11px;padding:5px 11px">↗ Docs</a>
+        ${!isTdmPage ? `<a href="${p?.urls[0]?.url||p?.urls[0]||'#'}" target="_blank" class="btn btn-ghost" style="font-size:11px;padding:5px 11px">↗ Docs</a>` : ''}
       </div>
     </div>`;
 
     if(errors[activeTab]){
       html+=`<div class="err-banner">⚠ ${esc(errors[activeTab])} — <a href="${p?.urls[0]?.url||'#'}" target="_blank" style="color:inherit;text-decoration:underline">open docs →</a></div>`;
     }
+
+    // Add Current Quarter At A Glance for single product
+    html += q1HTML;
 
     // Group changes by version
     const byVer={}, verOrder=[];
@@ -1639,6 +1762,164 @@ function clearAll(){
 }
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ROADMAP TRACKER
+const ITEMS = [
+  {id:1, product:"Monitor", phase:"Developing", item:"Deeper SQL Server workload analysis"},
+  {id:2, product:"Monitor", phase:"Developing", item:"Redgate Monitor SaaS"},
+  {id:3, product:"Monitor", phase:"Developing", item:"Enhanced PostgreSQL monitoring"},
+  {id:4, product:"Monitor", phase:"Developing", item:"Enhanced security and compliance monitoring"},
+  {id:5, product:"Monitor", phase:"Developing", item:"Google Cloud SQL support"},
+  {id:6, product:"Monitor", phase:"Researching", item:"Cloud cost analysis"},
+  {id:7, product:"Monitor", phase:"Researching", item:"AI-powered troubleshooting & recommendations"},
+  {id:8, product:"Flyway", phase:"Developing", item:"Policy checks and code review management in Flyway Desktop"},
+  {id:9, product:"Flyway", phase:"Developing", item:"AI-powered help to create your own policies"},
+  {id:10, product:"Flyway", phase:"Developing", item:"Integrations for popular CI/CD systems, incl. GitHub and ADO"},
+  {id:11, product:"Flyway", phase:"Developing", item:"Richer Oracle capabilities"},
+  {id:12, product:"Flyway", phase:"Researching", item:"Performance impact analysis"},
+  {id:13, product:"TDM", phase:"Developing", item:"AI classification – get set up faster, protect more data"},
+  {id:14, product:"TDM", phase:"Developing", item:"Simplified masking configuration & customization"},
+  {id:15, product:"TDM", phase:"Developing", item:"PG Aurora support"},
+  {id:16, product:"TDM", phase:"Developing", item:"User interface improvements – zero command line required"},
+  {id:17, product:"TDM", phase:"Researching", item:"Automated audit-ready reports"},
+  {id:18, product:"TDM", phase:"Researching", item:"RBAC functionality – control who can access sensitive data"},
+  {id:19, product:"Productivity", phase:"Developing", item:"AI Code Completion (Prompt)"},
+  {id:20, product:"Productivity", phase:"Developing", item:"Redgate Assistant (Prompt)"},
+  {id:21, product:"Productivity", phase:"Developing", item:"Redgate Data Modeler in TBE"},
+  {id:22, product:"Productivity", phase:"Developing", item:"Dark Mode (Prompt)"},
+  {id:23, product:"Productivity", phase:"Researching", item:"Agentic AI"},
+  {id:24, product:"Productivity", phase:"Researching", item:"Further integration of TBE tools"},
+  {id:25, product:"Productivity", phase:"Researching", item:"Support for VS Code"},
+];
+
+const roadmapState = {};
+const roadmapAssociations = {};
+ITEMS.forEach(i => { roadmapState[i.id] = { pct: 0 }; roadmapAssociations[i.id] = []; });
+
+const prodColor = { Monitor:"monitor", Flyway:"flyway", TDM:"tdm", Productivity:"prod" };
+const phaseColor = { Developing:"dev", Researching:"res" };
+const pctColor = p => p === 100 ? "#639922" : p >= 50 ? "#185FA5" : p > 0 ? "#BA7517" : "#B4B2A9";
+const typeWeight = { breaking: 5, security: 4, feature: 3, fix: 2, improvement: 1 };
+
+function renderRoadmap() {
+  const q = document.getElementById("search").value.toLowerCase();
+  const fp = document.getElementById("filterProd").value;
+  const fph = document.getElementById("filterPhase").value;
+  const rows = ITEMS.filter(i =>
+    (!q || i.item.toLowerCase().includes(q) || i.product.toLowerCase().includes(q)) &&
+    (!fp || i.product === fp) &&
+    (!fph || i.phase === fph)
+  );
+  rows.sort((a, b) => (roadmapAssociations[b.id]?.length || 0) - (roadmapAssociations[a.id]?.length || 0));
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = rows.map(i => {
+    const s = roadmapState[i.id];
+    return `<tr>
+      <td style="color:var(--color-text-secondary);font-size:12px">${i.id}</td>
+      <td><span class="pill pill-${prodColor[i.product]}">${i.product}</span></td>
+      <td><span class="pill pill-${phaseColor[i.phase]}">${i.phase}</span></td>
+      <td>${i.item}</td>
+        <td>
+        ${roadmapAssociations[i.id] && roadmapAssociations[i.id].length > 0
+          ? `<button class="btn btn-ghost" onclick="showAssociatedNotes(${i.id})">Release Associated (${roadmapAssociations[i.id].length})</button>`
+          : `<span style="color:var(--t3)">None</span>`
+        }
+      </td>
+    </tr>`;
+  }).join("");
+  updateSummary();
+}
+
+function updateSummary() {
+  const matched = ITEMS.filter(i => roadmapAssociations[i.id]?.length > 0).length;
+  document.getElementById("summary").innerHTML = `
+    <div class="sum-card"><div class="sum-label">Roadmap items</div><div class="sum-val" style="color:#185FA5">${matched} / ${ITEMS.length}</div></div>
+  `;
+}
+
+function mapReleasesToRoadmap(allData) {
+  // Reset progress and associations
+  ITEMS.forEach(i => { roadmapState[i.id].pct = 0; roadmapAssociations[i.id] = []; });
+
+  // Stop words to exclude from keyword matching
+  const stopWords = new Set(['the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'her', 'was', 'one', 'our', 'had', 'by', 'word', 'how', 'said', 'each', 'which', 'their', 'time', 'will', 'about', 'many', 'then', 'them', 'these', 'so', 'some', 'her', 'would', 'make', 'like', 'him', 'into', 'has', 'look', 'more', 'write', 'go', 'see', 'no', 'way', 'could', 'people', 'my', 'than', 'first', 'water', 'been', 'call', 'who', 'oil', 'its', 'now', 'find', 'long', 'down', 'day', 'did', 'get', 'come', 'made', 'may', 'part']);
+
+  // For each change, check if it matches any roadmap item
+  allData.forEach(d => {
+    const changeText = d.change.text.toLowerCase().replace(/[^\w\s]/g, ''); // Remove punctuation
+    ITEMS.forEach(item => {
+      const itemText = item.item.toLowerCase().replace(/[^\w\s]/g, '');
+      let shouldAssociate = false;
+
+      // Check if full item text is contained in change text
+      if (changeText.includes(itemText)) {
+        shouldAssociate = true;
+      } else {
+        // Extract keywords from item text (words > 3 chars, not stop words)
+        const itemWords = itemText.split(/\s+/).filter(word => word.length > 3 && !stopWords.has(word));
+        // Count matching keywords in change text
+        const matchCount = itemWords.filter(word => changeText.includes(word)).length;
+        // Require at least 2 matching keywords for association
+        if (matchCount >= 2) {
+          shouldAssociate = true;
+        }
+      }
+
+      if (shouldAssociate) {
+        if (!roadmapAssociations[item.id].some(x => x.text === d.change.text && x.release === d.release.version)) {
+          roadmapAssociations[item.id].push({
+            prod: d.prod.name,
+            release: d.release.version || d.release.date || 'Recent',
+            text: d.change.text,
+            type: d.change.type || 'improvement',
+            weight: typeWeight[d.change.type] || 0
+          });
+        }
+        roadmapState[item.id].pct = Math.min(100, roadmapState[item.id].pct + 20);
+      }
+    });
+  });
+}
+
+async function mapRoadmapWithAI() {
+  const btn = document.getElementById('map-roadmap-btn');
+  const allData = window.allRoadmapReleaseNotes || [];
+  if(!allData.length){
+    alert('Fetch release notes first.');
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = 'Mapping…';
+
+  // Placeholder for AI mapping; currently runs heuristic mapper as fallback.
+  await new Promise(resolve => setTimeout(resolve, 300));
+  mapReleasesToRoadmap(allData);
+
+  // Simulate AI ranking: sort roadmap items by matching progress, descending.
+  ITEMS.sort((a,b)=>roadmapState[b.id].pct - roadmapState[a.id].pct || a.id-b.id);
+
+  renderRoadmap();
+  btn.disabled = false;
+  btn.textContent = 'Map roadmap to release notes';
+}
+
+function showAssociatedNotes(itemId){
+  let items = roadmapAssociations[itemId] || [];
+  const panel = document.getElementById('associated-panel');
+  if(!items.length){
+    panel.innerHTML = `<div class="sum-card" style="background:var(--bg2);border:1px solid var(--border);">No associated release notes found.</div>`;
+    return;
+  }
+  items.sort((a, b) => (b.weight || 0) - (a.weight || 0));
+  const actionText = items.length === 1 ? 'Release note' : 'Release notes';
+  const list = items.map((i,idx)=>`<li><strong>${i.prod} ‒ ${i.release}</strong>: ${esc(i.text)}</li>`).join('');
+  panel.innerHTML = `<div class="sum-card" style="background:var(--bg2);border:1px solid var(--border);padding:12px;">
+      <div class="sum-label">${actionText} associated (${items.length})</div>
+      <ul style="margin-top:8px;padding-left:18px;line-height:1.4;font-size:12px;">${list}</ul>
+    </div>`;
+}
+
+renderRoadmap();
 </script>
 </body>
 </html>
