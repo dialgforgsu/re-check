@@ -160,7 +160,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-hei
 .change-list{display:flex;flex-direction:column;gap:3px}
 .change-item{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;border-radius:7px;border:1px solid var(--border);background:var(--bg1);transition:border-color .12s,background .12s}
 .change-item:hover{border-color:var(--border2);background:var(--bg2)}
-.ctag{flex-shrink:0;font-family:'Inter',sans-serif;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.6px;padding:3px 7px;border-radius:4px;margin-top:2px;min-width:82px;text-align:center}
+.ctag-col{display:flex;flex-direction:column;gap:4px;flex-shrink:0;align-items:stretch;min-width:82px}
+.ctag{font-family:'Inter',sans-serif;font-weight:700;font-size:9px;text-transform:uppercase;letter-spacing:.6px;padding:3px 7px;border-radius:4px;text-align:center;width:100%;box-sizing:border-box}
 .ctag-feature    {background:rgba(96,165,250,.13); color:var(--blue);  border:1px solid rgba(96,165,250,.2)}
 .ctag-fix        {background:rgba(34,197,94,.11);  color:var(--green); border:1px solid rgba(34,197,94,.18)}
 .ctag-improvement{background:rgba(245,158,11,.11); color:var(--amber); border:1px solid rgba(245,158,11,.18)}
@@ -171,7 +172,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-hei
 .change-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:2px}
 
 /* TDM sub-section badges */
-.sub-badge{font-family:'DM Mono',monospace;font-size:9px;font-weight:600;border-radius:4px;padding:3px 7px;white-space:nowrap;text-transform:uppercase;letter-spacing:.4px}
+.sub-badge{font-family:'DM Mono',monospace;font-size:9px;font-weight:600;border-radius:4px;padding:3px 7px;white-space:nowrap;text-transform:uppercase;letter-spacing:.4px;text-align:center;width:100%;box-sizing:border-box}
 .sub-badge-Subsetter {background:rgba(6,182,212,.13); color:#06B6D4;border:1px solid rgba(6,182,212,.25)}
 .sub-badge-Anonymize {background:rgba(167,139,250,.13);color:#a78bfa;border:1px solid rgba(167,139,250,.25)}
 .sub-badge-GUI       {background:rgba(132,204,22,.12); color:#84CC16;border:1px solid rgba(132,204,22,.22)}
@@ -382,8 +383,17 @@ const PRODUCTS_DEF = [
    STATE
 ═══════════════════════════════════════════ */
 const DEF_ORDER = PRODUCTS_DEF.map(p=>p.id);
-// Always apply the canonical product order (ignores any saved drag order so reorder is respected)
-let tabOrder = [...DEF_ORDER];
+// Restore saved drag order from session, filling in any new products at the end
+function loadTabOrder(){
+  try{
+    const saved = JSON.parse(sessionStorage.getItem('rg_tab_order')||'null');
+    if(!Array.isArray(saved)) return [...DEF_ORDER];
+    const valid = saved.filter(id=>DEF_ORDER.includes(id));
+    const added = DEF_ORDER.filter(id=>!valid.includes(id));
+    return [...valid,...added];
+  }catch{return [...DEF_ORDER];}
+}
+let tabOrder = loadTabOrder();
 
 let activeTab  = 'all';
 let typeFilter = 'all';
@@ -539,7 +549,7 @@ function renderTabBar(){
     <div class="tab-meta">${loaded?loaded+' loaded':'drag to reorder'}</div>
   </div>`;
 
-  const ordered = activeTab==='all' ? getOrderedByLatest() : getOrdered();
+  const ordered = getOrdered();
   html += ordered.map(p=>{
     const st  = statuses[p.id]||'';
     const ver = latestVer[p.id]||'';
@@ -1200,8 +1210,14 @@ function isTdmNavLink(text){
   return false;
 }
 
-function isIgnored(text){
-  return GLOBAL_IGNORE.some(re => re.test(text));
+const SQLPROMPT_IGNORE = [
+  /^internal\s+library\s+updates?\.?$/i,
+];
+
+function isIgnored(text, prodId){
+  if(GLOBAL_IGNORE.some(re => re.test(text))) return true;
+  if(prodId === 'sqlprompt' && SQLPROMPT_IGNORE.some(re => re.test(text))) return true;
+  return false;
 }
 
 function parseContent(text, prod, sourceUrl){
@@ -1288,7 +1304,7 @@ function parseContent(text, prod, sourceUrl){
     // ── BULLET LIST ITEMS ──
     if(/^[-*•·▪▸›▶]\s+/.test(line)||/^\d+[.)]\s+/.test(line)){
       const text=cleanMd(line);
-      if(text.length>4&&text.length<700&&!isIgnored(text)&&!isTdmNavLink(text)){
+      if(text.length>4&&text.length<700&&!isIgnored(text,prod?.id)&&!isTdmNavLink(text)){
         cur.changes.push({type:classifyCtx(text,curSec),text});
       }
       continue;
@@ -1545,7 +1561,7 @@ function renderFeed(){
   let allData=[];
   prods.forEach(p=>{
     (releases[p.id]||[]).forEach(r=>{
-      r.changes.forEach(c=>allData.push({prod:p,release:r,change:c}));
+      r.changes.forEach(c=>{ c.productId=p.id; allData.push({prod:p,release:r,change:c}); });
     });
   });
 
@@ -1662,11 +1678,10 @@ function renderFeed(){
       <table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Product</th>
-            <th>Phase</th>
-            <th style="min-width:240px">Roadmap item</th>
-            <th style="min-width:180px">Associated changes</th>
+            <th onclick="setRoadmapSort('product')" style="cursor:pointer;user-select:none" id="rth-product">Product</th>
+            <th onclick="setRoadmapSort('phase')" style="cursor:pointer;user-select:none" id="rth-phase">Phase</th>
+            <th onclick="setRoadmapSort('item')" style="cursor:pointer;user-select:none;min-width:240px" id="rth-item">Roadmap item</th>
+            <th onclick="setRoadmapSort('assoc')" style="cursor:pointer;user-select:none;min-width:180px" id="rth-assoc">Associated changes</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
@@ -1752,8 +1767,11 @@ function changeRow(c){
   const subBadge = showSub
     ? `<span class="sub-badge sub-badge-${c.subLabel}">${esc(subBadgeLabel)}</span>`
     : '';
+  const enterpriseBadge = (c.productId === 'monitor' && /\benterprise\b/i.test(c.text))
+    ? `<span class="sub-badge sub-badge-Enterprise">Enterprise</span>`
+    : '';
   return `<div class="change-item">
-    ${typeTag}${subBadge}
+    <div class="ctag-col">${typeTag}${subBadge}${enterpriseBadge}</div>
     <span class="change-text">${esc(c.text)}</span>
   </div>`;
 }
@@ -1812,6 +1830,14 @@ const roadmapState = {};
 const roadmapAssociations = {};
 ITEMS.forEach(i => { roadmapState[i.id] = { pct: 0 }; roadmapAssociations[i.id] = []; });
 
+let roadmapSort = { col: 'assoc', dir: -1 }; // default: most associations first
+
+function setRoadmapSort(col){
+  if(roadmapSort.col === col){ roadmapSort.dir *= -1; }
+  else { roadmapSort = { col, dir: 1 }; }
+  renderRoadmap();
+}
+
 const prodColor = { Monitor:"monitor", Flyway:"flyway", TDM:"tdm", Productivity:"prod" };
 const phaseColor = { Developing:"dev", Researching:"res" };
 const pctColor = p => p === 100 ? "#639922" : p >= 50 ? "#185FA5" : p > 0 ? "#BA7517" : "#B4B2A9";
@@ -1826,12 +1852,28 @@ function renderRoadmap() {
     (!fp || i.product === fp) &&
     (!fph || i.phase === fph)
   );
-  rows.sort((a, b) => (roadmapAssociations[b.id]?.length || 0) - (roadmapAssociations[a.id]?.length || 0));
+  const { col, dir } = roadmapSort;
+  rows.sort((a, b) => {
+    let av, bv;
+    if(col === 'product'){ av = a.product; bv = b.product; return dir * av.localeCompare(bv); }
+    if(col === 'phase')  { av = a.phase;   bv = b.phase;   return dir * av.localeCompare(bv); }
+    if(col === 'item')   { av = a.item;    bv = b.item;    return dir * av.localeCompare(bv); }
+    // default: assoc count
+    return dir * ((roadmapAssociations[a.id]?.length||0) - (roadmapAssociations[b.id]?.length||0));
+  });
+
+  // Update header sort indicators
+  ['product','phase','item','assoc'].forEach(c => {
+    const th = document.getElementById('rth-'+c);
+    if(!th) return;
+    const baseLabel = { product:'Product', phase:'Phase', item:'Roadmap item', assoc:'Associated changes' }[c];
+    th.textContent = baseLabel + (col === c ? (dir === 1 ? ' ▲' : ' ▼') : '');
+  });
+
   const tbody = document.getElementById("tbody");
   tbody.innerHTML = rows.map(i => {
     const s = roadmapState[i.id];
     return `<tr>
-      <td style="color:var(--color-text-secondary);font-size:12px">${i.id}</td>
       <td><span class="pill pill-${prodColor[i.product]}">${i.product}</span></td>
       <td><span class="pill pill-${phaseColor[i.phase]}">${i.phase}</span></td>
       <td>${i.item}</td>
