@@ -530,6 +530,7 @@ document.addEventListener('DOMContentLoaded',async ()=>{
       const entries = window.__RN_SNAPSHOT__[p.id];
       if(entries && entries.length) applyDbEntries(p, entries);
     });
+    setInfoFrom(window.__RN_DATE__ || '');
   } else {
     // Offline / file:// fallback — hydrate from in-browser sql.js snapshot cache
     PRODUCTS_DEF.forEach(p=>{
@@ -546,6 +547,8 @@ document.addEventListener('DOMContentLoaded',async ()=>{
 });
 
 /* THEME */
+function setInfoFrom(){}
+
 function toggleTheme(){setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('rg_theme',t);document.getElementById('theme-btn').textContent=t==='dark'?'☀️':'🌙';}
 
@@ -634,7 +637,9 @@ async function fetchAll(){
   }
 
   busy=false; btn.disabled=false; btn.textContent='↓ Fetch All';
-  document.getElementById('sync-lbl').textContent='Synced '+new Date().toLocaleTimeString();
+  const allUpToDate = getOrdered().every(p=>upToDate[p.id]);
+  const syncLbl = document.getElementById('sync-lbl');
+  syncLbl.textContent = allUpToDate ? 'No new updates' : 'Synced '+new Date().toLocaleTimeString();
   setTimeout(()=>{document.getElementById('prog-wrap').classList.remove('show');document.getElementById('prog-fill').style.width='0%';},700);
 }
 
@@ -647,7 +652,7 @@ async function fetchOneTab(id,e){
   renderTabBar(); renderFeed();
   await doFetch(prod);
   renderTabBar(); renderFeed();
-  document.getElementById('sync-lbl').textContent='Synced '+new Date().toLocaleTimeString();
+  document.getElementById('sync-lbl').textContent = upToDate[id] ? 'No new updates' : 'Synced '+new Date().toLocaleTimeString();
 }
 
 // Refresh a single TDM sub-page and re-merge all TDM data
@@ -809,6 +814,7 @@ async function doFetch(prod){
     if(chk?.error) throw new Error(chk.error);
 
     upToDate[prod.id] = chk.upToDate;
+    if(chk.latestDate) setInfoFrom(chk.latestDate);
 
     if(chk.upToDate){
       // Nothing changed — keep current data, just mark up to date
@@ -1186,11 +1192,16 @@ function isVersionHeader(line){
    CONTENT PARSER
 ═══════════════════════════════════════════ */
 // ── NOISE / IGNORE FILTERS ──────────────────────────────────────────────────
-// Items matching any of these patterns are silently dropped from ALL products.
+// Applied for ALL products on every tab (individual pages + All Products).
+const ALWAYS_IGNORE = [
+  /^internal\s+fixes?\s+and\s+improvements?\.?$/i,
+  /^internal\s+(updates?|changes?)\.?$/i,
+  /^internal\s+library\s+updates?\.?$/i,
+  /^internal\s+fix(es)?\.?$/i,
+  /^internal\s+improvement(s)?\.?$/i,
+];
+// Applied only for the All Products tab at render time (not on individual product pages).
 const GLOBAL_IGNORE = [
-  /^internal\s+(fix(es)?\s+and\s+improvement|updates?|changes?)\.?$/i,
-  /^internal\s+(fix|improvement)\.?$/i,
-  /^internal fixes and improvements\.?$/i,
   /^this release of sql clone includes/i,
   /^this release includes/i,
   /frequent\s+updates?\s+release/i,
@@ -1213,12 +1224,18 @@ function isTdmNavLink(text){
 }
 
 const SQLPROMPT_IGNORE = [
-  /^internal\s+library\s+updates?\.?$/i,
+  /^v?\d+\.\d+[\d.]*$/,  // bare version numbers like "11.3.9.22706"
+];
+const FLYWAY_DESKTOP_IGNORE = [
+  /^flyway\s*:\s*\d+\.\d+[\d.]*(-rc\d+)?/i,
+  /^electron\s*:\s*\d+\.\d+[\d.]*/i,
+  /^library\s+versions?\.?$/i,
 ];
 
 function isIgnored(text, prodId){
-  if(GLOBAL_IGNORE.some(re => re.test(text))) return true;
-  if(prodId === 'sqlprompt' && SQLPROMPT_IGNORE.some(re => re.test(text))) return true;
+  if(ALWAYS_IGNORE.some(re => re.test(text))) return true;
+  if(prodId === 'sqlprompt'      && SQLPROMPT_IGNORE.some(re => re.test(text))) return true;
+  if(prodId === 'flyway-desktop' && FLYWAY_DESKTOP_IGNORE.some(re => re.test(text))) return true;
   return false;
 }
 
@@ -1295,7 +1312,7 @@ function parseContent(text, prod, sourceUrl){
         if(!related){if(result.length<15)result.push(cur);cur=null;continue;}
       }
       // Drop entire sections that match ignore patterns (e.g. "Internal fixes and improvements")
-      if(isIgnored(clean)){ curSec='__ignore__'; continue; }
+      if(isIgnored(clean, prod?.id)){ curSec='__ignore__'; continue; }
       curSec=clean;
       continue;
     }
@@ -1305,8 +1322,21 @@ function parseContent(text, prod, sourceUrl){
 
     // ── BULLET LIST ITEMS ──
     if(/^[-*•·▪▸›▶]\s+/.test(line)||/^\d+[.)]\s+/.test(line)){
-      const text=cleanMd(line);
-      if(text.length>4&&text.length<700&&!isIgnored(text,prod?.id)&&!isTdmNavLink(text)){
+      let text=cleanMd(line);
+      // Join continuation lines — Jina wraps long bullets without repeating the bullet prefix
+      while(i+1<lines.length){
+        const next=lines[i+1].trim();
+        if(!next) break;
+        if(/^[-*•·▪▸›▶]\s+/.test(next)) break;
+        if(/^\d+[.)]\s+/.test(next)) break;
+        if(/^#{1,6}\s/.test(next)) break;
+        if(isVersionHeader(next)) break;
+        if(isNoise(next)) break;
+        if(/^\*{1,2}[^*]+\*{1,2}$/.test(next)) break;
+        text+=` ${cleanMd(next)}`;
+        i++;
+      }
+      if(text.length>4&&text.length<1000&&!isIgnored(text,prod?.id)&&!isTdmNavLink(text)){
         cur.changes.push({type:classifyCtx(text,curSec),text});
       }
       continue;
@@ -1566,6 +1596,9 @@ function renderFeed(){
       r.changes.forEach(c=>{ c.productId=p.id; allData.push({prod:p,release:r,change:c}); });
     });
   });
+
+  // Apply GLOBAL_IGNORE only on the All Products tab — individual product pages show everything
+  if(activeTab==='all') allData=allData.filter(d=>!GLOBAL_IGNORE.some(re=>re.test(d.change.text)));
 
   // Enterprise chip filters by subLabel; all other chips filter by type
   if(typeFilter==='enterprise') allData=allData.filter(d=>d.change.subLabel==='Enterprise');

@@ -5,11 +5,14 @@ import crypto from 'crypto';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import cron from 'node-cron';
+import { runCheck } from './check_updates.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
-const DB_FILE    = path.resolve(__dirname, 'recheck.sqlite');
-const RN_FILE    = path.resolve(__dirname, 'release_notes.md');
+const DB_FILE      = path.resolve(__dirname, 'recheck.sqlite');
+const RN_FILE      = path.resolve(__dirname, 'release_notes.md');
+const RN_TEMP_FILE = path.resolve(__dirname, 'release_notes_temp.md');
 
 const PRODUCTS_DEF = [
   { id:'flyway-desktop', name:'Flyway Desktop',      urls:['https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html'] },
@@ -46,15 +49,22 @@ const JINA_HEADERS = {
 const VER_RE  = /\b(\d+\.\d+(?:\.\d+){0,3}(?:[-.]?(?:beta|rc|alpha|preview)\s*\d*)?)\b/i;
 const DATE_RE = /((?:\d{1,2}(?:st|nd|rd|th)?\s+)?(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)[\s,\.]+(?:\d{1,2}(?:st|nd|rd|th)?[,\s]+)?\d{4}|\d{4}[-\/]\d{2}[-\/]\d{2}|\d{1,2}[-\/]\d{1,2}[-\/]\d{4})/i;
 const NOISE_RE = /^(skip to|on this page|table of contents|contents|navigation|edit this page|copy link|print\s*$|share\s*$|send feedback|last modified|created by|owned by|labels:|space:|home\s*$|search\s*$|log in|sign in|sign up|×\s*$|close\s*$|menu\s*$|breadcrumb|was this helpful|yes\s*$|no\s*$|page last updated|published\s+\d)/i;
-const GLOBAL_IGNORE = [
-  /^internal\s+(fix(es)?\s+and\s+improvement|updates?|changes?)\.?$/i,
-  /^internal\s+(fix|improvement)\.?$/i,
-  /^internal fixes and improvements\.?$/i,
-  /^this release of sql clone includes/i,
-  /^this release includes/i,
-  /frequent\s+updates?\s+release/i,
+// Applied for ALL products during parsing AND rendering on every tab.
+const ALWAYS_IGNORE = [
+  /^internal\s+fixes?\s+and\s+improvements?\.?$/i,
+  /^internal\s+(updates?|changes?)\.?$/i,
+  /^internal\s+library\s+updates?\.?$/i,
+  /^internal\s+fix(es)?\.?$/i,
+  /^internal\s+improvement(s)?\.?$/i,
 ];
-const SQLPROMPT_IGNORE = [/^internal\s+library\s+updates?\.?$/i];
+const SQLPROMPT_IGNORE = [
+  /^v?\d+\.\d+[\d.]*$/,  // bare version numbers like "11.3.9.22706"
+];
+const FLYWAY_DESKTOP_IGNORE = [
+  /^flyway\s*:\s*\d+\.\d+[\d.]*(-rc\d+)?/i,
+  /^electron\s*:\s*\d+\.\d+[\d.]*/i,
+  /^library\s+versions?\.?$/i,
+];
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 function isNoise(l){ return l.length < 3 || NOISE_RE.test(l) || /^https?:\/\/\S+$/.test(l) || /^\|[-:\s|]+\|$/.test(l); }
@@ -70,8 +80,9 @@ function normaliseDate(raw){
 }
 
 function isIgnored(text, productId){
-  if(GLOBAL_IGNORE.some(re => re.test(text))) return true;
-  if(productId === 'sqlprompt' && SQLPROMPT_IGNORE.some(re => re.test(text))) return true;
+  if(ALWAYS_IGNORE.some(re => re.test(text))) return true;
+  if(productId === 'sqlprompt'      && SQLPROMPT_IGNORE.some(re => re.test(text))) return true;
+  if(productId === 'flyway-desktop' && FLYWAY_DESKTOP_IGNORE.some(re => re.test(text))) return true;
   return false;
 }
 
@@ -126,8 +137,8 @@ function parseReleaseNotes(text, productId, sourceUrl){
     if(!line || isNoise(line)) continue;
 
     if(isVersionHeader(line)){
-      if(cur && cur.changes.length > 0 && result.length < 50) result.push(cur);
-      if(result.length >= 50) break;
+      if(cur && cur.changes.length > 0 && result.length < 150) result.push(cur);
+      if(result.length >= 150) break;
       const vm = line.match(VER_RE), dm = line.match(DATE_RE), ver = vm?.[1]?.trim();
       if(!ver || seen.has(ver) || isRcVersion(ver)){ cur = null; continue; }
       seen.add(ver);
@@ -155,13 +166,26 @@ function parseReleaseNotes(text, productId, sourceUrl){
     if(curSec === '__ignore__') continue;
 
     if(/^[-*•·▪▸›▶]\s+/.test(line) || /^\d+[.)]\s+/.test(line)){
-      const text = cleanMd(line);
-      if(text.length > 4 && text.length < 700 && !isIgnored(text, productId))
+      let text = cleanMd(line);
+      // Join continuation lines — Jina often wraps long bullets without repeating the bullet prefix
+      while(i + 1 < lines.length){
+        const next = lines[i + 1].trim();
+        if(!next) break;
+        if(/^[-*•·▪▸›▶]\s+/.test(next)) break;
+        if(/^\d+[.)]\s+/.test(next)) break;
+        if(/^#{1,6}\s/.test(next)) break;
+        if(isVersionHeader(next)) break;
+        if(isNoise(next)) break;
+        if(/^\*{1,2}[^*]+\*{1,2}$/.test(next)) break;
+        text += ' ' + cleanMd(next);
+        i++;
+      }
+      if(text.length > 4 && text.length < 1000 && !isIgnored(text, productId))
         cur.changes.push({ type: classifyChange(text), text });
       continue;
     }
   }
-  if(cur && cur.changes.length > 0 && result.length < 50) result.push(cur);
+  if(cur && cur.changes.length > 0 && result.length < 150) result.push(cur);
   return result;
 }
 
@@ -278,8 +302,11 @@ async function storeReleases(productId, sourceUrl, releases){
   for(let i = 0; i < releases.length; i++){
     const r = releases[i];
     await db.run(
-      `INSERT OR IGNORE INTO parsed_releases(productId,sourceUrl,version,date,changesJson,docsUrl,sortOrder,firstSeenAt,updatedAt)
-       VALUES(?,?,?,?,?,?,?,?,?)`,
+      `INSERT INTO parsed_releases(productId,sourceUrl,version,date,changesJson,docsUrl,sortOrder,firstSeenAt,updatedAt)
+       VALUES(?,?,?,?,?,?,?,?,?)
+       ON CONFLICT(productId,sourceUrl,version) DO UPDATE SET
+         changesJson=excluded.changesJson, date=excluded.date,
+         sortOrder=excluded.sortOrder, updatedAt=excluded.updatedAt`,
       [productId, sourceUrl, r.version, r.date, JSON.stringify(r.changes), r.docsUrl, i, now, now]
     );
   }
@@ -325,70 +352,128 @@ async function fetchSourceContent(url){
   throw new Error(lastError?.message || 'Fetch failed');
 }
 
-/**
- * Fetch a single URL, check its hash, parse, find new versions, persist.
- * Returns { url, upToDate, newVersions[] }
- */
-async function checkUrl(productId, url){
-  const raw  = await fetchSourceContent(url);
-  const hash = sha256(raw);
+// Serialize temp-file operations so concurrent product checks don't collide.
+let _tempLock = Promise.resolve();
+function withTempLock(fn){
+  const next = _tempLock.then(fn);
+  _tempLock = next.catch(()=>{});
+  return next;
+}
 
-  const snap = await db.get('SELECT hash FROM source_snapshots WHERE url=?', [url]);
-
-  // Update snapshot table
-  const now = Date.now();
-  if(snap){
-    if(snap.hash !== hash){
-      await db.run('UPDATE source_snapshots SET hash=?,lastFetchedAt=?,lastChangedAt=?,rawBody=?,productId=? WHERE url=?', [hash,now,now,raw,productId,url]);
-    } else {
-      await db.run('UPDATE source_snapshots SET lastFetchedAt=?,productId=? WHERE url=?', [now,productId,url]);
-    }
-  } else {
-    await db.run('INSERT INTO source_snapshots(url,productId,hash,lastFetchedAt,lastChangedAt,rawBody) VALUES(?,?,?,?,?,?)', [url,productId,hash,now,now,raw]);
-  }
-
-  // Hash unchanged → definitely nothing new
-  if(snap && snap.hash === hash) return { url, upToDate: true, newVersions: [] };
-
-  // Parse live content
-  const liveReleases = parseReleaseNotes(raw, productId, url);
-
-  // Get versions we already know about
-  const known = await db.all('SELECT version FROM parsed_releases WHERE productId=? AND sourceUrl=?', [productId, url]);
-  const knownSet = new Set(known.map(r => r.version));
-
-  // Find releases whose version we haven't seen before
-  const newReleases = liveReleases.filter(r => !knownSet.has(r.version));
-
-  if(!newReleases.length) return { url, upToDate: true, newVersions: [] };
-
-  // Persist new releases, prepend to file
-  await storeReleases(productId, url, newReleases);
-  appendToReleaseNotesFile(url, newReleases);
-
-  console.log(`[check] ${productId} (${url.split('/').pop()}): ${newReleases.length} new version(s) — ${newReleases.map(r=>r.version).join(', ')}`);
-  return { url, upToDate: false, newVersions: newReleases.map(r => r.version) };
+/** Build a single ---PRODUCT--- block for the temp file. */
+function buildTempBlock(productId, url, releases){
+  if(!releases.length) return '';
+  const product = PRODUCTS_DEF.find(p => p.id === productId);
+  const now     = new Date().toISOString().slice(0,10);
+  const latest  = releases[0];
+  let block  = `\n---PRODUCT---\n`;
+      block += `# ${product.name}\n`;
+      block += `<!-- source: ${url} -->\n`;
+      block += `<!-- fetched: ${now} | latest: ${latest.version}${latest.date ? ' (' + latest.date + ')' : ''} -->\n`;
+      block += releasesToMarkdown(releases);
+  return block;
 }
 
 /**
- * Check all URLs for a product. Returns { upToDate, newVersions[] }
+ * For a product:
+ *  1. Fetch all live pages via Jina
+ *  2. Write release_notes_temp.md in the same format as release_notes.md
+ *  3. Compare temp vs release_notes.md — find new versions
+ *  4. If new: prepend them to release_notes.md, delete temp
+ *  5. If none: delete temp, return upToDate:true
  */
+/** Read ALL ## version headings from a URL's block in the raw file — not capped by parse limit. */
+function knownVersionsFromFile(url){
+  if(!fs.existsSync(RN_FILE)) return new Set();
+  const content    = fs.readFileSync(RN_FILE, 'utf8');
+  const urlEsc     = url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const blockStart = content.search(new RegExp(`<!--\\s*source:\\s*${urlEsc}`));
+  if(blockStart < 0) return new Set();
+  const blockEnd   = content.indexOf('\n---PRODUCT---', blockStart + 10);
+  const block      = content.slice(blockStart, blockEnd > 0 ? blockEnd : undefined);
+  const vers = new Set();
+  for(const m of block.matchAll(/^## (?:Flyway\s+)?(\d+\.\d+[\d.]*)/gm)) vers.add(m[1]);
+  return vers;
+}
+
 async function checkProduct(productId){
   const product = PRODUCTS_DEF.find(p => p.id === productId);
   if(!product) throw new Error('Unknown product');
 
-  const results = [];
-  for(const url of product.urls){
-    try{
-      results.push(await checkUrl(productId, url));
-    } catch(e){
-      results.push({ url, upToDate: false, error: e.message, newVersions: [] });
-    }
-  }
+  return withTempLock(async () => {
+    // ── 1. Fetch live pages ──────────────────────────────────────────────
+    const liveData = []; // { url, releases[] }
+    for(const url of product.urls){
+      try{
+        const raw      = await fetchSourceContent(url);
+        const releases = parseReleaseNotes(raw, productId, url);
+        liveData.push({ url, releases });
 
-  const allUpToDate  = results.every(r => r.upToDate);
-  const allNewVers   = results.flatMap(r => r.newVersions);
-  return { upToDate: allUpToDate, newVersions: allNewVers, urlResults: results };
+        // Keep snapshot table updated for debugging
+        const hash = sha256(raw);
+        const now  = Date.now();
+        const snap = await db.get('SELECT hash FROM source_snapshots WHERE url=?', [url]);
+        if(snap){
+          await db.run(
+            'UPDATE source_snapshots SET hash=?,lastFetchedAt=?,lastChangedAt=?,rawBody=?,productId=? WHERE url=?',
+            [hash, now, snap.hash !== hash ? now : snap.lastChangedAt, raw, productId, url]
+          );
+        } else {
+          await db.run(
+            'INSERT INTO source_snapshots(url,productId,hash,lastFetchedAt,lastChangedAt,rawBody) VALUES(?,?,?,?,?,?)',
+            [url, productId, hash, now, now, raw]
+          );
+        }
+      } catch(e){
+        console.warn(`[check] fetch failed for ${url}:`, e.message);
+      }
+    }
+
+    if(!liveData.length) return { upToDate: true, newVersions: [] };
+
+    // ── 2. Write release_notes_temp.md ───────────────────────────────────
+    const header   = `# Redgate Release Notes — Temp Check\n<!-- generated: ${new Date().toISOString()} -->\n`;
+    const tempBody = liveData.map(d => buildTempBlock(productId, d.url, d.releases)).join('');
+    fs.writeFileSync(RN_TEMP_FILE, header + tempBody, 'utf8');
+
+    // ── 3. Compare live vs ALL version headings in file (not just parsed/capped subset) ──
+    const allNewVersions = [];
+
+    for(const { url, releases: liveReleases } of liveData){
+      const knownVersions = knownVersionsFromFile(url);
+      const newReleases   = liveReleases.filter(r => !knownVersions.has(r.version));
+
+      if(newReleases.length){
+        // ── 4. New versions found: add to release_notes.md ──────────────
+        appendToReleaseNotesFile(url, newReleases);
+        await storeReleases(productId, url, newReleases);
+        allNewVersions.push(...newReleases.map(r => r.version));
+        console.log(`[check] ${productId}: ${newReleases.length} new — ${newReleases.map(r=>r.version).join(', ')}`);
+      }
+    }
+
+    // ── 5. Always delete temp file ───────────────────────────────────────
+    try{ fs.unlinkSync(RN_TEMP_FILE); } catch{}
+
+    if(!allNewVersions.length){
+      console.log(`[check] ${productId}: no new updates`);
+    }
+
+    return { upToDate: allNewVersions.length === 0, newVersions: allNewVersions, latestDate: getMostRecentDate() };
+  });
+}
+
+function dateToSortNum(dateStr){
+  if(!dateStr) return 0;
+  const s = dateStr.trim();
+  const MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,jan:1,feb:2,mar:3,apr:4,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+  let m = s.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
+  if(m){ const mn=MAP[m[2].toLowerCase()]; if(mn) return parseInt(m[3])*10000+mn*100+parseInt(m[1]); }
+  m = s.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
+  if(m){ const mn=MAP[m[1].toLowerCase()]; if(mn) return parseInt(m[3])*10000+mn*100+parseInt(m[2]); }
+  m = s.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
+  if(m) return parseInt(m[1])*10000+parseInt(m[2])*100+parseInt(m[3]);
+  return 0;
 }
 
 /* ─────────────────────────────────────────────
@@ -400,10 +485,33 @@ app.use((req,res,next)=>{
   res.set('Content-Security-Policy',"default-src 'self'; connect-src 'self' http://localhost:3000 ws://localhost:3000 https://clients4.google.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';");
   next();
 });
-app.use(express.static(path.join(__dirname)));
+// Serve static assets but NOT index.html — that's handled below with injected data.
+app.use(express.static(path.join(__dirname), { index: false }));
 
 // Serve index.html with the release_notes.md snapshot embedded as a <script> tag
 // so the client has the data immediately on load — no fetch required.
+/** Return the most recent date string found across all releases in the file. */
+function getMostRecentDate(){
+  const blocks = parseReleaseNotesFile();
+  const MONTHS_MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,jan:1,feb:2,mar:3,apr:4,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+  let best = 0, bestDate = '';
+  for(const { releases } of Object.values(blocks)){
+    for(const r of releases){
+      if(!r.date) continue;
+      const s = r.date.trim();
+      let num = 0;
+      const m1 = s.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
+      if(m1){ const mn=MONTHS_MAP[m1[2].toLowerCase()]; if(mn) num=parseInt(m1[3])*10000+mn*100+parseInt(m1[1]); }
+      const m2 = s.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
+      if(!num&&m2){ const mn=MONTHS_MAP[m2[1].toLowerCase()]; if(mn) num=parseInt(m2[3])*10000+mn*100+parseInt(m2[2]); }
+      const m3 = s.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
+      if(!num&&m3) num=parseInt(m3[1])*10000+parseInt(m3[2])*100+parseInt(m3[3]);
+      if(num > best){ best=num; bestDate=r.date; }
+    }
+  }
+  return bestDate;
+}
+
 app.get('/', (req,res) => {
   const html = fs.readFileSync(path.join(__dirname,'index.html'), 'utf8');
 
@@ -415,8 +523,13 @@ app.get('/', (req,res) => {
       sourceUrl: url, version: r.version, date: r.date, docsUrl: r.docsUrl, changes: r.changes
     }));
   }
+  // Sort each product's releases by date descending so file order never affects display
+  for(const list of Object.values(snapshot)){
+    list.sort((a,b) => dateToSortNum(b.date) - dateToSortNum(a.date));
+  }
 
-  const injection = `<script>window.__RN_SNAPSHOT__=${JSON.stringify(snapshot)};</script>`;
+  const rnDate   = getMostRecentDate();
+  const injection = `<script>window.__RN_SNAPSHOT__=${JSON.stringify(snapshot)};window.__RN_DATE__=${JSON.stringify(rnDate)};</script>`;
   const injected  = html.replace('</head>', injection + '\n</head>');
   res.setHeader('Content-Type','text/html');
   res.send(injected);
@@ -439,6 +552,7 @@ app.get('/api/snapshot', (req,res) => {
       changes:   r.changes,
     }));
   }
+  for(const list of Object.values(out)) list.sort((a,b) => dateToSortNum(b.date) - dateToSortNum(a.date));
   res.json(out);
 });
 
@@ -479,6 +593,26 @@ app.get('/api/raw/:productId', async (req,res) => {
   const rows = await db.all('SELECT url, rawBody, lastChangedAt, lastFetchedAt FROM source_snapshots WHERE productId=?', [req.params.productId]);
   res.json(rows);
 });
+
+// ── CRON: check for new releases every day at 06:00 Central
+cron.schedule('0 6 * * *', async () => {
+  const ts = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' });
+  console.log(`[cron] 6am Central check started at ${ts}`);
+  try {
+    const { totalNew, results } = await runCheck({ silent: true });
+    if (totalNew > 0) {
+      const added = results.filter(r => r.newVersions.length > 0);
+      console.log(`[cron] ${totalNew} new release(s) added:`);
+      added.forEach(r => console.log(`  ${r.product}: ${r.newVersions.join(', ')}`));
+    } else {
+      console.log('[cron] No new updates found.');
+    }
+  } catch (e) {
+    console.error('[cron] Check failed:', e.message);
+  }
+}, { timezone: 'America/Chicago' });
+
+console.log('[cron] Daily 6am Central check scheduled.');
 
 const PORT = 3000;
 openDb()
