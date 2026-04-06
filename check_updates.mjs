@@ -50,6 +50,9 @@ const ALWAYS_IGNORE = [
   /^internal\s+library\s+updates?\.?$/i,
   /^internal\s+fix(es)?\.?$/i,
   /^internal\s+improvement(s)?\.?$/i,
+  /^frequent\s+updates?\s+release/i,
+  /^this release of sql clone includes/i,
+  /^this release includes/i,
 ];
 const SQLPROMPT_IGNORE = [
   /^v?\d+\.\d+[\d.]*$/,  // bare version numbers like "11.3.9.22706"

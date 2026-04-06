@@ -521,18 +521,25 @@ function getOrdered(){return tabOrder.map(id=>PRODUCTS_DEF.find(p=>p.id===id)).f
 ═══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded',async ()=>{
   setTheme(localStorage.getItem('rg_theme')||'dark');
-  await initDb();
+  try{ await initDb(); } catch(e){ console.warn('initDb failed:',e); }
 
-  if(window.__RN_SNAPSHOT__){
+  if(window.__RN_SNAPSHOT__ && Object.keys(window.__RN_SNAPSHOT__).length){
     // Data was embedded directly into the page by the server from release_notes.md.
-    // Available synchronously — no network request needed.
     getOrdered().forEach(p=>{
       const entries = window.__RN_SNAPSHOT__[p.id];
       if(entries && entries.length) applyDbEntries(p, entries);
     });
-    setInfoFrom(window.__RN_DATE__ || '');
+  } else if(canUseServerApi()){
+    // Fallback: server is reachable but snapshot wasn't injected — fetch it now.
+    try{
+      const res = await fetch('/api/snapshot');
+      if(res.ok){
+        const snap = await res.json();
+        getOrdered().forEach(p=>{ const e=snap[p.id]; if(e&&e.length) applyDbEntries(p,e); });
+      }
+    } catch(e){ console.warn('snapshot fallback fetch failed:',e); }
   } else {
-    // Offline / file:// fallback — hydrate from in-browser sql.js snapshot cache
+    // Offline / file:// — hydrate from in-browser sql.js snapshot cache
     PRODUCTS_DEF.forEach(p=>{
       const snapshot = getProductSnapshot(p.id);
       if(snapshot && Date.now()-snapshot.updatedAt <= SNAPSHOT_TTL){
@@ -1199,12 +1206,12 @@ const ALWAYS_IGNORE = [
   /^internal\s+library\s+updates?\.?$/i,
   /^internal\s+fix(es)?\.?$/i,
   /^internal\s+improvement(s)?\.?$/i,
+  /^frequent\s+updates?\s+release/i,
+  /^this release of sql clone includes/i,
+  /^this release includes/i,
 ];
 // Applied only for the All Products tab at render time (not on individual product pages).
 const GLOBAL_IGNORE = [
-  /^this release of sql clone includes/i,
-  /^this release includes/i,
-  /frequent\s+updates?\s+release/i,
   /\belectron\b/i,
   /RgCompare\.Cli/i,
   /\bv?\d+\.\d+[\d.]*-rc\d+/i,
