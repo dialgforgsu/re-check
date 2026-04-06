@@ -2020,18 +2020,34 @@ async function mapRoadmapWithAI() {
   btn.textContent = 'Map roadmap to release notes';
 }
 
+const ROADMAP_PROD_FILTER = {
+  'Flyway':       p => p.includes('Flyway'),
+  'Productivity': p => p === 'SQL Prompt' || p === 'SQL Compare' || p === 'SQL Data Compare',
+  'TDM':          p => p.includes('Test Data Manager'),
+  'Monitor':      p => p.includes('Monitor'),
+};
+
 function showAssociatedNotes(itemId){
+  const roadmapItem = ITEMS.find(i => i.id === itemId);
   let items = roadmapAssociations[itemId] || [];
   const panel = document.getElementById('associated-panel');
+
+  // Filter by product group if we have a mapping
+  const prodFilter = roadmapItem && ROADMAP_PROD_FILTER[roadmapItem.product];
+  if(prodFilter) items = items.filter(i => prodFilter(i.prod));
+
+  const closeBtn = `<button onclick="document.getElementById('associated-panel').innerHTML=''" title="Close" style="position:absolute;top:8px;right:10px;background:none;border:none;font-size:16px;cursor:pointer;color:var(--t2);line-height:1;">✕</button>`;
+
   if(!items.length){
-    panel.innerHTML = `<div class="sum-card" style="background:var(--bg2);border:1px solid var(--border);">No associated release notes found.</div>`;
+    panel.innerHTML = `<div class="sum-card" style="position:relative;background:var(--bg2);border:1px solid var(--border);padding:12px;">${closeBtn}No associated release notes found.</div>`;
     return;
   }
   items.sort((a, b) => (b.weight || 0) - (a.weight || 0));
   const actionText = items.length === 1 ? 'Release note' : 'Release notes';
   const list = items.map((i,idx)=>`<li><strong>${i.prod} ‒ ${i.release}</strong>: ${esc(i.text)}</li>`).join('');
-  panel.innerHTML = `<div class="sum-card" style="background:var(--bg2);border:1px solid var(--border);padding:12px;">
-      <div class="sum-label">${actionText} associated (${items.length})</div>
+  panel.innerHTML = `<div class="sum-card" style="position:relative;background:var(--bg2);border:1px solid var(--border);padding:12px;">
+      ${closeBtn}
+      <div class="sum-label" style="padding-right:20px;">${actionText} associated (${items.length})</div>
       <ul style="margin-top:8px;padding-left:18px;line-height:1.4;font-size:12px;">${list}</ul>
     </div>`;
 }
