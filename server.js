@@ -6,7 +6,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import cron from 'node-cron';
-import { runCheck } from './check_updates.mjs';
+import { runCheck, generateSnapshotJson } from './check_updates.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
@@ -320,6 +320,7 @@ async function storeReleases(productId, sourceUrl, releases){
  * Runs on every startup but INSERT OR IGNORE prevents duplicates.
  */
 async function seedFromFile(){
+  generateSnapshotJson({ silent: true });
   const blocks = parseReleaseNotesFile();
   let count = 0;
   for(const [url, { productId, releases }] of Object.entries(blocks)){
@@ -607,6 +608,7 @@ cron.schedule('0 6 * * *', async () => {
       const added = results.filter(r => r.newVersions.length > 0);
       console.log(`[cron] ${totalNew} new release(s) added:`);
       added.forEach(r => console.log(`  ${r.product}: ${r.newVersions.join(', ')}`));
+      generateSnapshotJson({ silent: true });
     } else {
       console.log('[cron] No new updates found.');
     }

@@ -168,6 +168,42 @@ export function parseReleaseNotes(text, productId, sourceUrl) {
   return result;
 }
 
+const SNAPSHOT_JSON = path.resolve(__dirname, 'snapshot.json');
+
+const MONTHS_MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,jan:1,feb:2,mar:3,apr:4,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+function dateToSortNum(dateStr) {
+  if (!dateStr) return 0;
+  const s = dateStr.trim();
+  let m = s.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
+  if (m) { const mn = MONTHS_MAP[m[2].toLowerCase()]; if (mn) return parseInt(m[3]) * 10000 + mn * 100 + parseInt(m[1]); }
+  m = s.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
+  if (m) { const mn = MONTHS_MAP[m[1].toLowerCase()]; if (mn) return parseInt(m[3]) * 10000 + mn * 100 + parseInt(m[2]); }
+  m = s.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
+  if (m) return parseInt(m[1]) * 10000 + parseInt(m[2]) * 100 + parseInt(m[3]);
+  return 0;
+}
+
+/**
+ * Parse release_notes.md and write snapshot.json — the static file served on GitHub Pages.
+ * Called after any update to release_notes.md so the static snapshot stays in sync.
+ */
+export function generateSnapshotJson({ silent = false } = {}) {
+  const blocks   = parseReleaseNotesFile();
+  const snapshot = {};
+  for (const [url, { productId, releases }] of Object.entries(blocks)) {
+    if (!snapshot[productId]) snapshot[productId] = [];
+    releases.forEach(r => snapshot[productId].push({
+      sourceUrl: url, version: r.version, date: r.date, docsUrl: r.docsUrl, changes: r.changes
+    }));
+  }
+  for (const list of Object.values(snapshot)) {
+    list.sort((a, b) => dateToSortNum(b.date) - dateToSortNum(a.date));
+  }
+  fs.writeFileSync(SNAPSHOT_JSON, JSON.stringify(snapshot), 'utf8');
+  if (!silent) console.log(`[snapshot] snapshot.json written (${Object.keys(snapshot).length} products)`);
+  return snapshot;
+}
+
 export function parseReleaseNotesFile() {
   const content = fs.readFileSync(RN_FILE, 'utf8');
   const blocks  = content.split('---PRODUCT---').slice(1);
@@ -271,7 +307,8 @@ export async function rebuildProducts(productIds, { silent = false } = {}) {
       }
     }
   }
-  if (!silent) console.log('\nRebuild done.');
+  generateSnapshotJson({ silent });
+  if (!silent) console.log('Rebuild done.');
 }
 
 async function fetchUrl(url) {
@@ -339,6 +376,7 @@ export async function runCheck({ silent = false } = {}) {
     }
   }
 
+  generateSnapshotJson({ silent });
   if (!silent) console.log(`\nDone. ${totalNew} new release(s) added to release_notes.md.`);
   return { totalNew, results };
 }

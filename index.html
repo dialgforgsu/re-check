@@ -529,24 +529,33 @@ document.addEventListener('DOMContentLoaded',async ()=>{
       const entries = window.__RN_SNAPSHOT__[p.id];
       if(entries && entries.length) applyDbEntries(p, entries);
     });
-  } else if(canUseServerApi()){
-    // Fallback: server is reachable but snapshot wasn't injected — fetch it now.
-    try{
-      const res = await fetch('/api/snapshot');
-      if(res.ok){
-        const snap = await res.json();
-        getOrdered().forEach(p=>{ const e=snap[p.id]; if(e&&e.length) applyDbEntries(p,e); });
-      }
-    } catch(e){ console.warn('snapshot fallback fetch failed:',e); }
   } else {
-    // Offline / file:// — hydrate from in-browser sql.js snapshot cache
-    PRODUCTS_DEF.forEach(p=>{
-      const snapshot = getProductSnapshot(p.id);
-      if(snapshot && Date.now()-snapshot.updatedAt <= SNAPSHOT_TTL){
-        try{ const data=JSON.parse(snapshot.data); releases[p.id]=data; latestDate[p.id]=snapshot.latestDate||''; latestVer[p.id]=snapshot.latestVer||''; statuses[p.id]='done'; }
-        catch(e){ console.warn('snapshot parse failed',e); }
-      }
-    });
+    // No server injection — try /api/snapshot (local server) then snapshot.json (GitHub Pages).
+    const urls = canUseServerApi() ? ['/api/snapshot', 'snapshot.json'] : ['snapshot.json'];
+    let loaded = false;
+    for(const url of urls){
+      try{
+        const res = await fetch(url);
+        if(res.ok){
+          const snap = await res.json();
+          if(snap && Object.keys(snap).length){
+            getOrdered().forEach(p=>{ const e=snap[p.id]; if(e&&e.length) applyDbEntries(p,e); });
+            loaded = true;
+            break;
+          }
+        }
+      } catch(e){ /* try next */ }
+    }
+    if(!loaded){
+      // Offline / file:// — hydrate from in-browser sql.js snapshot cache
+      PRODUCTS_DEF.forEach(p=>{
+        const snapshot = getProductSnapshot(p.id);
+        if(snapshot && Date.now()-snapshot.updatedAt <= SNAPSHOT_TTL){
+          try{ const data=JSON.parse(snapshot.data); releases[p.id]=data; latestDate[p.id]=snapshot.latestDate||''; latestVer[p.id]=snapshot.latestVer||''; statuses[p.id]='done'; }
+          catch(e){ console.warn('snapshot parse failed',e); }
+        }
+      });
+    }
   }
 
   renderTabBar();
