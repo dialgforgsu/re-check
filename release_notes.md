@@ -1,11 +1,29 @@
 # Redgate Release Notes — Snapshot
-<!-- fetched: 2026-04-06 | latest: 0.0.62 -->
+<!-- fetched: 2026-04-07 | latest: 9.2.4 (07 April 2026) -->
 <!-- split on `---PRODUCT---` to get one file per product -->
 
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-04-06 | latest: 9.2.2 (19 March 2026) -->
+<!-- fetched: 2026-04-07 | latest: 9.2.4 (07 April 2026) -->
+
+## 9.2.4 — 07 April 2026
+
+### Bug Fixes
+- Fixed an issue where the splash screen could not be found, preventing Flyway Desktop from loading
+
+## 9.2.3 — 07 April 2026
+
+### New Features
+- Added new Oracle option ‘IncludePermissionsUserCheck’ to script a condition around GRANTs and REVOKEs to ensure that these statements are skipped if the grantee/revokee is the user running the deployment script.
+- Projects created with a previous version of Flyway that contain deprecated configuration fields can now be automatically upgraded when opened
+- Fixed an issue where repeatable scripts would add erroneous blank options to dropdowns in the Automated Deployment page
+
+### Bug Fixes
+- Fixed issue in the sample project where erroneous UI would block access to the generate migrations tab
+- Fixed an issue where the Version control sidebar wouldn’t always refresh the file list after pulling changes
+- Fixed an issue where the push tab’s ‘Available to push’ list would not clear after a successful push
+- Fixed an issue where the tour in the sample project would be unable to progress
 
 ## 9.2.2 — 19 March 2026
 

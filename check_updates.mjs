@@ -242,11 +242,14 @@ function appendToFile(url, newReleases) {
   const now    = new Date().toISOString().slice(0, 10);
 
   let seg = parts[idx];
-  // Update fetched/latest comment
-  seg = seg.replace(
-    /(<!-- fetched:)[^>]*(-->)/,
-    `<!-- fetched: ${now} | latest: ${latest.version}${latest.date ? ' (' + latest.date + ')' : ''} -->`
-  );
+  // Update fetched/latest comment (line-scoped: replace the whole fetched line)
+  const fetchedLine = `<!-- fetched: ${now} | latest: ${latest.version}${latest.date ? ' (' + latest.date + ')' : ''} -->`;
+  if (/<!-- fetched:[^\n]*-->/.test(seg)) {
+    seg = seg.replace(/<!-- fetched:[^\n]*-->/, fetchedLine);
+  } else {
+    // Comment was missing or malformed — insert after the source comment line
+    seg = seg.replace(/(<!-- source:[^\n]*-->)/, `$1\n${fetchedLine}`);
+  }
   // Prepend new releases before the first ## heading in this segment
   const firstHdr = seg.indexOf('\n## ');
   if (firstHdr < 0) { console.warn(`  [warn] no ## heading found in block for ${url}`); return; }
