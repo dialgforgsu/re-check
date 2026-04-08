@@ -1,5 +1,5 @@
 # Redgate Release Notes — Snapshot
-<!-- fetched: 2026-04-07 | latest: 9.2.4 (07 April 2026) -->
+<!-- fetched: 2026-04-08 | latest: 16.0.11.28694 (08 April 2026) -->
 <!-- split on `---PRODUCT---` to get one file per product -->
 
 ---PRODUCT---
@@ -6307,7 +6307,15 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
-<!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 2026) --
+<!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.0.11.28694 — 08 April 2026
+
+### New Features
+- ZD-352570: Fixed a case where PERIOD FROM SYSTEM TIME is added between an existing column and a new one
+
+### Bug Fixes
+- ZD-353428: Fixed an issue where function dependencies on tables might not be recognized correctly if a user-defined table type existed with the same name as the table.
+2026) --
 ## 16.0.2.28399 — 06 January 2026
 
 ### Improvements
