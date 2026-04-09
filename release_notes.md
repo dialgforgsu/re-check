@@ -1,5 +1,5 @@
 # Redgate Release Notes — Snapshot
-<!-- fetched: 2026-04-08 | latest: 16.0.11.28694 (08 April 2026) -->
+<!-- fetched: 2026-04-09 | latest: 0.52.168 (9 April 2026) -->
 <!-- split on `---PRODUCT---` to get one file per product -->
 
 ---PRODUCT---
@@ -7,7 +7,12 @@
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
 <!-- fetched: 2026-04-07 | latest: 9.2.4 (07 April 2026) -->
 
-## 9.2.4 — 07 April 2026
+## 9.2.
+## 9.3.0 — 09 April 2026
+
+### Bug Fixes
+- Fixed issue where upgrading projects with obsolete configurations would cause migrations tab to disappear
+4 — 07 April 2026
 
 ### Bug Fixes
 - Fixed an issue where the splash screen could not be found, preventing Flyway Desktop from loading
@@ -1876,6 +1881,34 @@
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
 <!-- fetched: 2026-04-03 | latest: 14.13.0 (March 26, 2026) -->
+## 14.14.0 — April 9, 2026
+
+### New Features
+- Added ability to see subscription details of Azure virtual machines on virtual machine page.
+- Enterprise edition - New alert type for SQL Audit file rollovers is now available. This alert is raised when all SQL Audit files rollover within a single sampling interval, indicating that some audit events may have been missed.
+- Custom metric alert detail text (from the secondary query) is now included in script notification $AlertData.AlertDetailText and webhook notification payloads. Users with existing scripts or webhook consumers that parse the JSON payload may need to update them to handle the new AlertDetailText field.
+- Enterprise edition - SQL Audit now supports all action types that belong to the SERVERROLEMEMBERCHANGEGROUP and DATABASEROLEMEMBERCHANGEGROUP.
+- Added a composite index to query plans and related data to improve the performance of purge operations when using a TimescaleDB repository with Monitor. As a result, database migration during upgrade may take longer than usual.
+- Added support for private keys as an alternative to client secret authentication in OIDC authorization code flow.
+- Added support for strict encryption when connecting to SQL Server instances.
+
+### Improvements
+- Custom metrics can now be configured on Oracle instances.
+- Query compare is now available for PostgreSQL Top queries.
+- The script notification section of the Notification settings page has configuration for selecting the execution method of the scripts.
+- Showing details of a Postgres top query from the alert details page no longer causes the top queries tab to show blank.
+- Improved performance and reduced CPU overhead when parsing large .xel files. This optimization is available via the UseTempTableForXeParsing feature flag.
+- Amazon RDS PostgreSQL log sampling will no longer fail when the log_fdw extension version is outdated.
+- Repeatedly unavailable monitored entities will no longer erroneously show as "Connecting" or "Connected". This reverts an improvement made in 14.13.0 to reduce connection attempts to monitored entities when previous connections have failed.
+- AI analysis share menu button is now a copy button.
+
+### Bug Fixes
+- Fixed an issue where Azure Elastic Job schedule monitoring could fail if the schedule interval type was returned in an unexpected case (e.g., "minutes" instead of "Minutes").
+- Fixed an issue where the Alert Suppression Window Health group could show up in the wrong part on the Global Overview page.
+- Fixed an issue where the PostgreSQL Top queries and Tracked queries tables no longer have their recommendation button be after the kebab menu button.
+- Fixed an issue where the Fragmented indexes alert for a read-only database could not be ended.
+- Fixed an issue where the Integrity Check alert for a read-only database could not be ended.
+
 
 
 ## 14.13.0 — March 26, 2026
@@ -3433,6 +3466,17 @@
 
 #
 #
+## 0.52.168 — 9 April 2026
+
+### Improvements
+- Data scanning feature is now called AI Classify in the GUI
+
+### New Features
+- Turns AI Classify on by default in the GUI, both for new installations and for existing installations. I.e. customers who have already installed TDM will find AI Classify is on by default once they upgrade. Their existing database models won't be changed, but any new database models that they create will be scanned.
+
+### Bug Fixes
+- Fixed an error when attempting to use the sample database after installation.
+
 ## 0.8.11 — 31 May 2024
 
 ### New Features
