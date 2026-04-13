@@ -18,16 +18,12 @@
 - Fixed issue with layout of Automated Deployment page at small screen sizes
 - Fixed an issue with code review warnings where out of date noqa warnings would persist in the issue view
 
-## 9.2.4 — 07 April 2026
-
-### Bug Fixes
-- Fixed an issue where the splash screen could not be found, preventing Flyway Desktop from loading
-# 9.2.
 ## 9.3.0 — 09 April 2026
 
 ### Bug Fixes
 - Fixed issue where upgrading projects with obsolete configurations would cause migrations tab to disappear
-4 — 07 April 2026
+
+## 9.2.4 — 07 April 2026
 
 ### Bug Fixes
 - Fixed an issue where the splash screen could not be found, preventing Flyway Desktop from loading

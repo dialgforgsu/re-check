@@ -810,6 +810,7 @@ function applyDbEntries(prod, entries){
     if(!byVer[r.version].date&&r.date) byVer[r.version].date=r.date;
   });
   verOrder.forEach(v=>byVer[v].changes.sort((a,b)=>(TYPE_PRIORITY[a.type]??5)-(TYPE_PRIORITY[b.type]??5)));
+  verOrder.sort((a,b)=>parseDateToTimestamp(byVer[b].date||'') - parseDateToTimestamp(byVer[a].date||''));
   const meaningful = verOrder.map(v=>byVer[v]).filter(r=>r.changes.length>0);
   if(!meaningful.length) return;
   releases[prod.id]=meaningful; latestVer[prod.id]=meaningful[0].version; latestDate[prod.id]=meaningful[0].date||'';
