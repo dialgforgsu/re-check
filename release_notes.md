@@ -1,5 +1,5 @@
 # Redgate Release Notes — Snapshot
-<!-- fetched: 2026-04-09 | latest: 0.52.168 (9 April 2026) -->
+<!-- fetched: 2026-04-13 | latest: 0.53.1111 (13 April 2026) -->
 <!-- split on `---PRODUCT---` to get one file per product -->
 
 ---PRODUCT---
@@ -7,7 +7,22 @@
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
 <!-- fetched: 2026-04-07 | latest: 9.2.4 (07 April 2026) -->
 
-## 9.2.
+#
+## 9.3.1 — 10 April 2026
+
+### Improvements
+- Rearranged options on the Automated Deployment page to emphasise their position in the heirarchy
+
+### Bug Fixes
+- Fix dialect mapping for postgres to ensure code review can run successfully in postgres projects
+- Fixed issue with layout of Automated Deployment page at small screen sizes
+- Fixed an issue with code review warnings where out of date noqa warnings would persist in the issue view
+
+## 9.2.4 — 07 April 2026
+
+### Bug Fixes
+- Fixed an issue where the splash screen could not be found, preventing Flyway Desktop from loading
+# 9.2.
 ## 9.3.0 — 09 April 2026
 
 ### Bug Fixes
@@ -3463,6 +3478,17 @@
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
 <!-- fetched: 2026-04-03 | latest: 0.8.11 (31 May 2024) -->
+
+## 0.53.1111 — 13 April 2026
+
+### New Features
+- Added command timeout setting to connections. When set, the --command-timeout flag is passed to CLI tools during workflow runs.
+
+### Improvements
+- TDM is now opted out of the popular extension Dark Reader. Instead, TDM respects your system theme. If users wish to
+
+### Bug Fixes
+- Fixed an issue where updates to a column's dataset made using the Anonymization table view were being ignored
 
 #
 #
