@@ -463,7 +463,7 @@ async function checkProduct(productId){
       console.log(`[check] ${productId}: no new updates`);
     }
 
-    return { upToDate: allNewVersions.length === 0, newVersions: allNewVersions, latestDate: getMostRecentDate() };
+    return { upToDate: allNewVersions.length === 0, newVersions: allNewVersions, latestDate: getMostRecentDate(), fetchedAt: Date.now() };
   });
 }
 
@@ -516,7 +516,7 @@ function getMostRecentDate(){
   return bestDate;
 }
 
-app.get('/', (req,res) => {
+app.get('/', async (req,res) => {
   const html = fs.readFileSync(path.join(__dirname,'index.html'), 'utf8');
 
   const blocks = parseReleaseNotesFile();
@@ -532,8 +532,10 @@ app.get('/', (req,res) => {
     list.sort((a,b) => dateToSortNum(b.date) - dateToSortNum(a.date));
   }
 
-  const rnDate   = getMostRecentDate();
-  const injection = `<script>window.__RN_SNAPSHOT__=${JSON.stringify(snapshot)};window.__RN_DATE__=${JSON.stringify(rnDate)};</script>`;
+  const rnDate      = getMostRecentDate();
+  const fetchRow    = await db.get('SELECT MAX(lastFetchedAt) AS ts FROM source_snapshots').catch(()=>null);
+  const lastFetched = fetchRow?.ts || null;
+  const injection = `<script>window.__RN_SNAPSHOT__=${JSON.stringify(snapshot)};window.__RN_DATE__=${JSON.stringify(rnDate)};window.__RN_FETCHED_AT__=${JSON.stringify(lastFetched)};</script>`;
   const injected  = html.replace('</head>', injection + '\n</head>');
   res.setHeader('Content-Type','text/html');
   res.send(injected);

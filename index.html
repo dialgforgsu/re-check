@@ -567,6 +567,9 @@ document.addEventListener('DOMContentLoaded',async ()=>{
 /* THEME */
 function setInfoFrom(){}
 
+// Tracks the most recent actual fetch timestamp (ms) from the server
+let lastFetchedAt = window.__RN_FETCHED_AT__ || null;
+
 /* Returns the most-recent release date across all loaded products, or falls back to the
    server-injected __RN_DATE__ (the date of the last markdown update). */
 function getLastUpdateLabel(){
@@ -581,8 +584,11 @@ function getLastUpdateLabel(){
 
 function setSyncLabel(){
   const date = getLastUpdateLabel();
-  const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-  document.getElementById('sync-lbl').textContent = date === 'Not synced' ? date : `${date}, ${time}`;
+  if(date === 'Not synced'){ document.getElementById('sync-lbl').textContent = date; return; }
+  const timeStr = lastFetchedAt
+    ? new Date(lastFetchedAt).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+    : null;
+  document.getElementById('sync-lbl').textContent = timeStr ? `${date}, ${timeStr}` : date;
 }
 
 function toggleTheme(){setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
@@ -860,6 +866,7 @@ async function doFetch(prod){
     if(chk?.error) throw new Error(chk.error);
 
     upToDate[prod.id] = chk.upToDate;
+    if(chk.fetchedAt) lastFetchedAt = Math.max(lastFetchedAt||0, chk.fetchedAt);
     if(chk.latestDate) setInfoFrom(chk.latestDate);
 
     if(chk.upToDate){
