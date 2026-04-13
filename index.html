@@ -405,6 +405,7 @@ let latestDate = {};
 let releases   = {};   // id -> [{version,date,changes,summary,docsUrl}]
 let errors     = {};
 let upToDate   = {};   // id -> true when last check found no new versions
+let tdmSubVersions = {}; // url -> latest version string for TDM sub-pages
 let busy       = false;
 let dragId     = null;
 
@@ -702,6 +703,8 @@ async function fetchTdmSub(url, label, e){
     // Store keyed by URL so we can replace just this sub-page's data
     if(!window._tdmSubData) window._tdmSubData = {};
     window._tdmSubData[url] = rels;
+    // Update latest version for this sub-page
+    if(rels.length) tdmSubVersions[url] = rels[0].version;
   } catch(err){
     console.warn('TDM sub fetch error:', err.message);
   }
@@ -774,10 +777,19 @@ function applyDbEntries(prod, entries){
                   : entry.sourceUrl.includes('workflows') ? 'Workflows' : '';
       if(label) changes.forEach(c=>c.subLabel = label);
     }
-    allRels.push({ version: entry.version, date: entry.date, changes, docsUrl: entry.docsUrl, product: prod });
+    allRels.push({ version: entry.version, date: entry.date, changes, docsUrl: entry.docsUrl, product: prod, sourceUrl: entry.sourceUrl });
   }
 
   if(!allRels.length) return;
+
+  // Track latest version per TDM sub-page URL (entries arrive newest-first)
+  if(prod.id==='tdm'){
+    for(const r of allRels){
+      if(r.sourceUrl && r.version && !tdmSubVersions[r.sourceUrl]){
+        tdmSubVersions[r.sourceUrl] = r.version;
+      }
+    }
+  }
 
   const TYPE_PRIORITY = {breaking:0,feature:1,fix:2,improvement:3};
 
@@ -847,8 +859,14 @@ async function doFetch(prod){
     if(chk.latestDate) setInfoFrom(chk.latestDate);
 
     if(chk.upToDate){
-      // Nothing changed — keep current data, just mark up to date
-      setSt(prod.id,'done');
+      // Nothing changed — but if releases were cleared before this fetch, reload them
+      if(!releases[prod.id]){
+        const relRes = await fetch(`/api/releases/${prod.id}`);
+        if(relRes.ok){ const entries = await relRes.json(); applyDbEntries(prod, entries); }
+        else setSt(prod.id,'done');
+      } else {
+        setSt(prod.id,'done');
+      }
       return;
     }
 
@@ -1779,12 +1797,13 @@ function renderFeed(){
       { label:'TDM GUI',    url:'https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes' },
       { label:'Workflows',  url:'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/using-workflows-rgworkflow/workflows-release-notes' },
     ] : [];
-    const tdmSubButtons = tdmSubs.map(s=>
-      `<div style="display:flex;gap:2px">
-        <button class="btn btn-ghost" style="font-size:10px;padding:4px 9px" onclick="fetchTdmSub('${s.url}','${s.label}',event)">↻ ${s.label}</button>
-        <a href="${s.url}" target="_blank" class="btn btn-ghost" style="font-size:10px;padding:4px 6px" title="Open ${s.label} docs">↗</a>
-      </div>`
-    ).join('');
+    const tdmSubButtons = tdmSubs.map(s=>{
+      const subVer = tdmSubVersions[s.url] ? ` v${tdmSubVersions[s.url]}` : '';
+      return `<div style="display:flex;gap:2px">
+        <button class="btn btn-ghost" style="font-size:10px;padding:4px 9px" onclick="fetchTdmSub('${s.url}','${s.label}',event)">↻ ${s.label}${subVer}</button>
+        <a href="${s.url}" target="_blank" class="btn btn-ghost" style="font-size:10px;padding:4px 6px" title="Open ${s.label} docs">↗ Docs</a>
+      </div>`;
+    }).join('');
     html+=`<div class="prod-page-hdr" style="flex-wrap:wrap;gap:8px">
       <div class="prod-page-icon" style="background:${p?.bg};color:${p?.color}">${p?.abbr}</div>
       <div class="prod-page-name">${p?.name||''}</div>
@@ -1860,7 +1879,7 @@ function setChip(f,el){
 }
 
 function clearAll(){
-  releases={}; errors={}; statuses={}; latestVer={}; latestDate={}; upToDate={};
+  releases={}; errors={}; statuses={}; latestVer={}; latestDate={}; upToDate={}; tdmSubVersions={};
   activeTab='all';
   document.getElementById('sync-lbl').textContent='Not synced';
   document.getElementById('prog-fill').style.width='0%';
