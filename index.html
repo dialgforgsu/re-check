@@ -560,10 +560,25 @@ document.addEventListener('DOMContentLoaded',async ()=>{
 
   renderTabBar();
   renderFeed();
+  setSyncLabel();
 });
 
 /* THEME */
 function setInfoFrom(){}
+
+/* Returns the most-recent release date across all loaded products, or falls back to the
+   server-injected __RN_DATE__ (the date of the last markdown update). */
+function getLastUpdateLabel(){
+  let best = 0, bestStr = '';
+  for(const id of Object.keys(latestDate)){
+    const ts = parseDateToTimestamp(latestDate[id]||'');
+    if(ts > best){ best = ts; bestStr = latestDate[id]; }
+  }
+  const label = bestStr || (window.__RN_DATE__ ? window.__RN_DATE__ : '');
+  return label ? 'Updated ' + label : 'Not synced';
+}
+
+function setSyncLabel(){ document.getElementById('sync-lbl').textContent = getLastUpdateLabel(); }
 
 function toggleTheme(){setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('rg_theme',t);document.getElementById('theme-btn').textContent=t==='dark'?'☀️':'🌙';}
@@ -597,8 +612,8 @@ function renderTabBar(){
       <div class="tab-meta">
         ${ver?`<span class="tab-ver">v${esc(ver)}</span>`:''}
         ${dt?`<span class="tab-date">${esc(dt)}</span>`:''}
-        ${!ver&&st!=='fetching'?`<span class="tab-date">not fetched</span>`:''}
-        ${upToDate[p.id]&&ver?`<span class="tab-utd">✓ up to date</span>`:''}
+        ${!ver&&!dt&&st!=='fetching'?`<span class="tab-date">not fetched</span>`:''}
+        ${upToDate[p.id]&&(ver||dt)?`<span class="tab-utd">✓ up to date</span>`:''}
       </div>
       <button class="tab-fetch-btn" title="Refresh ${p.name}" onclick="fetchOneTab('${p.id}',event)">${st==='fetching'?'…':'↓'}</button>
     </div>`;
@@ -653,9 +668,7 @@ async function fetchAll(){
   }
 
   busy=false; btn.disabled=false; btn.textContent='↓ Fetch All';
-  const allUpToDate = getOrdered().every(p=>upToDate[p.id]);
-  const syncLbl = document.getElementById('sync-lbl');
-  syncLbl.textContent = allUpToDate ? 'No new updates' : 'Synced '+new Date().toLocaleTimeString();
+  setSyncLabel();
   setTimeout(()=>{document.getElementById('prog-wrap').classList.remove('show');document.getElementById('prog-fill').style.width='0%';},700);
 }
 
@@ -668,7 +681,7 @@ async function fetchOneTab(id,e){
   renderTabBar(); renderFeed();
   await doFetch(prod);
   renderTabBar(); renderFeed();
-  document.getElementById('sync-lbl').textContent = upToDate[id] ? 'No new updates' : 'Synced '+new Date().toLocaleTimeString();
+  setSyncLabel();
 }
 
 // Refresh a single TDM sub-page and re-merge all TDM data
@@ -745,7 +758,7 @@ async function fetchTdmSub(url, label, e){
   }
 
   setSt('tdm','done');
-  document.getElementById('sync-lbl').textContent='Synced '+new Date().toLocaleTimeString();
+  setSyncLabel();
   renderTabBar(); renderFeed();
 }
 
