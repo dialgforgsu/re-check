@@ -579,7 +579,11 @@ function getLastUpdateLabel(){
   return label ? 'Updated ' + label : 'Not synced';
 }
 
-function setSyncLabel(){ document.getElementById('sync-lbl').textContent = getLastUpdateLabel(); }
+function setSyncLabel(){
+  const date = getLastUpdateLabel();
+  const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  document.getElementById('sync-lbl').textContent = date === 'Not synced' ? date : `${date}, ${time}`;
+}
 
 function toggleTheme(){setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
 function setTheme(t){document.documentElement.setAttribute('data-theme',t);localStorage.setItem('rg_theme',t);document.getElementById('theme-btn').textContent=t==='dark'?'☀️':'🌙';}
