@@ -3491,7 +3491,12 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-04-03 | latest: 0.8.11 (31 May 2024) -->
+<!-- fetched: 2026-04-14 | latest: 0.54.26 (14 April 2026) -->
+
+## 0.54.26 — 14 April 2026
+
+### New Features
+- Fixed an issue where updates to a column's dataset made using the Anonymization table view for a new treatment were being ignored
 
 ## 0.53.1111 — 13 April 2026
 
