@@ -121,7 +121,25 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-04-06 | latest: 12.3.0 (31 March 2026) -->
+<!-- fetched: 2026-04-14 | latest: 12.4.0 (14 April 2026) -->
+
+## 12.4.0 — 14 April 2026
+
+### New Features
+- Added a new rule: RG23 - Configurable forbidden alias names
+- Add a "checksumIncludeReferencedScripts" parameter under "Oracle" namespace to control whether referenced scripts are included in checksum calculation
+- Issue 4223 Support the Gradle configuration cache in flyway-gradle-plugin
+
+### Bug Fixes
+- Fix NullPointerException when comparison engine returns null collection fields
+- in json output of check code, "file_pos", "file_pos_end" properties will now adjust for windows line endings present in scripts. Suggested fix content will now attempt to match the line endings used by the script.
+- Fix a bug where the "validate" operation may cause a "NullPointerException"
+- Issue 4221 Fixed Snowflake connectivity failure after JDBC driver update when PUBLIC schema does not exist
+- fix CLI scoped namespace resolution when nested parameters are not immediately after their flag
+- Fixed incorrect file position returned in code review json for some types of sql fluff insertion fixes
+
+### Improvements
+- Upgraded RgCompare.Cli from 1.52.3.3436 to 1.52.6.3589
 
 ## 12.3.0 — 31 March 2026
 
@@ -6216,7 +6234,13 @@ arch 2025
 ---PRODUCT---
 # SQL Prompt 11.3
 <!-- source: https://documentation.red-gate.com/sp/release-notes-and-other-versions/sql-prompt-11-3-release-notes -->
+<!-- fetched: 2026-04-14 | latest: 11.3.10.22862 (03 April 2026) -->
 <!-- fetched: 2026-04-03 | latest: 11.3.8.22342 (19 March 2026) -
+## 11.3.10.22862 — 03 April 2026
+
+### Bug Fixes
+- Fixed compatibility issues with SSMS 22.5
+
 ## 11.3.9.22706 — 30 March 2026
 
 ### Bug Fixes
