@@ -11,3 +11,5 @@ Future
 Old Version -> New Version Compare Specific Diff Release Notes?
 OPEN TO IDEAS (💡)
 Keep in mind the goals of the dashboard! 
+
+Chron Job runs every 6 hours to fetch and refresh. 
