@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-04-07 | latest: 9.2.4 (07 April 2026) -->
+<!-- fetched: 2026-04-16 | latest: 9.3.3 (16 April 2026) -->
 
 #
+## 9.3.3 — 16 April 2026
+
+### New Features
+- Added an apply fix action to the code review panel for issues with a suggested fix.
+
 ## 9.3.1 — 10 April 2026
 
 ### Improvements
