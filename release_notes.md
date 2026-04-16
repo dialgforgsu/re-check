@@ -1909,7 +1909,24 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-04-03 | latest: 14.13.0 (March 26, 2026) -->
+<!-- fetched: 2026-04-16 | latest: 14.15.0 (April 16, 2026) -->
+## 14.15.0 — April 16, 2026
+
+### New Features
+- Added an option to various alert types allowing databases to be excluded by name. See 'What's New' for a list of relevant alert types.
+- Added ability to see cost details of Azure virtual machines on virtual machine page.
+- Enterprise edition - SQL Audit now supports all action types that belong to the SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP, DATABASE_OBJECT_PERMISSION_CHANGE_GROUP, DATABASE_PERMISSION_CHANGE_GROUP, SERVER_OBJECT_PERMISSION_CHANGE_GROUP, SERVER_PERMISSION_CHANGE_GROUP, SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP, DATABASE_OWNERSHIP_CHANGE_GROUP, DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP and SERVER_OBJECT_OWNERSHIP_CHANGE_GROUP.
+
+### Improvements
+- AI Alert analysis is now available for Long-running query, Deadlock and Blocking process alerts.
+- Enterprise Edition - Messages on the Security pages can now be dismissed.
+- Limited the time window for which we sample Oracle log entries to 24 hours.
+- Postgres users will now see a banner inviting them to participate in a research call.
+
+### Bug Fixes
+- Fixed an issue where custom metric collection against databases on Always On Availability Group secondary replicas (or other temporarily unavailable databases) could produce collection errors instead of returning null samples.
+- Fixed an issue where compliance data was not loading on the configuration compliance pages.
+
 ## 14.14.0 — April 9, 2026
 
 ### New Features
