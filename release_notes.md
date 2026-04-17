@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-04-16 | latest: 9.3.3 (16 April 2026) -->
+<!-- fetched: 2026-04-17 | latest: 9.3.4 (17 April 2026) -->
 
 #
+## 9.3.4 — 17 April 2026
+
+### New Features
+- Code review issues such as noqa warnings and regex rules will now underline the whole line in addition to adding an icon annotation.
+
 ## 9.3.3 — 16 April 2026
 
 ### New Features
@@ -3100,7 +3105,13 @@
 ---PRODUCT---
 # TDM — Anonymize
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes -->
+<!-- fetched: 2026-04-17 | latest: 2.4.1.2487 (17 April 2026) -->
 <!-- fetched: 2026-04-04 | latest: 1.0.3.1787 (16 January 2024) 
+## 2.4.1.2487 — 17 April 2026
+
+### New Features
+- Improved AI classification. A set of new features has been added to the Machine Learning PII classification model.
+
 ## 2.2.12.1133 — 15 September 2025
 
 ### Improvements
@@ -3513,7 +3524,15 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-04-14 | latest: 0.54.26 (14 April 2026) -->
+<!-- fetched: 2026-04-17 | latest: 0.55.59 (17 April 2026) -->
+
+## 0.55.59 — 17 April 2026
+
+### New Features
+- Add "Masked" filter option to the anonymization treatment dataset filter, allowing viewing of all masked columns at once without selecting each dataset individually.
+
+### Improvements
+- Editing connections with parameters is now more intuitive, with better warnings and explanations.
 
 ## 0.54.26 — 14 April 2026
 
