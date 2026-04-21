@@ -6458,7 +6458,17 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
+<!-- fetched: 2026-04-21 | latest: 16.0.13.28757 (21 April 2026) -->
 <!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.0.13.28757 — 21 April 2026
+
+### Improvements
+- ZD-354140: Ignore Collations option now works for memory-optimised tables on SQL Server 2016+
+
+### New Features
+- Support for the CURRENT_DATE keyword introduced in SQL Server 2025
+- Support for JSON_ARRAYAGG and JSON_OBJECTAGG aggregate functions introduced in SQL Server 2025
+
 ## 16.0.11.28694 — 08 April 2026
 
 ### New Features
