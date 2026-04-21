@@ -6280,8 +6280,23 @@ arch 2025
 ---PRODUCT---
 # SQL Prompt 11.3
 <!-- source: https://documentation.red-gate.com/sp/release-notes-and-other-versions/sql-prompt-11-3-release-notes -->
-<!-- fetched: 2026-04-14 | latest: 11.3.10.22862 (03 April 2026) -->
+<!-- fetched: 2026-04-21 | latest: 11.3.11.23448 (21 April 2026) -->
 <!-- fetched: 2026-04-03 | latest: 11.3.8.22342 (19 March 2026) -
+## 11.3.11.23448 — 21 April 2026
+
+### New Features
+- Added link to the new Redgate AI trust & transparency hub in SQL Prompt AI options, which
+- Added suggestion support for functions - JSON_QUERY, JSON_ARRAYAGG and JSON_OBJECTAGG.
+- Added support for theme switching, aligned with SSMS 21 (modern preview themes) and SSMS 22. - Learn More.
+
+### Improvements
+- Complements our own existing SQL Prompt AI data handling documentation.
+
+### Bug Fixes
+- Fixed an issue where restored SQL History queries forget save path.
+- Fixed incorrect suggestions for BACKUP DATABASE, RESTORE DATABASE, and CREATE LOGIN in Azure SQL Managed Instance.
+- Fixed SQLCMD syntax query formatting issue while using COLLATE clause.
+
 ## 11.3.10.22862 — 03 April 2026
 
 ### Bug Fixes
