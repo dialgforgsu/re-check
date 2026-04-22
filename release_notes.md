@@ -3105,8 +3105,13 @@
 ---PRODUCT---
 # TDM — Anonymize
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes -->
-<!-- fetched: 2026-04-17 | latest: 2.4.1.2487 (17 April 2026) -->
+<!-- fetched: 2026-04-22 | latest: 2.4.2.2514 (22 April 2026) -->
 <!-- fetched: 2026-04-04 | latest: 1.0.3.1787 (16 January 2024) 
+## 2.4.2.2514 — 22 April 2026
+
+### Improvements
+- Improved AI classification on numeric columns
+
 ## 2.4.1.2487 — 17 April 2026
 
 ### New Features
