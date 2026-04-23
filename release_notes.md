@@ -1919,7 +1919,26 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-04-16 | latest: 14.15.0 (April 16, 2026) -->
+<!-- fetched: 2026-04-23 | latest: 14.16.0 (April 23, 2026) -->
+## 14.16.0 — April 23, 2026
+
+### Bug Fixes
+- Fixed a security issue (CVSS 4.4 - Medium) where it was theoretically possible for a denial-of-service attack to be caused by adjusting the Base Monitor or Website XML configuration files.
+- Fixed an issue where links to Analysis from instance-level graphs on Server Overviews didn't load properly.
+- Fixed an issue where the base monitor process hangs on startup if a Windows performance counter can not be created on a server hosting the base monitor.
+- Fixed an issue on the Alerts configuration page where instances were being incorrectly shown against Alerts that were not applicable to them.
+- Fixed an issue preventing the TDE state and Owner fields from populating correctly in the database configuration compliance pages.
+
+### New Features
+- Monitoring PostgreSQL Aurora reader instances is now supported. PostgreSQL Aurora reader instances can be automatically monitored via the cluster by toggling "Automatically monitor reader instances" in the add or edit server pages for an Aurora cluster.
+- Enterprise Edition - New alert category to group the Enterprise only alerts.
+
+### Improvements
+- The source hyperlink in the Alert details now directs users to the specific time and date of the alert.
+- Increased the size of the dialog shown for Blocking process.
+- Enterprise edition - Navigation from the Permissions → Server → Ad Users tab to the user details page works correctly.
+- SQL Server monitoring no longer requires db_owner permissions on tempdb database.
+
 ## 14.15.0 — April 16, 2026
 
 ### New Features
@@ -3529,7 +3548,19 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-04-23 | latest: 0.56.205 (23 April 2026) -->
+<!-- fetched: 2026-04-23 | latest: 0.57.20 (23 April 2026) -->
+
+## 0.57.20 — 23 April 2026
+
+### Improvements
+- The workflow run dialog now shows the workflow's source and target connections as read-only and no longer exposes the "Ignore additional objects in target database" checkbox. Connections and the force-subset setting are configured when the workflow is created or edited and cannot be overridden per run.
+
+### Bug Fixes
+- Fixed an issue where clicking a dataset chip does not overwrite the filters.
+- Fix an issue where a custom dataset for a pattern did not appear in the dataset dropdown for a column.
+- Fix for affected columns not matching the list of columns in the anonymize grid when filtering by the error.
+- Fix issue where updates are not synced immediately when switching between Anonymization Code View and Anonymization Details view
+- Fixed an issue where anonymization summary does not show table-level errors properly.
 
 ## 0.56.205 — 23 April 2026
 
