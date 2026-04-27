@@ -131,7 +131,23 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-04-14 | latest: 12.4.0 (14 April 2026) -->
+<!-- fetched: 2026-04-27 | latest: 12.5.0 (27 April 2026) -->
+
+## 12.5.0 — 27 April 2026
+
+### New Features
+- Flyway now supports Azure Key Vault as a secrets resolver
+- Flyway now supports Native Connectors mode for Cassandra. The JDBC-based approach has been deprecated
+
+### Improvements
+- flyway prepare with -prepare.source=schemaModel now fails with a clear error when the configured schema model directory does not exist
+- "initSql" has been deprecated. Please use the "afterConnect" callback instead
+- The Flyway Secret Manager feature is no longer available under Teams license
+- Retry Informix table drops on ISAM file lock errors
+- Upgraded RgCompare.Cli from 1.52.6.3589 to 1.55.1.3732
+
+### Bug Fixes
+- Fix pluginConfigurations in the Maven and Gradle plugins not being handled by Flyway
 
 ## 12.4.0 — 14 April 2026
 
@@ -3548,7 +3564,16 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-04-23 | latest: 0.57.20 (23 April 2026) -->
+<!-- fetched: 2026-04-27 | latest: 0.58.26 (27 April 2026) -->
+
+## 0.58.26 — 27 April 2026
+
+### Improvements
+- The workflow run dialog now shows the workflow's source and target connections as read-only and no longer exposes the "Ignore additional objects in target database" checkbox. Connections and the force-subset setting are configured when the workflow is created or edited and cannot be overridden per run.
+- Workflows can now run custom sql command before and after treatments
+
+### New Features
+- Add "Masked" filter option to the anonymization treatment dataset filter, allowing viewing of all masked columns at once without selecting each dataset individually.
 
 ## 0.57.20 — 23 April 2026
 
