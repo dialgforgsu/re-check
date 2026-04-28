@@ -363,8 +363,6 @@ export async function runCheck({ silent = false } = {}) {
 
         if (newRels.length) {
           appendToFile(url, newRels);
-          // Re-read file so next URL in same product sees the updated known set
-          mainBlocks[url] = { productId: product.id, releases: liveRels };
           totalNew += newRels.length;
           if (!silent) console.log(`✓ ${newRels.length} new: ${newRels.map(r => r.version).join(', ')}`);
           results.push({ product: product.name, url, newVersions: newRels.map(r => r.version) });
