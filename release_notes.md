@@ -6353,8 +6353,20 @@ arch 2025
 ---PRODUCT---
 # SQL Prompt 11.3
 <!-- source: https://documentation.red-gate.com/sp/release-notes-and-other-versions/sql-prompt-11-3-release-notes -->
-<!-- fetched: 2026-04-21 | latest: 11.3.11.23448 (21 April 2026) -->
+<!-- fetched: 2026-04-28 | latest: 11.3.12.23605 (28 April 2026) -->
 <!-- fetched: 2026-04-03 | latest: 11.3.8.22342 (19 March 2026) -
+## 11.3.12.23605 — 28 April 2026
+
+### Bug Fixes
+- Fixed incorrect issue highlighting for queries containing IS DISTINCT predicate.
+- Fixed SQLPrompt crash that occurred when applying changes from Copilot Chat.
+- Fixed an issue where SQL Prompt could freeze or hang SSMS and Visual Studio when switching tabs or opening files.
+- Fixed low-contrast SQL text in SQL History under dark mode, improving readability.
+- Fixed formatting issues for REGEXP and CURRENT_DATE when connected to Azure SQL Database.
+
+### New Features
+- Fixed An unexpected error occurred. Try again later or contact Redgate support if issue persists when gathering initial AI suggestions if SQL History was disabled.
+
 ## 11.3.11.23448 — 21 April 2026
 
 ### New Features
