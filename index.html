@@ -186,7 +186,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-hei
 .cq-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .cq-badge{background:var(--rg);color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:9px;padding:3px 9px;border-radius:4px;letter-spacing:.8px;text-transform:uppercase;flex-shrink:0}
 .cq-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--t1)}
-.cq-period{font-family:'DM Mono',monospace;font-size:10px;color:var(--t3);margin-left:auto}
+.cq-period{font-family:'DM Mono',monospace;font-size:10px;color:var(--t3)}
+.cq-hdr-right{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.cq-refresh{background:none;border:1px solid rgba(200,16,46,.22);border-radius:5px;color:var(--t3);cursor:pointer;font-size:11px;padding:3px 9px;font-family:'DM Mono',monospace;transition:all .15s;line-height:1.4}
+.cq-refresh:hover:not(:disabled){border-color:rgba(200,16,46,.5);color:var(--rg);background:var(--rg-dim)}
+.cq-refresh:disabled{opacity:.4;cursor:not-allowed}
+
+/* VISITOR FOOTER */
+.visitor-footer{flex-shrink:0;padding:5px 20px;text-align:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--t3);border-top:1px solid var(--border);background:var(--bg);letter-spacing:.04em;min-height:24px}
 .cq-summary{font-size:13px;color:var(--t1);line-height:1.75;margin-bottom:16px;font-weight:400}
 .cq-next{background:var(--bg1);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
 .cq-next-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--rg);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px;font-weight:500}
@@ -330,6 +337,7 @@ select { padding: 6px 10px; border: 0.5px solid var(--color-border-secondary); b
     </div>
   </div>
 </div>
+<div class="visitor-footer" id="visitor-footer"></div>
 
 <script>
 if(window.location.protocol === 'file:'){
@@ -562,7 +570,20 @@ document.addEventListener('DOMContentLoaded',async ()=>{
   renderTabBar();
   renderFeed();
   setSyncLabel();
+  initVisitorCounter();
 });
+
+/* VISITOR COUNTER */
+async function initVisitorCounter(){
+  const el = document.getElementById('visitor-footer');
+  if(!el) return;
+  try{
+    const r = await fetch('https://api.countapi.xyz/hit/redgate-re-check/dashboard',{cache:'no-store'});
+    if(!r.ok) return;
+    const d = await r.json();
+    if(d && d.value) el.textContent = d.value.toLocaleString() + ' visits';
+  } catch(e){ /* counter unavailable — footer stays empty */ }
+}
 
 /* THEME */
 function setInfoFrom(){}
@@ -1629,7 +1650,10 @@ function buildQ1HTML(allData, productName){
     <div class="cq-hdr">
       <div class="cq-badge">${qi.badge}</div>
       <div class="cq-title">${productName?productName+' — ':''}Current Quarter At A Glance</div>
-      <div class="cq-period">${qi.period}</div>
+      <div class="cq-hdr-right">
+        <div class="cq-period">${qi.period}</div>
+        <button class="cq-refresh" onclick="refreshSummary(this)" title="Re-fetch latest changes and refresh summary">↻ Refresh</button>
+      </div>
     </div>
     <div class="cq-summary">${esc(summary)}</div>
     <div class="cq-next">
@@ -1887,6 +1911,21 @@ function setChip(f,el){
   document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
   el.classList.add('on');
   renderFeed();
+}
+
+async function refreshSummary(btn){
+  const orig = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '⟳';
+  if(activeTab === 'all'){
+    await fetchAll();
+  } else {
+    await fetchOneTab(activeTab, null);
+  }
+  // renderFeed() is called inside fetchAll/fetchOneTab and replaces the DOM,
+  // so btn is detached — these lines are harmless cleanup on the old node.
+  btn.disabled = false;
+  btn.textContent = orig;
 }
 
 function clearAll(){
