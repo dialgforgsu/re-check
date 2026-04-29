@@ -5703,7 +5703,15 @@ arch 2025
 ---PRODUCT---
 # SQL Clone 5
 <!-- source: https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes -->
-<!-- fetched: 2026-04-03 | latest: 5.6.26 (13 March 2026) -->
+<!-- fetched: 2026-04-29 | latest: 5.6.27 (April 29, 2026) -->
+
+## 5.6.27 — April 29, 2026
+
+### Bug Fixes
+- The dashboard summary was showing incorrect counts when there were more images or clones than the client-side fetch limit. This is now fixed.
+
+### Improvements
+- Users with large numbers of images can now see them all in the dashboard.
 
 ## 5.6.26 — 13 March 2026
 
