@@ -5,9 +5,17 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-04-17 | latest: 9.3.4 (17 April 2026) -->
+<!-- fetched: 2026-04-29 | latest: 9.4.2 (29 April 2026) -->
 
 #
+## 9.4.2 — 29 April 2026
+
+### New Features
+- The Automated Deployment page now generates Github Actions workflow files, using the new Flyway Github Actions.
+
+### Bug Fixes
+- Fixed issue where Copy to clipboard button on Automated Deployment page would copy the contents without newlines on Windows
+
 ## 9.3.4 — 17 April 2026
 
 ### New Features
