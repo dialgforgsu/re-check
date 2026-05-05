@@ -485,10 +485,79 @@ function dateToSortNum(dateStr){
 ───────────────────────────────────────────── */
 const app = express();
 app.use(express.json());
-app.use((req,res,next)=>{
-  res.set('Content-Security-Policy',"default-src 'self'; connect-src 'self' http://localhost:3000 ws://localhost:3000 https://clients4.google.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-ancestors 'none';");
+
+// ── SECURITY HEADERS ─────────────────────────────────────────────────────────
+const IS_DEV = process.env.NODE_ENV !== 'production';
+
+// CSP — whitelists only what this app actually loads:
+//   script-src: inline JS (app body) + sql.js WASM from cdnjs
+//   style-src:  inline styles + Google Fonts CSS
+//   font-src:   local + Google Fonts files
+//   connect-src: same-origin API calls + sql.js WASM fetch + visitor counter
+//                + dev hot-reload WebSocket
+//   img-src:    data URIs for favicon/icons
+const CSP_DIRECTIVES = [
+  "default-src 'self'",
+  [
+    "script-src 'self' 'unsafe-inline'",
+    "https://cdnjs.cloudflare.com",
+  ].join(' '),
+  [
+    "style-src 'self' 'unsafe-inline'",
+    "https://fonts.googleapis.com",
+  ].join(' '),
+  "font-src 'self' https://fonts.gstatic.com",
+  [
+    "connect-src 'self'",
+    "https://cdnjs.cloudflare.com",
+    "https://api.countapi.xyz",
+    IS_DEV ? "http://localhost:3000 ws://localhost:3000" : "",
+  ].filter(Boolean).join(' '),
+  "img-src 'self' data:",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join('; ');
+
+app.use((req, res, next) => {
+  res.set('Content-Security-Policy', CSP_DIRECTIVES);
+  res.set('X-Content-Type-Options', 'nosniff');
+  res.set('X-Frame-Options', 'DENY');
+  res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()');
   next();
 });
+// ── PRODUCT-ID VALIDATION ────────────────────────────────────────────────────
+const VALID_PRODUCT_IDS = new Set(PRODUCTS_DEF.map(p => p.id));
+
+function requireValidProduct(req, res, next) {
+  if (!VALID_PRODUCT_IDS.has(req.params.productId)) {
+    return res.status(400).json({ error: 'Unknown product' });
+  }
+  next();
+}
+
+// ── RATE LIMITER (in-memory, per IP) ────────────────────────────────────────
+// /api/check triggers live web-scraping; cap at 10 requests per minute per IP.
+const _checkHits = new Map();
+const CHECK_RATE = { max: 10, windowMs: 60_000 };
+
+function checkRateLimit(req, res, next) {
+  const ip  = req.ip || req.socket?.remoteAddress || 'unknown';
+  const now = Date.now();
+  let entry = _checkHits.get(ip);
+  if (!entry || now > entry.resetAt) {
+    entry = { count: 0, resetAt: now + CHECK_RATE.windowMs };
+    _checkHits.set(ip, entry);
+  }
+  entry.count++;
+  if (entry.count > CHECK_RATE.max) {
+    res.set('Retry-After', String(Math.ceil((entry.resetAt - now) / 1000)));
+    return res.status(429).json({ error: 'Too many requests. Please wait before checking again.' });
+  }
+  next();
+}
+
 // Serve static assets but NOT index.html — that's handled below with injected data.
 app.use(express.static(path.join(__dirname), { index: false }));
 
@@ -563,7 +632,7 @@ app.get('/api/snapshot', (req,res) => {
 });
 
 // Returns pre-parsed releases for a product from the persistent DB (seeded from release_notes.md)
-app.get('/api/releases/:productId', async (req,res) => {
+app.get('/api/releases/:productId', requireValidProduct, async (req,res) => {
   await openDb();
   const rows = await db.all(
     `SELECT sourceUrl, version, date, changesJson, docsUrl
@@ -580,7 +649,7 @@ app.get('/api/releases/:productId', async (req,res) => {
 });
 
 // Incremental check: fetch live pages, compare to DB, return only what's new
-app.get('/api/check/:productId', async (req,res) => {
+app.get('/api/check/:productId', requireValidProduct, checkRateLimit, async (req,res) => {
   try{
     await openDb();
     const result = await checkProduct(req.params.productId);
@@ -588,17 +657,19 @@ app.get('/api/check/:productId', async (req,res) => {
   } catch(e){ res.status(400).json({ error: e.message }); }
 });
 
-// Status / debug endpoints
-app.get('/api/status', async (req,res) => {
-  await openDb();
-  const rows = await db.all('SELECT * FROM source_snapshots ORDER BY lastFetchedAt DESC');
-  res.json(rows);
-});
-app.get('/api/raw/:productId', async (req,res) => {
-  await openDb();
-  const rows = await db.all('SELECT url, rawBody, lastChangedAt, lastFetchedAt FROM source_snapshots WHERE productId=?', [req.params.productId]);
-  res.json(rows);
-});
+// Debug endpoints — only available outside production
+if (IS_DEV) {
+  app.get('/api/status', async (req,res) => {
+    await openDb();
+    const rows = await db.all('SELECT url, productId, hash, lastFetchedAt, lastChangedAt FROM source_snapshots ORDER BY lastFetchedAt DESC');
+    res.json(rows);
+  });
+  app.get('/api/raw/:productId', requireValidProduct, async (req,res) => {
+    await openDb();
+    const rows = await db.all('SELECT url, rawBody, lastChangedAt, lastFetchedAt FROM source_snapshots WHERE productId=?', [req.params.productId]);
+    res.json(rows);
+  });
+}
 
 // ── CRON: check for new releases every day at 06:00 Central
 cron.schedule('0 6 * * *', async () => {
