@@ -5,9 +5,17 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-04-17 | latest: 9.3.4 (17 April 2026) -->
+<!-- fetched: 2026-04-29 | latest: 9.4.2 (29 April 2026) -->
 
 #
+## 9.4.2 — 29 April 2026
+
+### New Features
+- The Automated Deployment page now generates Github Actions workflow files, using the new Flyway Github Actions.
+
+### Bug Fixes
+- Fixed issue where Copy to clipboard button on Automated Deployment page would copy the contents without newlines on Windows
+
 ## 9.3.4 — 17 April 2026
 
 ### New Features
@@ -5703,7 +5711,15 @@ arch 2025
 ---PRODUCT---
 # SQL Clone 5
 <!-- source: https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes -->
-<!-- fetched: 2026-04-03 | latest: 5.6.26 (13 March 2026) -->
+<!-- fetched: 2026-04-29 | latest: 5.6.27 (April 29, 2026) -->
+
+## 5.6.27 — April 29, 2026
+
+### Bug Fixes
+- The dashboard summary was showing incorrect counts when there were more images or clones than the client-side fetch limit. This is now fixed.
+
+### Improvements
+- Users with large numbers of images can now see them all in the dashboard.
 
 ## 5.6.26 — 13 March 2026
 
@@ -6353,8 +6369,20 @@ arch 2025
 ---PRODUCT---
 # SQL Prompt 11.3
 <!-- source: https://documentation.red-gate.com/sp/release-notes-and-other-versions/sql-prompt-11-3-release-notes -->
-<!-- fetched: 2026-04-21 | latest: 11.3.11.23448 (21 April 2026) -->
+<!-- fetched: 2026-04-28 | latest: 11.3.12.23605 (28 April 2026) -->
 <!-- fetched: 2026-04-03 | latest: 11.3.8.22342 (19 March 2026) -
+## 11.3.12.23605 — 28 April 2026
+
+### Bug Fixes
+- Fixed incorrect issue highlighting for queries containing IS DISTINCT predicate.
+- Fixed SQLPrompt crash that occurred when applying changes from Copilot Chat.
+- Fixed an issue where SQL Prompt could freeze or hang SSMS and Visual Studio when switching tabs or opening files.
+- Fixed low-contrast SQL text in SQL History under dark mode, improving readability.
+- Fixed formatting issues for REGEXP and CURRENT_DATE when connected to Azure SQL Database.
+
+### New Features
+- Fixed An unexpected error occurred. Try again later or contact Redgate support if issue persists when gathering initial AI suggestions if SQL History was disabled.
+
 ## 11.3.11.23448 — 21 April 2026
 
 ### New Features
