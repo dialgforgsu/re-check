@@ -6559,8 +6559,18 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
-<!-- fetched: 2026-04-21 | latest: 16.0.13.28757 (21 April 2026) -->
+<!-- fetched: 2026-05-06 | latest: 16.0.14.28844 (05 May 2026) -->
 <!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.0.14.28844 — 05 May 2026
+
+### New Features
+- ZD-355966: The Edit Filter Rules dialog now adds nested AND/OR clauses correctly.
+- ZD-355509: Added support for SET TEXTSIZE -1 in stored procedure bodies.
+- The Docker image base has changed from Ubuntu Noble to Alpine 3.23. If you use this image as a base for your own Dockerfile, you will need to update it to use Alpine-compatible commands (e.g. apk add instead of apt-get install).
+
+### Improvements
+- The Docker image base has been updated from Ubuntu Noble to Alpine 3.23, reducing image size and resolving security vulnerabilities in the base OS.
+
 ## 16.0.13.28757 — 21 April 2026
 
 ### Improvements
@@ -6643,7 +6653,16 @@ arch 2025
 ---PRODUCT---
 # SQL Data Compare 16.0
 <!-- source: https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes -->
-<!-- fetched: 2026-04-03 | latest: 16.0.9.28654 (24 March 2026) -->
+<!-- fetched: 2026-05-06 | latest: 16.0.14.28844 (05 May 2026) -->
+
+## 16.0.14.28844 — 05 May 2026
+
+### New Features
+- Add an option to include existence checks when generating insert statements
+- The Docker image base has changed from Ubuntu Noble to Alpine 3.23. If you use this image as a base for your own Dockerfile, you will need to update it to use Alpine-compatible commands (e.g. apk add instead of apt-get install).
+
+### Improvements
+- The Docker image base has been updated from Ubuntu Noble to Alpine 3.23, reducing image size and resolving security vulnerabilities in the base OS.
 
 ## 16.0.9.28654 — 24 March 2026
 - Compatibility with SQL Compare 16.0.9.28654
