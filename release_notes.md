@@ -3582,7 +3582,12 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-05-07 | latest: 0.59.135 (07 May 2026) -->
+<!-- fetched: 2026-05-07 | latest: 0.61.6 (07 May 2026) -->
+
+## 0.61.6 — 07 May 2026
+
+### Improvements
+- Uninstalling TDM now allows choosing to either keep or delete all associated data.
 
 ## 0.59.135 — 07 May 2026
 
