@@ -5,9 +5,19 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-04-29 | latest: 9.4.2 (29 April 2026) -->
+<!-- fetched: 2026-05-07 | latest: 9.4.3 (07 May 2026) -->
 
 #
+## 9.4.3 — 07 May 2026
+
+### New Features
+- Adds a SQL Server data deployment behavior option to use existence checks for INSERT statements.
+- Added support for the oracle.checksumIncludeReferencedScripts parameter in migration commands
+
+### Improvements
+- Now lists the changes that will happen as part of the upgrade process, when upgrading projects with obsolete configuration
+- Don’t show the ‘Execute in a transaction’ option for an Oracle deployment script
+
 ## 9.4.2 — 29 April 2026
 
 ### New Features
@@ -3572,7 +3582,21 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-04-27 | latest: 0.58.26 (27 April 2026) -->
+<!-- fetched: 2026-05-07 | latest: 0.59.135 (07 May 2026) -->
+
+## 0.59.135 — 07 May 2026
+
+### Improvements
+- Workflows can run custom PowerShell (.ps1) and Bash (.sh) command before and after treatments.
+- Changed pattern dataset creation UI to closer align with list creation UI.
+
+### New Features
+- TDM UI now support HSTS with a max age of 365 days. This can be switched on via the config file by setting "UseHsts: True"
+
+### Bug Fixes
+- Fixed an issue where creating a connection with a duplicate name gives an unhelpful error.
+- Fixed an issue where updating a connection can give an incorrect duplicate name error.
+- Fix 'MenuListContext is missing' error when clicking on filter button in subsetting starting tables list.
 
 ## 0.58.26 — 27 April 2026
 
