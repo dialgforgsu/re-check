@@ -149,7 +149,26 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-04-27 | latest: 12.5.0 (27 April 2026) -->
+<!-- fetched: 2026-05-08 | latest: 12.6.0 (8 May 2026) -->
+
+## 12.6.0 — 8 May 2026
+
+### New Features
+- Flyway now supports Native Connectors mode for the Deploy command
+
+### Improvements
+- Auth command now defers to existing license providers instead of redundantly re-authenticating. License output now reports the acquisition method.
+- configuration errors caused solely by obsolete parameters now throw ObsoleteConfigurationParametersException, exposing the obsolete parameters as structured data
+- Issue 4229 Gradle plugin is now compatible with Gradle's configuration cache for environment variable and system property inputs
+- obsolete parameter exception payload now includes a reason field explaining why each parameter is obsolete
+- simplified namespace short-circuiting (aka scoped namespacing) so that mixing scoped and unscoped namespaces is allowed
+- Issue 4230 Only create synonyms for Oracle SHTs when the name includes lower case characters
+- Upgraded adoptium/temurin25-binaries from 25.0.2+10 to 25.0.3+9
+- Bumped aws-secretsmanager-jdbc from 2.0.4 to 2.1.0
+- Upgraded RgCompare.Cli from 1.55.1.3732 to 1.58.0.3966
+
+### Breaking Changes
+- Issue 4232 Add support for DROP ... IF EXISTS and CREATE ... IF NOT EXISTS for Oracle parser
 
 ## 12.5.0 — 27 April 2026
 
