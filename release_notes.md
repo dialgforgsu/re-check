@@ -5,9 +5,17 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-05-07 | latest: 9.4.3 (07 May 2026) -->
+<!-- fetched: 2026-05-11 | latest: 9.4.4 (11 May 2026) -->
 
 #
+## 9.4.4 — 11 May 2026
+
+### Improvements
+- Automated Deployment page now links out to user’s GitHub repository when generating GitHub Actions workflows
+
+### Bug Fixes
+- Fixed environment display name text color being invisible in project settings modal
+
 ## 9.4.3 — 07 May 2026
 
 ### New Features
