@@ -5,9 +5,27 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-04-29 | latest: 9.4.2 (29 April 2026) -->
+<!-- fetched: 2026-05-11 | latest: 9.4.4 (11 May 2026) -->
 
 #
+## 9.4.4 — 11 May 2026
+
+### Improvements
+- Automated Deployment page now links out to user’s GitHub repository when generating GitHub Actions workflows
+
+### Bug Fixes
+- Fixed environment display name text color being invisible in project settings modal
+
+## 9.4.3 — 07 May 2026
+
+### New Features
+- Adds a SQL Server data deployment behavior option to use existence checks for INSERT statements.
+- Added support for the oracle.checksumIncludeReferencedScripts parameter in migration commands
+
+### Improvements
+- Now lists the changes that will happen as part of the upgrade process, when upgrading projects with obsolete configuration
+- Don’t show the ‘Execute in a transaction’ option for an Oracle deployment script
+
 ## 9.4.2 — 29 April 2026
 
 ### New Features
@@ -139,7 +157,26 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-04-27 | latest: 12.5.0 (27 April 2026) -->
+<!-- fetched: 2026-05-08 | latest: 12.6.0 (8 May 2026) -->
+
+## 12.6.0 — 8 May 2026
+
+### New Features
+- Flyway now supports Native Connectors mode for the Deploy command
+
+### Improvements
+- Auth command now defers to existing license providers instead of redundantly re-authenticating. License output now reports the acquisition method.
+- configuration errors caused solely by obsolete parameters now throw ObsoleteConfigurationParametersException, exposing the obsolete parameters as structured data
+- Issue 4229 Gradle plugin is now compatible with Gradle's configuration cache for environment variable and system property inputs
+- obsolete parameter exception payload now includes a reason field explaining why each parameter is obsolete
+- simplified namespace short-circuiting (aka scoped namespacing) so that mixing scoped and unscoped namespaces is allowed
+- Issue 4230 Only create synonyms for Oracle SHTs when the name includes lower case characters
+- Upgraded adoptium/temurin25-binaries from 25.0.2+10 to 25.0.3+9
+- Bumped aws-secretsmanager-jdbc from 2.0.4 to 2.1.0
+- Upgraded RgCompare.Cli from 1.55.1.3732 to 1.58.0.3966
+
+### Breaking Changes
+- Issue 4232 Add support for DROP ... IF EXISTS and CREATE ... IF NOT EXISTS for Oracle parser
 
 ## 12.5.0 — 27 April 2026
 
@@ -3572,7 +3609,26 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-04-27 | latest: 0.58.26 (27 April 2026) -->
+<!-- fetched: 2026-05-07 | latest: 0.61.6 (07 May 2026) -->
+
+## 0.61.6 — 07 May 2026
+
+### Improvements
+- Uninstalling TDM now allows choosing to either keep or delete all associated data.
+
+## 0.59.135 — 07 May 2026
+
+### Improvements
+- Workflows can run custom PowerShell (.ps1) and Bash (.sh) command before and after treatments.
+- Changed pattern dataset creation UI to closer align with list creation UI.
+
+### New Features
+- TDM UI now support HSTS with a max age of 365 days. This can be switched on via the config file by setting "UseHsts: True"
+
+### Bug Fixes
+- Fixed an issue where creating a connection with a duplicate name gives an unhelpful error.
+- Fixed an issue where updating a connection can give an incorrect duplicate name error.
+- Fix 'MenuListContext is missing' error when clicking on filter button in subsetting starting tables list.
 
 ## 0.58.26 — 27 April 2026
 
@@ -6559,8 +6615,18 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
-<!-- fetched: 2026-04-21 | latest: 16.0.13.28757 (21 April 2026) -->
+<!-- fetched: 2026-05-06 | latest: 16.0.14.28844 (05 May 2026) -->
 <!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.0.14.28844 — 05 May 2026
+
+### New Features
+- ZD-355966: The Edit Filter Rules dialog now adds nested AND/OR clauses correctly.
+- ZD-355509: Added support for SET TEXTSIZE -1 in stored procedure bodies.
+- The Docker image base has changed from Ubuntu Noble to Alpine 3.23. If you use this image as a base for your own Dockerfile, you will need to update it to use Alpine-compatible commands (e.g. apk add instead of apt-get install).
+
+### Improvements
+- The Docker image base has been updated from Ubuntu Noble to Alpine 3.23, reducing image size and resolving security vulnerabilities in the base OS.
+
 ## 16.0.13.28757 — 21 April 2026
 
 ### Improvements
@@ -6643,7 +6709,16 @@ arch 2025
 ---PRODUCT---
 # SQL Data Compare 16.0
 <!-- source: https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes -->
-<!-- fetched: 2026-04-03 | latest: 16.0.9.28654 (24 March 2026) -->
+<!-- fetched: 2026-05-06 | latest: 16.0.14.28844 (05 May 2026) -->
+
+## 16.0.14.28844 — 05 May 2026
+
+### New Features
+- Add an option to include existence checks when generating insert statements
+- The Docker image base has changed from Ubuntu Noble to Alpine 3.23. If you use this image as a base for your own Dockerfile, you will need to update it to use Alpine-compatible commands (e.g. apk add instead of apt-get install).
+
+### Improvements
+- The Docker image base has been updated from Ubuntu Noble to Alpine 3.23, reducing image size and resolving security vulnerabilities in the base OS.
 
 ## 16.0.9.28654 — 24 March 2026
 - Compatibility with SQL Compare 16.0.9.28654
