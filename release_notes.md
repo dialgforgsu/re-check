@@ -3195,8 +3195,13 @@
 ---PRODUCT---
 # TDM — Anonymize
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes -->
-<!-- fetched: 2026-04-22 | latest: 2.4.2.2514 (22 April 2026) -->
+<!-- fetched: 2026-05-12 | latest: 2.4.4.2596 (12 May 2026) -->
 <!-- fetched: 2026-04-04 | latest: 1.0.3.1787 (16 January 2024) 
+## 2.4.4.2596 — 12 May 2026
+
+### Improvements
+- PII class UKNationalInsuranceNumbers is now disabled by default when using AI classification.
+
 ## 2.4.2.2514 — 22 April 2026
 
 ### Improvements
