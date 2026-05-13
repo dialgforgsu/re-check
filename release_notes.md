@@ -6645,8 +6645,13 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
-<!-- fetched: 2026-05-12 | latest: 15.4.29.28207 (04 December 2025) -->
+<!-- fetched: 2026-05-13 | latest: 16.0.15.28900 (12 May 2026) -->
 <!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.0.15.28900 — 12 May 2026
+
+### New Features
+- Support for JSON_QUERY WITH ARRAY WRAPPER introduced in SQL Server 2025
+
 ## 15.4.29.28207 — 04 December 2025
 
 ### New Features
