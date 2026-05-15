@@ -5810,7 +5810,12 @@ arch 2025
 ---PRODUCT---
 # SQL Clone 5
 <!-- source: https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes -->
-<!-- fetched: 2026-04-29 | latest: 5.6.27 (April 29, 2026) -->
+<!-- fetched: 2026-05-15 | latest: 5.6.28 (May 15, 2026) -->
+
+## 5.6.28 — May 15, 2026
+
+### New Features
+- SQL Clone now targets .NET 10.0. For details of .NET Core's supported operating systems see https://github.com/dotnet/core/blob/main/release-notes/10.0/supported-os.md.
 
 ## 5.6.27 — April 29, 2026
 
