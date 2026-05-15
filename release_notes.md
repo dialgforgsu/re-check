@@ -1990,7 +1990,35 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-04-23 | latest: 14.16.0 (April 23, 2026) -->
+<!-- fetched: 2026-05-15 | latest: 14.17.0 (May 14, 2026) -->
+## 14.17.0 — May 14, 2026
+
+### Bug Fixes
+- Fixed a security issue (CVSS 6.9 - Medium) where it was possible for a remote attacker to cause a denial-of-service against the Redgate Monitor Website by sending HTTP requests with oversized or malformed trace propagation headers.
+- Fixed an issue where certain Azure failures would prevent any cloud information being retrieved
+- Fixed an issue where OpenID Connect authentication failed when the website is behind a reverse proxy (e.g. AWS ALB, nginx) that forwards requests from a non-loopback IP address. This was caused by an upstream .NET runtime change (ASP.NET Core 9.0.6+) that began enforcing proxy trust checks on X-Forwarded-Proto and X-Forwarded-Host headers. Trusted proxy networks can be configured via forwardedHeadersSettings in appsettings.json.
+- Fixed an issue where Oracle custom metric collection was attempted on Data Guard standby instances.
+- Fixed an issue where standalone SQL Servers with a leftover MSCluster WMI namespace would be incorrectly flagged as having a connection failure.
+- Fixed an issue where Aurora instances in a creating state would cause a monitoring error due to a missing availability zone.
+- Fixed an issue that prevented PostgreSQL indexes from being sampled on PostgreSQL 10 instances.
+- Fixed an error that could occur when sampling Aurora instance logs if the RDS API returned no log files.
+- Fixed an issue where some users would be shown bad daily cost data for Cloud Virtual Machines.
+- Fixed an issue where getting tracked queries on a TimescaleDB repository no longer shows internal server errors.
+- Fixed an issue with uncleared Alerts causing blank Global Dashboard.
+
+### Security Fixes
+- CVE-2026-44302 Updated the Snappier package to 1.3.1 to address a reported vulnerability with a CVSS 3.1 base score of 7.5 (High). The vulnerability lies in the MongoDB driver used by Redgate Monitor. Since the driver only uses Snappier if compression is enabled, but Redgate Monitor currently doesn't support compression, Redgate Monitor is unaffected by this vulnerability. See https://github.com/advisories/GHSA-pggp-6c3x-2xmx for more details.
+
+### New Features
+- Added ability to see cost details of AWS EC2 instances on the Estate -> Virtual machines page.
+- Added a daily costs graph to the VM details sidebar, with comparison period overlay support.
+- When adding new cloud service credentials, the test button will now test the credentials more thoroughly and provide more detailed error messages.
+- Added a feature flag which allows users to disable Oracle error log sampling.
+
+### Improvements
+- Improved responsiveness when saving reports as PDF.
+- Viewing current activity doesn't crash the Redgate Monitor Website when there are cyclic sessions.
+
 ## 14.16.0 — April 23, 2026
 
 ### Bug Fixes
