@@ -3663,7 +3663,25 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-05-07 | latest: 0.61.6 (07 May 2026) -->
+<!-- fetched: 2026-05-18 | latest: 0.62.229 (18 May 2026) -->
+
+## 0.62.229 — 18 May 2026
+
+### Improvements
+- Creation dialogs for connections, treatments, database models, and workflows now pre-fill the name field with a sensible default derived from the context (e.g. database name, model name). If the default is already taken an ordinal suffix is appended automatically.
+- Subset treatments can now be run directly from the treatment actions menu and details view.
+- Display alert in treatment summary when AI Classify has finished classifying a Database Model.
+
+### New Features
+- Added 'Create workflow' button to treatment actions menu.
+- Added an 'Edit' option at the top of the dataset dropdown menu in the anonymization grid when a column has a custom (user-created) dataset applied.
+- Added filtering capability to be able to filter by "Classification source": User defined, AI Classify, or Rules defined.
+
+### Bug Fixes
+- Fixed an issue where the tooltip in anonymization summary page shows the incorrect column when a table has the same error in many columns.
+- Fix the issue where the user cannot override the UnsafeDemoPassword via config.
+- Fixed an issue where cancelling the 'Create dataset' form in the anonymization drawer left the typed (unsaved) dataset name visible on the column.
+- Fixed an issue where switching a subset treatment between Custom (starting tables) and Desired Size modes could leave a stale where clause in the UI and prevent saving with a "zero starting tables" error.
 
 ## 0.61.6 — 07 May 2026
 
