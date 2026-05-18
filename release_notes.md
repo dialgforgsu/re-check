@@ -5,9 +5,15 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-05-11 | latest: 9.4.4 (11 May 2026) -->
+<!-- fetched: 2026-05-18 | latest: 9.5.0 (18 May 2026) -->
 
 #
+## 9.5.0 — 18 May 2026
+
+### Improvements
+- Automated Deployment page now has workflows with a manual approval step, for users with GitHub environments with required viewers.
+- The choice between state and migrations deployments has moved from project creation to the Deployment page
+
 ## 9.4.4 — 11 May 2026
 
 ### Improvements
@@ -3223,8 +3229,13 @@
 ---PRODUCT---
 # TDM — Anonymize
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes -->
-<!-- fetched: 2026-05-12 | latest: 2.4.4.2596 (12 May 2026) -->
+<!-- fetched: 2026-05-18 | latest: 2.4.5.2602 (18 May 2026) -->
 <!-- fetched: 2026-04-04 | latest: 1.0.3.1787 (16 January 2024) 
+## 2.4.5.2602 — 18 May 2026
+
+### Improvements
+- Improved AI classification. The Machine Learning classification model was retrained with additional data.
+
 ## 2.4.4.2596 — 12 May 2026
 
 ### Improvements
@@ -6473,8 +6484,15 @@ arch 2025
 ---PRODUCT---
 # SQL Prompt 11.3
 <!-- source: https://documentation.red-gate.com/sp/release-notes-and-other-versions/sql-prompt-11-3-release-notes -->
-<!-- fetched: 2026-05-12 | latest: 11.3.13.23933 (12 May 2026) -->
+<!-- fetched: 2026-05-18 | latest: 11.3.14.24187 (18 May 2026) -->
 <!-- fetched: 2026-04-03 | latest: 11.3.8.22342 (19 March 2026) -
+## 11.3.14.24187 — 18 May 2026
+
+### Bug Fixes
+- Fixed problem that could permanently prevent usage of Prompt AI by having an always disabled Check Prompt AI availability command in the SQL Prompt main menu.
+- Fixed an issue that caused suggestions to fail in SQL Prompt when string concatenation was used with TRIM.
+- Fixed an issue in SSMS 22.6 where opening the Manage License screen in SQL Prompt could display an unexpected error dialog.
+
 ## 11.3.13.23933 — 12 May 2026
 
 ### Improvements
