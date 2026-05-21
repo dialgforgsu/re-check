@@ -3663,7 +3663,15 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-05-18 | latest: 0.62.229 (18 May 2026) -->
+<!-- fetched: 2026-05-21 | latest: 0.63.88 (21 May 2026) -->
+
+## 0.63.88 — 21 May 2026
+
+### Bug Fixes
+- Fixed an issue where restarting the TDM service under a custom Windows service account caused anUnauthorizedAccessExceptionwhen readingkey.dat.
+
+### Improvements
+- Significantly improved load times of anonymize treatment pages for large schemas
 
 ## 0.62.229 — 18 May 2026
 
@@ -6714,8 +6722,14 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
-<!-- fetched: 2026-05-13 | latest: 16.0.15.28900 (12 May 2026) -->
+<!-- fetched: 2026-05-21 | latest: 16.0.16.28949 (21 May 2026) -->
 <!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.0.16.28949 — 21 May 2026
+
+### Bug Fixes
+- Fixed an issue when encountering columns with defaults that use SQL Server functions that don’t have trailing parenthesis e.g.current_date
+- Fixed a PlatformNotSupportedException when generating Classic HTML or Excel reports from the CLI
+
 ## 16.0.15.28900 — 12 May 2026
 
 ### New Features
@@ -7694,7 +7708,875 @@ arch 2025
 ---PRODUCT---
 # SQL Data Compare 16.0
 <!-- source: https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes -->
-<!-- fetched: 2026-05-06 | latest: 16.0.14.28844 (05 May 2026) -->
+<!-- fetched: 2026-05-21 | latest: 16.0.11.28694 (08 April 2026) -->
+
+## 16.0.11.28694 — 08 April 2026
+
+### Improvements
+- Modernized engine progress tracking
+
+## 15.4.28.28077 — 14 November 2025
+
+### New Features
+- Support for SQL Server 2025. New SQL Server 2025 features may not function correctly.
+
+## 15.4.27.28006 — 04 November 2025
+
+### New Features
+- Added support for SSMS 21 as an external SQL Editor
+
+## 15.4.26.27858 — 02 October 2025
+
+### Bug Fixes
+- ZD-335741: Fixed an issue with “Use checksum comparison” option producing an “Object reference not set to an instance of an object” error
+- Fixes incorrect exit code being returned when a licensing error occurs
+
+## 15.4.24.29094 — 02 September 2025
+
+### Bug Fixes
+- ZD-338367: Fixed issue where the deploy now button is greyed out if the deployment script only deletes rows
+
+## 15.4.18.28452 — 03 June 2025
+
+### Bug Fixes
+- ZD-332834 and ZD-328669: Fixed handling of DATETIMEOFFSET when the timezone triggers rolling over months
+
+## 15.4.15.28277 — Apr 16th, 2025
+
+### New Features
+- ZD327775: Added improved error handling when comparing billions of rows
+
+## 15.4.10.27977 — Feb 6th, 2025
+
+### Bug Fixes
+- ZD-325134: Fixed an issue with Data Compare unable to compare with unsupported data type.
+
+## 15.4.6.27751 — Dec 19th, 2024
+
+### Improvements
+- SqlCompareExceptions now provide unredacted Message and ToString() values.
+
+## 15.4.3.27665 — Dec 3rd, 2024
+
+### Improvements
+- Removed the Flyway option from the project dialog, as it had very low usage
+
+## 15.4.2.27580 — Nov 22nd, 2024
+
+### Improvements
+- Updates the licensing client
+- Allows tool to be used across user profiles on the same machine
+- Prioritises licenses correctly
+
+## 15.4.1.27450 — Nov 12th, 2024
+
+### Bug Fixes
+- Ensures the user has verified their email address as part of the login flow
+
+## 15.4.0.27425 — Nov 11th, 2024
+
+### Improvements
+- Updated licensing with improved UI, integration, security, and trials. Read more at https://www.red-gate.com/blog/redgate-licensing-update
+- *   Serial Keys have been retired.
+
+## 15.3.12.27264 — Oct 15th, 2024
+
+### New Features
+- SQL Data Compare Engine no longer has a dependeny on Microsoft.Data.SqlClient. You may need to add this package to your project if you are using the SQL Data Compare Engine NuGet package.
+- Added support for the SSMS20 editor
+
+### Improvements
+- Removed methods marked as Obsolete on public API that depended on Microsoft.Data.SqlClient.
+- Removed .SSMS and .SSMS20 versions of the SQL Data Compare Engine NuGet package.
+
+## 15.3.11.27029 — Sep 17th, 2024
+
+### Improvements
+- Removed dependency on System.Text.Json. When using the ComparisonSessionSerializer, you will now need to provide an implementation of IJsonSerializer.
+
+## 15.3.10.26944 — Sep 12th, 2024
+
+### Improvements
+- Stability improvements for the UI
+
+## 15.3.8.26171 — Jul 16th, 2024
+
+### Improvements
+- Changed the name of sqldatacompare.tar.gz to include the version number
+
+## 15.3.6.25729 — May 8th, 2024
+
+### Improvements
+- ZD-308402: Data rows selection will now be preserved when swapping compare/synchronization directions.
+
+## 15.3.4.25528 — Mar 26th, 2024
+
+### Bug Fixes
+- ZD-307150: Fixed issue when connecting to Azure SQL instance where an error occurred related to the loading of assembly Microsoft.IdentityModel.Abstractions
+
+## 15.3.2.25249 — Feb 15th, 2024
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 5.1.5
+
+## 15.3.1.25177 — Feb 6th, 2024
+
+### Bug Fixes
+- ZD-296925: Fixed an issue when comparing graph tables.
+
+## 15.3.0.25068 — Jan 12th, 2024
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 5.1.4
+- ZD-304352 Prevent table mappings from incorrectly reverting to default state when editing a project.
+
+### New Features
+- Added read-only support for Flyway projects, allowing you perform comparisons with Flyway on the left.
+
+## 15.2.5.24669 — Dec 5th, 2023
+
+### Improvements
+- ZD-299431: Slightly reduced memory usage of the UI and engine.
+- ZD-299431: Deployment script syntax highlighting is now disabled for scripts exceeding 300k lines for performance reasons.
+
+### Bug Fixes
+- ZD-299431: Fixed a memory leak in the SQL Data Compare UI, noticeable when refreshing large comparisons.
+- ZD-299431: Fixed a crash on the pre-deploy Summary tab when toggling the grouping for large deploys.
+
+## 15.2.1.24235 — Oct 31st, 2023
+
+### Bug Fixes
+- ZD-292086: Fixed an issue where Include checkboxes would re-tick themselves if multiple schemas had a table with the same name.
+
+## 15.2.0.24040 — Oct 6th, 2023
+
+### Improvements
+- ZD-297510: Made the table mapping screens more responsive by significantly reducing the number of times they reprocess saved data.
+- Note that the project Save button no longer grays out when there are no unsaved changes.
+
+## 15.1.2.24012 — Sep 28th, 2023
+
+### Improvements
+- Update to licencing link in CLI output
+
+## 15.1.0.23826 — 06 September 2023
+
+### New Features
+- Added link to licensing restrictions documentation in CLI output header
+
+## 15.0.13.23797 — 29 August 2023
+
+### Bug Fixes
+- ZD-294648: Fixes misleading record Include checkbox behavior in Data Compare following a refresh/deployment. Checkboxes now reset to a ticked/un-ticked state, based on the object grid checkbox.
+
+## 15.0.11.23723 — 08 August 2023
+
+### Bug Fixes
+- ZD-285053: Fixes an issue in the command line where options such as “TrustServerCertificate” in the server switches were not being used
+
+## 15.0.9.23488 — May 30th, 2023
+
+### New Features
+- ZD-292465: Added SSMS19 to list of SQL editor options
+
+## 15.0.8.23473 — May 23rd, 2023
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 5.1.1
+
+## 15.0.7.23280 — Mar 14th, 2023
+
+### Improvements
+- “Encrypt” and “Trust server certificate” server connection checkbox values are now loaded with server connection details from server dropdown
+
+## 15.0.6.23274 — Mar 7th, 2023
+
+### Bug Fixes
+- ZD-284324: Fixes a bug where an “Identical items are not deployed.”-error was incorrectly being raised when deploying to scripts folders
+
+## 15.0.5.23181 — Feb 21st, 2023
+
+### Bug Fixes
+- ZD-285412: Fixed issue with table mappings not appearing when connecting through Azure MFA to a managed instance
+
+## 15.0.4.23133 — Feb 14th, 2023
+
+### New Features
+- Added warning to command line clarifying which differences will be deployed
+
+## 15.0.2.22953 — Jan 17th, 2023
+
+### Improvements
+- ZD-282763 “Encrypt” and “Trust Server Certificate” can now be specified on database connections with checkboxes, rather than the workround of manually appending connection string parameters to the server name
+
+### Bug Fixes
+- Fixed minor bugs relating to the handling of long file paths
+
+## 15.0.1.22876 — Jan 11th, 2023
+
+### New Features
+- ZD-283578: Added “Dynamically override default save location when saving to a new location in the deployment script save dialog” option to application settings.
+
+## 15.0.0.22793 — Dec 20th, 2022
+
+### New Features
+- SQL Server 2022 support
+- UI displays a warning that support for SQL Server 2008 and SQL Server 2008R2 will be removed in a future version
+
+### Improvements
+- UI displays a warning when an unsupported scripts folder is selected
+
+## 14.10.8.22508 — Nov 24th, 2022
+
+### New Features
+- Added support for long file paths in windows when enabled in the windows registry (We cannot guarantee how it will work with windows and other applications as it does not seem well supported)
+
+## 14.10.6.22196 — Nov 3rd, 2022
+
+### Improvements
+- SQL Compare will no longer install the Microsoft Active Directory Authentication Library (ADAL) as a pre-requisite as it is superseded by MSAL
+
+## 14.10.4.22065 — Oct 11th, 2022
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 5.0.1
+
+### Bug Fixes
+- ZD-277198: Fixed missing dll reference that appears when attempting Azure authentication
+
+## 14.10.0.21773 — Sep 13th, 2022
+
+### New Features
+- Beta support for SQL Server 2022 Preview. New SQL 2022 features may not function properly.
+
+## 14.9.0.21563 — Aug 10th, 2022
+
+### Improvements
+- ER-71: Change to the process by which static data is written to scripts folders in order to improve ordering consistency.
+
+## 14.8.4.21440 — Jul 19th, 2022
+
+### Bug Fixes
+- ZD-274628: Fixed deploying changes to an edge table that has an identity column as its primary key
+
+## 14.8.3.21395 — Jul 5th, 2022
+
+### Bug Fixes
+- Fixes an issue with verifying server certificates when an explicit port number is set.
+
+## 14.8.0.21190 — Jun 14th, 2022
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 4.1.0
+- SQL Data Compare now encrypts connections to SQL Server by default Previously, connections would have been encrypted according to the server’s Force Encryption setting
+- Setting an Application ID is no longer needed to connect using Azure Active Directory Universal with MFA authentication
+- Linux command line timebomb doubled to 180 days
+
+## 14.7.7.21053 — May 24th, 2022
+
+### Bug Fixes
+- ZD-269383 Fixed an issue with sorting order of data in a scripts folder, with UTF8 collations
+
+## 14.7.6.21017 — May 17th, 2022
+
+### Bug Fixes
+- ZD-269383 Fixed an issue with comparison and deployment of data containing accented characters in char/varchar/text columns, with Latin1_General_100_CS_AS_SC_UTF8 and similar _100_ collations
+
+## 14.7.2.20940 — Apr 7th, 2022
+
+### Improvements
+- ZD-268685 When FIPS is enabled, encrypted objects are now correctly decrypted, when the option to do so is set
+
+## 14.6.14.20342 — December 22nd 2021
+
+### Improvements
+- ZD-260221 More use of WITH (NOLOCK) on DMV queries
+
+## 14.6.12.20158 — November 29th 2021
+
+### New Features
+- To support automation environments, the SQL Compare command line now has an /allUsers flag that can be using when activating to allow it to be used by all users, including service accounts
+
+## 14.6.9.20059 — November 1st 2021
+
+### New Features
+- ZD-261137: Support for SQL Server 2019 differential backups fixed
+
+## 14.6.7.20011 — October 18th 2021
+
+### Bug Fixes
+- ZD259357: Fixed issue in the project settings dialog where the username for a database using Active Directory universal with MFA auth could get copied over the other database’s username
+
+## 14.6.3.19802 — September 16th 2021
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient v3
+
+### Bug Fixes
+- Fixed Active Directory universal with MFA authentication
+
+## 14.6.0.19635 — August 19th 2021
+
+### Improvements
+- Previously, when comparing two decimal fields with a different number of decimal places, in which a number in the source was different to the number in the target, but equal after rounding, we would not list that as a difference. This behaviour has now been changed so that these will be shown in the list of differences.
+
+## 14.5.20.19533 — August 2nd 2021
+
+### Improvements
+- sql_variant fields with a NULL value now show as ‘<NULL>’ instead of ‘Null’, to be consistent with other data types
+
+## 14.5.19.19515 — July 26th 2021
+
+### Improvements
+- Improved performance of reading from backup files
+
+## 14.5.17.19461 — July 19th 2021
+
+### Improvements
+- ZD-252839 - Respect the users decision of turning off some default DCE options
+
+## 14.5.15.19373 — July 5th 2021
+
+### Improvements
+- Changed default deployment script encoding to UTF-8
+- Changed default CSV report encoding to UTF-8
+
+## 14.5.9.19133 — May 24th 2021
+
+### Bug Fixes
+- Fixed help menu link
+
+## 14.5.5.18909 — April 27th 2021
+
+### Improvements
+- ZD-248719: Parser messages are now propagated to command-line output.
+
+## 14.5.4.18843 — April 19th 2021
+
+### Improvements
+- Updated to Newtonsoft.Json 13
+
+## 14.5.3.18766 — April 12th 2021
+
+### Improvements
+- Exception reports now go to Application Insights instead of Raygun
+
+## 14.5.2.18630 — March 23rd 2021
+
+### Improvements
+- ZD-247451: Respect command line parameters MaxTransactionSizeDB and TransactionIsolationLevel
+
+## 14.4.23.18321 — February 22nd 2021
+
+### Improvements
+- SC-10963: The /makescripts option on the command line no longer writes out migration blocks metadata for non-migration blocks databases
+
+## 14.4.14.17548 — December 7th 2020
+
+### Bug Fixes
+- Fixed a NullReferenceException when deploying to a scripts folder with a missing target of a foreign key
+
+## 14.4.12.17429 — November 25th 2020
+
+### Improvements
+- The DoNotOutputCommentHeader option is now respected in the SQL Data Compare command line
+- ZD194840: SQL Data Compare UI now applies selections correctly when Include Identical Values In Results is ticked
+
+## 14.4.10.17174 — November 3rd 2020
+
+### Improvements
+- SDC-3100: The /Include:Additional command line switch will no longer include rows that are present in the source
+
+## 14.4.0.16632 — August 24th 2020
+
+### Improvements
+- Improved consistency between command line and UI behaviours
+
+## 14.3.1.16487 — July 27th 2020
+
+### Improvements
+- Checksum comparison now works against read-only databases
+
+## 14.3.0.16423 — July 20th 2020
+
+### Improvements
+- Engine now uses Microsoft.Data.SqlClient instead of System.Data.SqlClient
+- Engine now depends on SmartAssembly.Attributes package
+- SQL Data Compare will now reject self-signed certificates when connecting over the internet to SQL Servers with force encryption enabled
+
+### New Features
+- SQL Data Compare command line on Linux now supports Azure Active Directory Password authentication
+
+## 14.2.16.16006 — June 4th 2020
+
+### Bug Fixes
+- SC-10848: Fixed issue where saved passwords could be forgotten
+
+## 14.2.15.15984 — June 1st 2020
+
+### New Features
+- SDC-1451: When reading from a backup file, not null columns added with a default value are now read correctly
+
+### Improvements
+- When reading from a backup file, sql_variant columns containing time, datetime2, or datetimeoffset values are now read correctly
+
+## 14.2.11.15654 — April 29th 2020
+
+### Bug Fixes
+- SDC-2992: Fixed partial deployments to scripts folders
+
+## 14.2.1.15041 — February 11th 2020
+
+### Improvements
+- SDC-3027: Columns with incompatible data types that get automapped no longer prevent comparisons
+- SC-10773: Scripts folders containing Microsoft Database projects are now correctly recognized
+- SDC-3029: Some custom comparison keys no longer cause tables to be excluded from the comparison
+
+## 14.2.0.14846 — January 29th 2020
+
+### New Features
+- SQL Data Compare now supports Azure Active Directory Interactive Authentication
+
+## 14.1.8.14471 — January 7th 2020
+
+### Improvements
+- SDC-3019: Where clause editor is now disabled for incompatible data sources
+- The open projects button no longer exhibits erroneous dropdown behavior
+
+## 14.1.6.14245 — December 16th 2019
+
+### Improvements
+- Azure Managed Instances can now take backups before deployment to a supplied URL.
+
+## 14.1.5.14025 — December 2nd 2019
+
+### Improvements
+- SQL Data Compare will now install the Microsoft Active Directory Authentication Library if it is required
+
+## 14.1.3.13888 — November 18th 2019
+
+### Improvements
+- SDC-3004: The command line no longer attempts to deploy tables with no comparison key
+
+## 14.1.2.13797 — November 11th 2019
+
+### Improvements
+- SC-10654: Launching SSMS 18 from SQL Data Compare now behaves correctly when using SQL Authentication
+
+## 14.1.1.13725 — November 5th 2019
+
+### New Features
+- You can no longer add a backup statement to a script that is immediately run on an Azure server, which would always cause the script to fail.
+- ‘master’ no longer appears on the database list for Azure SQL Database and we no longer allow you to register it, as it is not really a full database and may have unexpected behaviour.
+
+### Improvements
+- SDC-2997: We no longer deselect the whole table when you have a column deselect in your project which doesn’t match any registered columns, because this was causing us to deselect tables where the column was hidden by an option e.g.ignore timestamp columns.
+- SQL Data Compare no longer attempts to connect to an Azure SQL Database to check SQL Backup install status or do folder browsing, neither of which work on Azure SQL Database.
+
+## 14.1.0.13605 — October 28th 2019
+
+### Improvements
+- Improved error messages around Azure Active Directory authentication.
+- Improved labelling of authentication types to make it clearer which ones are only applicable to on-prem or Azure SQL Database connections.
+
+## 14.0.6.13387 — October 14th 2019
+
+### Improvements
+- Enabled sharing of recently used servers with other Redgate products
+
+## 14.0.5.13297 — October 7th 2019
+
+### Improvements
+- SC-10056: Server combobox in the live database connection form now correctly updates when clicking the swap sides button
+
+## 14.0.3.13106 — September 23rd 2019
+
+### Improvements
+- SQL Data Compare command line is now available as a linux container on Docker Hub
+- Command line on Linux now logs to the /logs directory
+
+## 14.0.2.13006 — September 16th 2019
+
+### Improvements
+- SDC-2986: The deployment progress dialog will now only display the last element in a batch
+
+## 14.0.1.12901 — September 9th 2019
+
+### Improvements
+- Server retrieval in connection dialog now retrieves local server instances more comprehensively
+
+## 13.8.0.12703 — August 27th 2019
+
+### Improvements
+- Faster script parser - scripts folders should load data much faster from all tables.
+
+### New Features
+- New command line error code - 60 - for the state where there are no comparable tables/views. This would previously have returned error code 63, which now only covers identical databases.
+
+## 13.7.21.12250 — July 31st 2019
+
+### Improvements
+- SDC-2976: Stop mappings list entirely refreshing itself and resetting scroll position to the top when e.g.column selection edits are made
+- SOC-9937: Improved handling of static data for unusual table names
+
+## 13.7.20.12175 — July 29th 2019
+
+### Bug Fixes
+- Fixed a crash when SQL contains hundreds of nested parentheses.
+
+## 13.7.19.12066 — July 22nd 2019
+
+### Improvements
+- Tables that had no available comparison key, and hence could not be compared, are now displayed in command line output with the string ‘No PK or UQ’ in the ‘Records’ column and ‘x’ in the DB1 and DB2 columns, rather than entirely ignored. Similarly, tables with no data in will be displayed with the string ‘No data’ in the ‘Records’ column and ‘x’ in the DB1 and DB2 columns. These will only appear if /Include:Identical is specified, as they can’t form part of a deployment.
+
+## 13.7.18.11916 — July 15th 2019
+
+### Improvements
+- SDC-2763: You can now bring up the difference viewer more easily when you edit a project with only one table/view and re-compare
+
+## 13.7.16.11325 — June 13th 2019
+
+### New Features
+- SDC-2955: New projects will now get a new set of table / schema mappings, rather than reusing the previous project’s mappings if the data sources matched.
+
+## 13.7.8.10109 — April 1st 2019
+
+### Improvements
+- SDC-2938: Data compare command line no longer throws away options in the project file when using the project switch
+
+## 13.7.7.10021 — March 26th 2019
+
+### Improvements
+- Removed remaining vestigial dependency on SMO package.
+- SQL Data Compare Engine now dual targets both net461 and netstandard2.0. Please note that netstandard2.0 versions of the Compare and Data Compare engines are not really ready for use in anger.
+
+## 13.7.6.9920 — March 18th 2019
+
+### Improvements
+- RedGate.SQLCompare.ASTParser NuGet package has been updated to include both net461 and netstandard2.0 content.
+- Removed dependency on Microsoft.SqlServer.ManagementObjects NuGet package.
+- SQLite dependency upgraded to version 1.0.110
+
+## 13.7.5.9811 — March 11th 2019
+
+### Improvements
+- Engine NuGet packages now have the packaged assemblies delivered in the lib\net461 folder, rather than the lib folder directly.
+
+## 13.7.3.9483 — February 20th 2019
+
+### Improvements
+- SDC-1639: Transaction isolation level can now be specified
+
+## 13.7.2.9407 — February 18th 2019
+
+### Improvements
+- The ongoing migration of our project files to the VS 2017 format may introduce subtle changes to the various Compare and Data Compare NuGet packages.
+- The RedGate.SQLCompare.ASTParser and RedGate.SQLCompare.Engine NuGet packages now include some previously missing NuGet package dependencies. These may potentially result in downstream dependency conflicts.
+- SDC-2927: Concatenated strings in static data can now be parsed
+
+### Bug Fixes
+- SDC-2930: Fixed a code path where certain deployment options could be ignored
+
+## 13.7.0.9250 — February 7th 2019
+
+### Improvements
+- SDC-2906: Worked around a Windows Installer error that caused Microsoft.SqlServer.Management.SqlParser.dll to be removed when upgrading SQL Data Compare.
+
+### New Features
+- SDC-2925: Rows on node tables are now added before rows on edge tables, and vice versa when deleting rows
+
+## 13.6.14.9174 — February 4th 2019
+
+### Improvements
+- Additional logging of .NET assembly loading to help investigate SDC-2906.
+
+## 13.6.11.8947 — January 23rd 2019
+
+### Bug Fixes
+- Fixed an issue with SOC integration
+
+## 13.6.8.8602 — January 8th 2019
+
+### Breaking Changes
+- Minor script ordering change - constraint and key nocheck and drop statements will now group slightly differently (check constraints are now in their own section rather than mixed in with primary, unique and foreign keys)
+
+### Bug Fixes
+- SDC-2914 Fixes comparison between TINYINT and NUMERIC(x,y) columns
+
+## 13.6.3.8160 — November 12th 2018
+
+### Improvements
+- SDC-2889: Stop Data Compare from creating an additional folder in the scripts data when generating a deployment script
+- SDC-2889: As part of 2889 above I renamed DisposeOfSyncInfo to DisposeOfExecutionBlock which is called twice from SQLSourceControl
+
+### Bug Fixes
+- SOC-9648: Fixed issue where DataFileSet is not updated when using Synchronise
+
+## 13.6.2.7987 — October 23rd 2018
+
+### Improvements
+- SDC-2747: When resizing the comparison key window in a mapping dialog, the scrollbar no longer disappears
+- The SQL Data Compare UI build now runs the Compare Engine through SmartAssembly
+
+### Bug Fixes
+- SDC-2894: The command line now exits with the correct exit code when the license is invalid
+
+## 13.5.1.7638 — September 24th 2018
+
+### Improvements
+- SDC-2884 - MissingIn2AsInclude command line option now includes key columns again in output script
+
+## 13.4.8.7337 — September 3rd 2018
+
+### Improvements
+- The SQL Data Compare Engine package now directly references Microsoft.SqlServer.SqlManagementObjects insead of relying on a transitive reference through SQL Compare Engine.
+- SQL Data Compare now correctly outputs server name as part of the source and target databas names in CSV report exported from the command line
+
+## 13.4.6.7079 — August 13th 2018
+
+### Improvements
+- SDC-2861: Reduce re-registrations in the edit project dialog
+
+## 13.4.4.6883 — July 24th 2018
+
+### New Features
+- SDC-1262 Option to include a USE <databaseName> statement added, consistent with SQL Compare
+
+## 13.4.2.6669 — July 2nd 2018
+
+### Improvements
+- SDC-2833: Dropping an index linked via a foreign key to a table that is not selected for deployment will now ensure the foreign key dependency is respected
+
+## 13.4.0.6563 — June 20th 2018
+
+### Improvements
+- SDC-2862: If “WHERE” is included in a where clause, it no longer causes a broken update script
+
+## 13.3.8.6436 — June 11th 2018
+
+### Improvements
+- SQL Data Compare more consistently compares data from a scripts folder when using a VARCHAR comparison key.
+
+## 13.3.6.6375 — June 4th 2018
+
+### New Features
+- SDC-2857: Add option to include generated always columns in the comparison
+
+### Improvements
+- SDC-2844: Update collations to use Microsoft library to improve consistency
+- Performance improvements when populating indexes from a database
+
+## 13.3.5.6244 — May 23rd 2018
+
+### Improvements
+- Telemetry has been updated in accordance with the privacy policy available at https://www.red-gate.com/website/legal
+
+## 13.3.4.6198 — May 17th 2018
+
+### Improvements
+- Redgate.*.Obfuscated packages no longer built
+- SDC-2843: SQL Data Compare command line won’t throw an error when an unmapped column that doesn’t exist in the source is excluded on the command line
+
+## 13.3.2.5875 — April 17th 2018
+
+### Breaking Changes
+- SDC-2826: The ‘Drop primary keys, indexes, and unique constraints’ option no longer drops unique ROWGUIDCOL indexes on tables that include a FILESTREAM field.
+
+### Improvements
+- SC-10036: The SQL Data Compare command line will no longer fail when there is whitespace between options in an XML argument file
+
+## 13.3.1.5775 — April 9th 2018
+
+### Improvements
+- SQL Data Compare command line now includes switches /activedirectory1 and /activedirectory2 to specify the use of Azure Active Directory authentication
+- SDC-2799: The Reseed identity columns option now sets the current seed of the target to the current seed of the source when possible
+
+## 13.2.4.5728 — March 23rd 2018
+
+### Improvements
+- Differences.Remove() has been renamed to Filter(). Difference objects passed to this method will have their Selected property set to false.
+
+## 13.2.1.5640 — March 1st 2018
+
+### Improvements
+- Bulk uninstaller improvements
+
+## 13.1.9.5540 — January 16th 2018
+
+### Bug Fixes
+- SDC-2798: Fixed some incorrect script comments regarding SQL Graph EGDE tables.
+
+## 13.1.8.5525 — January 8th 2018
+
+### Improvements
+- Integrates the Redgate bulk uninstaller
+
+## 13.1.7.5470 — December 11th 2017
+
+### Bug Fixes
+- SDC-2788: Fixed a memory leak during deployment.
+
+## 13.1.6.5463 — December 5th 2017
+
+### Bug Fixes
+- SC-9683: Fixed display of warning message text, which was invisible for some .NET 4.7 users
+
+### Improvements
+- SQL Data Compare Command Line now runs in 64-bit mode by default
+
+## 13.1.3.5405 — November 14th 2017
+
+### Bug Fixes
+- SDC-2764: Fixed a Windows Clipboard interaction bug when choosing which server to connect to
+
+## 13.1.0.5287 — October 16th 2017
+
+### Improvements
+- SDC-2745: Display pseudo column names for column headers instead of the full column name
+- SC-8880: Scripts folders can now be in the root of a drive (as long as it is otherwise empty)
+
+### Bug Fixes
+- SDC-2753: Fixed a crash at the start of the Deployment Wizard
+
+## 13.0.6.5248 — October 9th 2017
+
+### Improvements
+- SC-9740: Ensured that warning messages correctly show a title next to the icon
+
+## 13.0.5.5219 — October 2nd 2017
+
+### Improvements
+- SQL Data Compare now requires .NET 4.6.1
+- Improved the installer UI for SQL Data Compare
+
+## 13.0.3.5144 — September 19th 2017
+
+### Bug Fixes
+- SC-9175: fix an issue where incorrect credentials could be used when registering, after typing server names into the connection dialog.
+
+## 13.0.2.5109 — September 11th 2017
+
+### Improvements
+- SQL Data Compare now lists SQL Server Management Studio 17 as a default script editor
+- SQL Data Compare now remembers passwords in the Windows Credential Store, as well as the project file.
+
+## 13.0.1.5078 — September 4th 2017
+
+### Improvements
+- SQL Data Compare Engine now targets .NET 4.0 instead of .NET 3.5
+- SC-9662: The command line now displays your serial number correctly
+
+### Bug Fixes
+- SDC-2639: Fixed a crash when performing checksum comparisons
+
+## 13.0.0.5057 — August 29th 2017
+
+### Breaking Changes
+- SDC-2555, SDC-2199, SDC-2224: SQL Data Compare now drops foreign keys to allow other indexes to be dropped
+
+## 12.4.11.5008 — August 21st 2017
+
+### Improvements
+- SDC-2557: Remove “Create a SQL Compare snapshot” as a backup target option since it doesn’t perform any operations
+
+## 12.4.9.4945 — July 31st 2017
+
+### New Features
+- SC-9335: SQL Data Compare now supports Azure Active Directory authentication with integrated and password authentication methods. These options are available in the ‘Authentication’ dropdown in the ‘Database’ section of the ‘Edit project’ window. Note that this feature requires .NET 4.6 and adalsql.dll to be installed; see https://docs.microsoft.com/en-us/azure/sql-database/sql-database-aad-authentication-configure#configure-your-client-computers for more details
+
+### Bug Fixes
+- SDC-2556: Fixed a crash when recomparing data after a deployment
+
+## 12.4.8.4926 — July 26th 2017
+
+### Improvements
+- SDC-2553: Data Compare no longer crashes when attempting to view the comparison key or column mapping dialogs
+
+## 12.4.7.4905 — July 13th 2017
+
+### Improvements
+- SC-9509: The ‘Export CSV files’ menu item will now be enabled after comparing a project from the ‘My projects’ window using the ‘Compare now’ option
+- SC-9514: Switching deployment direction will no longer cause the currently selected table to be deselected
+
+### Bug Fixes
+- Fixed an issue where cancelling a comparison at a specific moment could cause SQL Data Compare to hang
+
+## 12.4.3.4752 — June 20th 2017
+
+### Improvements
+- SC-9494: SQL Compare will no longer truncate extra long warnings in the deployment wizard
+- SDC-2502: SQL Data Compare should now correctly preserve newline characters in multiline strings in the deployment script
+
+### Bug Fixes
+- SDC-2509: Fixed a bug which could cause the ‘Selected X of Y’ count in the results grid to get out of sync after refreshing the comparison.
+
+## 12.4.2.4681 — June 7th 2017
+
+### Improvements
+- SDC-2548: SQL Data Compare can now hide columns with no different values, even if inserted and deleted values exist
+
+### Bug Fixes
+- SC-9437: Fixed a bug which could cause some rows in the My Projects dialog to not render correctly when there were some invalid project files in the displayed folder
+
+## 12.4.1.4639 — May 30th 2017
+
+### New Features
+- The authentication type for databases (Windows/SQL Server) is now specified as a dropdown. This allows more authentication types to be added in the future.
+
+### Bug Fixes
+- SDC-2547: Fixed an error displaying columns in the correct order when switching between tabs in the differences grid.
+- SC-9404: Fixed a bug which prevented the saved sort order in the My Projects dialog from being applied correctly
+- SC-9456: Fixed some high-DPI display issues in the deployment wizard ‘Deployment method’ settings that occurred when the windows UI scale was set to 250% or greater
+- SC-9474: Fixed some high-DPI display issues in the deployment wizard title bar
+
+### Improvements
+- SDC-2507: When selecting columns for comparison, all selection will now be saved rather than only those that are visible using the “Find” function.
+- SC-9439: The “Edit selected file” button on the “Error parsing scripts” dialog will now correctly launch the selected editor
+
+## 12.3.3.4490 — May 8th 2017
+
+### Improvements
+- The “My Projects” window can now be opened from the toolbar
+- The ‘Use checksum comparison’ and ‘Treat empty string as NULL’ options can now be used together. Comparing a NULL value and empty string will cause the table checksums to be different, but Data Compare should then treat these values as equal when comparing the tables.
+- SC-9399: When using the SQL Source Control data source, progress updates will now be displayed while the requested revision of the scripts folder is being checked out.
+
+## 12.3.2.4426 — April 26th 2017
+
+### Improvements
+- SDC-2459: Data Compare no longer matches on all columns when custom comparison keys are used, and no keys are repeated.
+
+### Bug Fixes
+- SDC-2505: Fixed a bug that could prevent Data Compare from scripting out some INSERT/DELETE statements when not all rows were selected and the deployment direction was reversed.
+
+## 12.3.1.4383 — April 12th 2017
+
+### Bug Fixes
+- Fixed a silent crash on start up that could occur when upgrading from SQL Data Compare 12.2.3 or 12.2.4
+
+## 12.3.0.4373 — April 10th 2017
+
+### Improvements
+- SQL Data Compare can now register SQL Server vNext backups and scripts folders
+- SDC-2485: DateTime data is now formatted consistently in the differences grid.
+- SC-9339: The size of the My Projects dialog is now saved between sessions
+
+### New Features
+- SDC-2493: Regular expressions are now supported when using the excludecolumns and includecolumns switches in the command line.
+
+## 12.2.4.4299 — March 30th 2017
+
+### Improvements
+- SC-9066: It is now possible to compare to a historical git revision (Requires SQL Source Control 5.5.4 or later)
+- SDC-2383: Individual cells in the Data Compare differences grid are now highlighted only when they contain a difference.
+- SC-9374, SC-9376: Choosing ‘HEAD’ as the source control revision no longer causes a ‘Value cannot be null’ error in the UI or command line
+
+## 12.2.2.4140 — March 13th 2017
+
+### Improvements
+- SC-9338: The My Projects dialog will now remember the previous sort ordering
+- SDC-2448: Improved warning messages around referential integrity.
+- SC-9204: Filenames are no longer truncated in the deployment wizard when updating a scripts folder
+- SC-8944: Improved the title bars of various dialogs in high DPI mode
 
 ## 16.0.14.28844 — 05 May 2026
 
