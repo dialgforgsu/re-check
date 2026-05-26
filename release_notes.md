@@ -5,9 +5,17 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-05-18 | latest: 9.5.0 (18 May 2026) -->
+<!-- fetched: 2026-05-26 | latest: 9.5.2 (26 May 2026) -->
 
 #
+## 9.5.2 — 26 May 2026
+
+### New Features
+- Added Filters UI support for Postgres projects to enable users to filter out objects during comparison.
+
+### Improvements
+- Flyway Desktop will now restore previous open tabs on launch
+
 ## 9.5.0 — 18 May 2026
 
 ### Improvements
