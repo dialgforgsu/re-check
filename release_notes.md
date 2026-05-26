@@ -2533,7 +2533,13 @@
 ---PRODUCT---
 # TDM — Subsetter
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes -->
+<!-- fetched: 2026-05-26 | latest: 2.2.18.3556 (26 May 2026) -->
 <!-- fetched: 2026-04-03 | latest: 0.6.0.0 (19 September 2
+## 2.2.18.3556 — 26 May 2026
+
+### Bug Fixes
+- Fixed an issue where not specifying an options file was defaulting to a subset of 0MB.
+
 ## 2.2.14.3210 — 12 March 2026
 
 ### Bug Fixes
@@ -3237,8 +3243,13 @@
 ---PRODUCT---
 # TDM — Anonymize
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes -->
-<!-- fetched: 2026-05-18 | latest: 2.4.5.2602 (18 May 2026) -->
+<!-- fetched: 2026-05-26 | latest: 2.4.6.2622 (26 May 2026) -->
 <!-- fetched: 2026-04-04 | latest: 1.0.3.1787 (16 January 2024) 
+## 2.4.6.2622 — 26 May 2026
+
+### Improvements
+- Improved the speed of masking when dealing with large text columns.
+
 ## 2.4.5.2602 — 18 May 2026
 
 ### Improvements
