@@ -5,9 +5,15 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-05-26 | latest: 9.5.2 (26 May 2026) -->
+<!-- fetched: 2026-05-27 | latest: 9.5.3 (27 May 2026) -->
 
 #
+## 9.5.3 — 27 May 2026
+
+### New Features
+- Add preview Oracle option to add existence checks to scripts - currently supports index creation statements
+- Added an option to copy the sign-in link to the clipboard, for users where the browser cannot automatically be opened
+
 ## 9.5.2 — 26 May 2026
 
 ### New Features
