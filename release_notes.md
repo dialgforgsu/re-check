@@ -2010,7 +2010,41 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-05-15 | latest: 14.17.0 (May 14, 2026) -->
+<!-- fetched: 2026-05-28 | latest: 14.18.0 (May 28, 2026) -->
+## 14.18.0 — May 28, 2026
+
+### Security Fixes
+- CVE-2026-44503 Updated the Microsoft.Kiota.Http.HttpClientLibrary package to 1.22.2 to address a reported vulnerability with a CVSS 3.1 base score of 6.5 (Medium). Redgate Monitor uses this library in its support for monitoring Microsoft Entra domains. Requests are only made to Microsoft Azure APIs, and there's no evidence that any of these APIs have been compromised. See https://github.com/advisories/GHSA-7j59-v9qr-6fq9 for more details.
+
+### Improvements
+- Linux host CPU utilization metrics now exclude I/O wait time from the calculation. The CPU is idle during I/O waits, so including it previously overstated utilization. This results in lower reported CPU percentages for Linux machines with significant I/O activity. Customers with CPU alert thresholds configured for Linux hosts may need to adjust their thresholds.
+- Amazon RDS Host and Azure Flex monitored entities can now be removed using the Powershell API.
+- Redgate Monitor now warns on the monitored server's log page when msdb.dbo.sysjobhistory has grown large enough to slow SQL Server Agent job history collection. See https://www.red-gate.com/monitor14/improving-job-history-sampling-performance for recommended maintenance, indexing, and how to adjust the warning threshold.
+- Improved the load time of PostgreSQL top queries.
+- Stop showing Azure SQL Database Hyperscale instances on the Estate -> Backups page.
+- Alerts for a custom metric will now be raised for Amazon RDS for SQL Server when the metric is running against system databases. If this behavior is not intended, specify the databases to be excluded from the custom metrics configuration page.
+- Exclude VM snapshot backups from backup history and RPO calculations on the Backups Estate page.
+- Linux installations: environment variable names for connection strings are now REDGATE_MONITOR_PostgresRepositoryConnectionString / REDGATE_MONITOR_SqlServerRepositoryConnectionString and are now read directly by the Base Monitor. Existing installations using the old names will continue to work without any changes.
+- As a result of performance improvement changes, PostgreSQL query plans are no longer accessible from a query's kebab menu.
+- Change the default timeout for Postgres sampling to 15 minutes and make it configurable through the key value pair setting Postgres-EntitySamplingQueryTimeoutMinutes.
+
+### New Features
+- Added effective costs to the Estate -> Virtual machines page (originally only showing billed costs).
+- Enterprise edition - New alert type for server role membership changes is now available. This alert is raised when a principal is added to or removed from a server role, indicating potential privilege changes.
+- Added a Spills column to the Query Executions tab showing the count of pages each query spilled to tempdb.
+- New Analysis graph uses stepping when based on stable samples (to match orginal behaviour)
+
+### Bug Fixes
+- Fixed an issue where the PowerShell module would report a misleading version mismatch error when a transient connection problem occurred, instead of reporting the actual connection failure.
+- Fixed an issue where PostgreSQL monitoring would fail with an interval syntax error on systems with a locale that uses a comma as the decimal separator (e.g. Italian, German, Turkish).
+- Fixed an issue where Postgres query plan compare would fail in some cases for IIS installations.
+- Fixed an issue where multiple Availability Groups that contain databases with the same name would cause an ArgumentException.
+- Fixed an issue to collect and raise alert for custom metrics running against system databases on Amazon RDS for SQL Server.
+- Fixed an issue where the alert suppression windows displayed in the UI could diverge from the repository.
+- Fixed the white space issue seen in some viewports.
+- Fixed an issue where severity sections on the Overview Dashboard could appear in the wrong order when grouped by status.
+- Fixed an issue where alert notifications were not sent when an alert ended because its configuration was changed (e.g. the threshold was raised above the current value).
+
 ## 14.17.0 — May 14, 2026
 
 ### Bug Fixes
