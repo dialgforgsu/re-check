@@ -177,7 +177,30 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-05-12 | latest: 12.6.1 (12 May 2026) -->
+<!-- fetched: 2026-05-29 | latest: 12.7.0 (29 May 2026) -->
+
+## 12.7.0 — 29 May 2026
+
+### Improvements
+- Flyway can load custom SQLFluff rules for use in the Check command
+- API users are now required to include the flyway-proprietary module to use Redgate proprietary features
+- Upgraded RgCompare to 1.58.2.4353
+
+## 12.6.2 — 21 May 2026
+
+### Improvements
+- Environment Variable resolver syntax now works in all flyway configuration parameters, not just environment connection properties
+- Upgraded ch.qos.logback:logback-classic from 1.2.3 to 1.2.13
+- Upgraded org.apache.derby:derby from 10.16.1.1 to 10.17.1.0
+- Upgraded org.apache.logging.log4j:log4j-core from 2.17.1 to 2.25.4
+- Upgraded RgCompare to 1.58.1.4262
+
+### New Features
+- Issue 4238 Cockroach v26 is now supported
+
+### Bug Fixes
+- fix crash in check code when SQLFluff emits LXR violations for files containing a UTF-8 BOM
+- Fixed misleading "try running the 'auth' command" warning appearing when already running auth command
 
 ## 12.6.1 — 12 May 2026
 
