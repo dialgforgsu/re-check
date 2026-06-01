@@ -3745,7 +3745,17 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-05-21 | latest: 0.63.88 (21 May 2026) -->
+<!-- fetched: 2026-06-01 | latest: 0.64.177 (1 June 2026) -->
+
+## 0.64.177 — 1 June 2026
+
+### Improvements
+- Disable classification source filtering capability in Summary and Anonymization pages.
+- Connection status is now shown inline throughout the UI. This will tell you if a connection can be connected to or not and can be refreshed on demand.
+- Temporarily disable classification source filtering capability in Summary and Anonymization pages.
+- Improve display of some categories of validation errors throughout TDM GUI.
+- Improved accuracy of dry run results when using code view.
+- Existing custom datasets can now have their types edited (e.g. pattern ⇒ list) again.
 
 ## 0.63.88 — 21 May 2026
 
