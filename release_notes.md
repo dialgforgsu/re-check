@@ -3306,8 +3306,16 @@
 ---PRODUCT---
 # TDM — Anonymize
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes -->
-<!-- fetched: 2026-05-26 | latest: 2.4.6.2622 (26 May 2026) -->
+<!-- fetched: 2026-06-02 | latest: 2.4.7.2636 (02 June 2026) -->
 <!-- fetched: 2026-04-04 | latest: 1.0.3.1787 (16 January 2024) 
+## 2.4.7.2636 — 02 June 2026
+
+### New Features
+- Improved AI Classification. Added minimum width guardrail checks, equivalent to those in the default rules.
+
+### Improvements
+- Improved AI Classification. CreditCardNumbers, PhoneNumbers, USSocialSecurityNumbers, and ZipCodes are no longer classified on numeric columns.
+
 ## 2.4.6.2622 — 26 May 2026
 
 ### Improvements
