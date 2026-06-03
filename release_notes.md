@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-05-27 | latest: 9.5.3 (27 May 2026) -->
+<!-- fetched: 2026-06-03 | latest: 9.5.4 (03 June 2026) -->
 
 #
+## 9.5.4 — 03 June 2026
+
+### Improvements
+- Postgres filter editor: multiple rules per object type are now allowed, enabling patterns such as ‘Include when table name = X’ alongside ‘Exclude table’
+
 ## 9.5.3 — 27 May 2026
 
 ### New Features
@@ -2033,7 +2038,31 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-05-28 | latest: 14.18.0 (May 28, 2026) -->
+<!-- fetched: 2026-06-03 | latest: 14.19.0 (June 3, 2026) -->
+## 14.19.0 — June 3, 2026
+
+### Breaking Changes
+- After upgrading, PostgreSQL queries with existing plan history will show a duplicate plan entry. This is due to a breaking change to query plan storage which greatly improves efficiency, and will resolve as the data reaches its retention period.
+
+### Improvements
+- Native ServiceNow and Microsoft Teams notifications are now out of preview.
+- Individual query execution monitoring is now available for Azure SQL Database and Azure SQL Managed Instance. See https://www.red-gate.com/monitor14/individual-query-executions for details.
+- When a SQL Server database is inaccessible to the monitoring account (for example, a database restored from another server where the monitoring user has no user mapping), the monitored server now shows Monitoring with limited sampling in amber, and the monitoring log lists each affected database with the specific error. Previously this was silently ignored and no indication was shown in the UI.
+- PostgreSQL query plan history now distinguishes plans that use different indexes, making index changes visible as plan changes.
+- Configuration Compliance now uses a ≠ icon (rather than an up/down arrow) when Min server memory or Max server memory differs from the baseline, since the baseline is a target value rather than a threshold.
+- Enterprise edition - Removed some rules from the built-in compliance templates that incorrectly specified expectations for unused SQL Server protocols and the SQL Server Browser service.
+
+### New Features
+- Added hover functionality for medium-sized cards on the global dashboard.
+- New Analysis chart now locks the Y-axis for percentage metrics to 0 to 100%
+
+### Bug Fixes
+- Fixed an issue where viewing the details of a low disk space alert raised on an Azure Database for PostgreSQL/MySQL Flexible Server host would fail with an error.
+- Fixed an issue where the "View actual plan" button was hidden on the Top Queries drilldown for SQL Server 2022 instances, even when actual execution plans were being collected.
+- Fixed an issue where query execution monitoring would fall back to full scans after restarting the Base Monitor on on-premises SQL Server instances.
+- Fixed an issue where Amazon Aurora PostgreSQL instance log sampling could throw an ArgumentOutOfRangeException due to log entries being split or duplicated across AWS RDS API pagination boundaries.
+- Fixed an issue causing cluster query errors to be displayed for standalone SQL Server instances.
+
 ## 14.18.0 — May 28, 2026
 
 ### Security Fixes
@@ -6822,8 +6851,14 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
-<!-- fetched: 2026-05-21 | latest: 16.0.16.28949 (21 May 2026) -->
+<!-- fetched: 2026-06-03 | latest: 16.0.17.29004 (03 June 2026) -->
 <!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.0.17.29004 — 03 June 2026
+
+### Bug Fixes
+- ZD-357153: Fixed parsing of SQL Server 2019 graph query syntax (SHORTEST_PATH, FOR PATH, WITHIN GROUP (GRAPH PATH)) in stored procedure and view bodies
+- Fixed an issue where scripting options were not being honored during script generation
+
 ## 16.0.16.28949 — 21 May 2026
 
 ### Bug Fixes
@@ -7808,7 +7843,12 @@ arch 2025
 ---PRODUCT---
 # SQL Data Compare 16.0
 <!-- source: https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes -->
-<!-- fetched: 2026-05-21 | latest: 16.0.11.28694 (08 April 2026) -->
+<!-- fetched: 2026-06-03 | latest: 16.0.17.29004 (03 June 2026) -->
+
+## 16.0.17.29004 — 03 June 2026
+
+### Bug Fixes
+- Fixed an issue so that a recomparison is not required after making a change to deployment behavior options.
 
 ## 16.0.11.28694 — 08 April 2026
 
