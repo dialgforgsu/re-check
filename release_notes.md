@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-06-03 | latest: 9.5.4 (03 June 2026) -->
+<!-- fetched: 2026-06-04 | latest: 9.5.5 (04 June 2026) -->
 
 #
+## 9.5.5 — 04 June 2026
+
+### Improvements
+- Filter UI for PostgreSQL projects now includes an option to filter across any object type
+
 ## 9.5.4 — 03 June 2026
 
 ### Improvements
@@ -182,7 +187,16 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-05-29 | latest: 12.7.0 (29 May 2026) -->
+<!-- fetched: 2026-06-04 | latest: 12.8.0 (4 June 2026) -->
+
+## 12.8.0 — 4 June 2026
+
+### Improvements
+- Flyway now warns when an offline permit is due to expire within the next 30 days
+- Improved progress reporting for PostgreSQL, MySQL and SQLite
+- Oracle EXEC statements preceded by a comment now parse correctly
+- API users now must include a flyway Licensing module dependency to be recognized as Redgate edition
+- Upgraded RgCompare to 1.58.3.4416
 
 ## 12.7.0 — 29 May 2026
 
