@@ -3804,7 +3804,17 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-06-01 | latest: 0.64.177 (1 June 2026) -->
+<!-- fetched: 2026-06-05 | latest: 0.65.105 (5 June 2026) -->
+
+## 0.65.105 — 5 June 2026
+
+### New Features
+- Add sorting and filtering to workflow runs page.
+- Turn off AI Classify by default for new Database models
+- Hide Windows Authentication when connecting to SQL Server instances on Docker builds of TDM, which don't currently support it.
+
+### Improvements
+- Remove classification source filtering capability in Summary and Anonymization pages.
 
 ## 0.64.177 — 1 June 2026
 
