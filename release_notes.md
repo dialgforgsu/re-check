@@ -187,7 +187,15 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-06-04 | latest: 12.8.0 (4 June 2026) -->
+<!-- fetched: 2026-06-05 | latest: 12.8.1 (5 June 2026) -->
+
+## 12.8.1 — 5 June 2026
+
+### Bug Fixes
+- Fix FLYWAY_TOKEN and FLYWAY_EMAIL environment variables not being recognised for PAT authentication
+
+### Improvements
+- Upgraded RgCompare to 1.58.3.4420
 
 ## 12.8.0 — 4 June 2026
 
