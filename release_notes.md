@@ -2060,7 +2060,12 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-06-03 | latest: 14.19.0 (June 3, 2026) -->
+<!-- fetched: 2026-06-09 | latest: 14.19.1 (June 9, 2026) -->
+## 14.19.1 — June 9, 2026
+
+### Improvements
+- Re-enable snapshot backups in backup history and RPO calculations on the Backups Estate page which were causing false backup overdue alerts, This was disabled in version 14.18.0.
+
 ## 14.19.0 — June 3, 2026
 
 ### Breaking Changes
