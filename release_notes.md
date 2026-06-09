@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-06-04 | latest: 9.5.5 (04 June 2026) -->
+<!-- fetched: 2026-06-09 | latest: 9.5.6 (09 June 2026) -->
 
 #
+## 9.5.6 — 09 June 2026
+
+### Bug Fixes
+- Fixed an issue around being unable to select a filter effect in the PostgreSQL filter UI if the object type wasn’t selected
+
 ## 9.5.5 — 04 June 2026
 
 ### Improvements
