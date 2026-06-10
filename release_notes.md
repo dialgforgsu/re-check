@@ -2065,7 +2065,23 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-06-09 | latest: 14.19.1 (June 9, 2026) -->
+<!-- fetched: 2026-06-10 | latest: 14.20.0 (June 10, 2026) -->
+## 14.20.0 — June 10, 2026
+
+### Improvements
+- SQL Agent job monitoring is now available for Contained Availability Groups. Job definitions, history, activity, and schedules are collected and surfaced in the Estate Jobs view and alert configuration.
+- Improved the blocking tree viewer for better usability and control.
+- The Estate > Disk Usage > Disk page now caches its data, reducing load times on subsequent refreshes.
+- When creating or viewing an access token, the UI now indicates the selected servers that the token has access to.
+
+### New Features
+- New Analysis - Fixed an issue where chart series were displaying in gray when there are lots of displayed series.
+
+### Bug Fixes
+- Fixed an issue that would cause availability groups with an apostrophe in their name to fail loading in the Availability Groups page.
+- Fixed Oracle current activity failing with ORA-06502 when a monitored session has long SQL text.
+- Fixed an issue where an unreachable or restarting Oracle instance (notably on Amazon RDS) did not raise the high-severity Instance unreachable alert.
+
 ## 14.19.1 — June 9, 2026
 
 ### Improvements
