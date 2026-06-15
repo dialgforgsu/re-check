@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Redgate Release Intelligence</title>
+<link rel="alternate" type="application/rss+xml" title="Redgate Release Intelligence" href="/feed.xml"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -306,6 +307,9 @@ select { padding: 6px 10px; border: 0.5px solid var(--color-border-secondary); b
     <div class="sync-lbl" id="sync-lbl">Not synced</div>
     <button class="btn btn-ghost" onclick="clearAll()">Clear</button>
     <button class="btn btn-primary" id="fetch-all-btn" onclick="fetchAll()">↓ Fetch All</button>
+    <a href="/feed.xml" class="btn-icon" title="RSS feed" style="text-decoration:none">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="19" r="2"/><path d="M4 4a16 16 0 0 1 16 16h-3A13 13 0 0 0 4 7V4z"/><path d="M4 11a9 9 0 0 1 9 9H10a6 6 0 0 0-6-6v-3z"/></svg>
+    </a>
     <div class="tb-div"></div>
     <button class="btn-theme" onclick="toggleTheme()" id="theme-btn" title="Toggle theme"><svg id="theme-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
   </div>

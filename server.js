@@ -612,6 +612,67 @@ app.get('/', async (req,res) => {
 
 app.get('/api/products', (req,res) => res.json(PRODUCTS_DEF));
 
+// ── RSS FEED ─────────────────────────────────────────────────────────────────
+app.get('/feed.xml', (req,res) => {
+  const blocks = parseReleaseNotesFile();
+  const PRODUCT_NAME = Object.fromEntries(PRODUCTS_DEF.map(p => [p.id, p.name]));
+
+  // Flatten all releases with their product info and sort newest-first
+  const items = [];
+  for(const [url, { productId, releases }] of Object.entries(blocks)){
+    for(const r of releases){
+      items.push({ productId, productName: PRODUCT_NAME[productId] || productId, url, ...r });
+    }
+  }
+  items.sort((a,b) => dateToSortNum(b.date) - dateToSortNum(a.date));
+
+  const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+  const TYPE_LABEL = { feature:'New Features', fix:'Bug Fixes', breaking:'Breaking Changes', security:'Security Fixes', improvement:'Improvements' };
+
+  const itemsXml = items.slice(0, 200).map(r => {
+    const byType = {};
+    (r.changes||[]).forEach(c => {
+      const lbl = TYPE_LABEL[c.type] || 'Changes';
+      (byType[lbl] = byType[lbl]||[]).push(c.text);
+    });
+    const descHtml = Object.entries(byType).map(([lbl, texts]) =>
+      `<b>${esc(lbl)}</b><ul>${texts.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`
+    ).join('') || '(no changes listed)';
+
+    const pubDate = r.date ? (() => {
+      const num = dateToSortNum(r.date);
+      if(!num) return '';
+      const yr = Math.floor(num/10000), mo = Math.floor((num%10000)/100)-1, dy = num%100;
+      return new Date(Date.UTC(yr, mo, dy, 12, 0, 0)).toUTCString();
+    })() : '';
+
+    return `  <item>
+    <title>${esc(r.productName)} ${esc(r.version)}${r.date ? ' — ' + esc(r.date) : ''}</title>
+    <link>${esc(r.docsUrl || r.url)}</link>
+    <guid isPermaLink="false">${esc(r.productId)}:${esc(r.version)}:${esc(r.url)}</guid>
+    ${pubDate ? `<pubDate>${pubDate}</pubDate>` : ''}
+    <description><![CDATA[${descHtml}]]></description>
+  </item>`;
+  }).join('\n');
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Redgate Release Intelligence</title>
+    <link>http://localhost:3000/</link>
+    <description>Combined release notes for all tracked Redgate products</description>
+    <language>en</language>
+    <atom:link href="http://localhost:3000/feed.xml" rel="self" type="application/rss+xml"/>
+${itemsXml}
+  </channel>
+</rss>`;
+
+  res.set('Content-Type','application/rss+xml; charset=utf-8');
+  res.set('Cache-Control','public, max-age=1800');
+  res.send(xml);
+});
+
 // Serves the full parsed contents of release_notes.md directly — no DB, always works.
 // Shape: { [productId]: [ { sourceUrl, version, date, docsUrl, changes[] } ] }
 app.get('/api/snapshot', (req,res) => {
