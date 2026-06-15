@@ -614,6 +614,7 @@ app.get('/api/products', (req,res) => res.json(PRODUCTS_DEF));
 
 // ── RSS FEED ─────────────────────────────────────────────────────────────────
 app.get('/feed.xml', (req,res) => {
+  const baseUrl = `${req.protocol}://${req.get('host')}`;
   const blocks = parseReleaseNotesFile();
   const PRODUCT_NAME = Object.fromEntries(PRODUCTS_DEF.map(p => [p.id, p.name]));
 
@@ -660,10 +661,10 @@ app.get('/feed.xml', (req,res) => {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Redgate Release Intelligence</title>
-    <link>http://localhost:3000/</link>
+    <link>${baseUrl}/</link>
     <description>Combined release notes for all tracked Redgate products</description>
     <language>en</language>
-    <atom:link href="http://localhost:3000/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>
 ${itemsXml}
   </channel>
 </rss>`;
