@@ -7,6 +7,20 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.5.7 — 15 June 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.5.7:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Mon, 15 Jun 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Fixed the Deploy tab being missing on new projects when the migrations deploy page feature flag was disabled, which also hid the deployment decision screen</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Redgate Monitor 14.20.2 — June 15, 2026</title>
+    <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
+    <guid isPermaLink="false">monitor:14.20.2:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
+    <pubDate>Mon, 15 Jun 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where the web interface failed to load when Redgate Monitor was deployed as an IIS sub-site</li></ul>]]></description>
+  </item>
+  <item>
     <title>Redgate Monitor 14.20.1 — June 10, 2026</title>
     <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
     <guid isPermaLink="false">monitor:14.20.1:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
@@ -1391,20 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.13.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Tue, 16 Sep 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>It is now possible to define beforeDeploy, afterDeploy, and afterDeployError callbacks in locations specified by the callbackLocations parameter. This allows logic to be executed before and after script execution for state-based deployments.</li><li>it is now possible to specify callback-specific locations using the callbackLocations parameter</li><li>Exceptions using batch will now display the line number of the offending SQL causing the error</li><li>The Callback interface now extends a generic interface. The compile-time signature is unchanged.</li><li>Upgraded RgCompare.Cli from 1.41.0.1246 to 1.42.2.1345</li></ul><b>New Features</b><ul><li>deploy command now supports errorOverrides, allowing for graceful handling of SQL Server PRINT statements</li><li>Couchbase foundational support is now in preview</li></ul><b>Security Fixes</b><ul><li>Bump netty-common-http to 4.1.125 to fix CVE-2025-58057</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Test Data Manager 2.2.2.2056 — 15 September 2025</title>
-    <link>https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</link>
-    <guid isPermaLink="false">tdm:2.2.2.2056:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</guid>
-    <pubDate>Mon, 15 Sep 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Added support for subsetting temporal tables (in SQL Server). The temporal table will be subsetted, but the history table will be emptied. The retention period of the temporal table will also be reset.</li></ul><b>Improvements</b><ul><li>maxTableCopyParallelism can now be set in the options file to control the maximum number of tables to copy in parallel.</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Test Data Manager 2.2.12.1133 — 15 September 2025</title>
-    <link>https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</link>
-    <guid isPermaLink="false">tdm:2.2.12.1133:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</guid>
-    <pubDate>Mon, 15 Sep 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>The names of temporary row identifiers now start withrg_, making them easier to identify.</li></ul><b>New Features</b><ul><li>Added support for masking of temporal tables (in SQL Server). The temporal table will be masked, but the history table will be emptied. The retention period of the temporal table will also be reset.</li></ul><b>Bug Fixes</b><ul><li>Fixed an error when expressions reference a primary key column.</li></ul>]]></description>
   </item>
   </channel>
 </rss>

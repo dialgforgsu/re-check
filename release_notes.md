@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-06-09 | latest: 9.5.6 (09 June 2026) -->
+<!-- fetched: 2026-06-15 | latest: 9.5.7 (15 June 2026) -->
 
 #
+## 9.5.7 — 15 June 2026
+
+### New Features
+- Fixed the Deploy tab being missing on new projects when the migrations deploy page feature flag was disabled, which also hid the deployment decision screen
+
 ## 9.5.6 — 09 June 2026
 
 ### Bug Fixes
@@ -2065,7 +2070,12 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-06-10 | latest: 14.20.1 (June 10, 2026) -->
+<!-- fetched: 2026-06-15 | latest: 14.20.2 (June 15, 2026) -->
+## 14.20.2 — June 15, 2026
+
+### Bug Fixes
+- Fixed an issue where the web interface failed to load when Redgate Monitor was deployed as an IIS sub-site
+
 ## 14.20.1 — June 10, 2026
 
 ### Improvements
