@@ -2070,7 +2070,22 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-06-15 | latest: 14.20.2 (June 15, 2026) -->
+<!-- fetched: 2026-06-17 | latest: 14.21.0 (June 16, 2026) -->
+## 14.21.0 — June 16, 2026
+
+### Improvements
+- Snapshot backups can now be excluded from sampling using the ExcludeSnapshotBackupsFromCollection key value pair setting.
+
+### New Features
+- The built-in REST API documentation has a new interface that's faster, fully searchable, and makes exploring and testing endpoints easier and more intuitive.
+- Fixed an issue where machine data collection could silently stop after a monitored server reboot, requiring the server to be removed and re-added.
+
+### Breaking Changes
+- Fixed an issue where the tag selection drop-down was not fully visible for the last server in the Configuration -> Monitored Servers list.
+
+### Bug Fixes
+- Fixed OpenID Connect sign-in failing when Redgate Monitor is hosted under a virtual path (for example behind a reverse proxy that sets X-Forwarded-Prefix); the post-login redirect now keeps the path prefix.
+
 ## 14.20.2 — June 15, 2026
 
 ### Bug Fixes
