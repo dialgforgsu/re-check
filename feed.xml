@@ -7,6 +7,34 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.5.8 — 18 June 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.5.8:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Thu, 18 Jun 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Added support for configuring check.driftResolutionFolder as an advanced parameter for drift analysis operations on the Migrations page.</li></ul><b>Improvements</b><ul><li>Saving generated migrations is now faster</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Flyway CLI 12.9.0 — 18 June 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:12.9.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Thu, 18 Jun 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Added a check.driftResolutionFolder setting to configure the folder in which drift resolution scripts are generated when drift is detected</li></ul><b>Improvements</b><ul><li>Flyway CLI now exits with a distinct exit code derived from the error code when a FlywayException is thrown</li><li>check drift, changes and dryrun commands now report phase-level progress when outputProgress is enabled</li><li>Upgraded RgCompare to 1.58.4.4526</li></ul>]]></description>
+  </item>
+  <item>
+    <title>SQL Compare 16.0.18.29038 — 18 June 2026</title>
+    <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
+    <guid isPermaLink="false">sqlcmp:16.0.18.29038:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
+    <pubDate>Thu, 18 Jun 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Bug Fixes</b><ul><li>ZD-357878: Fixed parsing of ALTER TABLE ALTER COLUMN where COLLATE, MASKED WITH and NULL/NOT NULL appear together (e.g.in stored procedure bodies)</li></ul><b>Improvements</b><ul><li>Scripts registered from folders now report unsupported SQL statements (such as ALTER SEQUENCE, ALTER USER, ALTER SCHEMA) as parser messages that highlight the problematic SQL, instead of silently ignoring them</li></ul><b>New Features</b><ul><li>Added Information as a selectable minimum log level in Help &gt; Minimum log levels.</li></ul>]]></description>
+  </item>
+  <item>
+    <title>SQL Data Compare 16.0.18.29038 — 18 June 2026</title>
+    <link>https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</link>
+    <guid isPermaLink="false">sqldcmp:16.0.18.29038:https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</guid>
+    <pubDate>Thu, 18 Jun 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Added Information as a selectable minimum log level in Help &gt; Minimum log levels.</li></ul>]]></description>
+  </item>
+  <item>
     <title>Redgate Monitor 14.21.0 — June 16, 2026</title>
     <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
     <guid isPermaLink="false">monitor:14.21.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
@@ -945,20 +973,6 @@
     <description><![CDATA[<b>Improvements</b><ul><li>Failure to retrieve the database schema no longer prevents AI requests from completing. They will instead be performed without</li><li>If this happens, a warning will be displayed in the Prompt AI window to offer contextual information.</li><li>Prompt AI window will no longer wrongly claim you are not connected to a database when clicking in non SQL editor windows (e.g. &quot;Object Explorer&quot;).</li><li>The list of AI suggestions (initial or follow-up) will now only be re-generated when necessary (e.g. if the database connection changed) to avoid needless processing and server-side network requests.</li></ul><b>Bug Fixes</b><ul><li>Fixed issue where failure to perform an AI request (e.g. Explain SQL) could leave the work in progress spinner UI element visible and would not surface the problem in the Prompt AI window (other than a cryptic -- ERROR comment in the SQL editor window).</li><li>Fixed an issue where SQL Prompt repeatedly displayed error messages for unsupported authentication types.</li><li>Fixed an issue where clicking the 'Snippet Manager' caused a null reference error when on a non-query tab.</li><li>Fixed enablement and disablement of SQL Prompt suggestions and code analysis features in main menu and options in all Visual Studio versions.</li><li>Fixed issue where intermittent failures to retrieve database schema would not recover unless the Prompt AI window was closed and re-opened.</li><li>Fixed an issue in Code Analysis where extended stored procedures were incorrectly suggested to use named parameter style.</li><li>Fixed an issue in Code Analysis where SYSUTCDATETIME was incorrectly identified as a user-defined function (UDF).</li><li>Fixed an issue in SQL Prompt where script containing JSON_OBJECT would not get formatted.</li><li>Fixed issue that would prevent SQL Prompt from reacting to database connection modifications if suggestions were disabled.</li><li>Fixed an issue where SSMS 22 freezes during the initial import of user settings with SQL Prompt already installed.</li></ul>]]></description>
   </item>
   <item>
-    <title>SQL Compare 16.0.4.28477 — 20 January 2026</title>
-    <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqlcmp:16.0.4.28477:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
-    <pubDate>Tue, 20 Jan 2026 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>Many more system function names are now correctly recognized</li></ul><b>Bug Fixes</b><ul><li>Fixed offline licensing workflow for SQL Compare docker container</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Data Compare 16.0.4.28477 — 20 January 2026</title>
-    <link>https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqldcmp:16.0.4.28477:https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</guid>
-    <pubDate>Tue, 20 Jan 2026 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed offline licensing workflow for SQL Compare docker container</li></ul>]]></description>
-  </item>
-  <item>
     <title>Test Data Manager 0.41.9 — 19 January 2026</title>
     <link>https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</link>
     <guid isPermaLink="false">tdm:0.41.9:https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</guid>
@@ -1391,20 +1405,6 @@
     <guid isPermaLink="false">tdm:0.20.3:https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</guid>
     <pubDate>Fri, 19 Sep 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>Connection tests no longer block you from running a treatment or creating a database model.</li><li>Database platform selection in the database model creation page is now done through a dropdown.</li><li>Make connection string testing reliable when we can connect to the database.</li><li>Existing connections will be deleted because we now capture the creator of a connection. This only affects Enterprise-tier users.</li><li>Improve filtering in anonymization advanced configuration.</li><li>Workflows 0.5.153</li><li>Anonymization 2.2.13.1158</li><li>Subsetting 2.2.3.2120</li></ul><b>New Features</b><ul><li>Add setting page that allows user to configure license.</li><li>Add starting table detail page to allow larger edit area for filter clause.</li><li>Support for both database and instance type connections.</li><li>Connection string builder is now available when adding new connections.</li><li>Add ability to exclude tables from subsetting.</li></ul><b>Bug Fixes</b><ul><li>Fix delete starting table when subsetting.</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Test Data Manager 2.2.3.2120 — 18 September 2025</title>
-    <link>https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</link>
-    <guid isPermaLink="false">tdm:2.2.3.2120:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</guid>
-    <pubDate>Thu, 18 Sep 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where foreign keys were being re-enabled after subsetting but were being left as untrusted (SQL Server only).</li><li>Fixed an issue where databases with square brackets in their names caused a crash (Oracle only).</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.13.1 — 17 September 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.13.1:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Wed, 17 Sep 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>Flyway now provides clearer error messages when attempting to load an unlicensed plugin</li></ul>]]></description>
   </item>
   </channel>
 </rss>

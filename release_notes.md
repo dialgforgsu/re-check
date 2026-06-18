@@ -5,9 +5,17 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-06-15 | latest: 9.5.7 (15 June 2026) -->
+<!-- fetched: 2026-06-18 | latest: 9.5.8 (18 June 2026) -->
 
 #
+## 9.5.8 — 18 June 2026
+
+### New Features
+- Added support for configuring check.driftResolutionFolder as an advanced parameter for drift analysis operations on the Migrations page.
+
+### Improvements
+- Saving generated migrations is now faster
+
 ## 9.5.7 — 15 June 2026
 
 ### New Features
@@ -197,7 +205,17 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-06-05 | latest: 12.8.1 (5 June 2026) -->
+<!-- fetched: 2026-06-18 | latest: 12.9.0 (18 June 2026) -->
+
+## 12.9.0 — 18 June 2026
+
+### New Features
+- Added a check.driftResolutionFolder setting to configure the folder in which drift resolution scripts are generated when drift is detected
+
+### Improvements
+- Flyway CLI now exits with a distinct exit code derived from the error code when a FlywayException is thrown
+- check drift, changes and dryrun commands now report phase-level progress when outputProgress is enabled
+- Upgraded RgCompare to 1.58.4.4526
 
 ## 12.8.1 — 5 June 2026
 
@@ -6939,8 +6957,19 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
-<!-- fetched: 2026-06-03 | latest: 16.0.17.29004 (03 June 2026) -->
+<!-- fetched: 2026-06-18 | latest: 16.0.18.29038 (18 June 2026) -->
 <!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.0.18.29038 — 18 June 2026
+
+### Bug Fixes
+- ZD-357878: Fixed parsing of ALTER TABLE ALTER COLUMN where COLLATE, MASKED WITH and NULL/NOT NULL appear together (e.g.in stored procedure bodies)
+
+### Improvements
+- Scripts registered from folders now report unsupported SQL statements (such as ALTER SEQUENCE, ALTER USER, ALTER SCHEMA) as parser messages that highlight the problematic SQL, instead of silently ignoring them
+
+### New Features
+- Added Information as a selectable minimum log level in Help > Minimum log levels.
+
 ## 16.0.17.29004 — 03 June 2026
 
 ### Bug Fixes
@@ -7931,7 +7960,12 @@ arch 2025
 ---PRODUCT---
 # SQL Data Compare 16.0
 <!-- source: https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes -->
-<!-- fetched: 2026-06-03 | latest: 16.0.17.29004 (03 June 2026) -->
+<!-- fetched: 2026-06-18 | latest: 16.0.18.29038 (18 June 2026) -->
+
+## 16.0.18.29038 — 18 June 2026
+
+### New Features
+- Added Information as a selectable minimum log level in Help > Minimum log levels.
 
 ## 16.0.17.29004 — 03 June 2026
 
