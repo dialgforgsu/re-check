@@ -169,6 +169,8 @@ export function parseReleaseNotes(text, productId, sourceUrl) {
 }
 
 const SNAPSHOT_JSON = path.resolve(__dirname, 'snapshot.json');
+const FEED_XML      = path.resolve(__dirname, 'feed.xml');
+const SITE_URL      = 'https://dialgforgsu.github.io/re-check';
 
 const MONTHS_MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,jan:1,feb:2,mar:3,apr:4,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
 function dateToSortNum(dateStr) {
@@ -202,6 +204,62 @@ export function generateSnapshotJson({ silent = false } = {}) {
   fs.writeFileSync(SNAPSHOT_JSON, JSON.stringify(snapshot), 'utf8');
   if (!silent) console.log(`[snapshot] snapshot.json written (${Object.keys(snapshot).length} products)`);
   return snapshot;
+}
+
+export function generateFeedXml({ silent = false } = {}) {
+  const blocks = parseReleaseNotesFile();
+  const PRODUCT_NAME = Object.fromEntries(PRODUCTS_DEF.map(p => [p.id, p.name]));
+
+  const items = [];
+  for (const [url, { productId, releases }] of Object.entries(blocks)) {
+    for (const r of releases) {
+      items.push({ productId, productName: PRODUCT_NAME[productId] || productId, url, ...r });
+    }
+  }
+  items.sort((a, b) => dateToSortNum(b.date) - dateToSortNum(a.date));
+
+  const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+  const itemsXml = items.slice(0, 200).map(r => {
+    const byType = {};
+    (r.changes || []).forEach(c => {
+      const lbl = TYPE_LABEL[c.type] || 'Changes';
+      (byType[lbl] = byType[lbl] || []).push(c.text);
+    });
+    const descHtml = Object.entries(byType).map(([lbl, texts]) =>
+      `<b>${esc(lbl)}</b><ul>${texts.map(t => `<li>${esc(t)}</li>`).join('')}</ul>`
+    ).join('') || '(no changes listed)';
+
+    const pubDate = (() => {
+      const num = dateToSortNum(r.date);
+      if (!num) return '';
+      const yr = Math.floor(num / 10000), mo = Math.floor((num % 10000) / 100) - 1, dy = num % 100;
+      return new Date(Date.UTC(yr, mo, dy, 12, 0, 0)).toUTCString();
+    })();
+
+    return `  <item>
+    <title>${esc(r.productName)} ${esc(r.version)}${r.date ? ' — ' + esc(r.date) : ''}</title>
+    <link>${esc(r.docsUrl || r.url)}</link>
+    <guid isPermaLink="false">${esc(r.productId)}:${esc(r.version)}:${esc(r.url)}</guid>
+    ${pubDate ? `<pubDate>${pubDate}</pubDate>` : ''}
+    <description><![CDATA[${descHtml}]]></description>
+  </item>`;
+  }).join('\n');
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Redgate Release Intelligence</title>
+    <link>${SITE_URL}/</link>
+    <description>Combined release notes for all tracked Redgate products</description>
+    <language>en</language>
+    <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>
+${itemsXml}
+  </channel>
+</rss>`;
+
+  fs.writeFileSync(FEED_XML, xml, 'utf8');
+  if (!silent) console.log(`[feed] feed.xml written (${items.length} items)`);
 }
 
 export function parseReleaseNotesFile() {
@@ -311,6 +369,7 @@ export async function rebuildProducts(productIds, { silent = false } = {}) {
     }
   }
   generateSnapshotJson({ silent });
+  generateFeedXml({ silent });
   if (!silent) console.log('Rebuild done.');
 }
 
@@ -378,6 +437,7 @@ export async function runCheck({ silent = false } = {}) {
   }
 
   generateSnapshotJson({ silent });
+  generateFeedXml({ silent });
   if (!silent) console.log(`\nDone. ${totalNew} new release(s) added to release_notes.md.`);
   return { totalNew, results };
 }

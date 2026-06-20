@@ -5,9 +5,83 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-04-17 | latest: 9.3.4 (17 April 2026) -->
+<!-- fetched: 2026-06-18 | latest: 9.5.8 (18 June 2026) -->
 
 #
+## 9.5.8 — 18 June 2026
+
+### New Features
+- Added support for configuring check.driftResolutionFolder as an advanced parameter for drift analysis operations on the Migrations page.
+
+### Improvements
+- Saving generated migrations is now faster
+
+## 9.5.7 — 15 June 2026
+
+### New Features
+- Fixed the Deploy tab being missing on new projects when the migrations deploy page feature flag was disabled, which also hid the deployment decision screen
+
+## 9.5.6 — 09 June 2026
+
+### Bug Fixes
+- Fixed an issue around being unable to select a filter effect in the PostgreSQL filter UI if the object type wasn’t selected
+
+## 9.5.5 — 04 June 2026
+
+### Improvements
+- Filter UI for PostgreSQL projects now includes an option to filter across any object type
+
+## 9.5.4 — 03 June 2026
+
+### Improvements
+- Postgres filter editor: multiple rules per object type are now allowed, enabling patterns such as ‘Include when table name = X’ alongside ‘Exclude table’
+
+## 9.5.3 — 27 May 2026
+
+### New Features
+- Add preview Oracle option to add existence checks to scripts - currently supports index creation statements
+- Added an option to copy the sign-in link to the clipboard, for users where the browser cannot automatically be opened
+
+## 9.5.2 — 26 May 2026
+
+### New Features
+- Added Filters UI support for Postgres projects to enable users to filter out objects during comparison.
+
+### Improvements
+- Flyway Desktop will now restore previous open tabs on launch
+
+## 9.5.0 — 18 May 2026
+
+### Improvements
+- Automated Deployment page now has workflows with a manual approval step, for users with GitHub environments with required viewers.
+- The choice between state and migrations deployments has moved from project creation to the Deployment page
+
+## 9.4.4 — 11 May 2026
+
+### Improvements
+- Automated Deployment page now links out to user’s GitHub repository when generating GitHub Actions workflows
+
+### Bug Fixes
+- Fixed environment display name text color being invisible in project settings modal
+
+## 9.4.3 — 07 May 2026
+
+### New Features
+- Adds a SQL Server data deployment behavior option to use existence checks for INSERT statements.
+- Added support for the oracle.checksumIncludeReferencedScripts parameter in migration commands
+
+### Improvements
+- Now lists the changes that will happen as part of the upgrade process, when upgrading projects with obsolete configuration
+- Don’t show the ‘Execute in a transaction’ option for an Oracle deployment script
+
+## 9.4.2 — 29 April 2026
+
+### New Features
+- The Automated Deployment page now generates Github Actions workflow files, using the new Flyway Github Actions.
+
+### Bug Fixes
+- Fixed issue where Copy to clipboard button on Automated Deployment page would copy the contents without newlines on Windows
+
 ## 9.3.4 — 17 April 2026
 
 ### New Features
@@ -131,7 +205,86 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-04-27 | latest: 12.5.0 (27 April 2026) -->
+<!-- fetched: 2026-06-18 | latest: 12.9.0 (18 June 2026) -->
+
+## 12.9.0 — 18 June 2026
+
+### New Features
+- Added a check.driftResolutionFolder setting to configure the folder in which drift resolution scripts are generated when drift is detected
+
+### Improvements
+- Flyway CLI now exits with a distinct exit code derived from the error code when a FlywayException is thrown
+- check drift, changes and dryrun commands now report phase-level progress when outputProgress is enabled
+- Upgraded RgCompare to 1.58.4.4526
+
+## 12.8.1 — 5 June 2026
+
+### Bug Fixes
+- Fix FLYWAY_TOKEN and FLYWAY_EMAIL environment variables not being recognised for PAT authentication
+
+### Improvements
+- Upgraded RgCompare to 1.58.3.4420
+
+## 12.8.0 — 4 June 2026
+
+### Improvements
+- Flyway now warns when an offline permit is due to expire within the next 30 days
+- Improved progress reporting for PostgreSQL, MySQL and SQLite
+- Oracle EXEC statements preceded by a comment now parse correctly
+- API users now must include a flyway Licensing module dependency to be recognized as Redgate edition
+- Upgraded RgCompare to 1.58.3.4416
+
+## 12.7.0 — 29 May 2026
+
+### Improvements
+- Flyway can load custom SQLFluff rules for use in the Check command
+- API users are now required to include the flyway-proprietary module to use Redgate proprietary features
+- Upgraded RgCompare to 1.58.2.4353
+
+## 12.6.2 — 21 May 2026
+
+### Improvements
+- Environment Variable resolver syntax now works in all flyway configuration parameters, not just environment connection properties
+- Upgraded ch.qos.logback:logback-classic from 1.2.3 to 1.2.13
+- Upgraded org.apache.derby:derby from 10.16.1.1 to 10.17.1.0
+- Upgraded org.apache.logging.log4j:log4j-core from 2.17.1 to 2.25.4
+- Upgraded RgCompare to 1.58.1.4262
+
+### New Features
+- Issue 4238 Cockroach v26 is now supported
+
+### Bug Fixes
+- fix crash in check code when SQLFluff emits LXR violations for files containing a UTF-8 BOM
+- Fixed misleading "try running the 'auth' command" warning appearing when already running auth command
+
+## 12.6.1 — 12 May 2026
+
+### Improvements
+- flyway repair against a dry-run target no longer fails for SQL baseline migrations
+- license text files now included in Flyway distributions
+- Upgraded RgCompare.Cli to 1.58.1.4056
+
+### Bug Fixes
+- Fixed SARIF output for check -code
+
+## 12.6.0 — 8 May 2026
+
+### New Features
+- Flyway now supports Native Connectors mode for the Deploy command
+
+### Improvements
+- Auth command now defers to existing license providers instead of redundantly re-authenticating. License output now reports the acquisition method.
+- configuration errors caused solely by obsolete parameters now throw ObsoleteConfigurationParametersException, exposing the obsolete parameters as structured data
+- Issue 4229 Gradle plugin is now compatible with Gradle's configuration cache for environment variable and system property inputs
+- obsolete parameter exception payload now includes a reason field explaining why each parameter is obsolete
+- simplified namespace short-circuiting (aka scoped namespacing) so that mixing scoped and unscoped namespaces is allowed
+- Issue 4230 Only create synonyms for Oracle SHTs when the name includes lower case characters
+- Upgraded adoptium/temurin25-binaries from 25.0.2+10 to 25.0.3+9
+- Bumped aws-secretsmanager-jdbc from 2.0.4 to 2.1.0
+- Upgraded RgCompare.Cli from 1.55.1.3732 to 1.58.0.3966
+
+### Breaking Changes
+- Issue 4232 Add support for DROP ... IF EXISTS and CREATE ... IF NOT EXISTS for Oracle parser
 
 ## 12.5.0 — 27 April 2026
 
@@ -1935,7 +2088,139 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-04-23 | latest: 14.16.0 (April 23, 2026) -->
+<!-- fetched: 2026-06-17 | latest: 14.21.0 (June 16, 2026) -->
+## 14.21.0 — June 16, 2026
+
+### Improvements
+- Snapshot backups can now be excluded from sampling using the ExcludeSnapshotBackupsFromCollection key value pair setting.
+
+### New Features
+- The built-in REST API documentation has a new interface that's faster, fully searchable, and makes exploring and testing endpoints easier and more intuitive.
+- Fixed an issue where machine data collection could silently stop after a monitored server reboot, requiring the server to be removed and re-added.
+
+### Breaking Changes
+- Fixed an issue where the tag selection drop-down was not fully visible for the last server in the Configuration -> Monitored Servers list.
+
+### Bug Fixes
+- Fixed OpenID Connect sign-in failing when Redgate Monitor is hosted under a virtual path (for example behind a reverse proxy that sets X-Forwarded-Prefix); the post-login redirect now keeps the path prefix.
+
+## 14.20.2 — June 15, 2026
+
+### Bug Fixes
+- Fixed an issue where the web interface failed to load when Redgate Monitor was deployed as an IIS sub-site
+
+## 14.20.1 — June 10, 2026
+
+### Improvements
+- Query executions for Azure SQL Database and Azure Managed Instances have been temporarily deactivated due to a potential cloud cost issue.
+
+## 14.20.0 — June 10, 2026
+
+### Improvements
+- SQL Agent job monitoring is now available for Contained Availability Groups. Job definitions, history, activity, and schedules are collected and surfaced in the Estate Jobs view and alert configuration.
+- Improved the blocking tree viewer for better usability and control.
+- The Estate > Disk Usage > Disk page now caches its data, reducing load times on subsequent refreshes.
+- When creating or viewing an access token, the UI now indicates the selected servers that the token has access to.
+
+### New Features
+- New Analysis - Fixed an issue where chart series were displaying in gray when there are lots of displayed series.
+
+### Bug Fixes
+- Fixed an issue that would cause availability groups with an apostrophe in their name to fail loading in the Availability Groups page.
+- Fixed Oracle current activity failing with ORA-06502 when a monitored session has long SQL text.
+- Fixed an issue where an unreachable or restarting Oracle instance (notably on Amazon RDS) did not raise the high-severity Instance unreachable alert.
+
+## 14.19.1 — June 9, 2026
+
+### Improvements
+- Re-enable snapshot backups in backup history and RPO calculations on the Backups Estate page which were causing false backup overdue alerts, This was disabled in version 14.18.0.
+
+## 14.19.0 — June 3, 2026
+
+### Breaking Changes
+- After upgrading, PostgreSQL queries with existing plan history will show a duplicate plan entry. This is due to a breaking change to query plan storage which greatly improves efficiency, and will resolve as the data reaches its retention period.
+
+### Improvements
+- Native ServiceNow and Microsoft Teams notifications are now out of preview.
+- Individual query execution monitoring is now available for Azure SQL Database and Azure SQL Managed Instance. See https://www.red-gate.com/monitor14/individual-query-executions for details.
+- When a SQL Server database is inaccessible to the monitoring account (for example, a database restored from another server where the monitoring user has no user mapping), the monitored server now shows Monitoring with limited sampling in amber, and the monitoring log lists each affected database with the specific error. Previously this was silently ignored and no indication was shown in the UI.
+- PostgreSQL query plan history now distinguishes plans that use different indexes, making index changes visible as plan changes.
+- Configuration Compliance now uses a ≠ icon (rather than an up/down arrow) when Min server memory or Max server memory differs from the baseline, since the baseline is a target value rather than a threshold.
+- Enterprise edition - Removed some rules from the built-in compliance templates that incorrectly specified expectations for unused SQL Server protocols and the SQL Server Browser service.
+
+### New Features
+- Added hover functionality for medium-sized cards on the global dashboard.
+- New Analysis chart now locks the Y-axis for percentage metrics to 0 to 100%
+
+### Bug Fixes
+- Fixed an issue where viewing the details of a low disk space alert raised on an Azure Database for PostgreSQL/MySQL Flexible Server host would fail with an error.
+- Fixed an issue where the "View actual plan" button was hidden on the Top Queries drilldown for SQL Server 2022 instances, even when actual execution plans were being collected.
+- Fixed an issue where query execution monitoring would fall back to full scans after restarting the Base Monitor on on-premises SQL Server instances.
+- Fixed an issue where Amazon Aurora PostgreSQL instance log sampling could throw an ArgumentOutOfRangeException due to log entries being split or duplicated across AWS RDS API pagination boundaries.
+- Fixed an issue causing cluster query errors to be displayed for standalone SQL Server instances.
+
+## 14.18.0 — May 28, 2026
+
+### Security Fixes
+- CVE-2026-44503 Updated the Microsoft.Kiota.Http.HttpClientLibrary package to 1.22.2 to address a reported vulnerability with a CVSS 3.1 base score of 6.5 (Medium). Redgate Monitor uses this library in its support for monitoring Microsoft Entra domains. Requests are only made to Microsoft Azure APIs, and there's no evidence that any of these APIs have been compromised. See https://github.com/advisories/GHSA-7j59-v9qr-6fq9 for more details.
+
+### Improvements
+- Linux host CPU utilization metrics now exclude I/O wait time from the calculation. The CPU is idle during I/O waits, so including it previously overstated utilization. This results in lower reported CPU percentages for Linux machines with significant I/O activity. Customers with CPU alert thresholds configured for Linux hosts may need to adjust their thresholds.
+- Amazon RDS Host and Azure Flex monitored entities can now be removed using the Powershell API.
+- Redgate Monitor now warns on the monitored server's log page when msdb.dbo.sysjobhistory has grown large enough to slow SQL Server Agent job history collection. See https://www.red-gate.com/monitor14/improving-job-history-sampling-performance for recommended maintenance, indexing, and how to adjust the warning threshold.
+- Improved the load time of PostgreSQL top queries.
+- Stop showing Azure SQL Database Hyperscale instances on the Estate -> Backups page.
+- Alerts for a custom metric will now be raised for Amazon RDS for SQL Server when the metric is running against system databases. If this behavior is not intended, specify the databases to be excluded from the custom metrics configuration page.
+- Exclude VM snapshot backups from backup history and RPO calculations on the Backups Estate page.
+- Linux installations: environment variable names for connection strings are now REDGATE_MONITOR_PostgresRepositoryConnectionString / REDGATE_MONITOR_SqlServerRepositoryConnectionString and are now read directly by the Base Monitor. Existing installations using the old names will continue to work without any changes.
+- As a result of performance improvement changes, PostgreSQL query plans are no longer accessible from a query's kebab menu.
+- Change the default timeout for Postgres sampling to 15 minutes and make it configurable through the key value pair setting Postgres-EntitySamplingQueryTimeoutMinutes.
+
+### New Features
+- Added effective costs to the Estate -> Virtual machines page (originally only showing billed costs).
+- Enterprise edition - New alert type for server role membership changes is now available. This alert is raised when a principal is added to or removed from a server role, indicating potential privilege changes.
+- Added a Spills column to the Query Executions tab showing the count of pages each query spilled to tempdb.
+- New Analysis graph uses stepping when based on stable samples (to match orginal behaviour)
+
+### Bug Fixes
+- Fixed an issue where the PowerShell module would report a misleading version mismatch error when a transient connection problem occurred, instead of reporting the actual connection failure.
+- Fixed an issue where PostgreSQL monitoring would fail with an interval syntax error on systems with a locale that uses a comma as the decimal separator (e.g. Italian, German, Turkish).
+- Fixed an issue where Postgres query plan compare would fail in some cases for IIS installations.
+- Fixed an issue where multiple Availability Groups that contain databases with the same name would cause an ArgumentException.
+- Fixed an issue to collect and raise alert for custom metrics running against system databases on Amazon RDS for SQL Server.
+- Fixed an issue where the alert suppression windows displayed in the UI could diverge from the repository.
+- Fixed the white space issue seen in some viewports.
+- Fixed an issue where severity sections on the Overview Dashboard could appear in the wrong order when grouped by status.
+- Fixed an issue where alert notifications were not sent when an alert ended because its configuration was changed (e.g. the threshold was raised above the current value).
+
+## 14.17.0 — May 14, 2026
+
+### Bug Fixes
+- Fixed a security issue (CVSS 6.9 - Medium) where it was possible for a remote attacker to cause a denial-of-service against the Redgate Monitor Website by sending HTTP requests with oversized or malformed trace propagation headers.
+- Fixed an issue where certain Azure failures would prevent any cloud information being retrieved
+- Fixed an issue where OpenID Connect authentication failed when the website is behind a reverse proxy (e.g. AWS ALB, nginx) that forwards requests from a non-loopback IP address. This was caused by an upstream .NET runtime change (ASP.NET Core 9.0.6+) that began enforcing proxy trust checks on X-Forwarded-Proto and X-Forwarded-Host headers. Trusted proxy networks can be configured via forwardedHeadersSettings in appsettings.json.
+- Fixed an issue where Oracle custom metric collection was attempted on Data Guard standby instances.
+- Fixed an issue where standalone SQL Servers with a leftover MSCluster WMI namespace would be incorrectly flagged as having a connection failure.
+- Fixed an issue where Aurora instances in a creating state would cause a monitoring error due to a missing availability zone.
+- Fixed an issue that prevented PostgreSQL indexes from being sampled on PostgreSQL 10 instances.
+- Fixed an error that could occur when sampling Aurora instance logs if the RDS API returned no log files.
+- Fixed an issue where some users would be shown bad daily cost data for Cloud Virtual Machines.
+- Fixed an issue where getting tracked queries on a TimescaleDB repository no longer shows internal server errors.
+- Fixed an issue with uncleared Alerts causing blank Global Dashboard.
+
+### Security Fixes
+- CVE-2026-44302 Updated the Snappier package to 1.3.1 to address a reported vulnerability with a CVSS 3.1 base score of 7.5 (High). The vulnerability lies in the MongoDB driver used by Redgate Monitor. Since the driver only uses Snappier if compression is enabled, but Redgate Monitor currently doesn't support compression, Redgate Monitor is unaffected by this vulnerability. See https://github.com/advisories/GHSA-pggp-6c3x-2xmx for more details.
+
+### New Features
+- Added ability to see cost details of AWS EC2 instances on the Estate -> Virtual machines page.
+- Added a daily costs graph to the VM details sidebar, with comparison period overlay support.
+- When adding new cloud service credentials, the test button will now test the credentials more thoroughly and provide more detailed error messages.
+- Added a feature flag which allows users to disable Oracle error log sampling.
+
+### Improvements
+- Improved responsiveness when saving reports as PDF.
+- Viewing current activity doesn't crash the Redgate Monitor Website when there are cyclic sessions.
+
 ## 14.16.0 — April 23, 2026
 
 ### Bug Fixes
@@ -2436,7 +2721,13 @@
 ---PRODUCT---
 # TDM — Subsetter
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes -->
+<!-- fetched: 2026-05-26 | latest: 2.2.18.3556 (26 May 2026) -->
 <!-- fetched: 2026-04-03 | latest: 0.6.0.0 (19 September 2
+## 2.2.18.3556 — 26 May 2026
+
+### Bug Fixes
+- Fixed an issue where not specifying an options file was defaulting to a subset of 0MB.
+
 ## 2.2.14.3210 — 12 March 2026
 
 ### Bug Fixes
@@ -3140,8 +3431,31 @@
 ---PRODUCT---
 # TDM — Anonymize
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes -->
-<!-- fetched: 2026-04-22 | latest: 2.4.2.2514 (22 April 2026) -->
+<!-- fetched: 2026-06-02 | latest: 2.4.7.2636 (02 June 2026) -->
 <!-- fetched: 2026-04-04 | latest: 1.0.3.1787 (16 January 2024) 
+## 2.4.7.2636 — 02 June 2026
+
+### New Features
+- Improved AI Classification. Added minimum width guardrail checks, equivalent to those in the default rules.
+
+### Improvements
+- Improved AI Classification. CreditCardNumbers, PhoneNumbers, USSocialSecurityNumbers, and ZipCodes are no longer classified on numeric columns.
+
+## 2.4.6.2622 — 26 May 2026
+
+### Improvements
+- Improved the speed of masking when dealing with large text columns.
+
+## 2.4.5.2602 — 18 May 2026
+
+### Improvements
+- Improved AI classification. The Machine Learning classification model was retrained with additional data.
+
+## 2.4.4.2596 — 12 May 2026
+
+### Improvements
+- PII class UKNationalInsuranceNumbers is now disabled by default when using AI classification.
+
 ## 2.4.2.2514 — 22 April 2026
 
 ### Improvements
@@ -3564,7 +3878,72 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-04-27 | latest: 0.58.26 (27 April 2026) -->
+<!-- fetched: 2026-06-05 | latest: 0.65.105 (5 June 2026) -->
+
+## 0.65.105 — 5 June 2026
+
+### New Features
+- Add sorting and filtering to workflow runs page.
+- Turn off AI Classify by default for new Database models
+- Hide Windows Authentication when connecting to SQL Server instances on Docker builds of TDM, which don't currently support it.
+
+### Improvements
+- Remove classification source filtering capability in Summary and Anonymization pages.
+
+## 0.64.177 — 1 June 2026
+
+### Improvements
+- Disable classification source filtering capability in Summary and Anonymization pages.
+- Connection status is now shown inline throughout the UI. This will tell you if a connection can be connected to or not and can be refreshed on demand.
+- Temporarily disable classification source filtering capability in Summary and Anonymization pages.
+- Improve display of some categories of validation errors throughout TDM GUI.
+- Improved accuracy of dry run results when using code view.
+- Existing custom datasets can now have their types edited (e.g. pattern ⇒ list) again.
+
+## 0.63.88 — 21 May 2026
+
+### Bug Fixes
+- Fixed an issue where restarting the TDM service under a custom Windows service account caused anUnauthorizedAccessExceptionwhen readingkey.dat.
+
+### Improvements
+- Significantly improved load times of anonymize treatment pages for large schemas
+
+## 0.62.229 — 18 May 2026
+
+### Improvements
+- Creation dialogs for connections, treatments, database models, and workflows now pre-fill the name field with a sensible default derived from the context (e.g. database name, model name). If the default is already taken an ordinal suffix is appended automatically.
+- Subset treatments can now be run directly from the treatment actions menu and details view.
+- Display alert in treatment summary when AI Classify has finished classifying a Database Model.
+
+### New Features
+- Added 'Create workflow' button to treatment actions menu.
+- Added an 'Edit' option at the top of the dataset dropdown menu in the anonymization grid when a column has a custom (user-created) dataset applied.
+- Added filtering capability to be able to filter by "Classification source": User defined, AI Classify, or Rules defined.
+
+### Bug Fixes
+- Fixed an issue where the tooltip in anonymization summary page shows the incorrect column when a table has the same error in many columns.
+- Fix the issue where the user cannot override the UnsafeDemoPassword via config.
+- Fixed an issue where cancelling the 'Create dataset' form in the anonymization drawer left the typed (unsaved) dataset name visible on the column.
+- Fixed an issue where switching a subset treatment between Custom (starting tables) and Desired Size modes could leave a stale where clause in the UI and prevent saving with a "zero starting tables" error.
+
+## 0.61.6 — 07 May 2026
+
+### Improvements
+- Uninstalling TDM now allows choosing to either keep or delete all associated data.
+
+## 0.59.135 — 07 May 2026
+
+### Improvements
+- Workflows can run custom PowerShell (.ps1) and Bash (.sh) command before and after treatments.
+- Changed pattern dataset creation UI to closer align with list creation UI.
+
+### New Features
+- TDM UI now support HSTS with a max age of 365 days. This can be switched on via the config file by setting "UseHsts: True"
+
+### Bug Fixes
+- Fixed an issue where creating a connection with a duplicate name gives an unhelpful error.
+- Fixed an issue where updating a connection can give an incorrect duplicate name error.
+- Fix 'MenuListContext is missing' error when clicking on filter button in subsetting starting tables list.
 
 ## 0.58.26 — 27 April 2026
 
@@ -5703,7 +6082,20 @@ arch 2025
 ---PRODUCT---
 # SQL Clone 5
 <!-- source: https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes -->
-<!-- fetched: 2026-04-03 | latest: 5.6.26 (13 March 2026) -->
+<!-- fetched: 2026-05-15 | latest: 5.6.28 (May 15, 2026) -->
+
+## 5.6.28 — May 15, 2026
+
+### New Features
+- SQL Clone now targets .NET 10.0. For details of .NET Core's supported operating systems see https://github.com/dotnet/core/blob/main/release-notes/10.0/supported-os.md.
+
+## 5.6.27 — April 29, 2026
+
+### Bug Fixes
+- The dashboard summary was showing incorrect counts when there were more images or clones than the client-side fetch limit. This is now fixed.
+
+### Improvements
+- Users with large numbers of images can now see them all in the dashboard.
 
 ## 5.6.26 — 13 March 2026
 
@@ -6353,8 +6745,30 @@ arch 2025
 ---PRODUCT---
 # SQL Prompt 11.3
 <!-- source: https://documentation.red-gate.com/sp/release-notes-and-other-versions/sql-prompt-11-3-release-notes -->
-<!-- fetched: 2026-04-28 | latest: 11.3.12.23605 (28 April 2026) -->
+<!-- fetched: 2026-05-18 | latest: 11.3.14.24187 (18 May 2026) -->
 <!-- fetched: 2026-04-03 | latest: 11.3.8.22342 (19 March 2026) -
+## 11.3.14.24187 — 18 May 2026
+
+### Bug Fixes
+- Fixed problem that could permanently prevent usage of Prompt AI by having an always disabled Check Prompt AI availability command in the SQL Prompt main menu.
+- Fixed an issue that caused suggestions to fail in SQL Prompt when string concatenation was used with TRIM.
+- Fixed an issue in SSMS 22.6 where opening the Manage License screen in SQL Prompt could display an unexpected error dialog.
+
+## 11.3.13.23933 — 12 May 2026
+
+### Improvements
+- Updated the SQL Prompt SSMS Check for Updates (CFU) flow to launch the SQL Toolbelt Essentials installer instead of the standalone SQL Prompt installer.
+- This removes the need to restart SSMS/VS to be able to re-use Prompt AI in those scenarios.
+
+### Bug Fixes
+- Fixed an issue where SQL Prompt did not auto-fill the default NUMERIC values for a stored procedure.
+- Fixed an issue where SQL Prompt suggestions failed to load on read-only replicas in Availability Groups.
+- Fixed issue where SQL History could cause errors and SSMS freezes when disabled or enabled via the SQL Prompt options.
+- Fixed an issue where the COPY AS IN clause in the result grid returned duplicate values when multiple cell with identical values were selected using Ctrl+Click.
+- Fixed an issue where the SQL Prompt right‑click context menu failed to appear in the Registered Servers window in SSMS 21 and SSMS 22 after signing out of SQL Prompt.
+- Fixed issue that could cause the Prompt AI availability check to always fail in the same IDE session, even if AI access
+- Fixed an issue where SQL Prompt Table definition tooltip suggestions failed to load System-Versioning scripts for Temporal tables.
+
 ## 11.3.12.23605 — 28 April 2026
 
 ### Bug Fixes
@@ -6543,8 +6957,927 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
-<!-- fetched: 2026-04-21 | latest: 16.0.13.28757 (21 April 2026) -->
+<!-- fetched: 2026-06-18 | latest: 16.0.18.29038 (18 June 2026) -->
 <!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.0.18.29038 — 18 June 2026
+
+### Bug Fixes
+- ZD-357878: Fixed parsing of ALTER TABLE ALTER COLUMN where COLLATE, MASKED WITH and NULL/NOT NULL appear together (e.g.in stored procedure bodies)
+
+### Improvements
+- Scripts registered from folders now report unsupported SQL statements (such as ALTER SEQUENCE, ALTER USER, ALTER SCHEMA) as parser messages that highlight the problematic SQL, instead of silently ignoring them
+
+### New Features
+- Added Information as a selectable minimum log level in Help > Minimum log levels.
+
+## 16.0.17.29004 — 03 June 2026
+
+### Bug Fixes
+- ZD-357153: Fixed parsing of SQL Server 2019 graph query syntax (SHORTEST_PATH, FOR PATH, WITHIN GROUP (GRAPH PATH)) in stored procedure and view bodies
+- Fixed an issue where scripting options were not being honored during script generation
+
+## 16.0.16.28949 — 21 May 2026
+
+### Bug Fixes
+- Fixed an issue when encountering columns with defaults that use SQL Server functions that don’t have trailing parenthesis e.g.current_date
+- Fixed a PlatformNotSupportedException when generating Classic HTML or Excel reports from the CLI
+
+## 16.0.15.28900 — 12 May 2026
+
+### New Features
+- Support for JSON_QUERY WITH ARRAY WRAPPER introduced in SQL Server 2025
+
+## 15.4.29.28207 — 04 December 2025
+
+### New Features
+- Preview feature: Support Redgate Data Modeler models as a comparison source.
+
+## 15.4.28.28077 — 14 November 2025
+
+### New Features
+- Support for SQL Server 2025. New SQL Server 2025 features may not function correctly.
+
+### Bug Fixes
+- Fixed an issue where the ‘Create snapshot of target before deployment’ option was not generating a snapshot
+
+## 15.4.27.28006 — 04 November 2025
+
+### New Features
+- Added support for SSMS 21 as an external SQL Editor
+
+## 15.4.26.27858 — 02 October 2025
+
+### Improvements
+- ZD-329373: Use sp_rename instead of dropping and recreating columns when collations are different
+
+### Bug Fixes
+- Fixes incorrect exit code being returned when a licensing error occurs
+
+## 15.4.20.28553 — 17 June 2025
+
+### Bug Fixes
+- ZD-333542: Fixed an issue preventing project files from loading when they used a legacy authentication method.
+
+## 15.4.16.28371 — May 12th, 2025
+
+### New Features
+- ZD-330789: Allow for comparison of user-defined functions named ‘try_cast’ in scripts folders
+
+## 15.4.15.28277 — Apr 16th, 2025
+
+### Improvements
+- Updated authentication type labels for Azure Active Directory to Microsoft Entra in the UI
+
+## 15.4.12.28089 — Mar 6th, 2025
+
+### New Features
+- ZD326791: Added support for included columns on inline indexes
+
+## 15.4.11.28054 — Feb 24th, 2025
+
+### New Features
+- Add support for IGNORE NULLS, RESPECT NULLS on the LAG and LEAD functions
+
+## 15.4.10.27977 — Feb 6th, 2025
+
+### New Features
+- ZD-324430: Add support for Delta external file format.
+
+## 15.4.9.27950 — Jan 31st, 2025
+
+### Bug Fixes
+- ZD-324963: Fixed the issue when trying to write to a read only file/folder.
+
+### New Features
+- ZD-325187: Add support for SQL Server 2022 SSDT projects.
+
+## 15.4.6.27751 — Dec 19th, 2024
+
+### Improvements
+- SqlCompareExceptions now provide unredacted Message and ToString() values.
+
+### Bug Fixes
+- Fix string.Format call in Message.Text
+
+## 15.4.5.27738 — Dec 17th, 2024
+
+### New Features
+- ZD-320234: Fixed the issue where ONLINE=ON was being added when altering a column on a temporal table
+
+## 15.4.3.27665 — Dec 3rd, 2024
+
+### Improvements
+- Removed the Flyway option from the project dialog, as it had very low usage
+
+## 15.4.2.27580 — Nov 22nd, 2024
+
+### Improvements
+- Updates the licensing client
+- Allows tool to be used across user profiles on the same machine
+- Prioritises licenses correctly
+
+### Bug Fixes
+- ZD-321309: Fixed a dependency error with ‘System.Memory’ when selecting a database in SQL Snapper
+
+## 15.4.1.27450 — Nov 12th, 2024
+
+### Improvements
+- MessageBase has been inlined into Message, which is now a record.
+
+### Bug Fixes
+- Ensures the user has verified their email address as part of the login flow
+
+## 15.4.0.27425 — Nov 11th, 2024
+
+### Improvements
+- Updated licensing with improved UI, integration, security, and trials. Read more at https://www.red-gate.com/blog/redgate-licensing-update
+- Serial Keys have been retired.
+
+## 15.3.14.27393 — Nov 5th, 2024
+
+### Bug Fixes
+- Fixed issue when displaying error messages
+- Fixed a crash when using newer versions of SQL Prompt formatting
+
+## 15.3.12.27264 — Oct 15th, 2024
+
+### New Features
+- SQL Compare Engine no longer has a dependeny on Microsoft.Data.SqlClient. You may need to add this package to your project if you are using the SQL Compare Engine NuGet package.
+- ZD-304828: Add support for ignore nulls, respect nulls options on the last_value function
+
+### Improvements
+- Removed methods marked as Obsolete on public API that depended on Microsoft.Data.SqlClient.
+- Removed .SSMS and .SSMS20 versions of the SQL Compare Engine NuGet package.
+
+## 15.3.11.27029 — Sep 17th, 2024
+
+### Bug Fixes
+- ZD-302580: Fixed the issue where ONLINE=ON was being specified within an ALTER statement for the primary index of a table containing a spatial data type column, and for the creation of spatial indexes
+
+### New Features
+- ZD-304828: Add support for ignore nulls, respect nulls options on the first_value function
+
+## 15.3.10.26944 — Sep 12th, 2024
+
+### Improvements
+- Marked a number of public API methods as obsolete. They will be removed in a future release. All methods have have replacements that should be used instead, see the warning message for guidance.
+- Stability improvements for the UI
+
+## 15.3.9.26398 — Jul 31st, 2024
+
+### Bug Fixes
+- ZD-314973, ZD-302580: Fixed the issue where ONLINE=ON was being specified within an inlined primary index of a temporal table within a CREATE Table statement
+
+## 15.3.8.26171 — Jul 16th, 2024
+
+### Improvements
+- Changed the name of sqlcompare.tar.gz to include the version number
+
+## 15.3.7.25849 — Jun 4th, 2024
+
+### New Features
+- ZD-308580: Add support for security policy schema binding
+
+## 15.3.6.25729 — May 8th, 2024
+
+### Improvements
+- ZD309124: Prevent unwanted multiple space characters appearing in CREATE OR ALTER statements
+
+## 15.3.5.25572 — Apr 9th, 2024
+
+### Improvements
+- ZD304081: SQL Compare no longer locks the selective_xml_index_paths catalog view during registration.
+
+## 15.3.4.25528 — Mar 26th, 2024
+
+### Bug Fixes
+- ZD-307150: Fixed issue when connecting to Azure SQL instance where an error occurred related to the loading of assembly Microsoft.IdentityModel.Abstractions
+
+### New Features
+- Additional connection string properties added to the server name are now used again when comparing two SQL Source Control revisions from the SQL Compare command line
+
+## 15.3.2.25249 — Feb 15th, 2024
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 5.1.5
+
+## 15.3.1.25177 — Feb 6th, 2024
+
+### New Features
+- ZD-298420: Add support for the TRIM function optional arguments LEADING, TRAILING and BOTH
+- ZD-303715: Fixed a crash when permissions are added to columns of a file table
+- ZD-304545: Added support for using sp_unbindefault against a table to override the binding of a default on a column’s user-defined type.
+
+### Bug Fixes
+- ZD-303860: Fixed an issue where some temporary files were not being deleted when generating a snapshot
+
+## 15.3.0.25068 — Jan 12th, 2024
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 5.1.4
+- ZD-302580: Prevent scripting Online = On for indexes which are part of a UDT Table
+
+### New Features
+- Added read-only support for Flyway projects, allowing you perform comparisons with Flyway on the left.
+
+## 15.2.7.24880 — Dec 27th, 2023
+
+### Bug Fixes
+- ZD-303915: Fixed a caching bug during script folder registration.
+
+## 15.2.6.24771 — Dec 12th, 2023
+
+### Improvements
+- ZD-302367: Changes UI to always open ‘Save As’ dialog window when saving filters.
+
+## 15.2.5.24669 — Dec 5th, 2023
+
+### Improvements
+- ZD-299431: Slightly reduced memory usage of the UI and engine.
+- ZD-299431: Deployment script syntax highlighting is now disabled for scripts exceeding 300k lines for performance reasons.
+- Speed up script folder registration.
+
+### New Features
+- ZD-294122: Add support for APPROX_PERCENTILE_CONT and APPROX_PERCENTILE_DISC functions in SQL Server 2022.
+- ZD-302521, ZD-302326, ZD-280962, ZD-262990, ZD-297151 & ZD-284803: Stopped scripts folders containing a function with the INLINE option erroring and added a warning when attempting to deploy them to unsupported server versions
+
+### Bug Fixes
+- ZD-299431: Fixed a memory leak in the SQL Compare UI, noticeable when refreshing large comparisons.
+- ZD-299431: Fixed a crash on the pre-deploy Summary tab when toggling the grouping for large deploys.
+
+## 15.2.4.24551 — Nov 28th, 2023
+
+### Improvements
+- ZD-298714: When altering a column or index, better detection of when ONLINE = ON cannot be used
+- ZD-299431: Sped up dependencies selection screen by tweaking column autosizing.
+- ZD-299431: Sped up dependency resolution for SQL Compare GUI and CLI.
+- ZD-299431: Sped up deploy summary tab.
+- ZD-299431: Sped up snapshot registration when triggers are present.
+
+## 15.2.3.24503 — Nov 21st, 2023
+
+### New Features
+- Add support for the JSON_OBJECT function introduced in SQL Server 2022
+
+## 15.2.1.24235 — Oct 31st, 2023
+
+### Improvements
+- RedGate.SQLCompare.Engine.Difference now has a subclass RedGate.SQLCompare.Engine.DifferenceSubtypes.ViewTableDifference. This subclass has an extra property ContainsFullTextIndexChanges.
+
+## 15.2.0.24040 — Oct 6th, 2023
+
+### Improvements
+- ZD-297510: Made the table mapping screens more responsive by significantly reducing the number of times they reprocess saved data.
+- Note that the project Save button no longer grays out when there are no unsaved changes.
+
+## 15.1.2.24012 — Sep 28th, 2023
+
+### Improvements
+- Update to licencing link in CLI output
+
+## 15.1.1.23971 — 06 September 2023
+
+### Bug Fixes
+- ZD-297062: Fixes error when changing a history table clustered index to a clustered columnstore index.
+- ZD-290609: Fixes an issue encountered when SQL Server system defined CLR types are prefixed with “[sys].”
+
+## 15.1.0.23826 — 06 September 2023
+
+### New Features
+- Added link to licensing restrictions documentation in CLI output header
+
+### Bug Fixes
+- Fixed an issue where the invalid object detection would flag objects as invalid if they have a reference to an external DB.
+
+## 15.0.12.23728 — 08 August 2023
+
+### Bug Fixes
+- Fixed column rename bug
+
+## 15.0.11.23723 — 08 August 2023
+
+### New Features
+- ZD-287143: Add initial level of support for the use of the WINDOW clause in SELECT statements
+
+### Bug Fixes
+- ZD-285053: Fixes an issue in the command line where options such as “TrustServerCertificate” in the server switches were not being used
+
+## 15.0.10.23691 — Aug 1st, 2023
+
+### Bug Fixes
+- ZD-293296: Fix parsing error when property access is made on CLR types returned from CASE Statements.
+
+## 15.0.9.23488 — May 30th, 2023
+
+### New Features
+- ZD-292465: Added SSMS19 to list of SQL editor options
+
+## 15.0.8.23473 — May 23rd, 2023
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 5.1.1
+- ZD-290643: Stopped changes to external tables causing script file name changes
+
+## 15.0.7.23280 — Mar 14th, 2023
+
+### Improvements
+- “Encrypt” and “Trust server certificate” server connection checkbox values are now loaded with server connection details from server dropdown
+
+## 15.0.6.23274 — Mar 7th, 2023
+
+### Improvements
+- ZD-286622: Warn that non-primary filestream filegroups of tables will need to be created manually
+
+## 15.0.5.23181 — Feb 21st, 2023
+
+### Bug Fixes
+- ZD-285412: Fixed issue with table mappings not appearing when connecting through Azure MFA to a managed instance
+
+## 15.0.4.23133 — Feb 14th, 2023
+
+### New Features
+- Added warning to command line clarifying which differences will be deployed
+
+## 15.0.3.23021 — Jan 24th, 2023
+
+### New Features
+- ZD-284359: Added missing schema check in a column existence test
+
+## 15.0.2.22953 — Jan 17th, 2023
+
+### Improvements
+- ZD-282763 “Encrypt” and “Trust Server Certificate” can now be specified on database connections with checkboxes, rather than the workround of manually appending connection string parameters to the server name
+
+### Bug Fixes
+- Fixed minor bugs relating to the handling of long file paths
+
+## 15.0.1.22876 — Jan 11th, 2023
+
+### New Features
+- ZD-283578: Added “Dynamically override default save location when saving to a new location in the deployment script save dialog” option to application settings.
+
+## 15.0.0.22793 — Dec 20th, 2022
+
+### New Features
+- SQL Server 2022 support
+- UI displays a warning that support for SQL Server 2008 and SQL Server 2008R2 will be removed in a future version
+
+### Improvements
+- UI displays a warning when an unsupported scripts folder is selected
+
+## 14.10.9.22680 — Dec 8th, 2022
+
+### New Features
+- ZD-281179: Adding ‘NOT NULL’ to a temporal table column will now update values in the history table to the default value and display a warning.
+
+### Breaking Changes
+- ZD-281520: Primary keys are now correctly dropped before being replaced when using system versioning.
+
+## 14.10.8.22508 — Nov 24th, 2022
+
+### New Features
+- Added new option to ignore statistics incremental during comparison
+- Added support for long file paths in windows when enabled in the windows registry (We cannot guarantee how it will work with windows and other applications as it does not seem well supported)
+
+### Breaking Changes
+- ZD-280144: SCHEMABINDING is correctly dropped on functions that are created WITH EXECUTE AS ..., SCHEMABINDING options, when required to do so by a change to an underlying object.
+
+### Bug Fixes
+- ZD-280317: Fixed missing dll reference that appears when attempting Azure authentication in the command line.
+
+## 14.10.7.22333 — Nov 15th, 2022
+
+### New Features
+- Added new option to ignore statistics incremental during comparison
+
+### Improvements
+- ZD-280398 - saving a deployment script to a non-default location via the small “save script” button in the deployment wizard no longer causes the default location in global application settings to change.
+- ZD-271170 ZD-276218 ZD-278637: Dropping external tables no longer leaves an un-parsable file
+
+## 14.10.6.22196 — Nov 3rd, 2022
+
+### Improvements
+- Improved scripts folder file name generation in the case of long paths or file names
+- ZD278637 - Dropping external tables no longer leaves an un-parsable file
+- SQL Compare will no longer install the Microsoft Active Directory Authentication Library (ADAL) as a pre-requisite as it is superseded by MSAL
+
+## 14.10.5.22107 — Oct 18th, 2022
+
+### New Features
+- ZD278733: Prevented the program from failing when encountering ledger tables. Ledger tables are not currently supported but if you would like them to be please log interest on the SQL Compare UserVoice page: https://redgate.uservoice.com/forums/141379-sql-compare
+
+## 14.10.4.22065 — Oct 11th, 2022
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 5.0.1
+
+### Bug Fixes
+- ZD-277198: Fixed missing dll reference that appears when attempting Azure authentication
+- ZD-278565: Fixes bug where rebuilding of temporal tables could cause constraint changes in the history table to be duplicated.
+
+## 14.10.3.21932 — Oct 4th, 2022
+
+### Improvements
+- ZD-277520 Performance focused changes in an indexes registration query
+
+## 14.10.2.21877 — Sep 28th, 2022
+
+### Improvements
+- ZD276113: Prevented SQL Compare from creating foreign keys that already exist in target
+
+## 14.10.1.21845 — Sep 21st, 2022
+
+### Bug Fixes
+- ZD-277111: SQL Snapper - error populating database list when TrustServerCertificate is required to be true is fixed.
+- ZD-278020: Fixes command line bug where an invalid filter file would cause SQL Compare to log the error but not stop.
+
+## 14.10.0.21773 — Sep 13th, 2022
+
+### New Features
+- Beta support for SQL Server 2022 Preview. New SQL 2022 features may not function properly.
+
+### Bug Fixes
+- ZD-277681: Fixes scripts folder parsing of the character pair “<-” whether they appear in a MATCH graph search pattern or as a Less Than comparison operator followed by a unary negative operator
+- ZD-277111 SQL Snapper tool: error populating database list when TrustServerCertificate is required to be true is fixed.
+
+## 14.9.3.21711 — Sep 6th, 2022
+
+### New Features
+- ZD-276627: Added support for the OPTIMIZE_FOR_SEQUENTIAL_KEY index option.
+
+## 14.9.2.21665 — Aug 30th, 2022
+
+### Bug Fixes
+- ZD-274687 Fixes an issue in parsing query MATCH syntax from scripts folders
+
+## 14.9.1.21642 — Aug 16th, 2022
+
+### Bug Fixes
+- ZD-274277 Fixed an issue where database connections failed due to mishandling of the Failover Partner parameter.
+
+## 14.9.0.21563 — Aug 10th, 2022
+
+### Improvements
+- ZD269834 SQL Compare will now only rebuild a table when the filegroup differs just by casing if the “Use case-sensitive object definition” comparison option is on
+
+## 14.8.5.21499 — Jul 26th, 2022
+
+### New Features
+- ZD-275263: Add support for T-SQL undocumented virtual column %%physloc%%
+
+### Bug Fixes
+- ZD-275762: Fix deployment script object existince checks, when source and target have column names that differ only in case.
+
+## 14.8.3.21395 — Jul 5th, 2022
+
+### Bug Fixes
+- Fixes an issue with verifying server certificates when an explicit port number is set.
+
+## 14.8.1.21249 — Jun 22nd, 2022
+
+### Improvements
+- Integer scale arguments for time data type columns, in scripts folders, outside the integer range of 0 to 7 will be read as the default scale value of 7 not 1
+
+## 14.8.0.21190 — Jun 14th, 2022
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 4.1.0
+- SQL Compare now encrypts connections to SQL Server by default Previously, connections would have been encrypted according to the server’s Force Encryption setting
+- Setting an Application ID is no longer needed to connect using Azure Active Directory Universal with MFA authentication
+- Linux command line timebomb doubled to 180 days
+
+### Bug Fixes
+- ZD-259302 ZD-273613: Fixed the reading of scale arguments for time, datetime2 and datetimeoffset types in scripts folder user defined type creation statements
+
+## 14.7.7.21053 — May 24th, 2022
+
+### New Features
+- Option added to use CREATE OR ALTER statememnts when deploying to servers that support this feature
+
+### Bug Fixes
+- ZD-271345: Fixed an issue with recognising the data type of fields that are user defined types, in history tables of temporal tables
+
+## 14.7.2.20940 — Apr 7th, 2022
+
+### Bug Fixes
+- ZD-269731: Fixed an issue where the Line Differences view shows a message about an incorrect license
+
+### Improvements
+- ZD-268685: When FIPS is enabled, encrypted objects are now correctly decrypted, when the option to do so is set
+
+## 14.7.1.20862 — Mar 22nd, 2022
+
+### New Features
+- Add support for additional T-SQL built-in functions
+
+## 14.7.0.20823 — Mar 16th, 2022
+
+### New Features
+- New options SchemaExistenceChecks, RoleExistenceChecks added to API.
+- Added a SQL Prompt formatted diff view, using the current SQL Prompt formatting options. Requires SQL Prompt v10.11.5 or above. (_SQL Toolbelt or SQL Toolbelt Essentials license required_)
+
+## 14.6.20.20708 — Mar 1st, 2022
+
+### Improvements
+- Delimit credential names for external data sources
+
+## 14.6.19.20650 — Feb 22nd, 2022
+
+### Bug Fixes
+- ZD-256556: Fixed issue which caused data compression settings on partitioned temporal tables to not be read from scripts folders
+
+## 14.6.18.20606 — Feb 15th, 2022
+
+### Improvements
+- ZD-264118: Stop rebuilding temporal tables and their history tables due to system named constraint and index name differences when the option “Ignore system named constraint and index names” is used
+
+### New Features
+- ZD-264035: SQL Compare can now deploy text objects containing line continuations when Add object existence checks is enabled
+
+## 14.6.17.20533 — February 3rd 2022
+
+### Improvements
+- SQL Compare no longer uses migration scripts from the Custom Scripts folder when generating a deployment script
+
+## 14.6.15.20403 — January 12th 2022
+
+### New Features
+- ZD-261847: Add support for T-SQL functions CURRENT_TIMEZONE_ID and TRANSLATE
+
+### Improvements
+- ZD-263527: A foreign key that references the key column(s) of an index will be correctly handled if that index changes in such a way as the only changes are in its non-key columns
+- ZD-260221 Query on sys.parameters now runs WITH (NOLOCK)
+
+## 14.6.14.20342 — December 22nd 2021
+
+### Improvements
+- Improved warning message when creating users without an associated login
+- ZD-260221 More queries now run WITH (NOLOCK)
+
+### New Features
+- ZD-262581: Add support for T-SQL undocumented virtual column %%lockres%%
+
+## 14.6.13.20238 — December 8th 2021
+
+### Bug Fixes
+- ZD-262649: Fixed parsing of file paths in bulk insert statements
+
+## 14.6.12.20158 — November 29th 2021
+
+### New Features
+- To support automation environments, the SQL Data Compare command line now has an /allUsers flag that can be using when activating to allow it to be used by all users, including service accounts
+
+## 14.6.10.20102 — November 10th 2021
+
+### Bug Fixes
+- ZD-260283: Fix object reference error in SQL Snapper when attempting to create a database snapshot
+
+## 14.6.9.20059 — November 1st 2021
+
+### New Features
+- ZD-261137: Support for SQL Server 2019 differential backups fixed
+
+## 14.6.8.20031 — October 26th 2021
+
+### Bug Fixes
+- ZD-256677: Fix issue of usages of AT TIME ZONE leading to comparison differences which do not change the function of scripts, but which do not go away after deployment.
+- ZD-260222: Fix queries to use WITH (NOLOCK) consistently when reading database schema
+
+## 14.6.7.20011 — October 18th 2021
+
+### New Features
+- ZD256971: Fix text diff view when an extended property is added or removed in the middle
+
+### Bug Fixes
+- ER-57: Fix null reference error when deploying from a snapshot file.
+- ZD259357: Fixed issue in the project settings dialog where the username for a database using Active Directory universal with MFA auth could get copied over the other database’s username
+
+## 14.6.5.19910 — September 27th 2021
+
+### Improvements
+- ZD-257212: Changes to role owners now get applied to scripts folders.
+
+### Bug Fixes
+- ZD-254395: Fix to failing deployment script when dropping a function that is referred to by a constraint.
+- SC-11006, ER-55: Fixed a crash when loading a snapshot containing several external tables with the same name
+
+## 14.6.4.19846 — September 20th 2021
+
+### New Features
+- ZD256698: Support for clustered columnstore indexes in scripts folders where sp_autostats has been set to OFF
+
+## 14.6.3.19802 — September 16th 2021
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient v3
+
+### Bug Fixes
+- Fixed Active Directory universal with MFA authentication
+
+## 14.6.2.19746 — September 13th 2021
+
+### Bug Fixes
+- Fixed parsing of unicode strings in search properties and aliases
+
+## 14.5.22.19589 — August 16th 2021
+
+### Bug Fixes
+- ZD-254361: Fixed broken table renaming technique.
+
+## 14.5.21.19562 — August 9th 2021
+
+### New Features
+- When the RG_SC_CREATE_OR_ALTER environment variable is non-empty, SQL Compare Engine will script out text objects using the CREATE OR ALTER syntax for SQL Server versions that support it.
+
+## 14.5.19.19515 — July 26th 2021
+
+### Improvements
+- Improved performance of reading from backup files
+
+## 14.5.18.19506 — July 22nd 2021
+
+### Bug Fixes
+- ZD-254361: Fixed error ‘field change calculation failed in TableRebuildChecker’ when deploying in certain mapping scenarios.
+
+## 14.5.15.19373 — July 5th 2021
+
+### Improvements
+- Changed default deployment script encoding to UTF-8
+
+## 14.5.10.19206 — June 2nd 2021
+
+### Improvements
+- ZD-250030: Turning off system versioning on a table that is consumed by a security policy no longer results in an incorrect deployment script
+- ZD-251135: STATISTICS_NORECOMPUTE=ON is no longer scripted out for columnstore indexes; instead sp.autostats is invoked
+
+### Bug Fixes
+- ZD-251196: Fixed a bug in deployment scripts using CURRENT_USER
+
+## 14.5.9.19133 — May 24th 2021
+
+### Bug Fixes
+- Fixed help menu link
+
+## 14.5.8.19095 — May 19th 2021
+
+### Improvements
+- Updated incorrect warning about in-memory tables in Azure SQL Databases.
+
+## 14.5.5.18909 — April 27th 2021
+
+### Improvements
+- ZD-248719: Parser messages are now propagated to command-line output.
+
+## 14.5.4.18843 — April 19th 2021
+
+### Improvements
+- Updated to Newtonsoft.Json 13
+
+## 14.5.3.18766 — April 12th 2021
+
+### Improvements
+- Exception reports now go to Application Insights instead of Raygun
+
+## 14.5.2.18630 — March 23rd 2021
+
+### Improvements
+- Register and CreateEmptyTarget methods have been moved from IDatabase to DatabaseFactory
+- ZD-245196: Comparing a scripts folder with invalid static data now results in an error.
+
+## 14.5.1.18536 — March 15th 2021
+
+### Improvements
+- SC-10973: The create scripts folder dialog no longer causes the UI to hang.
+
+## 14.5.0.18430 — March 4th 2021
+
+### New Features
+- SQL Compare now supports PolyBase objects (external data source, external file format and external table)
+
+### Improvements
+- The create database dialog no longer fails when using SQL Server on Linux
+
+## 14.4.23.18321 — February 22nd 2021
+
+### Improvements
+- ZD-245196: Deploying a full text catalog along with its owner will no longer duplicate the CREATE USER statement
+- SC-10963: The /makescripts option on the command line no longer writes out migration blocks metadata for non-migration blocks databases
+
+## 14.4.22.18256 — February 15th 2021
+
+### Improvements
+- SC-10959: SQL Compare now properly handles temporal tables on partition schemes
+
+## 14.4.18.17935 — January 18th 2021
+
+### Improvements
+- SC-10308: Renaming a column included in a temporal table primary key will no longer produce an invalid deployment script
+
+## 14.4.17.17847 — January 11th 2021
+
+### Improvements
+- ZD-242682: Deploying a memory optimized table type will now longer ignore indexes when the option is set
+
+## 14.4.16.17770 — January 5th 2021
+
+### New Features
+- SC-10950: Extended properties representing sensitivity classifications are now treated as sensitivity classifications on versions of SQL Server that support the ADD SENSITIVITY CLASSIFICATION syntax
+
+### Bug Fixes
+- Fix a crash when opening the Server dropdown in SQL Snapper
+
+## 14.4.15.17626 — December 14th 2020
+
+### Improvements
+- DifferenceFilter now exposes SaveToStream and LoadFromStream methods
+- External tables are no longer erroneously registered as regular tables
+- SC-10945: Role members are now sorted in the SQL view
+
+## 14.4.14.17548 — December 7th 2020
+
+### Improvements
+- IDatabase.CompareWith now takes IDatabase instead of Database
+
+## 14.4.13.17493 — November 30th 2020
+
+### New Features
+- SC-10946: Security policies now respect the “Add object existence checks” option
+
+## 14.4.9.17070 — October 26th 2020
+
+### Bug Fixes
+- SC-10928: Fixed regression where static data could not be deployed to a table referenced by a system named foreign key.
+
+### Improvements
+- SC-6959: Comparing spatial indexes no longer gives false differences.
+
+## 14.4.7.16962 — October 12th 2020
+
+### Bug Fixes
+- SQL Compare now generates correct update script when changing data type of PK column of temporal table
+
+## 14.4.6.16906 — October 5th 2020
+
+### Improvements
+- SC-10919: Improved handling of SQL SET statements in scripts folders
+- SC-4733: When the Ignore Permissions option is enabled, and a table is rebuilt, SQL Compare now restores its original permissions rather than deploying its original permissions
+
+## 14.4.4.16824 — September 23rd 2020
+
+### Improvements
+- Static data differences are now correctly shown in the command line list of differences when using /include:staticdata
+
+## 14.4.3.16779 — September 16th 2020
+
+### New Features
+- SC-10907: Amended script order when adding an IDENTITY field to a temporal table.
+
+### Improvements
+- SCA-2749: When comparing a scripts folder using /include:staticdata, SQL Compare Command Line will no longer compare data for tables without static data defined.
+
+## 14.4.2.16694 — September 7th 2020
+
+### Improvements
+- SC-10906: SQL Compare no longer tries to recreate an existing clustered columnstore index when a column’s datatype is modified
+
+## 14.4.1.16663 — September 2nd 2020
+
+### Bug Fixes
+- ZD-166228: Fixed “SQL Change Automation scripting error”
+
+## 14.4.0.16632 — August 24th 2020
+
+### Improvements
+- Improved consistency between command line and UI behaviours
+
+## 14.3.4.16598 — August 19th 2020
+
+### New Features
+- SC-10897: Fixed “Multi-module assemblies are not supported when loading from memory”
+
+## 14.3.2.16501 — July 30th 2020
+
+### Improvements
+- The current highlighted row in the differences grid is deselected (de-highlighted, not unticked.) after a refresh.
+- SC-10890: Azure AD users are now registered on an Azure SQL database
+- SC-10891: When generating a script for a partition scheme change, an exception is no longer thrown
+
+## 14.3.1.16487 — July 27th 2020
+
+### Breaking Changes
+- Spurious ‘Table rebuild fields dropped’ warnings are no longer displayed during a table rebuild
+
+## 14.3.0.16423 — July 20th 2020
+
+### Improvements
+- Engine now uses Microsoft.Data.SqlClient instead of System.Data.SqlClient
+- Engine now depends on SmartAssembly.Attributes package
+- SQL Compare will now reject self-signed certificates when connecting over the internet to SQL Servers with force encryption enabled
+
+### New Features
+- SQL Compare command line on Linux now supports Azure Active Directory Password authentication
+
+## 14.2.18.16317 — July 6th 2020
+
+### Bug Fixes
+- SC-10852: Fixed SQL Server version not being read from SSDT/SCA project file
+- SC-10865: Fixed the filter pane behaviour when changing All Object Types.
+- ZD160360: Fixed an occasional hang when comparing CLR assemblies.
+
+### Improvements
+- SC-10853: When rebuilding an index, the order of included columns is now respected
+
+## 14.2.17.16188 — June 23rd 2020
+
+### Improvements
+- SQL Compare Engine no longer references RedGate.Reflector.Compare.
+
+### Bug Fixes
+- SC-10851: Fixed object existence check when changing between a SQL function and a CLR function
+- Fixed an issue with registering scripts folders on Linux.
+
+## 14.2.16.16006 — June 4th 2020
+
+### Bug Fixes
+- SC-10848: Fixed issue where saved passwords could be forgotten
+
+## 14.2.15.15984 — June 1st 2020
+
+### Bug Fixes
+- Fixed Azure AD authentication when using the command line
+
+## 14.2.14.15839 — May 18th 2020
+
+### Improvements
+- Removed SeparateTriggers option.
+- SC-7052: Only warn about potential data loss when precision/scale has changed in a way that could lose data.
+
+## 14.2.13.15781 — May 11th 2020
+
+### Improvements
+- Improved startup performance in cases where networking issues were delaying product start.
+
+## 14.2.12.15739 — May 4th 2020
+
+### Improvements
+- ZD160292: In the diff view, permissions are now sorted by user and then by action.
+
+## 14.2.11.15654 — April 29th 2020
+
+### Improvements
+- SC-10818: Stop trying to register triggers on tables we do not register when SeparateTriggers is specified in the options.
+
+## 14.2.8.15465 — April 6th 2020
+
+### Bug Fixes
+- SC-10806 Fixed an issue that could occur while dropping tables with foreign keys with a scripts folder target
+
+### New Features
+- SC-10801: Fixed the case when a computed column is added to a temporal table.
+
+## 14.2.5.15352 — March 16th 2020
+
+### Bug Fixes
+- SC-10797: Fixed a script ordering error when altering a queue with an event notification on it
+
+### New Features
+- SC-10798: Fixed support for newer SQL Server features (introduced in SQL Server 2016 or later) on Azure Managed Instances
+
+## 14.2.4.15334 — March 5th 2020
+
+### Bug Fixes
+- Fix performance issue with large text objects when the “Ignore WITH element order” option is enabled.
+- SC-10795: Fixed a crash when opening the Create Scripts Folder dialog
+
+## 14.2.3.15242 — March 2nd 2020
+
+### Improvements
+- SC-10786: When dropping a user with a permission set on a built-in user from a scripts folder, the permission will now be removed from the built-in user
+
+## 14.2.2.15139 — February 24th 2020
+
+### Breaking Changes
+- SC-10785: When dropping a column, clustered columnstore indexes on the table are no longer dropped
+
+## 14.2.1.15041 — February 11th 2020
+
+### Improvements
+- SC-10773: Scripts folders containing Microsoft Database projects are now correctly recognized
+- SC-10774: When using the “Don’t use transactions in deployment scripts” option, SQL Compare no longer includes a rollback statement at the end of the script
+- SC-10777: Deploying a trigger change to a scripts folder no longer causes duplicate EXEC sp_settriggerorder statements
+- SC-10776: When sys.sql_expression_dependencies claims a dependency against an object that does not exist in the database, SQL Compare now ignores the dependency and outputs an error to the logfile
+- SC-10763: Scripts folders without a valid metadata file will now default to SQL Server 2019 instead of SQL Azure DB
+
+## 16.0.14.28844 — 05 May 2026
+
+### New Features
+- ZD-355966: The Edit Filter Rules dialog now adds nested AND/OR clauses correctly.
+- ZD-355509: Added support for SET TEXTSIZE -1 in stored procedure bodies.
+- The Docker image base has changed from Ubuntu Noble to Alpine 3.23. If you use this image as a base for your own Dockerfile, you will need to update it to use Alpine-compatible commands (e.g. apk add instead of apt-get install).
+
+### Improvements
+- The Docker image base has been updated from Ubuntu Noble to Alpine 3.23, reducing image size and resolving security vulnerabilities in the base OS.
+
 ## 16.0.13.28757 — 21 April 2026
 
 ### Improvements
@@ -6627,7 +7960,894 @@ arch 2025
 ---PRODUCT---
 # SQL Data Compare 16.0
 <!-- source: https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes -->
-<!-- fetched: 2026-04-03 | latest: 16.0.9.28654 (24 March 2026) -->
+<!-- fetched: 2026-06-18 | latest: 16.0.18.29038 (18 June 2026) -->
+
+## 16.0.18.29038 — 18 June 2026
+
+### New Features
+- Added Information as a selectable minimum log level in Help > Minimum log levels.
+
+## 16.0.17.29004 — 03 June 2026
+
+### Bug Fixes
+- Fixed an issue so that a recomparison is not required after making a change to deployment behavior options.
+
+## 16.0.11.28694 — 08 April 2026
+
+### Improvements
+- Modernized engine progress tracking
+
+## 15.4.28.28077 — 14 November 2025
+
+### New Features
+- Support for SQL Server 2025. New SQL Server 2025 features may not function correctly.
+
+## 15.4.27.28006 — 04 November 2025
+
+### New Features
+- Added support for SSMS 21 as an external SQL Editor
+
+## 15.4.26.27858 — 02 October 2025
+
+### Bug Fixes
+- ZD-335741: Fixed an issue with “Use checksum comparison” option producing an “Object reference not set to an instance of an object” error
+- Fixes incorrect exit code being returned when a licensing error occurs
+
+## 15.4.24.29094 — 02 September 2025
+
+### Bug Fixes
+- ZD-338367: Fixed issue where the deploy now button is greyed out if the deployment script only deletes rows
+
+## 15.4.18.28452 — 03 June 2025
+
+### Bug Fixes
+- ZD-332834 and ZD-328669: Fixed handling of DATETIMEOFFSET when the timezone triggers rolling over months
+
+## 15.4.15.28277 — Apr 16th, 2025
+
+### New Features
+- ZD327775: Added improved error handling when comparing billions of rows
+
+## 15.4.10.27977 — Feb 6th, 2025
+
+### Bug Fixes
+- ZD-325134: Fixed an issue with Data Compare unable to compare with unsupported data type.
+
+## 15.4.6.27751 — Dec 19th, 2024
+
+### Improvements
+- SqlCompareExceptions now provide unredacted Message and ToString() values.
+
+## 15.4.3.27665 — Dec 3rd, 2024
+
+### Improvements
+- Removed the Flyway option from the project dialog, as it had very low usage
+
+## 15.4.2.27580 — Nov 22nd, 2024
+
+### Improvements
+- Updates the licensing client
+- Allows tool to be used across user profiles on the same machine
+- Prioritises licenses correctly
+
+## 15.4.1.27450 — Nov 12th, 2024
+
+### Bug Fixes
+- Ensures the user has verified their email address as part of the login flow
+
+## 15.4.0.27425 — Nov 11th, 2024
+
+### Improvements
+- Updated licensing with improved UI, integration, security, and trials. Read more at https://www.red-gate.com/blog/redgate-licensing-update
+- *   Serial Keys have been retired.
+
+## 15.3.12.27264 — Oct 15th, 2024
+
+### New Features
+- SQL Data Compare Engine no longer has a dependeny on Microsoft.Data.SqlClient. You may need to add this package to your project if you are using the SQL Data Compare Engine NuGet package.
+- Added support for the SSMS20 editor
+
+### Improvements
+- Removed methods marked as Obsolete on public API that depended on Microsoft.Data.SqlClient.
+- Removed .SSMS and .SSMS20 versions of the SQL Data Compare Engine NuGet package.
+
+## 15.3.11.27029 — Sep 17th, 2024
+
+### Improvements
+- Removed dependency on System.Text.Json. When using the ComparisonSessionSerializer, you will now need to provide an implementation of IJsonSerializer.
+
+## 15.3.10.26944 — Sep 12th, 2024
+
+### Improvements
+- Stability improvements for the UI
+
+## 15.3.8.26171 — Jul 16th, 2024
+
+### Improvements
+- Changed the name of sqldatacompare.tar.gz to include the version number
+
+## 15.3.6.25729 — May 8th, 2024
+
+### Improvements
+- ZD-308402: Data rows selection will now be preserved when swapping compare/synchronization directions.
+
+## 15.3.4.25528 — Mar 26th, 2024
+
+### Bug Fixes
+- ZD-307150: Fixed issue when connecting to Azure SQL instance where an error occurred related to the loading of assembly Microsoft.IdentityModel.Abstractions
+
+## 15.3.2.25249 — Feb 15th, 2024
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 5.1.5
+
+## 15.3.1.25177 — Feb 6th, 2024
+
+### Bug Fixes
+- ZD-296925: Fixed an issue when comparing graph tables.
+
+## 15.3.0.25068 — Jan 12th, 2024
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 5.1.4
+- ZD-304352 Prevent table mappings from incorrectly reverting to default state when editing a project.
+
+### New Features
+- Added read-only support for Flyway projects, allowing you perform comparisons with Flyway on the left.
+
+## 15.2.5.24669 — Dec 5th, 2023
+
+### Improvements
+- ZD-299431: Slightly reduced memory usage of the UI and engine.
+- ZD-299431: Deployment script syntax highlighting is now disabled for scripts exceeding 300k lines for performance reasons.
+
+### Bug Fixes
+- ZD-299431: Fixed a memory leak in the SQL Data Compare UI, noticeable when refreshing large comparisons.
+- ZD-299431: Fixed a crash on the pre-deploy Summary tab when toggling the grouping for large deploys.
+
+## 15.2.1.24235 — Oct 31st, 2023
+
+### Bug Fixes
+- ZD-292086: Fixed an issue where Include checkboxes would re-tick themselves if multiple schemas had a table with the same name.
+
+## 15.2.0.24040 — Oct 6th, 2023
+
+### Improvements
+- ZD-297510: Made the table mapping screens more responsive by significantly reducing the number of times they reprocess saved data.
+- Note that the project Save button no longer grays out when there are no unsaved changes.
+
+## 15.1.2.24012 — Sep 28th, 2023
+
+### Improvements
+- Update to licencing link in CLI output
+
+## 15.1.0.23826 — 06 September 2023
+
+### New Features
+- Added link to licensing restrictions documentation in CLI output header
+
+## 15.0.13.23797 — 29 August 2023
+
+### Bug Fixes
+- ZD-294648: Fixes misleading record Include checkbox behavior in Data Compare following a refresh/deployment. Checkboxes now reset to a ticked/un-ticked state, based on the object grid checkbox.
+
+## 15.0.11.23723 — 08 August 2023
+
+### Bug Fixes
+- ZD-285053: Fixes an issue in the command line where options such as “TrustServerCertificate” in the server switches were not being used
+
+## 15.0.9.23488 — May 30th, 2023
+
+### New Features
+- ZD-292465: Added SSMS19 to list of SQL editor options
+
+## 15.0.8.23473 — May 23rd, 2023
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 5.1.1
+
+## 15.0.7.23280 — Mar 14th, 2023
+
+### Improvements
+- “Encrypt” and “Trust server certificate” server connection checkbox values are now loaded with server connection details from server dropdown
+
+## 15.0.6.23274 — Mar 7th, 2023
+
+### Bug Fixes
+- ZD-284324: Fixes a bug where an “Identical items are not deployed.”-error was incorrectly being raised when deploying to scripts folders
+
+## 15.0.5.23181 — Feb 21st, 2023
+
+### Bug Fixes
+- ZD-285412: Fixed issue with table mappings not appearing when connecting through Azure MFA to a managed instance
+
+## 15.0.4.23133 — Feb 14th, 2023
+
+### New Features
+- Added warning to command line clarifying which differences will be deployed
+
+## 15.0.2.22953 — Jan 17th, 2023
+
+### Improvements
+- ZD-282763 “Encrypt” and “Trust Server Certificate” can now be specified on database connections with checkboxes, rather than the workround of manually appending connection string parameters to the server name
+
+### Bug Fixes
+- Fixed minor bugs relating to the handling of long file paths
+
+## 15.0.1.22876 — Jan 11th, 2023
+
+### New Features
+- ZD-283578: Added “Dynamically override default save location when saving to a new location in the deployment script save dialog” option to application settings.
+
+## 15.0.0.22793 — Dec 20th, 2022
+
+### New Features
+- SQL Server 2022 support
+- UI displays a warning that support for SQL Server 2008 and SQL Server 2008R2 will be removed in a future version
+
+### Improvements
+- UI displays a warning when an unsupported scripts folder is selected
+
+## 14.10.8.22508 — Nov 24th, 2022
+
+### New Features
+- Added support for long file paths in windows when enabled in the windows registry (We cannot guarantee how it will work with windows and other applications as it does not seem well supported)
+
+## 14.10.6.22196 — Nov 3rd, 2022
+
+### Improvements
+- SQL Compare will no longer install the Microsoft Active Directory Authentication Library (ADAL) as a pre-requisite as it is superseded by MSAL
+
+## 14.10.4.22065 — Oct 11th, 2022
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 5.0.1
+
+### Bug Fixes
+- ZD-277198: Fixed missing dll reference that appears when attempting Azure authentication
+
+## 14.10.0.21773 — Sep 13th, 2022
+
+### New Features
+- Beta support for SQL Server 2022 Preview. New SQL 2022 features may not function properly.
+
+## 14.9.0.21563 — Aug 10th, 2022
+
+### Improvements
+- ER-71: Change to the process by which static data is written to scripts folders in order to improve ordering consistency.
+
+## 14.8.4.21440 — Jul 19th, 2022
+
+### Bug Fixes
+- ZD-274628: Fixed deploying changes to an edge table that has an identity column as its primary key
+
+## 14.8.3.21395 — Jul 5th, 2022
+
+### Bug Fixes
+- Fixes an issue with verifying server certificates when an explicit port number is set.
+
+## 14.8.0.21190 — Jun 14th, 2022
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient 4.1.0
+- SQL Data Compare now encrypts connections to SQL Server by default Previously, connections would have been encrypted according to the server’s Force Encryption setting
+- Setting an Application ID is no longer needed to connect using Azure Active Directory Universal with MFA authentication
+- Linux command line timebomb doubled to 180 days
+
+## 14.7.7.21053 — May 24th, 2022
+
+### Bug Fixes
+- ZD-269383 Fixed an issue with sorting order of data in a scripts folder, with UTF8 collations
+
+## 14.7.6.21017 — May 17th, 2022
+
+### Bug Fixes
+- ZD-269383 Fixed an issue with comparison and deployment of data containing accented characters in char/varchar/text columns, with Latin1_General_100_CS_AS_SC_UTF8 and similar _100_ collations
+
+## 14.7.2.20940 — Apr 7th, 2022
+
+### Improvements
+- ZD-268685 When FIPS is enabled, encrypted objects are now correctly decrypted, when the option to do so is set
+
+## 14.6.14.20342 — December 22nd 2021
+
+### Improvements
+- ZD-260221 More use of WITH (NOLOCK) on DMV queries
+
+## 14.6.12.20158 — November 29th 2021
+
+### New Features
+- To support automation environments, the SQL Compare command line now has an /allUsers flag that can be using when activating to allow it to be used by all users, including service accounts
+
+## 14.6.9.20059 — November 1st 2021
+
+### New Features
+- ZD-261137: Support for SQL Server 2019 differential backups fixed
+
+## 14.6.7.20011 — October 18th 2021
+
+### Bug Fixes
+- ZD259357: Fixed issue in the project settings dialog where the username for a database using Active Directory universal with MFA auth could get copied over the other database’s username
+
+## 14.6.3.19802 — September 16th 2021
+
+### Improvements
+- Upgraded to Microsoft.Data.SqlClient v3
+
+### Bug Fixes
+- Fixed Active Directory universal with MFA authentication
+
+## 14.6.0.19635 — August 19th 2021
+
+### Improvements
+- Previously, when comparing two decimal fields with a different number of decimal places, in which a number in the source was different to the number in the target, but equal after rounding, we would not list that as a difference. This behaviour has now been changed so that these will be shown in the list of differences.
+
+## 14.5.20.19533 — August 2nd 2021
+
+### Improvements
+- sql_variant fields with a NULL value now show as ‘<NULL>’ instead of ‘Null’, to be consistent with other data types
+
+## 14.5.19.19515 — July 26th 2021
+
+### Improvements
+- Improved performance of reading from backup files
+
+## 14.5.17.19461 — July 19th 2021
+
+### Improvements
+- ZD-252839 - Respect the users decision of turning off some default DCE options
+
+## 14.5.15.19373 — July 5th 2021
+
+### Improvements
+- Changed default deployment script encoding to UTF-8
+- Changed default CSV report encoding to UTF-8
+
+## 14.5.9.19133 — May 24th 2021
+
+### Bug Fixes
+- Fixed help menu link
+
+## 14.5.5.18909 — April 27th 2021
+
+### Improvements
+- ZD-248719: Parser messages are now propagated to command-line output.
+
+## 14.5.4.18843 — April 19th 2021
+
+### Improvements
+- Updated to Newtonsoft.Json 13
+
+## 14.5.3.18766 — April 12th 2021
+
+### Improvements
+- Exception reports now go to Application Insights instead of Raygun
+
+## 14.5.2.18630 — March 23rd 2021
+
+### Improvements
+- ZD-247451: Respect command line parameters MaxTransactionSizeDB and TransactionIsolationLevel
+
+## 14.4.23.18321 — February 22nd 2021
+
+### Improvements
+- SC-10963: The /makescripts option on the command line no longer writes out migration blocks metadata for non-migration blocks databases
+
+## 14.4.14.17548 — December 7th 2020
+
+### Bug Fixes
+- Fixed a NullReferenceException when deploying to a scripts folder with a missing target of a foreign key
+
+## 14.4.12.17429 — November 25th 2020
+
+### Improvements
+- The DoNotOutputCommentHeader option is now respected in the SQL Data Compare command line
+- ZD194840: SQL Data Compare UI now applies selections correctly when Include Identical Values In Results is ticked
+
+## 14.4.10.17174 — November 3rd 2020
+
+### Improvements
+- SDC-3100: The /Include:Additional command line switch will no longer include rows that are present in the source
+
+## 14.4.0.16632 — August 24th 2020
+
+### Improvements
+- Improved consistency between command line and UI behaviours
+
+## 14.3.1.16487 — July 27th 2020
+
+### Improvements
+- Checksum comparison now works against read-only databases
+
+## 14.3.0.16423 — July 20th 2020
+
+### Improvements
+- Engine now uses Microsoft.Data.SqlClient instead of System.Data.SqlClient
+- Engine now depends on SmartAssembly.Attributes package
+- SQL Data Compare will now reject self-signed certificates when connecting over the internet to SQL Servers with force encryption enabled
+
+### New Features
+- SQL Data Compare command line on Linux now supports Azure Active Directory Password authentication
+
+## 14.2.16.16006 — June 4th 2020
+
+### Bug Fixes
+- SC-10848: Fixed issue where saved passwords could be forgotten
+
+## 14.2.15.15984 — June 1st 2020
+
+### New Features
+- SDC-1451: When reading from a backup file, not null columns added with a default value are now read correctly
+
+### Improvements
+- When reading from a backup file, sql_variant columns containing time, datetime2, or datetimeoffset values are now read correctly
+
+## 14.2.11.15654 — April 29th 2020
+
+### Bug Fixes
+- SDC-2992: Fixed partial deployments to scripts folders
+
+## 14.2.1.15041 — February 11th 2020
+
+### Improvements
+- SDC-3027: Columns with incompatible data types that get automapped no longer prevent comparisons
+- SC-10773: Scripts folders containing Microsoft Database projects are now correctly recognized
+- SDC-3029: Some custom comparison keys no longer cause tables to be excluded from the comparison
+
+## 14.2.0.14846 — January 29th 2020
+
+### New Features
+- SQL Data Compare now supports Azure Active Directory Interactive Authentication
+
+## 14.1.8.14471 — January 7th 2020
+
+### Improvements
+- SDC-3019: Where clause editor is now disabled for incompatible data sources
+- The open projects button no longer exhibits erroneous dropdown behavior
+
+## 14.1.6.14245 — December 16th 2019
+
+### Improvements
+- Azure Managed Instances can now take backups before deployment to a supplied URL.
+
+## 14.1.5.14025 — December 2nd 2019
+
+### Improvements
+- SQL Data Compare will now install the Microsoft Active Directory Authentication Library if it is required
+
+## 14.1.3.13888 — November 18th 2019
+
+### Improvements
+- SDC-3004: The command line no longer attempts to deploy tables with no comparison key
+
+## 14.1.2.13797 — November 11th 2019
+
+### Improvements
+- SC-10654: Launching SSMS 18 from SQL Data Compare now behaves correctly when using SQL Authentication
+
+## 14.1.1.13725 — November 5th 2019
+
+### New Features
+- You can no longer add a backup statement to a script that is immediately run on an Azure server, which would always cause the script to fail.
+- ‘master’ no longer appears on the database list for Azure SQL Database and we no longer allow you to register it, as it is not really a full database and may have unexpected behaviour.
+
+### Improvements
+- SDC-2997: We no longer deselect the whole table when you have a column deselect in your project which doesn’t match any registered columns, because this was causing us to deselect tables where the column was hidden by an option e.g.ignore timestamp columns.
+- SQL Data Compare no longer attempts to connect to an Azure SQL Database to check SQL Backup install status or do folder browsing, neither of which work on Azure SQL Database.
+
+## 14.1.0.13605 — October 28th 2019
+
+### Improvements
+- Improved error messages around Azure Active Directory authentication.
+- Improved labelling of authentication types to make it clearer which ones are only applicable to on-prem or Azure SQL Database connections.
+
+## 14.0.6.13387 — October 14th 2019
+
+### Improvements
+- Enabled sharing of recently used servers with other Redgate products
+
+## 14.0.5.13297 — October 7th 2019
+
+### Improvements
+- SC-10056: Server combobox in the live database connection form now correctly updates when clicking the swap sides button
+
+## 14.0.3.13106 — September 23rd 2019
+
+### Improvements
+- SQL Data Compare command line is now available as a linux container on Docker Hub
+- Command line on Linux now logs to the /logs directory
+
+## 14.0.2.13006 — September 16th 2019
+
+### Improvements
+- SDC-2986: The deployment progress dialog will now only display the last element in a batch
+
+## 14.0.1.12901 — September 9th 2019
+
+### Improvements
+- Server retrieval in connection dialog now retrieves local server instances more comprehensively
+
+## 13.8.0.12703 — August 27th 2019
+
+### Improvements
+- Faster script parser - scripts folders should load data much faster from all tables.
+
+### New Features
+- New command line error code - 60 - for the state where there are no comparable tables/views. This would previously have returned error code 63, which now only covers identical databases.
+
+## 13.7.21.12250 — July 31st 2019
+
+### Improvements
+- SDC-2976: Stop mappings list entirely refreshing itself and resetting scroll position to the top when e.g.column selection edits are made
+- SOC-9937: Improved handling of static data for unusual table names
+
+## 13.7.20.12175 — July 29th 2019
+
+### Bug Fixes
+- Fixed a crash when SQL contains hundreds of nested parentheses.
+
+## 13.7.19.12066 — July 22nd 2019
+
+### Improvements
+- Tables that had no available comparison key, and hence could not be compared, are now displayed in command line output with the string ‘No PK or UQ’ in the ‘Records’ column and ‘x’ in the DB1 and DB2 columns, rather than entirely ignored. Similarly, tables with no data in will be displayed with the string ‘No data’ in the ‘Records’ column and ‘x’ in the DB1 and DB2 columns. These will only appear if /Include:Identical is specified, as they can’t form part of a deployment.
+
+## 13.7.18.11916 — July 15th 2019
+
+### Improvements
+- SDC-2763: You can now bring up the difference viewer more easily when you edit a project with only one table/view and re-compare
+
+## 13.7.16.11325 — June 13th 2019
+
+### New Features
+- SDC-2955: New projects will now get a new set of table / schema mappings, rather than reusing the previous project’s mappings if the data sources matched.
+
+## 13.7.8.10109 — April 1st 2019
+
+### Improvements
+- SDC-2938: Data compare command line no longer throws away options in the project file when using the project switch
+
+## 13.7.7.10021 — March 26th 2019
+
+### Improvements
+- Removed remaining vestigial dependency on SMO package.
+- SQL Data Compare Engine now dual targets both net461 and netstandard2.0. Please note that netstandard2.0 versions of the Compare and Data Compare engines are not really ready for use in anger.
+
+## 13.7.6.9920 — March 18th 2019
+
+### Improvements
+- RedGate.SQLCompare.ASTParser NuGet package has been updated to include both net461 and netstandard2.0 content.
+- Removed dependency on Microsoft.SqlServer.ManagementObjects NuGet package.
+- SQLite dependency upgraded to version 1.0.110
+
+## 13.7.5.9811 — March 11th 2019
+
+### Improvements
+- Engine NuGet packages now have the packaged assemblies delivered in the lib\net461 folder, rather than the lib folder directly.
+
+## 13.7.3.9483 — February 20th 2019
+
+### Improvements
+- SDC-1639: Transaction isolation level can now be specified
+
+## 13.7.2.9407 — February 18th 2019
+
+### Improvements
+- The ongoing migration of our project files to the VS 2017 format may introduce subtle changes to the various Compare and Data Compare NuGet packages.
+- The RedGate.SQLCompare.ASTParser and RedGate.SQLCompare.Engine NuGet packages now include some previously missing NuGet package dependencies. These may potentially result in downstream dependency conflicts.
+- SDC-2927: Concatenated strings in static data can now be parsed
+
+### Bug Fixes
+- SDC-2930: Fixed a code path where certain deployment options could be ignored
+
+## 13.7.0.9250 — February 7th 2019
+
+### Improvements
+- SDC-2906: Worked around a Windows Installer error that caused Microsoft.SqlServer.Management.SqlParser.dll to be removed when upgrading SQL Data Compare.
+
+### New Features
+- SDC-2925: Rows on node tables are now added before rows on edge tables, and vice versa when deleting rows
+
+## 13.6.14.9174 — February 4th 2019
+
+### Improvements
+- Additional logging of .NET assembly loading to help investigate SDC-2906.
+
+## 13.6.11.8947 — January 23rd 2019
+
+### Bug Fixes
+- Fixed an issue with SOC integration
+
+## 13.6.8.8602 — January 8th 2019
+
+### Breaking Changes
+- Minor script ordering change - constraint and key nocheck and drop statements will now group slightly differently (check constraints are now in their own section rather than mixed in with primary, unique and foreign keys)
+
+### Bug Fixes
+- SDC-2914 Fixes comparison between TINYINT and NUMERIC(x,y) columns
+
+## 13.6.3.8160 — November 12th 2018
+
+### Improvements
+- SDC-2889: Stop Data Compare from creating an additional folder in the scripts data when generating a deployment script
+- SDC-2889: As part of 2889 above I renamed DisposeOfSyncInfo to DisposeOfExecutionBlock which is called twice from SQLSourceControl
+
+### Bug Fixes
+- SOC-9648: Fixed issue where DataFileSet is not updated when using Synchronise
+
+## 13.6.2.7987 — October 23rd 2018
+
+### Improvements
+- SDC-2747: When resizing the comparison key window in a mapping dialog, the scrollbar no longer disappears
+- The SQL Data Compare UI build now runs the Compare Engine through SmartAssembly
+
+### Bug Fixes
+- SDC-2894: The command line now exits with the correct exit code when the license is invalid
+
+## 13.5.1.7638 — September 24th 2018
+
+### Improvements
+- SDC-2884 - MissingIn2AsInclude command line option now includes key columns again in output script
+
+## 13.4.8.7337 — September 3rd 2018
+
+### Improvements
+- The SQL Data Compare Engine package now directly references Microsoft.SqlServer.SqlManagementObjects insead of relying on a transitive reference through SQL Compare Engine.
+- SQL Data Compare now correctly outputs server name as part of the source and target databas names in CSV report exported from the command line
+
+## 13.4.6.7079 — August 13th 2018
+
+### Improvements
+- SDC-2861: Reduce re-registrations in the edit project dialog
+
+## 13.4.4.6883 — July 24th 2018
+
+### New Features
+- SDC-1262 Option to include a USE <databaseName> statement added, consistent with SQL Compare
+
+## 13.4.2.6669 — July 2nd 2018
+
+### Improvements
+- SDC-2833: Dropping an index linked via a foreign key to a table that is not selected for deployment will now ensure the foreign key dependency is respected
+
+## 13.4.0.6563 — June 20th 2018
+
+### Improvements
+- SDC-2862: If “WHERE” is included in a where clause, it no longer causes a broken update script
+
+## 13.3.8.6436 — June 11th 2018
+
+### Improvements
+- SQL Data Compare more consistently compares data from a scripts folder when using a VARCHAR comparison key.
+
+## 13.3.6.6375 — June 4th 2018
+
+### New Features
+- SDC-2857: Add option to include generated always columns in the comparison
+
+### Improvements
+- SDC-2844: Update collations to use Microsoft library to improve consistency
+- Performance improvements when populating indexes from a database
+
+## 13.3.5.6244 — May 23rd 2018
+
+### Improvements
+- Telemetry has been updated in accordance with the privacy policy available at https://www.red-gate.com/website/legal
+
+## 13.3.4.6198 — May 17th 2018
+
+### Improvements
+- Redgate.*.Obfuscated packages no longer built
+- SDC-2843: SQL Data Compare command line won’t throw an error when an unmapped column that doesn’t exist in the source is excluded on the command line
+
+## 13.3.2.5875 — April 17th 2018
+
+### Breaking Changes
+- SDC-2826: The ‘Drop primary keys, indexes, and unique constraints’ option no longer drops unique ROWGUIDCOL indexes on tables that include a FILESTREAM field.
+
+### Improvements
+- SC-10036: The SQL Data Compare command line will no longer fail when there is whitespace between options in an XML argument file
+
+## 13.3.1.5775 — April 9th 2018
+
+### Improvements
+- SQL Data Compare command line now includes switches /activedirectory1 and /activedirectory2 to specify the use of Azure Active Directory authentication
+- SDC-2799: The Reseed identity columns option now sets the current seed of the target to the current seed of the source when possible
+
+## 13.2.4.5728 — March 23rd 2018
+
+### Improvements
+- Differences.Remove() has been renamed to Filter(). Difference objects passed to this method will have their Selected property set to false.
+
+## 13.2.1.5640 — March 1st 2018
+
+### Improvements
+- Bulk uninstaller improvements
+
+## 13.1.9.5540 — January 16th 2018
+
+### Bug Fixes
+- SDC-2798: Fixed some incorrect script comments regarding SQL Graph EGDE tables.
+
+## 13.1.8.5525 — January 8th 2018
+
+### Improvements
+- Integrates the Redgate bulk uninstaller
+
+## 13.1.7.5470 — December 11th 2017
+
+### Bug Fixes
+- SDC-2788: Fixed a memory leak during deployment.
+
+## 13.1.6.5463 — December 5th 2017
+
+### Bug Fixes
+- SC-9683: Fixed display of warning message text, which was invisible for some .NET 4.7 users
+
+### Improvements
+- SQL Data Compare Command Line now runs in 64-bit mode by default
+
+## 13.1.3.5405 — November 14th 2017
+
+### Bug Fixes
+- SDC-2764: Fixed a Windows Clipboard interaction bug when choosing which server to connect to
+
+## 13.1.0.5287 — October 16th 2017
+
+### Improvements
+- SDC-2745: Display pseudo column names for column headers instead of the full column name
+- SC-8880: Scripts folders can now be in the root of a drive (as long as it is otherwise empty)
+
+### Bug Fixes
+- SDC-2753: Fixed a crash at the start of the Deployment Wizard
+
+## 13.0.6.5248 — October 9th 2017
+
+### Improvements
+- SC-9740: Ensured that warning messages correctly show a title next to the icon
+
+## 13.0.5.5219 — October 2nd 2017
+
+### Improvements
+- SQL Data Compare now requires .NET 4.6.1
+- Improved the installer UI for SQL Data Compare
+
+## 13.0.3.5144 — September 19th 2017
+
+### Bug Fixes
+- SC-9175: fix an issue where incorrect credentials could be used when registering, after typing server names into the connection dialog.
+
+## 13.0.2.5109 — September 11th 2017
+
+### Improvements
+- SQL Data Compare now lists SQL Server Management Studio 17 as a default script editor
+- SQL Data Compare now remembers passwords in the Windows Credential Store, as well as the project file.
+
+## 13.0.1.5078 — September 4th 2017
+
+### Improvements
+- SQL Data Compare Engine now targets .NET 4.0 instead of .NET 3.5
+- SC-9662: The command line now displays your serial number correctly
+
+### Bug Fixes
+- SDC-2639: Fixed a crash when performing checksum comparisons
+
+## 13.0.0.5057 — August 29th 2017
+
+### Breaking Changes
+- SDC-2555, SDC-2199, SDC-2224: SQL Data Compare now drops foreign keys to allow other indexes to be dropped
+
+## 12.4.11.5008 — August 21st 2017
+
+### Improvements
+- SDC-2557: Remove “Create a SQL Compare snapshot” as a backup target option since it doesn’t perform any operations
+
+## 12.4.9.4945 — July 31st 2017
+
+### New Features
+- SC-9335: SQL Data Compare now supports Azure Active Directory authentication with integrated and password authentication methods. These options are available in the ‘Authentication’ dropdown in the ‘Database’ section of the ‘Edit project’ window. Note that this feature requires .NET 4.6 and adalsql.dll to be installed; see https://docs.microsoft.com/en-us/azure/sql-database/sql-database-aad-authentication-configure#configure-your-client-computers for more details
+
+### Bug Fixes
+- SDC-2556: Fixed a crash when recomparing data after a deployment
+
+## 12.4.8.4926 — July 26th 2017
+
+### Improvements
+- SDC-2553: Data Compare no longer crashes when attempting to view the comparison key or column mapping dialogs
+
+## 12.4.7.4905 — July 13th 2017
+
+### Improvements
+- SC-9509: The ‘Export CSV files’ menu item will now be enabled after comparing a project from the ‘My projects’ window using the ‘Compare now’ option
+- SC-9514: Switching deployment direction will no longer cause the currently selected table to be deselected
+
+### Bug Fixes
+- Fixed an issue where cancelling a comparison at a specific moment could cause SQL Data Compare to hang
+
+## 12.4.3.4752 — June 20th 2017
+
+### Improvements
+- SC-9494: SQL Compare will no longer truncate extra long warnings in the deployment wizard
+- SDC-2502: SQL Data Compare should now correctly preserve newline characters in multiline strings in the deployment script
+
+### Bug Fixes
+- SDC-2509: Fixed a bug which could cause the ‘Selected X of Y’ count in the results grid to get out of sync after refreshing the comparison.
+
+## 12.4.2.4681 — June 7th 2017
+
+### Improvements
+- SDC-2548: SQL Data Compare can now hide columns with no different values, even if inserted and deleted values exist
+
+### Bug Fixes
+- SC-9437: Fixed a bug which could cause some rows in the My Projects dialog to not render correctly when there were some invalid project files in the displayed folder
+
+## 12.4.1.4639 — May 30th 2017
+
+### New Features
+- The authentication type for databases (Windows/SQL Server) is now specified as a dropdown. This allows more authentication types to be added in the future.
+
+### Bug Fixes
+- SDC-2547: Fixed an error displaying columns in the correct order when switching between tabs in the differences grid.
+- SC-9404: Fixed a bug which prevented the saved sort order in the My Projects dialog from being applied correctly
+- SC-9456: Fixed some high-DPI display issues in the deployment wizard ‘Deployment method’ settings that occurred when the windows UI scale was set to 250% or greater
+- SC-9474: Fixed some high-DPI display issues in the deployment wizard title bar
+
+### Improvements
+- SDC-2507: When selecting columns for comparison, all selection will now be saved rather than only those that are visible using the “Find” function.
+- SC-9439: The “Edit selected file” button on the “Error parsing scripts” dialog will now correctly launch the selected editor
+
+## 12.3.3.4490 — May 8th 2017
+
+### Improvements
+- The “My Projects” window can now be opened from the toolbar
+- The ‘Use checksum comparison’ and ‘Treat empty string as NULL’ options can now be used together. Comparing a NULL value and empty string will cause the table checksums to be different, but Data Compare should then treat these values as equal when comparing the tables.
+- SC-9399: When using the SQL Source Control data source, progress updates will now be displayed while the requested revision of the scripts folder is being checked out.
+
+## 12.3.2.4426 — April 26th 2017
+
+### Improvements
+- SDC-2459: Data Compare no longer matches on all columns when custom comparison keys are used, and no keys are repeated.
+
+### Bug Fixes
+- SDC-2505: Fixed a bug that could prevent Data Compare from scripting out some INSERT/DELETE statements when not all rows were selected and the deployment direction was reversed.
+
+## 12.3.1.4383 — April 12th 2017
+
+### Bug Fixes
+- Fixed a silent crash on start up that could occur when upgrading from SQL Data Compare 12.2.3 or 12.2.4
+
+## 12.3.0.4373 — April 10th 2017
+
+### Improvements
+- SQL Data Compare can now register SQL Server vNext backups and scripts folders
+- SDC-2485: DateTime data is now formatted consistently in the differences grid.
+- SC-9339: The size of the My Projects dialog is now saved between sessions
+
+### New Features
+- SDC-2493: Regular expressions are now supported when using the excludecolumns and includecolumns switches in the command line.
+
+## 12.2.4.4299 — March 30th 2017
+
+### Improvements
+- SC-9066: It is now possible to compare to a historical git revision (Requires SQL Source Control 5.5.4 or later)
+- SDC-2383: Individual cells in the Data Compare differences grid are now highlighted only when they contain a difference.
+- SC-9374, SC-9376: Choosing ‘HEAD’ as the source control revision no longer causes a ‘Value cannot be null’ error in the UI or command line
+
+## 12.2.2.4140 — March 13th 2017
+
+### Improvements
+- SC-9338: The My Projects dialog will now remember the previous sort ordering
+- SDC-2448: Improved warning messages around referential integrity.
+- SC-9204: Filenames are no longer truncated in the deployment wizard when updating a scripts folder
+- SC-8944: Improved the title bars of various dialogs in high DPI mode
+
+## 16.0.14.28844 — 05 May 2026
+
+### New Features
+- Add an option to include existence checks when generating insert statements
+- The Docker image base has changed from Ubuntu Noble to Alpine 3.23. If you use this image as a base for your own Dockerfile, you will need to update it to use Alpine-compatible commands (e.g. apk add instead of apt-get install).
+
+### Improvements
+- The Docker image base has been updated from Ubuntu Noble to Alpine 3.23, reducing image size and resolving security vulnerabilities in the base OS.
 
 ## 16.0.9.28654 — 24 March 2026
 - Compatibility with SQL Compare 16.0.9.28654
