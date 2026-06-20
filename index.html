@@ -1616,55 +1616,171 @@ function buildQ1HTML(allData, productName){
     }
   }
 
-  // ── CURRENT QUARTER SUMMARY ──────────────────────────────────────────────
-  // One paragraph: direction + why it matters to Redgate's SQL Server, Oracle,
-  // Postgres, and MySQL customer base. No release counts. Explain the "so what."
+  // ── SUMMARY + BULLETS: product-specific voice, generic fallback for all-products ─
   let summary = '';
-
-  if(topThemes.length >= 2 && topFeat){
-    summary = `${portfolioContext}${label}'s trajectory this quarter is unmistakable: the team is executing on ${topThemes[0]} while simultaneously extending ${topThemes[1]}. The standout deliverable — "${topFeat.text}" — directly removes a friction point that has kept ${productName ? 'customers' : "Redgate's " + dbText + " customers"} from fully automating their database delivery pipeline. That's a hard objection gone; it makes renewals easier and gives a clear anchor for any account asking "what has Redgate actually shipped?"`;
-  } else if(topThemes.length >= 1 && topFeat){
-    summary = `${portfolioContext}${label} is in focused execution mode on ${topThemes[0]} this cycle. "${topFeat.text}" is the most customer-visible output of that investment — it solves a concrete, named problem for ${dbText} teams and gives a clear answer to the "what's new" question before your next customer call. The tight scope is a feature, not a limitation: it means the team isn't spreading effort thin across multiple platforms simultaneously.`;
-  } else if(topFeat){
-    summary = `${portfolioContext}${label} shipped a meaningful capability this period with "${topFeat.text}." For ${dbText} environments, this is the kind of incremental-but-compounding improvement that reduces manual steps and shrinks the error surface over time. It's the type of update that shows up in QBRs as "Redgate keeps getting better" — not headline news, but exactly the evidence that supports renewal confidence and makes trading up to Enterprise a defensible recommendation.`;
-  } else {
-    summary = `${portfolioContext}${label} prioritised reliability and operational consistency this cycle, shipping targeted resolutions that reduce friction under production load for ${dbText} teams. Stability releases don't generate press releases, but they're what drives long-term NPS and makes enterprise renewals straightforward — customers notice when things stop breaking, even if they don't articulate it. This is the foundation that makes the headline features in subsequent releases trustworthy.`;
-  }
-
-  if(breaking.length){
-    summary += ` ${breaking.length === 1 ? 'One change in this cycle requires' : `${breaking.length} changes require`} explicit customer action before upgrading — surface this proactively in your next touch, well before they attempt the upgrade themselves. The upgrade notes cover the specifics, but the difference between a managed transition and an emergency call is almost always whether the customer heard about it from you first.`;
-  }
-
-  // ── NEXT QUARTER OUTLOOK: where is the solution growing ─────────────────────
   const bullets = [];
-  const coreOrder = ['sql server', 'oracle', 'postgres', 'mysql'];
-  const coreThemes = coreOrder
-    .map(core => topThemes.find(t => new RegExp(`\\b${core}\\b`, 'i').test(t)))
-    .filter(Boolean);
+  const breakingNote = breaking.length
+    ? ` ${breaking.length === 1 ? 'One change requires' : `${breaking.length} changes require`} explicit customer action before upgrading — flag this before they attempt it themselves.`
+    : '';
 
-  // Bullet 1: investment signal — what to watch and who it affects
-  if(coreThemes.length){
-    bullets.push(`${label} is actively shipping on ${coreThemes[0]} right now — your accounts with this as a live initiative are in the ideal position to turn product updates into expansion conversations. Review their current project list before your next call and map the release to something they already care about.`);
-  } else if(topThemes.length){
-    bullets.push(`${label} is making a clear bet on ${topThemes[0]} this cycle. Accounts where ${dbText} modernisation is on the 2026 roadmap are the highest-conversion targets — the product timing and their internal pressure are aligned. Lead with the outcome, not the feature list.`);
-  } else {
-    bullets.push(`${label} continues to tighten its core database tooling, and that consistency is exactly what large, risk-averse accounts need to see before committing to enterprise licences. Use stability as a positive signal, not a gap.`);
+  if(productName === 'Flyway Desktop'){
+    const oracleMode = topThemes.some(t => /oracle/i.test(t));
+    const ciMode     = topThemes.some(t => /ci.cd|pipeline|migrat/i.test(t));
+    if(oracleMode && topFeat){
+      summary = `Flyway Desktop is in the middle of its most serious Oracle push yet. "${topFeat.text}" isn't a compatibility checkbox — it removes a specific workflow friction that has kept Oracle shops from committing to automated schema migration. For accounts running Oracle in CI pipelines, or teams that were told "Flyway doesn't really support Oracle," this quarter makes that objection genuinely hard to sustain.${breakingNote}`;
+      bullets.push(`Oracle APEX shops and enterprise Oracle teams are the highest-priority accounts this cycle. The product has moved closer to their actual pipeline needs — not just listing Oracle in a supported-databases table.`);
+      bullets.push(`Flyway Desktop accounts still running manual Oracle schema scripts are the natural conversation right now. The friction blocking adoption in those accounts is being actively removed release by release.`);
+      bullets.push(`"${topFeat.text}" is your proof point in any Oracle demo or POC. It shows Flyway understands Oracle's specific quirks, not SQL Server parity with an Oracle label applied.`);
+    } else if(ciMode && topFeat){
+      summary = `Flyway Desktop's automation story keeps getting tighter. "${topFeat.text}" is exactly the kind of capability that platform engineering teams ask for specifically — it closes the gap between what a DBA does manually today and what a properly configured pipeline should handle without human intervention. For accounts still deciding whether Flyway Desktop belongs in the deployment pipeline or stays in the DBA's hands, this is a concrete answer.${breakingNote}`;
+      bullets.push(`Target platform engineering and DevOps leads alongside DBAs this quarter. Flyway Desktop is shipping capabilities that pipeline owners care about, not just migration script authors.`);
+      bullets.push(`Accounts where schema deployment is still a manual, weekly ritual are the best conversion candidates. The question to ask: how much human time sits between "dev approves the migration" and "production has it?"`);
+      bullets.push(`"${topFeat.text}" maps directly to deployment risk reduction. Use it in a discovery call to quantify the before/after — what does the manual step currently cost in time and incident risk?`);
+    } else {
+      summary = `${topFeat ? `"${topFeat.text}" is` : 'This release cycle is'} Flyway Desktop doing the unsexy but important work of eliminating edge cases where teams need a manual workaround. ${fixes.length > features.length ? 'Heavier on reliability than new capabilities this cycle, ' : ''}which is the right trade-off for a tool that teams trust with their database deployments. Fewer surprises in production, more things that just work.${breakingNote}`;
+      bullets.push(`Accounts in active migration projects feel these improvements most directly — the edge cases being fixed are the ones hitting them in production right now.`);
+      bullets.push(`Reliability improvements are the hidden driver of enterprise renewal rates. A team that trusts Flyway to run unattended is a team that doesn't evaluate alternatives. Track that trust as a metric, not an assumption.`);
+      bullets.push(topFeat ? `"${topFeat.text}" is worth mentioning specifically to accounts that have raised similar friction before — it signals the team is responsive to real feedback, not just shipping to a pre-set roadmap.` : `Use support ticket history per account to identify which improvements matter most to them. Personalised outreach lands differently than a generic release notes link.`);
+    }
   }
 
-  // Bullet 2: competitive / breadth signal
-  if(coreThemes.length >= 2){
-    bullets.push(`Active investment in both ${coreThemes[0]} and ${coreThemes[1]} reinforces the multi-platform story. In competitive deals where the objection is "we're standardising on a single DB," Redgate's breadth across ${dbText} directly counters that — and this release cycle gives you concrete evidence rather than a roadmap promise.`);
-  } else if(topThemes.length >= 2){
-    bullets.push(`The secondary push on ${topThemes[1]} matters strategically: it broadens the addressable footprint within accounts and makes upsell conversations across team boundaries more natural. Use it to start a dialogue outside the DBA team if you haven't already.`);
-  } else if(coreThemes.length === 1){
-    bullets.push(`With a concentrated focus on ${coreThemes[0]}, this is a good quarter to deepen relationships with the ${dbText} team specifically — they're the people most likely to feel the benefit and most likely to advocate internally for expanded Redgate adoption.`);
+  else if(productName === 'Flyway CLI'){
+    const oracleMode = topThemes.some(t => /oracle/i.test(t));
+    if(oracleMode && topFeat){
+      summary = `Flyway CLI's Oracle support is closing the gap fast. "${topFeat.text}" matters specifically to teams running Flyway headlessly in CI pipelines against Oracle — a combination that was historically painful to configure and brittle under load. If you have platform teams who wrote Flyway off for Oracle work in the past, the capability gap is narrow enough now to justify a fresh look.${breakingNote}`;
+      bullets.push(`CI/CD platform teams at Oracle shops are the right audience, not just DBAs. Flyway CLI runs in their pipelines, and Oracle improvements are felt most directly by the people maintaining those pipelines.`);
+      bullets.push(`In accounts where Flyway CLI handles SQL Server migrations but Oracle is still manual, this is the natural expansion. Same tooling, one fewer manual process, less split-tooling overhead.`);
+      bullets.push(`"${topFeat.text}" is the specific thing to reference when an Oracle team says "we evaluated Flyway and it didn't cover our use case." That evaluation may be out of date.`);
+    } else {
+      summary = `Flyway CLI's focus this quarter is hardening for production pipeline use at scale. ${topFeat ? `"${topFeat.text}" addresses` : 'The updates address'} reliability and configuration issues that pipeline teams run into when migrations are running automatically across many environments — the kind of problems that cause midnight alerts and emergency rollbacks when they surface. Less visible than new features, but more important for the accounts running Flyway in anger every day.${breakingNote}`;
+      bullets.push(`Accounts running Flyway CLI in production CI/CD pipelines are the most valuable cohort this cycle. They're the ones who notice reliability improvements and have the most to lose when things break.`);
+      bullets.push(`Ask about pipeline confidence: how often does a Flyway step in their CI process require manual intervention? That number is the baseline. The goal is zero. Use this cycle's work to show progress.`);
+      bullets.push(topFeat ? `"${topFeat.text}" is worth calling out in accounts running Flyway against multiple database types. Consistent behaviour across platforms is what keeps multi-DB shops from splitting their tooling.` : `Every stable release builds the case that Flyway CLI can be trusted to run fully unattended. That trust is what converts mid-market accounts to enterprise contracts.`);
+    }
   }
 
-  // Bullet 3: specific tactical action
-  if(topFeat){
-    bullets.push(`"${topFeat.text}" is the single sharpest narrative from this cycle. In a QBR or next-step email, frame it as a business outcome — fewer manual steps, less risk of schema drift, faster deployment cadence, or lower DBA escalation rate — whichever resonates with the account's stated pressure points. Concrete beats comprehensive every time.`);
-  } else {
-    bullets.push(`No single feature dominates this cycle, which means the message is consistency and velocity rather than one headline capability. For renewal and expansion conversations, that's actually a stronger long-term signal than a flashy single release — use it to reinforce that Redgate is actively investing, not coasting.`);
+  else if(productName === 'Redgate Monitor'){
+    const cloudMode = topThemes.some(t => /cloud|finops|cost/i.test(t));
+    const aiMode    = topThemes.some(t => /ai.*alert|dynamic.*threshold|intelligent.*alert/i.test(t));
+    if(cloudMode && topFeat){
+      summary = `Monitor made a real move into cloud FinOps this year. Azure and AWS VM cost data is now surfaced directly alongside database health metrics, which gives DBAs and infrastructure managers a unified view they were previously cobbling together from spreadsheets and disconnected dashboards. "${topFeat.text}" gets Monitor into conversations above the DBA level — specifically with the people who own cloud spend budgets and are under pressure to justify what they're paying for.${breakingNote}`;
+      bullets.push(`Cloud-heavy accounts with significant Azure or AWS SQL Server footprints are the first call after this release. The FinOps story isn't for DBAs — it's for infrastructure and finance stakeholders who currently have no visibility into what database workloads actually cost.`);
+      bullets.push(`In accounts where renewal conversations have been stuck at "Monitor is a DBA tool," the cloud cost data expands the value story upward. This is now relevant to whoever signs off on cloud budgets, not just the team watching wait statistics.`);
+      bullets.push(`Open with: "do you know how much each database server is costing you vs. what you budgeted?" If the answer is no, Monitor now has a direct answer. "${topFeat.text}" is the evidence.`);
+    } else if(aiMode && topFeat){
+      summary = `Monitor's AI Alert Analysis and Dynamic Thresholds are changing the DBA alert experience in a way that matters. The old problem was volume: too many alerts, too much noise, not enough signal to act on. "${topFeat.text}" attacks that directly — it reduces the time DBAs spend triaging and helps them focus on what actually needs attention. For the understaffed DBA teams that make up most of Redgate's Monitor customer base, that's a genuine workload reduction, not a feature to demo.${breakingNote}`;
+      bullets.push(`Accounts with stretched DBA teams are the strongest candidates. The pitch isn't "better monitoring" — it's "your DBA can stop drowning in alert noise and spend that time on the performance work that's actually on their list."`);
+      bullets.push(`If any customer has said "we have too many alerts and nobody looks at them anymore," that's the exact problem Monitor's AI analysis solves. Go back to those accounts with a specific answer.`);
+      bullets.push(`"${topFeat.text}" is the proof point for accounts sceptical about AI in database tooling. It's narrow, specific, and demonstrably useful in daily DBA work — not a vague "AI-powered" marketing claim.`);
+    } else {
+      summary = `Monitor's releases this quarter are focused on covering more of what DBAs actually manage — ${topFeat ? `starting with "${topFeat.text}"` : 'replication monitoring, PostgreSQL health tracking, and permission audit trails that expand coverage without expanding the overhead to manage it'}. Replication and HA additions especially matter for accounts running production-critical SQL Server setups where a monitoring gap surfaces as an incident at 2am.${breakingNote}`;
+      bullets.push(`DBAs managing mixed SQL Server and PostgreSQL estates are the strongest audience for Monitor's breadth additions. Ask what percentage of their monitored estate Monitor currently covers — and what's not covered.`);
+      bullets.push(`Replication and HA monitoring is worth a specific conversation with any account running Always On or SQL Server replication in production. Ask whether their current alerting would catch a replication lag issue before it became a data consistency problem.`);
+      bullets.push(topFeat ? `"${topFeat.text}" gives you a concrete answer to "what's new in Monitor" without listing six things. One specific relevant capability lands better than a slide deck of improvements.` : `Monitor's monthly release cadence is itself a selling point in renewal conversations. Active development signals the product isn't in maintenance mode — that matters when the implicit question is "will this still be here in three years?"`);
+    }
+  }
+
+  else if(productName === 'SQL Clone'){
+    summary = `${topFeat ? `"${topFeat.text}" tightens` : 'This cycle tightens'} SQL Clone's integration and operational experience for teams running it across dev, QA, and CI environments at scale. The core value proposition doesn't change — instant, thin copies of production databases, no waiting days for a backup restore — but the operational overhead for teams managing dozens or hundreds of clones at once goes down. For accounts where developers are still waiting on DBAs to provision test databases, the gap between that and what SQL Clone delivers is the whole conversation.${breakingNote}`;
+    bullets.push(`Dev teams sharing a single production-size database for testing are the fastest path to demonstrating SQL Clone's value. The pain is visible and the before/after is easy to quantify: how many hours per developer per week does manual provisioning cost?`);
+    bullets.push(`The CI story matters as much as the dev story. If automated tests run against stale data because a fresh copy takes too long to provision, SQL Clone removes that constraint entirely. Ask whether their CI pipeline runs against production-representative data.`);
+    bullets.push(topFeat ? `"${topFeat.text}" is the update to reference in accounts managing clone sprawl — it addresses the operational friction that appears when clone counts grow beyond a handful of developers.` : `Ask how long it takes to provision a test database in their current environment. SQL Clone's answer is seconds. That gap is the deal.`);
+  }
+
+  else if(productName === 'SQL Prompt'){
+    const aiMode    = topThemes.some(t => /ai|intelligen|copilot|completion/i.test(t));
+    const adsBreak  = breaking.some(c => /ads|azure data studio/i.test(c.text));
+    const adsNote   = adsBreak ? ' ADS support ends June 30 — contact any SQL Prompt users who work in Azure Data Studio before they find out mid-sprint.' : '';
+    if(aiMode && topFeat){
+      summary = `SQL Prompt is adding AI capabilities at exactly the moment AI coding tools are becoming standard in software development — but the bet here is specificity, not breadth. "${topFeat.text}" isn't SQL Prompt trying to be a generic copilot. It's adding intelligence that's tuned to SQL Server development workflows in ways that general-purpose tools handle poorly. That specificity is the defensible position in a market where every IDE is adding SQL suggestions.${adsNote}${!adsBreak ? breakingNote : ''}`;
+      bullets.push(`SQL Server DBAs and data engineers who write SQL every day are the core audience. The AI additions are most valuable for people who write enough SQL to notice when IntelliSense is wrong — not occasional query writers.`);
+      bullets.push(`When competing against GitHub Copilot for SQL work: Copilot knows SQL generally. SQL Prompt knows SSMS workflows, SQL Server-specific patterns, and the customer's own database schema. That's a real accuracy difference in day-to-day use, not a marketing distinction.`);
+      bullets.push(`"${topFeat.text}" is worth specifically flagging to any account that has raised IntelliSense accuracy or context-awareness in support conversations. It shows the team is shipping against real usage patterns.`);
+    } else {
+      summary = `${topFeat ? `"${topFeat.text}"` : 'This cycle'} keeps SQL Prompt running well on the SQL Server tooling that DBAs and data engineers actually use every day. ${fixes.length > 0 ? 'The fix work matters more than it looks — a productivity tool that people disable because IntelliSense lags or throws unexpected dialogs loses trust fast, and that trust is nearly impossible to rebuild.' : 'The focus is SSMS compatibility and accuracy, which is exactly the right place to invest in a tool whose entire value is frictionless daily use.'}${adsNote}${!adsBreak ? breakingNote : ''}`;
+      bullets.push(`SQL Prompt's renewal rate depends on staying current with SSMS versions. Accounts that manage SSMS upgrades across large DBA teams should know Redgate tracks Microsoft's release cadence — that's one less compatibility issue they need to manage themselves.`);
+      bullets.push(adsBreak ? `ADS users need a conversation now. Identify SQL Prompt accounts where Azure Data Studio is the primary IDE and make sure they have a plan before June 30. Waiting for them to find out mid-sprint is the scenario to avoid.` : `SQL Prompt is a tool people notice when it's broken and take for granted when it works. Reliability cycles like this are why renewal rates stay high — make that explicit rather than leaving it as an unspoken assumption.`);
+      bullets.push(topFeat ? `"${topFeat.text}" is the specific thing to mention to accounts that raised similar issues. Responsiveness to real feedback is the argument that a maintained Redgate tool beats a free SSMS extension.` : `IntelliSense accuracy and SSMS compatibility are the two metrics SQL Prompt customers care about most. Use this cycle's improvements as direct evidence of both.`);
+    }
+  }
+
+  else if(productName === 'SQL Compare'){
+    const sql2025Mode = topThemes.some(t => /sql server 202[45]/i.test(t));
+    if(sql2025Mode && topFeat){
+      summary = `SQL Server 2025 is entering enterprise environments and SQL Compare is already keeping pace. "${topFeat.text}" makes SQL Compare the safe choice for teams evaluating SQL Server 2025 or running it in dev and staging while production stays on an older version. Schema comparison across versions is exactly where silent breaks appear in a mixed-version estate, and SQL Compare is built to catch those before deployment.${breakingNote}`;
+      bullets.push(`Accounts in the early stages of SQL Server 2025 evaluation or migration planning are the priority right now. SQL Compare's cross-version schema diff is most valuable when they're managing a split environment between old and new.`);
+      bullets.push(`SQL Server 2025 introduces new syntax that creates schema drift risks when developers experiment on 2025 while still deploying to earlier versions. SQL Compare is the control mechanism for teams in that in-between state.`);
+      bullets.push(`"${topFeat.text}" is the proof point for accounts worried about SQL Server 2025 compatibility. It shows SQL Compare tracks SQL Server releases proactively, not after the fact.`);
+    } else {
+      summary = `SQL Compare's value is clearest under pressure. When a deployment is live and someone needs to know exactly what changed between environments, there is no substitute for a reliable schema diff. ${topFeat ? `"${topFeat.text}" is` : 'The improvements this cycle are'} the kind of work that makes SQL Compare more trustworthy in exactly those high-stakes moments. Container support additions also matter for teams running SQL Server in CI pipelines, where schema issues tend to surface when no DBA is in the room.${breakingNote}`;
+      bullets.push(`Accounts running schema deployments with hard change-freeze windows are SQL Compare's strongest audience. Ask how they currently validate schema state before a production deployment — whatever the answer is, it's more manual than it needs to be.`);
+      bullets.push(`Container and CI/CD additions make SQL Compare relevant to platform and DevOps teams, not just the DBA. If you haven't had the schema-comparison conversation with the platform side of your accounts, this is the natural opening.`);
+      bullets.push(topFeat ? `"${topFeat.text}" maps directly to the deployment risk story. Open by asking what happens when schema drift is discovered mid-deployment rather than before it.` : `Schema comparison is a tool accounts don't think about until they need it urgently. Make sure yours know what's been improved before they're in that moment.`);
+    }
+  }
+
+  else if(productName === 'SQL Data Compare'){
+    summary = `${topFeat ? `"${topFeat.text}" makes` : 'This cycle makes'} SQL Data Compare more reliable in the scenarios it's actually used for: validating data state after a migration, reconciling environment discrepancies, and confirming that a deployment didn't quietly alter data it wasn't supposed to touch. For accounts where SQL Data Compare is a validation gate in their deployment pipeline, the reliability work here directly reduces the risk of a post-deployment data discrepancy showing up as a production incident.${breakingNote}`;
+    bullets.push(`Accounts doing active data migration work — SQL Server upgrades, consolidations, or cloud migrations — are the immediate audience. SQL Data Compare as a post-migration validation step is a concrete, named use case that's easy to demonstrate with real data.`);
+    bullets.push(`Teams that do regular data refreshes from production to non-production environments benefit from SQL Data Compare as a post-refresh integrity check. Ask whether they verify data consistency after each refresh or trust the process worked.`);
+    bullets.push(topFeat ? `"${topFeat.text}" is worth a specific mention in accounts that have experienced data discrepancy issues post-deployment. It shows the tool is being hardened for production scenarios, not just maintained.` : `Data Compare is often used as an investigative tool after something goes wrong. Its higher value is as a preventive gate in a deployment pipeline — make sure accounts know it can run automated, not just manually triggered.`);
+  }
+
+  else if(productName === 'Test Data Manager'){
+    const entraMode  = topThemes.some(t => /entra|azure ad|rbac/i.test(t));
+    const dockerMode = topThemes.some(t => /docker|container/i.test(t));
+    if((entraMode || dockerMode) && topFeat){
+      const infra = [entraMode && 'Entra ID authentication', dockerMode && 'Docker container delivery'].filter(Boolean).join(' and ');
+      summary = `Test Data Manager is doing the infrastructure work that moves it past the "great in theory, can't deploy it here" objection. ${infra} ${entraMode && dockerMode ? 'together remove' : 'removes'} some of the most common deployment blockers for enterprise IT teams. "${topFeat.text}" is the specific capability that shifts a conversation from "we evaluated TDM" to "we're running TDM in our compliance pipeline." For GDPR and data protection conversations, removing the deployment and auth friction is what turns a pilot into a programme.${breakingNote}`;
+      bullets.push(entraMode ? `Accounts with centralised identity governance — financial services, healthcare, any org running Entra ID as their standard — now have a clean answer to "does TDM support our auth model?" Update your account notes; that objection no longer holds.` : `Platform teams that run everything in containers have historically faced friction with TDM deployment. The Docker delivery removes that entirely. Re-engage any account that deprioritised TDM for infrastructure reasons.`);
+      bullets.push(`Multi-target anonymization matters for teams maintaining dev, QA, UAT, and staging simultaneously. Pushing anonymized data to all targets in one pipeline step rather than managing them separately is the operational difference between TDM as a utility and TDM as infrastructure.`);
+      bullets.push(`"${topFeat.text}" is what you reference when an account says TDM couldn't fit their environment. The deployment and auth blockers have been addressed — what was true six months ago may not be true now.`);
+    } else {
+      summary = `${topFeat ? `"${topFeat.text}"` : 'This cycle'} ${topFeat ? 'is' : 'reflects'} Test Data Manager getting faster to configure and easier to trust at scale. For accounts where test data provisioning is currently manual, missing, or a compliance risk, TDM's value is easy to demonstrate — the question is almost always about deployment fit, not whether the problem is real. Every organisation testing with production data has the problem. Not all of them know there's a clean solution for it.${breakingNote}`;
+      bullets.push(`Compliance-sensitive accounts — GDPR, HIPAA, financial services — are the most motivated audience. The cost of not having a test data strategy isn't abstract; it's regulatory exposure and the operational cost of managing who can access production data for testing.`);
+      bullets.push(`Ask what data is currently sitting in their non-production environments. If the honest answer is "a copy of production," the TDM conversation writes itself from there.`);
+      bullets.push(topFeat ? `"${topFeat.text}" is worth referencing with accounts that cited configuration complexity as the reason they didn't proceed. This cycle shows the team is actively reducing that barrier.` : `The pipeline improvements this cycle make TDM more suitable for scheduled or event-driven anonymization, not just one-off tooling. That shift — from utility to infrastructure — is what drives enterprise deal sizes.`);
+    }
+  }
+
+  else {
+    // ── GENERIC / ALL PRODUCTS ─────────────────────────────────────────────────
+    const coreOrder = ['sql server', 'oracle', 'postgres', 'mysql'];
+    const coreThemes = coreOrder
+      .map(core => topThemes.find(t => new RegExp(`\\b${core}\\b`, 'i').test(t)))
+      .filter(Boolean);
+
+    if(topThemes.length >= 2 && topFeat){
+      summary = `${portfolioContext}${label} is executing on ${topThemes[0]} while extending ${topThemes[1]}. "${topFeat.text}" directly removes a friction point that has kept ${dbText} customers from fully automating their database delivery pipeline — and that's the kind of concrete outcome that makes renewal conversations straightforward and expansion conversations natural.${breakingNote}`;
+    } else if(topThemes.length >= 1 && topFeat){
+      summary = `${portfolioContext}${label} has a clear focus on ${topThemes[0]} this cycle. "${topFeat.text}" is the most customer-visible output — it solves a named problem for ${dbText} teams and gives a clear answer to "what has Redgate shipped recently?" before your next account call.${breakingNote}`;
+    } else if(topFeat){
+      summary = `${portfolioContext}${label} shipped a meaningful update with "${topFeat.text}." For ${dbText} environments this is the kind of incremental improvement that compounds over time — reducing manual steps and shrinking the error surface. The kind of thing that shows up in QBRs as "Redgate keeps getting better" and supports the renewal case without needing a separate slide.${breakingNote}`;
+    } else {
+      summary = `${portfolioContext}${label} prioritised reliability and operational consistency this cycle, with targeted fixes that reduce friction for ${dbText} teams under production load. Stability releases don't grab headlines, but they're what keeps long-term NPS high and makes enterprise renewals straightforward — customers notice when things stop breaking, even when they don't say so.${breakingNote}`;
+    }
+
+    if(coreThemes.length){
+      bullets.push(`${label} is actively shipping on ${coreThemes[0]} right now. Accounts with this as a live initiative are the highest-conversion targets — product timing and internal pressure are aligned.`);
+    } else if(topThemes.length){
+      bullets.push(`${label} is making a clear bet on ${topThemes[0]} this cycle. Lead with the outcome for ${dbText} teams — reduced risk, easier migrations, faster deployment cadence — not the feature list.`);
+    } else {
+      bullets.push(`${label} continues to tighten its core database tooling. For risk-averse enterprise accounts, consistent reliability is the signal they need before committing to a larger investment.`);
+    }
+
+    if(coreThemes.length >= 2){
+      bullets.push(`Active investment in both ${coreThemes[0]} and ${coreThemes[1]} reinforces the multi-platform story. In competitive deals where the objection is single-vendor standardisation, this release cycle gives you concrete evidence rather than a roadmap promise.`);
+    } else if(topThemes.length >= 2){
+      bullets.push(`The secondary push on ${topThemes[1]} broadens the addressable footprint within accounts. Use it to start conversations outside the DBA team.`);
+    } else if(coreThemes.length === 1){
+      bullets.push(`A concentrated focus on ${coreThemes[0]} makes this the right quarter to deepen relationships with the ${dbText} team specifically — they're the people most likely to feel the benefit and advocate internally for expanded adoption.`);
+    }
+
+    if(topFeat){
+      bullets.push(`"${topFeat.text}" is the sharpest narrative from this cycle. Frame it as a business outcome in a QBR or next-step email — fewer manual steps, less schema drift risk, faster deployment cadence — whichever maps to the account's actual pressure points.`);
+    } else {
+      bullets.push(`No single feature dominates this cycle. For renewal and expansion conversations, consistent investment velocity is a stronger long-term signal than one flashy update — use it to reinforce that Redgate is actively building, not coasting.`);
+    }
   }
 
   const bulletHTML = bullets.slice(0,3).map(b =>
