@@ -305,7 +305,6 @@ select { padding: 6px 10px; border: 0.5px solid var(--color-border-secondary); b
   <div class="tb-div"></div>
   <div class="topbar-right">
     <div class="sync-lbl" id="sync-lbl">Not synced</div>
-    <button class="btn btn-ghost" onclick="clearAll()">Clear</button>
     <button class="btn btn-primary" id="fetch-all-btn" onclick="fetchAll()">↓ Fetch All</button>
     <a href="feed.xml" class="btn-icon" title="RSS feed" style="text-decoration:none">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="19" r="2"/><path d="M4 4a16 16 0 0 1 16 16h-3A13 13 0 0 0 4 7V4z"/><path d="M4 11a9 9 0 0 1 9 9H10a6 6 0 0 0-6-6v-3z"/></svg>
@@ -322,6 +321,7 @@ select { padding: 6px 10px; border: 0.5px solid var(--color-border-secondary); b
 </div>
 
 <div class="filterbar">
+  <button class="btn btn-ghost" onclick="clearAll()" style="flex-shrink:0;font-size:11px;padding:5px 10px">Clear</button>
   <div class="sw">
     <span class="si"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
     <input class="search" id="search" placeholder="Search release notes…" oninput="renderFeed()">
@@ -1552,17 +1552,21 @@ function buildQ1HTML(allData, productName){
   const secondFeat = coreFeatures[1];
   const coreChanges = changes.filter(c=>!isPeripheral(c));
 
-  // Theme detection anchored to Redgate's core DB markets
+  // Theme detection anchored to Redgate's core DB markets and 2026 product signals
   const valueThemes = [
-    { label:'SQL Server and Azure SQL modernisation', re:/(sql server 202|ssms 2[12]|azure sql|fabric sql|sql server upgrade|always on|linked server)/i },
-    { label:'PostgreSQL capability expansion',        re:/(postgresql|postgres|pg_stat|pglogical|aurora postgres)/i },
-    { label:'Oracle database support',               re:/(\boracle\b|plsql|pl\/sql|oracle rac)/i },
-    { label:'MySQL reliability and support',         re:/(\bmysql\b|innodb|aurora mysql)/i },
-    { label:'AI-assisted database development',      re:/(ai|prompt ai|ai completion|intelligen|copilot|machine learn|smart suggest)/i },
-    { label:'database schema migration and DevOps',  re:/(migrat|schema change|flyway|deploy|version|baseline|drift|pipeline|ci.cd)/i },
-    { label:'developer productivity',               re:/(speed|faster|perform|latency|optim|productiv|workflow|auto)/i },
-    { label:'data masking and test data management', re:/(mask|anonymi|subset|pii|gdpr|data protect|sensitive|test data)/i },
-    { label:'monitoring and performance alerting',   re:/(monitor|alert|baseline|health|observ|dashboard|metric|deadlock|wait stat|blocking)/i },
+    { label:'Oracle expansion — vector types, APEX, and multi-schema DevOps', re:/(oracle|plsql|pl\/sql|oracle rac|oracle apex|vector.*type|oracle synonym|capitalized synonym|flyway.*oracle|oracle.*flyway)/i },
+    { label:'SQL Server 2025 and Azure SQL modernisation',                    re:/(sql server 202[45]|ssms 2[23]|azure sql|fabric sql|always on|linked server|\|\|.*concat|string.*concat.*sql)/i },
+    { label:'PostgreSQL capability expansion and Aurora support',              re:/(postgresql|postgres|pg_stat|pglogical|aurora postgres|pg_|filter.*postgres|postgres.*filter)/i },
+    { label:'cloud cost visibility and FinOps',                              re:/(cloud cost|azure.*cost|aws.*cost|vm cost|finops|allocated.*usage|vcpu|storage.*cost|cost.*azure|cost.*aws)/i },
+    { label:'AI-powered monitoring and intelligent alerting',                 re:/(ai alert|ai.*analy|dynamic.*threshold|intelligent.*alert|ai.*recommend|ai.*troubleshoot|smart.*alert)/i },
+    { label:'AI code assistance and developer productivity',                  re:/(ai|prompt ai|ai completion|intelligen|copilot|code.*review|policy.*check|smart suggest|autocomplete)/i },
+    { label:'database schema migration and CI/CD DevOps',                    re:/(migrat|schema change|flyway|deploy|version|baseline|drift|pipeline|ci.cd|rerunnable|automat.*deploy)/i },
+    { label:'Entra ID, SQL Audit, and DevSecOps governance',                 re:/(entra id|azure ad|permission.*track|sql audit|permission.*change|audit.*track|rbac|access control|compliance)/i },
+    { label:'data masking, subsetting, and test data management',            re:/(mask|anonymi|subset|pii|gdpr|data protect|sensitive|test data|multi.target.*anon|subset.*pipeline)/i },
+    { label:'Docker and container-first delivery',                           re:/(docker|container|distroless|kubernetes|k8s|image.*size|container.*pipeline|docker.*image)/i },
+    { label:'replication and high-availability monitoring',                  re:/(replication|always on|high avail|repl.*job|data sync|replication.*monitor|ag.*health)/i },
+    { label:'MySQL and cross-platform database support',                     re:/(\bmysql\b|innodb|aurora mysql|\bmariadb\b)/i },
+    { label:'monitoring, query performance, and observability',              re:/(monitor|alert|baseline|health|observ|dashboard|metric|deadlock|wait stat|blocking|slow query|query.*plan)/i },
   ];
 
   const themeHits = valueThemes
@@ -1618,17 +1622,17 @@ function buildQ1HTML(allData, productName){
   let summary = '';
 
   if(topThemes.length >= 2 && topFeat){
-    summary = `${portfolioContext}${label} moved the needle on ${topThemes[0]} and ${topThemes[1]}. The headline update — "${topFeat.text}" — is a strong operational win for ${productName ? 'customers' : "Redgate's " + dbText + " customers"}, helping them reduce risk and accelerate adoption in the next quarter.`;
+    summary = `${portfolioContext}${label}'s trajectory this quarter is unmistakable: the team is executing on ${topThemes[0]} while simultaneously extending ${topThemes[1]}. The standout deliverable — "${topFeat.text}" — directly removes a friction point that has kept ${productName ? 'customers' : "Redgate's " + dbText + " customers"} from fully automating their database delivery pipeline. That's a hard objection gone; it makes renewals easier and gives a clear anchor for any account asking "what has Redgate actually shipped?"`;
   } else if(topThemes.length >= 1 && topFeat){
-    summary = `${portfolioContext}This quarter is defined by a clear pivot toward ${topThemes[0]}. "${topFeat.text}" breaks an existing process bottleneck for ${dbText} teams, which should translate directly to easier deployments and lower support overhead.`;
+    summary = `${portfolioContext}${label} is in focused execution mode on ${topThemes[0]} this cycle. "${topFeat.text}" is the most customer-visible output of that investment — it solves a concrete, named problem for ${dbText} teams and gives a clear answer to the "what's new" question before your next customer call. The tight scope is a feature, not a limitation: it means the team isn't spreading effort thin across multiple platforms simultaneously.`;
   } else if(topFeat){
-    summary = `${portfolioContext}${label} delivered a key capability with "${topFeat.text}." For ${dbText} environments${productName ? '' : " — where the majority of Redgate's customers operate"}, this strengthens the core value proposition and gives sales a concrete demonstration of continued momentum.`;
+    summary = `${portfolioContext}${label} shipped a meaningful capability this period with "${topFeat.text}." For ${dbText} environments, this is the kind of incremental-but-compounding improvement that reduces manual steps and shrinks the error surface over time. It's the type of update that shows up in QBRs as "Redgate keeps getting better" — not headline news, but exactly the evidence that supports renewal confidence and makes trading up to Enterprise a defensible recommendation.`;
   } else {
-    summary = `${portfolioContext}${label} focused on reliability and polish during this release cycle, shipping resolutions that reduce friction for ${dbText} teams under operational load. That stability work underpins customer confidence and supports larger enterprise deployments.`;
+    summary = `${portfolioContext}${label} prioritised reliability and operational consistency this cycle, shipping targeted resolutions that reduce friction under production load for ${dbText} teams. Stability releases don't generate press releases, but they're what drives long-term NPS and makes enterprise renewals straightforward — customers notice when things stop breaking, even if they don't articulate it. This is the foundation that makes the headline features in subsequent releases trustworthy.`;
   }
 
   if(breaking.length){
-    summary += ` One important note: there ${breaking.length === 1 ? 'is a change that requires' : 'are changes that require'} customer action before upgrading. Surface this proactively — it's far better to have that conversation on your terms than to have a customer discover it mid-upgrade.`;
+    summary += ` ${breaking.length === 1 ? 'One change in this cycle requires' : `${breaking.length} changes require`} explicit customer action before upgrading — surface this proactively in your next touch, well before they attempt the upgrade themselves. The upgrade notes cover the specifics, but the difference between a managed transition and an emergency call is almost always whether the customer heard about it from you first.`;
   }
 
   // ── NEXT QUARTER OUTLOOK: where is the solution growing ─────────────────────
@@ -1638,29 +1642,29 @@ function buildQ1HTML(allData, productName){
     .map(core => topThemes.find(t => new RegExp(`\\b${core}\\b`, 'i').test(t)))
     .filter(Boolean);
 
-  // Bullet 1: primary core data platform priority
+  // Bullet 1: investment signal — what to watch and who it affects
   if(coreThemes.length){
-    bullets.push(`${label} is prioritizing ${coreThemes[0]} this quarter — this aligns most closely with your major ${dbText} accounts and signals that the product is doubling down on core database reliability and compatibility.`);
+    bullets.push(`${label} is actively shipping on ${coreThemes[0]} right now — your accounts with this as a live initiative are in the ideal position to turn product updates into expansion conversations. Review their current project list before your next call and map the release to something they already care about.`);
   } else if(topThemes.length){
-    bullets.push(`${label} is focusing on ${topThemes[0]} this quarter; align messaging to the outcome for ${dbText} teams (reduced risk, easier migrations, faster deployments).`);
+    bullets.push(`${label} is making a clear bet on ${topThemes[0]} this cycle. Accounts where ${dbText} modernisation is on the 2026 roadmap are the highest-conversion targets — the product timing and their internal pressure are aligned. Lead with the outcome, not the feature list.`);
   } else {
-    bullets.push(`${label} continues to refine its core database strengths, and this consistency is a strong basis for long-term confidence in enterprise deployments.`);
+    bullets.push(`${label} continues to tighten its core database tooling, and that consistency is exactly what large, risk-averse accounts need to see before committing to enterprise licences. Use stability as a positive signal, not a gap.`);
   }
 
-  // Bullet 2: secondary theme from core or top themes
+  // Bullet 2: competitive / breadth signal
   if(coreThemes.length >= 2){
-    bullets.push(`${label} is also investing in ${coreThemes[1]}, which reinforces support for a broader database portfolio and lets sales conversations be explicit about multi-platform compatibility.`);
+    bullets.push(`Active investment in both ${coreThemes[0]} and ${coreThemes[1]} reinforces the multi-platform story. In competitive deals where the objection is "we're standardising on a single DB," Redgate's breadth across ${dbText} directly counters that — and this release cycle gives you concrete evidence rather than a roadmap promise.`);
   } else if(topThemes.length >= 2){
-    bullets.push(`${label} has a secondary emphasis on ${topThemes[1]}, which can be framed as an incremental step toward deeper platform maturity and lower operational friction.`);
-  } else if(coreThemes.length === 1 && topThemes.length >= 2){
-    bullets.push(`${label} has additional progress outside the top core priority, showing the product is balancing core platform stability with strategic innovation.`);
+    bullets.push(`The secondary push on ${topThemes[1]} matters strategically: it broadens the addressable footprint within accounts and makes upsell conversations across team boundaries more natural. Use it to start a dialogue outside the DBA team if you haven't already.`);
+  } else if(coreThemes.length === 1){
+    bullets.push(`With a concentrated focus on ${coreThemes[0]}, this is a good quarter to deepen relationships with the ${dbText} team specifically — they're the people most likely to feel the benefit and most likely to advocate internally for expanded Redgate adoption.`);
   }
 
-  // Bullet 3: strategic takeaway + action
+  // Bullet 3: specific tactical action
   if(topFeat){
-    bullets.push(`${topFeat.text} is the strongest customer-facing narrative from this release cycle. Frame it as a business outcome for ${dbText} teams (e.g., lower downtime, fewer manual steps, more predictable deployments).`);
+    bullets.push(`"${topFeat.text}" is the single sharpest narrative from this cycle. In a QBR or next-step email, frame it as a business outcome — fewer manual steps, less risk of schema drift, faster deployment cadence, or lower DBA escalation rate — whichever resonates with the account's stated pressure points. Concrete beats comprehensive every time.`);
   } else {
-    bullets.push(`Use the next release cycle to ask customers where they need the most risk reduction in database operations; connect that directly to the release patterns and priorities shown here.`);
+    bullets.push(`No single feature dominates this cycle, which means the message is consistency and velocity rather than one headline capability. For renewal and expansion conversations, that's actually a stronger long-term signal than a flashy single release — use it to reinforce that Redgate is actively investing, not coasting.`);
   }
 
   const bulletHTML = bullets.slice(0,3).map(b =>
@@ -1934,19 +1938,32 @@ function setChip(f,el){
   renderFeed();
 }
 
-async function refreshSummary(btn){
-  const orig = btn.textContent;
+function refreshSummary(btn){
+  const wrap = btn.closest('.cq-wrap');
+  if(!wrap) return;
   btn.disabled = true;
   btn.textContent = '⟳';
-  if(activeTab === 'all'){
-    await fetchAll();
+
+  // Rebuild from already-loaded releases — no network round-trip
+  const prods = activeTab==='all' ? getOrdered() : PRODUCTS_DEF.filter(p=>p.id===activeTab);
+  let allData = [];
+  prods.forEach(p=>{
+    (releases[p.id]||[]).forEach(r=>{
+      r.changes.forEach(c=>{ c.productId=p.id; allData.push({prod:p,release:r,change:c}); });
+    });
+  });
+  if(activeTab==='all') allData=allData.filter(d=>!GLOBAL_IGNORE.some(re=>re.test(d.change.text)));
+
+  const productName = activeTab==='all' ? null : (PRODUCTS_DEF.find(p=>p.id===activeTab)?.name||'');
+  const newHTML = allData.length ? buildQ1HTML(allData, productName) : '';
+  if(newHTML){
+    const tmp = document.createElement('div');
+    tmp.innerHTML = newHTML.trim();
+    wrap.replaceWith(tmp.firstElementChild);
   } else {
-    await fetchOneTab(activeTab, null);
+    btn.disabled = false;
+    btn.textContent = '↻ Refresh';
   }
-  // renderFeed() is called inside fetchAll/fetchOneTab and replaces the DOM,
-  // so btn is detached — these lines are harmless cleanup on the old node.
-  btn.disabled = false;
-  btn.textContent = orig;
 }
 
 function clearAll(){
@@ -1960,33 +1977,40 @@ function clearAll(){
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-// ROADMAP TRACKER
+// ROADMAP TRACKER — updated June 2026
 const ITEMS = [
+  // Monitor: cloud cost visibility shipped in v14.15 (Azure) and v14.17 (AWS); AI alerts in v14.15
   {id:1, product:"Monitor", phase:"Developing", item:"Deeper SQL Server workload analysis"},
   {id:2, product:"Monitor", phase:"Developing", item:"Redgate Monitor SaaS"},
   {id:3, product:"Monitor", phase:"Developing", item:"Enhanced PostgreSQL monitoring"},
-  {id:4, product:"Monitor", phase:"Developing", item:"Enhanced security and compliance monitoring"},
+  {id:4, product:"Monitor", phase:"Developing", item:"Enhanced security and compliance monitoring (SQL Audit, permission tracking)"},
   {id:5, product:"Monitor", phase:"Developing", item:"Google Cloud SQL support"},
-  {id:6, product:"Monitor", phase:"Researching", item:"Cloud cost analysis"},
-  {id:7, product:"Monitor", phase:"Researching", item:"AI-powered troubleshooting & recommendations"},
-  {id:8, product:"Flyway", phase:"Developing", item:"Policy checks and code review management in Flyway Desktop"},
-  {id:9, product:"Flyway", phase:"Developing", item:"AI-powered help to create your own policies"},
-  {id:10, product:"Flyway", phase:"Developing", item:"Integrations for popular CI/CD systems, incl. GitHub and ADO"},
-  {id:11, product:"Flyway", phase:"Developing", item:"Richer Oracle capabilities"},
-  {id:12, product:"Flyway", phase:"Researching", item:"Performance impact analysis"},
-  {id:13, product:"TDM", phase:"Developing", item:"AI classification – get set up faster, protect more data"},
-  {id:14, product:"TDM", phase:"Developing", item:"Simplified masking configuration & customization"},
-  {id:15, product:"TDM", phase:"Developing", item:"PG Aurora support"},
-  {id:16, product:"TDM", phase:"Developing", item:"User interface improvements – zero command line required"},
-  {id:17, product:"TDM", phase:"Researching", item:"Automated audit-ready reports"},
-  {id:18, product:"TDM", phase:"Researching", item:"RBAC functionality – control who can access sensitive data"},
-  {id:19, product:"Productivity", phase:"Developing", item:"AI Code Completion (Prompt)"},
-  {id:20, product:"Productivity", phase:"Developing", item:"Redgate Assistant (Prompt)"},
-  {id:21, product:"Productivity", phase:"Developing", item:"Redgate Data Modeler in TBE"},
-  {id:22, product:"Productivity", phase:"Developing", item:"Dark Mode (Prompt)"},
-  {id:23, product:"Productivity", phase:"Researching", item:"Agentic AI"},
-  {id:24, product:"Productivity", phase:"Researching", item:"Further integration of TBE tools"},
-  {id:25, product:"Productivity", phase:"Researching", item:"Support for VS Code"},
+  {id:6, product:"Monitor", phase:"Developing", item:"Cloud cost visibility — Azure & AWS VM cost vs. actual usage"},
+  {id:7, product:"Monitor", phase:"Developing", item:"AI Alert Analysis and dynamic thresholds"},
+  {id:8, product:"Monitor", phase:"Researching", item:"AI-powered root cause analysis and remediation suggestions"},
+  // Flyway: Oracle expansion actively shipping in 2026 (vector types, synonyms, APEX)
+  {id:9,  product:"Flyway", phase:"Developing", item:"Policy checks and automated code review in Flyway Desktop"},
+  {id:10, product:"Flyway", phase:"Developing", item:"AI-powered policy authoring"},
+  {id:11, product:"Flyway", phase:"Developing", item:"CI/CD integrations — GitHub Actions and Azure DevOps"},
+  {id:12, product:"Flyway", phase:"Developing", item:"Oracle expansion — vector types, APEX, rerunnable scripts, capitalized synonyms"},
+  {id:13, product:"Flyway", phase:"Developing", item:"Filter UI for PostgreSQL multi-rule and cross-type object filtering"},
+  {id:14, product:"Flyway", phase:"Researching", item:"Performance impact analysis"},
+  // TDM: Entra ID auth and Docker container delivery shipped 2026
+  {id:15, product:"TDM", phase:"Developing", item:"AI classification – faster setup, broader PII coverage"},
+  {id:16, product:"TDM", phase:"Developing", item:"Simplified masking configuration & customization"},
+  {id:17, product:"TDM", phase:"Developing", item:"PG Aurora support"},
+  {id:18, product:"TDM", phase:"Developing", item:"Multi-target anonymization pipelines"},
+  {id:19, product:"TDM", phase:"Developing", item:"Entra ID authentication and container-first delivery (Docker)"},
+  {id:20, product:"TDM", phase:"Researching", item:"Automated audit-ready compliance reports"},
+  {id:21, product:"TDM", phase:"Researching", item:"RBAC — control who can access and transform sensitive data"},
+  // Productivity: ADS support ending June 30 2026 is a known breaking transition
+  {id:22, product:"Productivity", phase:"Developing", item:"AI Code Completion (SQL Prompt)"},
+  {id:23, product:"Productivity", phase:"Developing", item:"Redgate Assistant (SQL Prompt)"},
+  {id:24, product:"Productivity", phase:"Developing", item:"Redgate Data Modeler in Test Bench Edition"},
+  {id:25, product:"Productivity", phase:"Developing", item:"Dark Mode (SQL Prompt)"},
+  {id:26, product:"Productivity", phase:"Researching", item:"Agentic AI for database operations"},
+  {id:27, product:"Productivity", phase:"Researching", item:"Further integration of TBE tools"},
+  {id:28, product:"Productivity", phase:"Researching", item:"Support for VS Code"},
 ];
 
 const roadmapState = {};
