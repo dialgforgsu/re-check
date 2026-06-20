@@ -25,6 +25,9 @@ jobs:
           node-version: '22'
 
       - name: Fetch latest release notes
+        env:
+          CF_WORKER_URL: https://re-check.gsu-paek.workers.dev
+          CF_WORKER_SECRET: ${{ secrets.CF_WORKER_SECRET }}
         run: node check_updates.mjs
 
       - name: Commit and push if changed

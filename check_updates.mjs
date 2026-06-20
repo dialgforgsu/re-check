@@ -373,8 +373,17 @@ export async function rebuildProducts(productIds, { silent = false } = {}) {
   if (!silent) console.log('Rebuild done.');
 }
 
+const CF_WORKER_URL    = process.env.CF_WORKER_URL    || 'https://re-check.gsu-paek.workers.dev';
+const CF_WORKER_SECRET = process.env.CF_WORKER_SECRET || '';
+
 async function fetchUrl(url) {
   const strategies = [
+    async () => {
+      const headers = { 'Accept': 'text/plain' };
+      if (CF_WORKER_SECRET) headers['Authorization'] = `Bearer ${CF_WORKER_SECRET}`;
+      const r = await fetch(`${CF_WORKER_URL}/?url=${encodeURIComponent(url)}`, { headers, signal: AbortSignal.timeout(30000) });
+      if (r.ok) { const t = await r.text(); if (t && t.length > 200) return t; } throw new Error(`worker ${r.status}`);
+    },
     async () => {
       const r = await fetch(`https://r.jina.ai/${url}`, { headers: JINA_HEADERS, signal: AbortSignal.timeout(30000) });
       if (r.ok) { const t = await r.text(); if (t && t.length > 200) return t; } throw new Error('jina failed');

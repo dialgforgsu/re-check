@@ -333,8 +333,18 @@ async function seedFromFile(){
 /* ─────────────────────────────────────────────
    LIVE FETCH + INCREMENTAL CHECK
 ───────────────────────────────────────────── */
+const CF_WORKER_URL    = process.env.CF_WORKER_URL    || 'https://re-check.gsu-paek.workers.dev';
+const CF_WORKER_SECRET = process.env.CF_WORKER_SECRET || '';
+
 async function fetchSourceContent(url){
   const strategies = [
+    async () => {
+      const hdrs = { 'Accept': 'text/plain' };
+      if(CF_WORKER_SECRET) hdrs['Authorization'] = `Bearer ${CF_WORKER_SECRET}`;
+      const res = await fetch(`${CF_WORKER_URL}/?url=${encodeURIComponent(url)}`, { headers: hdrs, signal: AbortSignal.timeout(30000) });
+      if(res.ok){ const t = await res.text(); if(t && t.length > 200) return t; }
+      throw new Error(`Worker ${res.status}`);
+    },
     async () => {
       const res = await fetch(`https://r.jina.ai/${url}`, { headers: JINA_HEADERS, cache:'no-store', signal: AbortSignal.timeout(30000) });
       if(res.ok){ const t = await res.text(); if(t && t.length > 200) return t; }
