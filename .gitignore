@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# SQLite runtime artifacts
+# The DB is fully regenerable: server.js creates it with CREATE TABLE IF NOT EXISTS,
+# and the CI workflow (check_updates.mjs) reads release_notes.md, not the DB.
+recheck.sqlite
+recheck.sqlite-wal
+recheck.sqlite-shm
+
+# OS / editor noise
+.DS_Store
+*.log
+.vscode/
