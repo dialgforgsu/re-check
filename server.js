@@ -670,7 +670,7 @@ app.get('/feed.xml', (req,res) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Redgate Release Intelligence</title>
+    <title>Redgate Release Checker</title>
     <link>${baseUrl}/</link>
     <description>Combined release notes for all tracked Redgate products</description>
     <language>en</language>
