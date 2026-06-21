@@ -1940,7 +1940,6 @@ function renderFeed(){
           <option value="">All phases</option>
           <option>Developing</option><option>Researching</option>
         </select>
-        <button id="map-roadmap-btn" class="btn btn-primary" onclick="mapRoadmapWithAI()">Map roadmap to release notes</button>
       </div>
       <table>
         <thead>
@@ -2024,6 +2023,12 @@ function renderFeed(){
   }
 
   feed.innerHTML=html||`<div class="empty"><div class="ei">🔍</div><div class="et">No matches</div><div class="ed">Try adjusting your search or filter.</div></div>`;
+
+  if(activeTab==='all' && (window.allRoadmapReleaseNotes||[]).length>0){
+    mapReleasesToRoadmap(window.allRoadmapReleaseNotes);
+    ITEMS.sort((a,b)=>roadmapState[b.id].pct - roadmapState[a.id].pct || a.id-b.id);
+    renderRoadmap();
+  }
 }
 
 function changeRow(c){
@@ -2242,27 +2247,6 @@ function mapReleasesToRoadmap(allData) {
   });
 }
 
-async function mapRoadmapWithAI() {
-  const btn = document.getElementById('map-roadmap-btn');
-  const allData = window.allRoadmapReleaseNotes || [];
-  if(!allData.length){
-    alert('Fetch release notes first.');
-    return;
-  }
-  btn.disabled = true;
-  btn.textContent = 'Mapping…';
-
-  // Placeholder for AI mapping; currently runs heuristic mapper as fallback.
-  await new Promise(resolve => setTimeout(resolve, 300));
-  mapReleasesToRoadmap(allData);
-
-  // Simulate AI ranking: sort roadmap items by matching progress, descending.
-  ITEMS.sort((a,b)=>roadmapState[b.id].pct - roadmapState[a.id].pct || a.id-b.id);
-
-  renderRoadmap();
-  btn.disabled = false;
-  btn.textContent = 'Map roadmap to release notes';
-}
 
 const ROADMAP_PROD_FILTER = {
   'Flyway':       p => p.includes('Flyway'),
