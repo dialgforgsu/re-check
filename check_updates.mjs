@@ -376,13 +376,21 @@ export async function rebuildProducts(productIds, { silent = false } = {}) {
 const CF_WORKER_URL    = process.env.CF_WORKER_URL    || 'https://re-check.gsu-paek.workers.dev';
 const CF_WORKER_SECRET = process.env.CF_WORKER_SECRET || '';
 
+// The CF worker is currently deployed as a static-assets site, so for any path it
+// returns the app's own index.html (HTTP 200, >200 chars) instead of proxying the
+// target URL. That shell contains zero release data, so accepting it silently masks
+// every real update. Detect our own app shell and reject it so fetchUrl falls through
+// to the jina/allorigins strategies. Removing this guard requires the worker to
+// actually proxy `?url=` and return the target page, not the static site.
+const isOwnAppShell = t => /<title>\s*Redgate Release Checker\s*<\/title>/i.test(t);
+
 async function fetchUrl(url) {
   const strategies = [
     async () => {
       const headers = { 'Accept': 'text/plain' };
       if (CF_WORKER_SECRET) headers['Authorization'] = `Bearer ${CF_WORKER_SECRET}`;
       const r = await fetch(`${CF_WORKER_URL}/?url=${encodeURIComponent(url)}`, { headers, signal: AbortSignal.timeout(30000) });
-      if (r.ok) { const t = await r.text(); if (t && t.length > 200) return t; } throw new Error(`worker ${r.status}`);
+      if (r.ok) { const t = await r.text(); if (t && t.length > 200 && !isOwnAppShell(t)) return t; } throw new Error(`worker ${r.status} (or returned app shell)`);
     },
     async () => {
       const r = await fetch(`https://r.jina.ai/${url}`, { headers: JINA_HEADERS, signal: AbortSignal.timeout(30000) });

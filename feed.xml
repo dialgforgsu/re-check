@@ -7,6 +7,27 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Redgate Monitor 14.22.0 — June 25, 2026</title>
+    <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
+    <guid isPermaLink="false">monitor:14.22.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
+    <pubDate>Thu, 25 Jun 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>The X-Forwarded-Prefix header is now only trusted when it comes from a configured reverse proxy. If the web interface is hosted behind a reverse proxy under a virtual path, add the proxy's address to knownProxies or knownIPNetworks under forwardedHeadersSettings in appsettings.json (the same configuration already required for X-Forwarded-Host and X-Forwarded-Proto).</li><li>New Analysis: Selector behavior more closely matches the original page (Autoselect of top item, updating selection with keyboard arrow keys)</li></ul><b>Improvements</b><ul><li>Postgres instances that have been unreachable since a Base Monitor restart will now recover more quickly from an &quot;Unreachable&quot; state when they become reachable.</li><li>Aurora instances without host monitoring will no longer appear as &quot;RDS&quot; on the Global Dashboard.</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where PostgreSQL instance log collection could stop permanently if a log file contained corrupt or truncated content, for example after a server crash.</li><li>Fixed an issue where, in an MSP setup, a Base Monitor with no monitored entities could downgrade involved web servers to Standard licencing.</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Test Data Manager 0.66.396 — 25 June 2026</title>
+    <link>https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</link>
+    <guid isPermaLink="false">tdm:0.66.396:https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</guid>
+    <pubDate>Thu, 25 Jun 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>A server name and database name are now required when entering connection details as individual parameters.</li><li>OIDC can now be configured through the setup wizard and the Settings page, in addition to manually editing config.yml.</li><li>The appearance of chips (also known as labels or tags) throughout the product have been revamped.</li><li>Editing or duplicating a saved connection now keeps the existing connection string in place and only clears the password, which you must re-enter before saving.</li><li>The connection string field now has a copy button.</li><li>Importing or duplicating a treatment no longer loses user edits (changed datasets, excluded columns, etc.).</li><li>Excluding a starting table in subsetting no longer causes a validation error.</li><li>Continue button no longer stays disabled after starting a trial.</li><li>Don't show Licensing credential fields in Settings if those fields are externally managed (e.g. config.yml or env).</li><li>When the list of datasets is not ready for use because data is still loading, the dataset dropdown will show a loading indicator.</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Flyway Desktop 9.5.9 — 23 June 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.5.9:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Tue, 23 Jun 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Git errors now make it clear the problem came from Git rather than Flyway Desktop, with the raw Git output tucked behind a ‘Show raw git output’ toggle.</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.5.8 — 18 June 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.5.8:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1384,27 +1405,6 @@
     <guid isPermaLink="false">tdm:0.20.4:https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</guid>
     <pubDate>Wed, 24 Sep 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed treatment logging to be properly formatted.</li><li>Fixed an issue where special characters in the connection string would cause treatments to fail.</li></ul><b>Improvements</b><ul><li>Workflows 0.5.175</li><li>Anonymization 2.2.14.1183</li><li>Subsetting 2.2.4.2138</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Test Data Manager 2.2.14.1183 — 23 September 2025</title>
-    <link>https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</link>
-    <guid isPermaLink="false">tdm:2.2.14.1183:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</guid>
-    <pubDate>Tue, 23 Sep 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>String literals in pre or post transforms and conditional datasets can now be single quoted or double quoted.</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Test Data Manager 2.2.4.2138 — 22 September 2025</title>
-    <link>https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</link>
-    <guid isPermaLink="false">tdm:2.2.4.2138:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</guid>
-    <pubDate>Mon, 22 Sep 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>No longer CASCADE when truncating target database tables in Overwrite mode (Oracle only).</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Test Data Manager 0.20.3 — 19 September 2025</title>
-    <link>https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</link>
-    <guid isPermaLink="false">tdm:0.20.3:https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</guid>
-    <pubDate>Fri, 19 Sep 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>Connection tests no longer block you from running a treatment or creating a database model.</li><li>Database platform selection in the database model creation page is now done through a dropdown.</li><li>Make connection string testing reliable when we can connect to the database.</li><li>Existing connections will be deleted because we now capture the creator of a connection. This only affects Enterprise-tier users.</li><li>Improve filtering in anonymization advanced configuration.</li><li>Workflows 0.5.153</li><li>Anonymization 2.2.13.1158</li><li>Subsetting 2.2.3.2120</li></ul><b>New Features</b><ul><li>Add setting page that allows user to configure license.</li><li>Add starting table detail page to allow larger edit area for filter clause.</li><li>Support for both database and instance type connections.</li><li>Connection string builder is now available when adding new connections.</li><li>Add ability to exclude tables from subsetting.</li></ul><b>Bug Fixes</b><ul><li>Fix delete starting table when subsetting.</li></ul>]]></description>
   </item>
   </channel>
 </rss>

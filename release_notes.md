@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-06-18 | latest: 9.5.8 (18 June 2026) -->
+<!-- fetched: 2026-06-25 | latest: 9.5.9 (23 June 2026) -->
 
 #
+## 9.5.9 — 23 June 2026
+
+### Improvements
+- Git errors now make it clear the problem came from Git rather than Flyway Desktop, with the raw Git output tucked behind a ‘Show raw git output’ toggle.
+
 ## 9.5.8 — 18 June 2026
 
 ### New Features
@@ -2088,7 +2093,21 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-06-17 | latest: 14.21.0 (June 16, 2026) -->
+<!-- fetched: 2026-06-25 | latest: 14.22.0 (June 25, 2026) -->
+## 14.22.0 — June 25, 2026
+
+### New Features
+- The X-Forwarded-Prefix header is now only trusted when it comes from a configured reverse proxy. If the web interface is hosted behind a reverse proxy under a virtual path, add the proxy's address to knownProxies or knownIPNetworks under forwardedHeadersSettings in appsettings.json (the same configuration already required for X-Forwarded-Host and X-Forwarded-Proto).
+- New Analysis: Selector behavior more closely matches the original page (Autoselect of top item, updating selection with keyboard arrow keys)
+
+### Improvements
+- Postgres instances that have been unreachable since a Base Monitor restart will now recover more quickly from an "Unreachable" state when they become reachable.
+- Aurora instances without host monitoring will no longer appear as "RDS" on the Global Dashboard.
+
+### Bug Fixes
+- Fixed an issue where PostgreSQL instance log collection could stop permanently if a log file contained corrupt or truncated content, for example after a server crash.
+- Fixed an issue where, in an MSP setup, a Base Monitor with no monitored entities could downgrade involved web servers to Standard licencing.
+
 ## 14.21.0 — June 16, 2026
 
 ### Improvements
@@ -3878,7 +3897,21 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-06-05 | latest: 0.65.105 (5 June 2026) -->
+<!-- fetched: 2026-06-25 | latest: 0.66.396 (25 June 2026) -->
+
+## 0.66.396 — 25 June 2026
+
+### Improvements
+- A server name and database name are now required when entering connection details as individual parameters.
+- OIDC can now be configured through the setup wizard and the Settings page, in addition to manually editing config.yml.
+- The appearance of chips (also known as labels or tags) throughout the product have been revamped.
+- Editing or duplicating a saved connection now keeps the existing connection string in place and only clears the password, which you must re-enter before saving.
+- The connection string field now has a copy button.
+- Importing or duplicating a treatment no longer loses user edits (changed datasets, excluded columns, etc.).
+- Excluding a starting table in subsetting no longer causes a validation error.
+- Continue button no longer stays disabled after starting a trial.
+- Don't show Licensing credential fields in Settings if those fields are externally managed (e.g. config.yml or env).
+- When the list of datasets is not ready for use because data is still loading, the dataset dropdown will show a loading indicator.
 
 ## 0.65.105 — 5 June 2026
 
