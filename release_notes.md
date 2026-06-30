@@ -5,9 +5,15 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-06-25 | latest: 9.5.9 (23 June 2026) -->
+<!-- fetched: 2026-06-30 | latest: 9.5.10 (30 June 2026) -->
 
 #
+## 9.5.10 — 30 June 2026
+
+### Improvements
+- When a push is rejected because the remote has changes you don’t have locally, the error now explains this and offers a ‘Pull changes’ button to resolve it.
+- The Sample project card on the landing page now uses a single ‘Create a sample project…’ button consistent with the other cards, with the Autopilot docs available as a link in the card description.
+
 ## 9.5.9 — 23 June 2026
 
 ### Improvements
@@ -2740,8 +2746,13 @@
 ---PRODUCT---
 # TDM — Subsetter
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes -->
-<!-- fetched: 2026-05-26 | latest: 2.2.18.3556 (26 May 2026) -->
+<!-- fetched: 2026-06-30 | latest: 2.2.19.3703 (30 June 2026) -->
 <!-- fetched: 2026-04-03 | latest: 0.6.0.0 (19 September 2
+## 2.2.19.3703 — 30 June 2026
+
+### Bug Fixes
+- Fixed a valid starting-table filter clause that matched no rows being reported as invalid. It now reports a distinct no-matching-data error
+
 ## 2.2.18.3556 — 26 May 2026
 
 ### Bug Fixes
@@ -3450,8 +3461,13 @@
 ---PRODUCT---
 # TDM — Anonymize
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes -->
-<!-- fetched: 2026-06-02 | latest: 2.4.7.2636 (02 June 2026) -->
+<!-- fetched: 2026-06-30 | latest: 2.4.8.2699 (30 June 2026) -->
 <!-- fetched: 2026-04-04 | latest: 1.0.3.1787 (16 January 2024) 
+## 2.4.8.2699 — 30 June 2026
+
+### Improvements
+- Unique constraints are now picked up automatically as a row identifier when no other suitable identifier is found.
+
 ## 2.4.7.2636 — 02 June 2026
 
 ### New Features

@@ -7,6 +7,27 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.5.10 — 30 June 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.5.10:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Tue, 30 Jun 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>When a push is rejected because the remote has changes you don’t have locally, the error now explains this and offers a ‘Pull changes’ button to resolve it.</li><li>The Sample project card on the landing page now uses a single ‘Create a sample project…’ button consistent with the other cards, with the Autopilot docs available as a link in the card description.</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Test Data Manager 2.2.19.3703 — 30 June 2026</title>
+    <link>https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</link>
+    <guid isPermaLink="false">tdm:2.2.19.3703:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</guid>
+    <pubDate>Tue, 30 Jun 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed a valid starting-table filter clause that matched no rows being reported as invalid. It now reports a distinct no-matching-data error</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Test Data Manager 2.4.8.2699 — 30 June 2026</title>
+    <link>https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</link>
+    <guid isPermaLink="false">tdm:2.4.8.2699:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</guid>
+    <pubDate>Tue, 30 Jun 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Unique constraints are now picked up automatically as a row identifier when no other suitable identifier is found.</li></ul>]]></description>
+  </item>
+  <item>
     <title>Redgate Monitor 14.22.0 — June 25, 2026</title>
     <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
     <guid isPermaLink="false">monitor:14.22.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
@@ -1384,27 +1405,6 @@
     <guid isPermaLink="false">sqlcmp:15.4.26.27858:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
     <pubDate>Thu, 02 Oct 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>ZD-329373: Use sp_rename instead of dropping and recreating columns when collations are different</li></ul><b>Bug Fixes</b><ul><li>Fixes incorrect exit code being returned when a licensing error occurs</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Data Compare 15.4.26.27858 — 02 October 2025</title>
-    <link>https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqldcmp:15.4.26.27858:https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</guid>
-    <pubDate>Thu, 02 Oct 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>ZD-335741: Fixed an issue with “Use checksum comparison” option producing an “Object reference not set to an instance of an object” error</li><li>Fixes incorrect exit code being returned when a licensing error occurs</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.13.2 — 26 September 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.13.2:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Fri, 26 Sep 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Deprecated constructor on Location class. Use new static factory method instread.</li></ul><b>Improvements</b><ul><li>it is now possible to implement locations via plugins</li><li>Upgraded RgCompare.Cli from 1.42.2.1345 to 1.43.0.1498</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Test Data Manager 0.20.4 — 24 September 2025</title>
-    <link>https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</link>
-    <guid isPermaLink="false">tdm:0.20.4:https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</guid>
-    <pubDate>Wed, 24 Sep 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed treatment logging to be properly formatted.</li><li>Fixed an issue where special characters in the connection string would cause treatments to fail.</li></ul><b>Improvements</b><ul><li>Workflows 0.5.175</li><li>Anonymization 2.2.14.1183</li><li>Subsetting 2.2.4.2138</li></ul>]]></description>
   </item>
   </channel>
 </rss>
