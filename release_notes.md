@@ -216,7 +216,26 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-06-18 | latest: 12.9.0 (18 June 2026) -->
+<!-- fetched: 2026-06-30 | latest: 12.10.0 (30 June 2026) -->
+
+## 12.10.0 — 30 June 2026
+
+### Improvements
+- smart docker provisioner keepAlive reuses the build database container across Flyway commands
+- filesystem location 'not found' messages now report the effective working directory and prompt you to check it, since running Flyway from the wrong working directory (without -workingDirectory) is a common cause
+- Native Connectors mode is now enabled by default for Cassandra
+- outOfOrder mode is now reported at info level instead of as a warning
+- The preview docker environment provisioner has been renamed to docker-compose. Existing docker provisioner configurations that use a compose file continue to work via automatic forwarding.
+- A missing callback location (including the default filesystem:callbacks) is now skipped instead of being logged as an error or failing the command
+- drift resolution script generation failures no longer fail the check drift command; drift is still reported and any scripts that can be generated are still written
+- The smart docker provisioner now starts Postgres and MySQL build containers with valid credentials and a usable default schema, so provisioning and migrating against them succeeds
+- skip building an unused Flyway instance for configuration-only commands (e.g. constructMigrationName, parseMigrationName, comparison-capabilities), reducing their startup latency
+- Upgraded com.fasterxml.jackson.core:jackson-databind from 2.21.2 to 2.22.0
+- Upgraded tools.jackson.core:jackson-databind from 3.1.1 to 3.1.4
+- Upgraded RgCompare to 1.58.5.4666
+
+### Bug Fixes
+- Fixed drift resolution failing to generate scripts when the drift included object types whose names contain spaces (e.g. user-defined types)
 
 ## 12.9.0 — 18 June 2026
 

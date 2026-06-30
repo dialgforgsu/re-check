@@ -14,6 +14,13 @@
     <description><![CDATA[<b>Improvements</b><ul><li>When a push is rejected because the remote has changes you don’t have locally, the error now explains this and offers a ‘Pull changes’ button to resolve it.</li><li>The Sample project card on the landing page now uses a single ‘Create a sample project…’ button consistent with the other cards, with the Autopilot docs available as a link in the card description.</li></ul>]]></description>
   </item>
   <item>
+    <title>Flyway CLI 12.10.0 — 30 June 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:12.10.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Tue, 30 Jun 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>smart docker provisioner keepAlive reuses the build database container across Flyway commands</li><li>filesystem location 'not found' messages now report the effective working directory and prompt you to check it, since running Flyway from the wrong working directory (without -workingDirectory) is a common cause</li><li>Native Connectors mode is now enabled by default for Cassandra</li><li>outOfOrder mode is now reported at info level instead of as a warning</li><li>The preview docker environment provisioner has been renamed to docker-compose. Existing docker provisioner configurations that use a compose file continue to work via automatic forwarding.</li><li>A missing callback location (including the default filesystem:callbacks) is now skipped instead of being logged as an error or failing the command</li><li>drift resolution script generation failures no longer fail the check drift command; drift is still reported and any scripts that can be generated are still written</li><li>The smart docker provisioner now starts Postgres and MySQL build containers with valid credentials and a usable default schema, so provisioning and migrating against them succeeds</li><li>skip building an unused Flyway instance for configuration-only commands (e.g. constructMigrationName, parseMigrationName, comparison-capabilities), reducing their startup latency</li><li>Upgraded com.fasterxml.jackson.core:jackson-databind from 2.21.2 to 2.22.0</li><li>Upgraded tools.jackson.core:jackson-databind from 3.1.1 to 3.1.4</li><li>Upgraded RgCompare to 1.58.5.4666</li></ul><b>Bug Fixes</b><ul><li>Fixed drift resolution failing to generate scripts when the drift included object types whose names contain spaces (e.g. user-defined types)</li></ul>]]></description>
+  </item>
+  <item>
     <title>Test Data Manager 2.2.19.3703 — 30 June 2026</title>
     <link>https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</link>
     <guid isPermaLink="false">tdm:2.2.19.3703:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">tdm:2.2.5.2230:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</guid>
     <pubDate>Fri, 03 Oct 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where excluded tables were not being emptied in the target database when using Overwrite target database write mode.</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Compare 15.4.26.27858 — 02 October 2025</title>
-    <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqlcmp:15.4.26.27858:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
-    <pubDate>Thu, 02 Oct 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>ZD-329373: Use sp_rename instead of dropping and recreating columns when collations are different</li></ul><b>Bug Fixes</b><ul><li>Fixes incorrect exit code being returned when a licensing error occurs</li></ul>]]></description>
   </item>
   </channel>
 </rss>
