@@ -7,6 +7,20 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>SQL Compare 16.0.19.29095 — 01 July 2026</title>
+    <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
+    <guid isPermaLink="false">sqlcmp:16.0.19.29095:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
+    <pubDate>Wed, 01 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Added Information as a valid /logLevel option in the command line tool.</li></ul>]]></description>
+  </item>
+  <item>
+    <title>SQL Data Compare 16.0.19.29095 — 01 July 2026</title>
+    <link>https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</link>
+    <guid isPermaLink="false">sqldcmp:16.0.19.29095:https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</guid>
+    <pubDate>Wed, 01 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>SQL Data Compare UI now shows a warning if your project’s WHERE clauses might have unintended side effects</li></ul><b>New Features</b><ul><li>Added Information as a valid /logLevel option in the command line tool.</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.5.10 — 30 June 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.5.10:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -805,13 +819,6 @@
     <description><![CDATA[<b>Improvements</b><ul><li>report filenames and drift resolution folder now included in JSON output when check -drift fails with failOnDrift enabled</li><li>Oracle Schema History Table synonyms no longer appear as drift in Check reports</li><li>Upgrade Jackson from 2.19.1 to 3.0.4</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where Flyway failed when applied migrations specified in 'cherryPick' were not found in Native Connectors mode</li></ul>]]></description>
   </item>
   <item>
-    <title>SQL Compare 16.0.6.28582 — 24 February 2026</title>
-    <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqlcmp:16.0.6.28582:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
-    <pubDate>Tue, 24 Feb 2026 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where SQL Compare would fail to handle CREATE EXTERNAL MODEL syntax in stored procedure or function bodies</li></ul>]]></description>
-  </item>
-  <item>
     <title>Flyway CLI 12.0.2 — 20 February 2026</title>
     <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
     <guid isPermaLink="false">flyway-cli:12.0.2:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
@@ -971,13 +978,6 @@
     <guid isPermaLink="false">tdm:0.43.51:https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</guid>
     <pubDate>Wed, 28 Jan 2026 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed a bug where workflows running both a subset and an anonymize treatment would anonymize the source database instead of the target.</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Data Compare 16.0.5.28494 — 28 January 2026</title>
-    <link>https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqldcmp:16.0.5.28494:https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</guid>
-    <pubDate>Wed, 28 Jan 2026 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Add support for JSON Data Type in SQL Server 2025</li></ul>]]></description>
   </item>
   <item>
     <title>Flyway CLI 11.20.3 — 26 January 2026</title>

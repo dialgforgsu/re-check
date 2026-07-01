@@ -7025,8 +7025,13 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
-<!-- fetched: 2026-06-18 | latest: 16.0.18.29038 (18 June 2026) -->
+<!-- fetched: 2026-07-01 | latest: 16.0.19.29095 (01 July 2026) -->
 <!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.0.19.29095 — 01 July 2026
+
+### New Features
+- Added Information as a valid /logLevel option in the command line tool.
+
 ## 16.0.18.29038 — 18 June 2026
 
 ### Bug Fixes
@@ -8028,7 +8033,15 @@ arch 2025
 ---PRODUCT---
 # SQL Data Compare 16.0
 <!-- source: https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes -->
-<!-- fetched: 2026-06-18 | latest: 16.0.18.29038 (18 June 2026) -->
+<!-- fetched: 2026-07-01 | latest: 16.0.19.29095 (01 July 2026) -->
+
+## 16.0.19.29095 — 01 July 2026
+
+### Improvements
+- SQL Data Compare UI now shows a warning if your project’s WHERE clauses might have unintended side effects
+
+### New Features
+- Added Information as a valid /logLevel option in the command line tool.
 
 ## 16.0.18.29038 — 18 June 2026
 
