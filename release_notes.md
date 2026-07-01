@@ -2118,7 +2118,29 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-06-25 | latest: 14.22.0 (June 25, 2026) -->
+<!-- fetched: 2026-07-01 | latest: 14.23.0 (July 1, 2026) -->
+## 14.23.0 — July 1, 2026
+
+### Improvements
+- Google Cloud SQL monitoring is now available for SQL Server instances.
+- The public API monitored-entities endpoint is now faster, particularly when monitoring many instances.
+- The Virtual Machines page now shows each machine's average network throughput (bytes received and sent per second) over the selected period, both in the table and as a chart in the machine details panel.
+- The PowerShell module no longer reports a cluster's availability groups, or their alert settings, as missing after a monitoring gap such as a Base Monitor restart or the replica instances being briefly unreachable. Previously an availability group was hidden if no data had been collected for it in the preceding 2 hours; the most recently collected topology is now returned for up to 24 hours.
+- The standalone .msi installers are no longer internally compressed. This makes the .msi files larger, but allows the .exe bundle installer to compress their contents more effectively, resulting in a smaller .exe download.
+- The Analysis page metric selector now auto-selects the top item when options load, and keyboard arrow key navigation immediately updates the graph selection.
+- The classic Analysis experience has been deprecated.
+- Updated the default required disk space for query executions event session logs from 16 MB to 40 MB.
+
+### New Features
+- A preview of the new Cluster and Availability Group overview is now available via a preview banner on the current pages.
+- Added missing descriptions for some metrics in the Analysis page.
+
+### Bug Fixes
+- Fixed an issue where Query execution monitoring could time out prematurely.
+- Fixed an issue where alert configuration was not showing inheritance from Linux machines to instances on it.
+- Fixed an issue where a removed monitored instance could still appear in the group tree. The group tree now only shows instances that still exist in your monitoring configuration.
+- Fixed an issue where deleted databases were not marked as "Used SQL" on the Estates > Disk Usage page.
+
 ## 14.22.0 — June 25, 2026
 
 ### New Features
