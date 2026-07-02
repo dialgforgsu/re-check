@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.5.11 — 02 July 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.5.11:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Thu, 02 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Hide the remove condition button when only one condition is present on filter rules in the Postgres Filter UI</li></ul>]]></description>
+  </item>
+  <item>
     <title>Redgate Monitor 14.23.0 — July 1, 2026</title>
     <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
     <guid isPermaLink="false">monitor:14.23.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">tdm:2.2.15.1292:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</guid>
     <pubDate>Mon, 06 Oct 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>New Features</b><ul><li>Added the ability to anonymize many different number types with the RandomNumbers dataset</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Test Data Manager 0.20.5 — 6 October 2025</title>
-    <link>https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</link>
-    <guid isPermaLink="false">tdm:0.20.5:https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</guid>
-    <pubDate>Mon, 06 Oct 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Added sample connection strings in the connection string builder</li><li>Add ability to save connections when creating database models and running treatments.</li></ul><b>Improvements</b><ul><li>Workflows now sorted by date created (descending) by default.</li><li>Introduces a search bar to subsetting starting tables data grid.</li><li>Automatically check for updates</li><li>Introduces bulk actions and filter to subset UI</li><li>Workflows 0.5.189</li><li>Anonymization 2.2.14.1183</li><li>Subsetting 2.2.5.2230</li></ul><b>Bug Fixes</b><ul><li>Fix issue where newly created database models would not appear in the list until the page was refreshed.</li><li>Fix issue that causes the service to fail to start due to not being able to read key.dat on some machines.</li><li>Fix accessibility bug preventing navigation between pages using the keyboard.</li></ul>]]></description>
   </item>
   </channel>
 </rss>

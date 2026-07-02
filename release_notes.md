@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-06-30 | latest: 9.5.10 (30 June 2026) -->
+<!-- fetched: 2026-07-02 | latest: 9.5.11 (02 July 2026) -->
 
 #
+## 9.5.11 — 02 July 2026
+
+### Improvements
+- Hide the remove condition button when only one condition is present on filter rules in the Postgres Filter UI
+
 ## 9.5.10 — 30 June 2026
 
 ### Improvements
