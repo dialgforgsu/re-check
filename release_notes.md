@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-07-02 | latest: 9.5.11 (02 July 2026) -->
+<!-- fetched: 2026-07-06 | latest: 9.6.0 (06 July 2026) -->
 
 #
+## 9.6.0 — 06 July 2026
+
+### New Features
+- Databricks advanced capabilities support is now available in public preview
+
 ## 9.5.11 — 02 July 2026
 
 ### Improvements

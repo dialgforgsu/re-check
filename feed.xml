@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.6.0 — 06 July 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.6.0:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Mon, 06 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Databricks advanced capabilities support is now available in public preview</li></ul>]]></description>
+  </item>
+  <item>
     <title>SQL Compare 16.1.0.29116 — 06 July 2026</title>
     <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
     <guid isPermaLink="false">sqlcmp:16.1.0.29116:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.13.3:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Tue, 07 Oct 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>New Features</b><ul><li>JVM Startup time added to verbose logs</li></ul><b>Improvements</b><ul><li>Issue 4119 Update shaded aws-secretsmanager-jdbc to not include io.netty to remove vulnerable dependencies</li><li>Upgraded RgCompare.Cli from 1.43.0.1498 to 1.44.0.1569</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Test Data Manager 2.2.15.1292 — 6 October 2025</title>
-    <link>https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</link>
-    <guid isPermaLink="false">tdm:2.2.15.1292:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</guid>
-    <pubDate>Mon, 06 Oct 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Added the ability to anonymize many different number types with the RandomNumbers dataset</li></ul>]]></description>
   </item>
   </channel>
 </rss>
