@@ -7,6 +7,20 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>SQL Compare 16.1.0.29116 — 06 July 2026</title>
+    <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
+    <guid isPermaLink="false">sqlcmp:16.1.0.29116:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
+    <pubDate>Mon, 06 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>SQL Compare command line now stops if your project’s WHERE clauses might have unintended side effects when deploying static data. Use /AllowDangerousWhereClauses to suppress the error.</li></ul>]]></description>
+  </item>
+  <item>
+    <title>SQL Data Compare 16.1.0.29116 — 06 July 2026</title>
+    <link>https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</link>
+    <guid isPermaLink="false">sqldcmp:16.1.0.29116:https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</guid>
+    <pubDate>Mon, 06 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>SQL Data Compare command line now stops if your project’s WHERE clauses might have unintended side effects. Please pass /AllowDangerousWhereClauses as an option to compare anyway</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.5.11 — 02 July 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.5.11:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -686,13 +700,6 @@
     <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed Null Reference exception when deploying a data type change to XML column</li></ul>]]></description>
   </item>
   <item>
-    <title>SQL Data Compare 16.0.9.28654 — 24 March 2026</title>
-    <link>https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqldcmp:16.0.9.28654:https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</guid>
-    <pubDate>Tue, 24 Mar 2026 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>Compatibility with SQL Compare 16.0.9.28654</li></ul>]]></description>
-  </item>
-  <item>
     <title>Flyway Desktop 9.2.2 — 19 March 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.2.2:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -740,13 +747,6 @@
     <guid isPermaLink="false">flyway-cli:12.1.1:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Tue, 17 Mar 2026 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>Implement non statement level callbacks in Native Connectors for undo, info, baseline and repair</li><li>serverId in Maven plugin now correctly respects user-configured value via flyway.serverId</li><li>snapshot no longer saved during dry run for migrate, undo, and deploy commands</li><li>Gradle plugin now correctly reads connectRetries, connectRetriesInterval, and failOnMissingLocations from the flyway extension configuration</li><li>Java Migrations correctly show the script path when an exception is thrown due to duplicated versions</li><li>improved startup time for lightweight CLI commands like flyway version and flyway auth</li><li>Upgrade lombok to 1.18.44</li></ul><b>Bug Fixes</b><ul><li>fixed NPE in Oracle database type when using instrumentation agents like JaCoCo</li><li>fix NullPointerException in SnapshotVersionRetriever when applied migrations include null-version entries (repeatable migrations, SCHEMA markers)</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Compare 16.0.8.28634 — 17 March 2026</title>
-    <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqlcmp:16.0.8.28634:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
-    <pubDate>Tue, 17 Mar 2026 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>Memory optimized tables with replaced indexes are now correctly modelled</li></ul>]]></description>
   </item>
   <item>
     <title>Test Data Manager 2.2.14.3210 — 12 March 2026</title>

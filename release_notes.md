@@ -7052,8 +7052,13 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
-<!-- fetched: 2026-07-01 | latest: 16.0.19.29095 (01 July 2026) -->
+<!-- fetched: 2026-07-06 | latest: 16.1.0.29116 (06 July 2026) -->
 <!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.1.0.29116 — 06 July 2026
+
+### Improvements
+- SQL Compare command line now stops if your project’s WHERE clauses might have unintended side effects when deploying static data. Use /AllowDangerousWhereClauses to suppress the error.
+
 ## 16.0.19.29095 — 01 July 2026
 
 ### New Features
@@ -8060,7 +8065,12 @@ arch 2025
 ---PRODUCT---
 # SQL Data Compare 16.0
 <!-- source: https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes -->
-<!-- fetched: 2026-07-01 | latest: 16.0.19.29095 (01 July 2026) -->
+<!-- fetched: 2026-07-06 | latest: 16.1.0.29116 (06 July 2026) -->
+
+## 16.1.0.29116 — 06 July 2026
+
+### Improvements
+- SQL Data Compare command line now stops if your project’s WHERE clauses might have unintended side effects. Please pass /AllowDangerousWhereClauses as an option to compare anyway
 
 ## 16.0.19.29095 — 01 July 2026
 
