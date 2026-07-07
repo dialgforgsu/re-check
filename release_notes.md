@@ -3964,7 +3964,19 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-06-25 | latest: 0.66.396 (25 June 2026) -->
+<!-- fetched: 2026-07-07 | latest: 0.68.198 (7 July 2026) -->
+
+## 0.68.198 — 7 July 2026
+
+### Improvements
+- The Windows installer now lets you choose the account the TDM service runs under — Network Service (the default), a specific Windows account, or a group Managed Service Account (gMSA) — and lets you change it later by re-running the installer.
+- If the encryption key (key.dat) is missing on startup, the TDM service now fails with a message asking you to repair or reinstall, instead of silently generating a replacement. The key is created and owned by the installer; a regenerated key cannot decrypt existing connection credentials, so failing fast avoids silent data loss.
+- Display alert in treatment summary when AI Classify has finished classifying a Database Model.
+- Duplicating a treatment now creates an exact copy. Previously the duplicate could show a different masking configuration, or raise validation issues that had already been resolved on the original.
+
+### New Features
+- TDM now supports Okta as an OIDC identity provider alongside Microsoft Entra ID.
+- Added filtering capability to be able to filter by "Classification source": User defined, AI Classify, or Rules defined.
 
 ## 0.66.396 — 25 June 2026
 
