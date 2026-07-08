@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Test Data Manager 0.69.4 — 7 July 2026</title>
+    <link>https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</link>
+    <guid isPermaLink="false">tdm:0.69.4:https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</guid>
+    <pubDate>Tue, 07 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>The Windows installer now lets you choose the account the TDM service runs under — Network Service (the default), a specific Windows account, or a group Managed Service Account (gMSA) — and lets you change it later by re-running the installer.</li><li>If the encryption key (key.dat) is missing on startup, the TDM service now fails with a message asking you to repair or reinstall, instead of silently generating a replacement. The key is created and owned by the installer; a regenerated key cannot decrypt existing connection credentials, so failing fast avoids silent data loss.</li><li>Display alert in treatment summary when AI Classify has finished classifying a Database Model.</li><li>Duplicating a treatment now creates an exact copy. Previously the duplicate could show a different masking configuration, or raise validation issues that had already been resolved on the original.</li></ul><b>New Features</b><ul><li>TDM now supports Okta as an OIDC identity provider alongside Microsoft Entra ID.</li><li>Added filtering capability to be able to filter by &quot;Classification source&quot;: User defined, AI Classify, or Rules defined.</li></ul>]]></description>
+  </item>
+  <item>
     <title>Test Data Manager 0.68.198 — 7 July 2026</title>
     <link>https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</link>
     <guid isPermaLink="false">tdm:0.68.198:https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">tdm:2.2.16.1371:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</guid>
     <pubDate>Mon, 13 Oct 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue with masking partitioned tables in PostgreSQL</li><li>Fixed an issue where the RandomNumbers dataset sometimes generates values too large to fit into the column being masked</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.14.0 — 9 October 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.14.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Thu, 09 Oct 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Packaged SQL Fluff added to docker images</li><li>Enhanced exception handling during Code Analysis to allow Flyway to continue generating the Report if partial results are already available</li></ul><b>Improvements</b><ul><li>Flyway now provides more comprehensive details in code analysis results</li><li>Issue 4155 Schema history index is now created in a specified tablespace for Oracle and DB2</li><li>stop detecting schema model folder as a SQL server schema model when it was empty but had empty sub folders</li><li>S3ClientFactory has moved to the flyway-locations-s3 module</li><li>Upgraded RgCompare.Cli from 1.44.0.1569 to 1.44.0.1580</li></ul>]]></description>
   </item>
   </channel>
 </rss>
