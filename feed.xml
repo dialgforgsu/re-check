@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway CLI 12.11.0 — 9 July 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:12.11.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Thu, 09 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Add support for new 'disable-constraints-for-static-data' option for PostgreSQL</li></ul><b>Improvements</b><ul><li>-h help for migrate, info, validate, clean, and undo now lists relevant configuration parameters and a usage example instead of just a description</li><li>Oracle SQL error output no longer shows the redundant SQL State and Error Code lines, as the ORA-#### code is already in the message</li><li>testConnection now keeps the configured environments available so provisioners that reference another environment (for example the docker provisioner's sourceEnvironment) resolve correctly when testing an inline environment</li><li>testConnection now reports provisioning progress (e.g. Docker container start-up) when progress output is enabled</li><li>the docker provisioner now reports clear, dedicated errors when the Docker CLI is not installed or the Docker daemon is not running</li><li>the legacy compose-file configuration of the preview docker provisioner is deprecated and now logs a warning; use the docker-compose provisioner instead</li><li>using 'auth' without the '-IAgreeToTheEula' flag defaults to an interactive EULA agreement process</li><li>Improved Flyway CLI cold start time by switching driver JARs from eager static classpath loading to lazy dynamic loading</li><li>Upgrade Snowflake from 4.0.2 to 4.3.1</li><li>Upgraded RgCompare to 1.60.0.4759</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where authentication warnings could be displayed multiple times during a Flyway run</li><li>Issue 4253 Fixed FlywayUnknownMigrationTypeException when schema history table contains legacy SPRING_JDBC type from older Flyway versions</li></ul>]]></description>
+  </item>
+  <item>
     <title>Test Data Manager 0.69.4 — 7 July 2026</title>
     <link>https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</link>
     <guid isPermaLink="false">tdm:0.69.4:https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.14.1:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Wed, 15 Oct 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>New Features</b><ul><li>Flyway now supports configuring Offline Permits via command-line parameters and TOML configuration</li></ul><b>Improvements</b><ul><li>Released first set of Redgate code analysis rules for SQLFLuff (RG01-RG08)</li><li>Issue 4129 Update Snowflake driver to 3.27.0</li><li>Issue 4135 Improved redaction of passwords in JDBC connection strings</li><li>Issue 4151 No longer crash when calling ClassUtils.getInstallDir if jars located at root of filesystem</li><li>Upgraded RgCompare.Cli from 1.44.0.1580 to 1.44.0.1656</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Test Data Manager 2.2.16.1371 — 13 October 2025</title>
-    <link>https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</link>
-    <guid isPermaLink="false">tdm:2.2.16.1371:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</guid>
-    <pubDate>Mon, 13 Oct 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue with masking partitioned tables in PostgreSQL</li><li>Fixed an issue where the RandomNumbers dataset sometimes generates values too large to fit into the column being masked</li></ul>]]></description>
   </item>
   </channel>
 </rss>

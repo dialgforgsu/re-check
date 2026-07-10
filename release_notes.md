@@ -226,7 +226,28 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-06-30 | latest: 12.10.0 (30 June 2026) -->
+<!-- fetched: 2026-07-10 | latest: 12.11.0 (9 July 2026) -->
+
+## 12.11.0 — 9 July 2026
+
+### New Features
+- Add support for new 'disable-constraints-for-static-data' option for PostgreSQL
+
+### Improvements
+- -h help for migrate, info, validate, clean, and undo now lists relevant configuration parameters and a usage example instead of just a description
+- Oracle SQL error output no longer shows the redundant SQL State and Error Code lines, as the ORA-#### code is already in the message
+- testConnection now keeps the configured environments available so provisioners that reference another environment (for example the docker provisioner's sourceEnvironment) resolve correctly when testing an inline environment
+- testConnection now reports provisioning progress (e.g. Docker container start-up) when progress output is enabled
+- the docker provisioner now reports clear, dedicated errors when the Docker CLI is not installed or the Docker daemon is not running
+- the legacy compose-file configuration of the preview docker provisioner is deprecated and now logs a warning; use the docker-compose provisioner instead
+- using 'auth' without the '-IAgreeToTheEula' flag defaults to an interactive EULA agreement process
+- Improved Flyway CLI cold start time by switching driver JARs from eager static classpath loading to lazy dynamic loading
+- Upgrade Snowflake from 4.0.2 to 4.3.1
+- Upgraded RgCompare to 1.60.0.4759
+
+### Bug Fixes
+- Fixed an issue where authentication warnings could be displayed multiple times during a Flyway run
+- Issue 4253 Fixed FlywayUnknownMigrationTypeException when schema history table contains legacy SPRING_JDBC type from older Flyway versions
 
 ## 12.10.0 — 30 June 2026
 
