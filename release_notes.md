@@ -2149,7 +2149,20 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-07-01 | latest: 14.23.0 (July 1, 2026) -->
+<!-- fetched: 2026-07-10 | latest: 14.24.0 (July 10, 2026) -->
+## 14.24.0 — July 10, 2026
+
+### Improvements
+- Google Cloud SQL monitoring is now available for PostgreSQL instances.
+- The Virtual Machines page now lists the SQL Server instances running on each machine, along with their version and edition, in the machine details panel.
+- Report summary tile now shows Linux and Google Cloud hosted machines.
+
+### New Features
+- Enterprise edition - New alert type for database permission changes is now available for SQL Server instances with SQL Audit enabled. This alert is raised when a permission is granted, revoked, denied, or ownership is transferred on a database or database securables.
+
+### Bug Fixes
+- Fixed an issue where links on the AG overview for default instances were not working correctly.
+
 ## 14.23.0 — July 1, 2026
 
 ### Improvements
