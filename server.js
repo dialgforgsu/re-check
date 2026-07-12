@@ -569,6 +569,11 @@ function checkRateLimit(req, res, next) {
 }
 
 // Serve static assets but NOT index.html — that's handled below with injected data.
+// Block the runtime SQLite DB (and its WAL/SHM siblings) so it's never downloadable over HTTP.
+app.use((req, res, next) => {
+  if (/\.sqlite(-wal|-shm)?$/i.test(req.path)) return res.status(404).end();
+  next();
+});
 app.use(express.static(path.join(__dirname), { index: false }));
 
 // Serve index.html with the release_notes.md snapshot embedded as a <script> tag
