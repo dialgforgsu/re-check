@@ -5,9 +5,25 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-06-25 | latest: 9.5.9 (23 June 2026) -->
+<!-- fetched: 2026-07-06 | latest: 9.6.0 (06 July 2026) -->
 
 #
+## 9.6.0 — 06 July 2026
+
+### New Features
+- Databricks advanced capabilities support is now available in public preview
+
+## 9.5.11 — 02 July 2026
+
+### Improvements
+- Hide the remove condition button when only one condition is present on filter rules in the Postgres Filter UI
+
+## 9.5.10 — 30 June 2026
+
+### Improvements
+- When a push is rejected because the remote has changes you don’t have locally, the error now explains this and offers a ‘Pull changes’ button to resolve it.
+- The Sample project card on the landing page now uses a single ‘Create a sample project…’ button consistent with the other cards, with the Autopilot docs available as a link in the card description.
+
 ## 9.5.9 — 23 June 2026
 
 ### Improvements
@@ -210,7 +226,47 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-06-18 | latest: 12.9.0 (18 June 2026) -->
+<!-- fetched: 2026-07-10 | latest: 12.11.0 (9 July 2026) -->
+
+## 12.11.0 — 9 July 2026
+
+### New Features
+- Add support for new 'disable-constraints-for-static-data' option for PostgreSQL
+
+### Improvements
+- -h help for migrate, info, validate, clean, and undo now lists relevant configuration parameters and a usage example instead of just a description
+- Oracle SQL error output no longer shows the redundant SQL State and Error Code lines, as the ORA-#### code is already in the message
+- testConnection now keeps the configured environments available so provisioners that reference another environment (for example the docker provisioner's sourceEnvironment) resolve correctly when testing an inline environment
+- testConnection now reports provisioning progress (e.g. Docker container start-up) when progress output is enabled
+- the docker provisioner now reports clear, dedicated errors when the Docker CLI is not installed or the Docker daemon is not running
+- the legacy compose-file configuration of the preview docker provisioner is deprecated and now logs a warning; use the docker-compose provisioner instead
+- using 'auth' without the '-IAgreeToTheEula' flag defaults to an interactive EULA agreement process
+- Improved Flyway CLI cold start time by switching driver JARs from eager static classpath loading to lazy dynamic loading
+- Upgrade Snowflake from 4.0.2 to 4.3.1
+- Upgraded RgCompare to 1.60.0.4759
+
+### Bug Fixes
+- Fixed an issue where authentication warnings could be displayed multiple times during a Flyway run
+- Issue 4253 Fixed FlywayUnknownMigrationTypeException when schema history table contains legacy SPRING_JDBC type from older Flyway versions
+
+## 12.10.0 — 30 June 2026
+
+### Improvements
+- smart docker provisioner keepAlive reuses the build database container across Flyway commands
+- filesystem location 'not found' messages now report the effective working directory and prompt you to check it, since running Flyway from the wrong working directory (without -workingDirectory) is a common cause
+- Native Connectors mode is now enabled by default for Cassandra
+- outOfOrder mode is now reported at info level instead of as a warning
+- The preview docker environment provisioner has been renamed to docker-compose. Existing docker provisioner configurations that use a compose file continue to work via automatic forwarding.
+- A missing callback location (including the default filesystem:callbacks) is now skipped instead of being logged as an error or failing the command
+- drift resolution script generation failures no longer fail the check drift command; drift is still reported and any scripts that can be generated are still written
+- The smart docker provisioner now starts Postgres and MySQL build containers with valid credentials and a usable default schema, so provisioning and migrating against them succeeds
+- skip building an unused Flyway instance for configuration-only commands (e.g. constructMigrationName, parseMigrationName, comparison-capabilities), reducing their startup latency
+- Upgraded com.fasterxml.jackson.core:jackson-databind from 2.21.2 to 2.22.0
+- Upgraded tools.jackson.core:jackson-databind from 3.1.1 to 3.1.4
+- Upgraded RgCompare to 1.58.5.4666
+
+### Bug Fixes
+- Fixed drift resolution failing to generate scripts when the drift included object types whose names contain spaces (e.g. user-defined types)
 
 ## 12.9.0 — 18 June 2026
 
@@ -2093,7 +2149,42 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-06-25 | latest: 14.22.0 (June 25, 2026) -->
+<!-- fetched: 2026-07-10 | latest: 14.24.0 (July 10, 2026) -->
+## 14.24.0 — July 10, 2026
+
+### Improvements
+- Google Cloud SQL monitoring is now available for PostgreSQL instances.
+- The Virtual Machines page now lists the SQL Server instances running on each machine, along with their version and edition, in the machine details panel.
+- Report summary tile now shows Linux and Google Cloud hosted machines.
+
+### New Features
+- Enterprise edition - New alert type for database permission changes is now available for SQL Server instances with SQL Audit enabled. This alert is raised when a permission is granted, revoked, denied, or ownership is transferred on a database or database securables.
+
+### Bug Fixes
+- Fixed an issue where links on the AG overview for default instances were not working correctly.
+
+## 14.23.0 — July 1, 2026
+
+### Improvements
+- Google Cloud SQL monitoring is now available for SQL Server instances.
+- The public API monitored-entities endpoint is now faster, particularly when monitoring many instances.
+- The Virtual Machines page now shows each machine's average network throughput (bytes received and sent per second) over the selected period, both in the table and as a chart in the machine details panel.
+- The PowerShell module no longer reports a cluster's availability groups, or their alert settings, as missing after a monitoring gap such as a Base Monitor restart or the replica instances being briefly unreachable. Previously an availability group was hidden if no data had been collected for it in the preceding 2 hours; the most recently collected topology is now returned for up to 24 hours.
+- The standalone .msi installers are no longer internally compressed. This makes the .msi files larger, but allows the .exe bundle installer to compress their contents more effectively, resulting in a smaller .exe download.
+- The Analysis page metric selector now auto-selects the top item when options load, and keyboard arrow key navigation immediately updates the graph selection.
+- The classic Analysis experience has been deprecated.
+- Updated the default required disk space for query executions event session logs from 16 MB to 40 MB.
+
+### New Features
+- A preview of the new Cluster and Availability Group overview is now available via a preview banner on the current pages.
+- Added missing descriptions for some metrics in the Analysis page.
+
+### Bug Fixes
+- Fixed an issue where Query execution monitoring could time out prematurely.
+- Fixed an issue where alert configuration was not showing inheritance from Linux machines to instances on it.
+- Fixed an issue where a removed monitored instance could still appear in the group tree. The group tree now only shows instances that still exist in your monitoring configuration.
+- Fixed an issue where deleted databases were not marked as "Used SQL" on the Estates > Disk Usage page.
+
 ## 14.22.0 — June 25, 2026
 
 ### New Features
@@ -2740,8 +2831,13 @@
 ---PRODUCT---
 # TDM — Subsetter
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes -->
-<!-- fetched: 2026-05-26 | latest: 2.2.18.3556 (26 May 2026) -->
+<!-- fetched: 2026-06-30 | latest: 2.2.19.3703 (30 June 2026) -->
 <!-- fetched: 2026-04-03 | latest: 0.6.0.0 (19 September 2
+## 2.2.19.3703 — 30 June 2026
+
+### Bug Fixes
+- Fixed a valid starting-table filter clause that matched no rows being reported as invalid. It now reports a distinct no-matching-data error
+
 ## 2.2.18.3556 — 26 May 2026
 
 ### Bug Fixes
@@ -3450,8 +3546,13 @@
 ---PRODUCT---
 # TDM — Anonymize
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes -->
-<!-- fetched: 2026-06-02 | latest: 2.4.7.2636 (02 June 2026) -->
+<!-- fetched: 2026-06-30 | latest: 2.4.8.2699 (30 June 2026) -->
 <!-- fetched: 2026-04-04 | latest: 1.0.3.1787 (16 January 2024) 
+## 2.4.8.2699 — 30 June 2026
+
+### Improvements
+- Unique constraints are now picked up automatically as a row identifier when no other suitable identifier is found.
+
 ## 2.4.7.2636 — 02 June 2026
 
 ### New Features
@@ -3897,7 +3998,31 @@
 ---PRODUCT---
 # TDM — GUI (Hub)
 <!-- source: https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes -->
-<!-- fetched: 2026-06-25 | latest: 0.66.396 (25 June 2026) -->
+<!-- fetched: 2026-07-08 | latest: 0.69.4 (7 July 2026) -->
+
+## 0.69.4 — 7 July 2026
+
+### Improvements
+- The Windows installer now lets you choose the account the TDM service runs under — Network Service (the default), a specific Windows account, or a group Managed Service Account (gMSA) — and lets you change it later by re-running the installer.
+- If the encryption key (key.dat) is missing on startup, the TDM service now fails with a message asking you to repair or reinstall, instead of silently generating a replacement. The key is created and owned by the installer; a regenerated key cannot decrypt existing connection credentials, so failing fast avoids silent data loss.
+- Display alert in treatment summary when AI Classify has finished classifying a Database Model.
+- Duplicating a treatment now creates an exact copy. Previously the duplicate could show a different masking configuration, or raise validation issues that had already been resolved on the original.
+
+### New Features
+- TDM now supports Okta as an OIDC identity provider alongside Microsoft Entra ID.
+- Added filtering capability to be able to filter by "Classification source": User defined, AI Classify, or Rules defined.
+
+## 0.68.198 — 7 July 2026
+
+### Improvements
+- The Windows installer now lets you choose the account the TDM service runs under — Network Service (the default), a specific Windows account, or a group Managed Service Account (gMSA) — and lets you change it later by re-running the installer.
+- If the encryption key (key.dat) is missing on startup, the TDM service now fails with a message asking you to repair or reinstall, instead of silently generating a replacement. The key is created and owned by the installer; a regenerated key cannot decrypt existing connection credentials, so failing fast avoids silent data loss.
+- Display alert in treatment summary when AI Classify has finished classifying a Database Model.
+- Duplicating a treatment now creates an exact copy. Previously the duplicate could show a different masking configuration, or raise validation issues that had already been resolved on the original.
+
+### New Features
+- TDM now supports Okta as an OIDC identity provider alongside Microsoft Entra ID.
+- Added filtering capability to be able to filter by "Classification source": User defined, AI Classify, or Rules defined.
 
 ## 0.66.396 — 25 June 2026
 
@@ -6990,8 +7115,18 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
-<!-- fetched: 2026-06-18 | latest: 16.0.18.29038 (18 June 2026) -->
+<!-- fetched: 2026-07-06 | latest: 16.1.0.29116 (06 July 2026) -->
 <!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.1.0.29116 — 06 July 2026
+
+### Improvements
+- SQL Compare command line now stops if your project’s WHERE clauses might have unintended side effects when deploying static data. Use /AllowDangerousWhereClauses to suppress the error.
+
+## 16.0.19.29095 — 01 July 2026
+
+### New Features
+- Added Information as a valid /logLevel option in the command line tool.
+
 ## 16.0.18.29038 — 18 June 2026
 
 ### Bug Fixes
@@ -7993,7 +8128,20 @@ arch 2025
 ---PRODUCT---
 # SQL Data Compare 16.0
 <!-- source: https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes -->
-<!-- fetched: 2026-06-18 | latest: 16.0.18.29038 (18 June 2026) -->
+<!-- fetched: 2026-07-06 | latest: 16.1.0.29116 (06 July 2026) -->
+
+## 16.1.0.29116 — 06 July 2026
+
+### Improvements
+- SQL Data Compare command line now stops if your project’s WHERE clauses might have unintended side effects. Please pass /AllowDangerousWhereClauses as an option to compare anyway
+
+## 16.0.19.29095 — 01 July 2026
+
+### Improvements
+- SQL Data Compare UI now shows a warning if your project’s WHERE clauses might have unintended side effects
+
+### New Features
+- Added Information as a valid /logLevel option in the command line tool.
 
 ## 16.0.18.29038 — 18 June 2026
 
