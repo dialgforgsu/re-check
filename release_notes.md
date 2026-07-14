@@ -7115,8 +7115,14 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
-<!-- fetched: 2026-07-06 | latest: 16.1.0.29116 (06 July 2026) -->
+<!-- fetched: 2026-07-14 | latest: 16.1.1.29148 (14 July 2026) -->
 <!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.1.1.29148 — 14 July 2026
+
+### Bug Fixes
+- Fixed a NullReferenceException that could occur when comparing mappings for non-database sources such as backups, snapshots, or scripts folders
+- Fixed a NullReferenceException that could occur when navigating to the next/previous difference in the results grid
+
 ## 16.1.0.29116 — 06 July 2026
 
 ### Improvements

@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>SQL Compare 16.1.1.29148 — 14 July 2026</title>
+    <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
+    <guid isPermaLink="false">sqlcmp:16.1.1.29148:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
+    <pubDate>Tue, 14 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed a NullReferenceException that could occur when comparing mappings for non-database sources such as backups, snapshots, or scripts folders</li><li>Fixed a NullReferenceException that could occur when navigating to the next/previous difference in the results grid</li></ul>]]></description>
+  </item>
+  <item>
     <title>Redgate Monitor 14.24.0 — July 10, 2026</title>
     <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
     <guid isPermaLink="false">monitor:14.24.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
@@ -726,13 +733,6 @@
     <guid isPermaLink="false">tdm:0.51.177:https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes</guid>
     <pubDate>Thu, 26 Mar 2026 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>The data scanning feature is now Generally Available. It is no longer in Preview. The feature can be enabled via a toggle in Settings page.</li><li>Adjusted column widths and order in the runs table for better readability, especially on small screens.</li><li>Keyboard accessibility in runs table improved.</li></ul><b>New Features</b><ul><li>Added option to ignore additional objects in the target database when running subset treatments or workflows.</li><li>Add ability to duplicate connections from the connections menu, pre-populating the new connection with the original's details.</li><li>Connection editing now supports parameter-based input (server, database, authentication, etc.) in addition to raw connection strings.</li></ul><b>Bug Fixes</b><ul><li>Fixed an error where treatments created by importing JSON or duplicating an existing treatment got stuck in an initializing state.</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Compare 16.0.9.28654 — 24 March 2026</title>
-    <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqlcmp:16.0.9.28654:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
-    <pubDate>Tue, 24 Mar 2026 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed Null Reference exception when deploying a data type change to XML column</li></ul>]]></description>
   </item>
   <item>
     <title>Flyway Desktop 9.2.2 — 19 March 2026</title>
