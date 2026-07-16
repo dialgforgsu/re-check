@@ -5,9 +5,18 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-07-06 | latest: 9.6.0 (06 July 2026) -->
+<!-- fetched: 2026-07-16 | latest: 9.6.1 (16 July 2026) -->
 
 #
+## 9.6.1 — 16 July 2026
+
+### Improvements
+- Guided shadow provisioning is now always available to Enterprise customers, replacing the previous opt-out preview toggle.
+- The project settings dialog no longer disables the state-based deployment option when the project already contains migration scripts.
+
+### Bug Fixes
+- Fixed bug on Migration Scripts page where removal of a parameter would not be saved.
+
 ## 9.6.0 — 06 July 2026
 
 ### New Features
@@ -2149,7 +2158,23 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-07-10 | latest: 14.24.0 (July 10, 2026) -->
+<!-- fetched: 2026-07-16 | latest: 14.25.0 (July 16, 2026) -->
+## 14.25.0 — July 16, 2026
+
+### Improvements
+- Enterprise edition - SQL Audit is now out of preview.
+- The Virtual Machines page now shows per-disk details (space used, capacity, and average IOPS and read, write, and total throughput over the selected period) for each machine's disks in the machine details panel.
+- Enterprise edition - Increased default pagination size of Configuration Compliance Templates table from 10 to 25 rows.
+- Replication job failure alerts can now be suppressed on secondary availability group nodes.
+- The Virtual Machines page is now out of preview.
+
+### Bug Fixes
+- Fixed an issue where setting an alias for suspended SQL Servers were not working correctly on the Overview page.
+- Fixed an issue where files in mapped folders were also assigned to the root drive on the Disk Usage pages.
+- Fixed an issue where some alerts could not be suppressed when the head blocker was idle with an open transaction.
+- Fixed an issue where enabling host monitoring for an Amazon RDS SQL Server without selecting a region was saved silently and broke host metric collection.
+- Fixed an issue where editing credentials for multiple Amazon RDS entities at once overwrote each entity's database instance identifier with a single shared value.
+
 ## 14.24.0 — July 10, 2026
 
 ### Improvements
