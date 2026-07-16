@@ -2856,8 +2856,13 @@
 ---PRODUCT---
 # TDM — Subsetter
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes -->
-<!-- fetched: 2026-06-30 | latest: 2.2.19.3703 (30 June 2026) -->
+<!-- fetched: 2026-07-16 | latest: 2.2.20.3766 (16 July 2026) -->
 <!-- fetched: 2026-04-03 | latest: 0.6.0.0 (19 September 2
+## 2.2.20.3766 — 16 July 2026
+
+### Bug Fixes
+- Fixed an issue where data in tables linked transitively from excluded tables caused an error.
+
 ## 2.2.19.3703 — 30 June 2026
 
 ### Bug Fixes

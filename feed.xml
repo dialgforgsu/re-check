@@ -21,6 +21,13 @@
     <description><![CDATA[<b>Improvements</b><ul><li>Enterprise edition - SQL Audit is now out of preview.</li><li>The Virtual Machines page now shows per-disk details (space used, capacity, and average IOPS and read, write, and total throughput over the selected period) for each machine's disks in the machine details panel.</li><li>Enterprise edition - Increased default pagination size of Configuration Compliance Templates table from 10 to 25 rows.</li><li>Replication job failure alerts can now be suppressed on secondary availability group nodes.</li><li>The Virtual Machines page is now out of preview.</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where setting an alias for suspended SQL Servers were not working correctly on the Overview page.</li><li>Fixed an issue where files in mapped folders were also assigned to the root drive on the Disk Usage pages.</li><li>Fixed an issue where some alerts could not be suppressed when the head blocker was idle with an open transaction.</li><li>Fixed an issue where enabling host monitoring for an Amazon RDS SQL Server without selecting a region was saved silently and broke host metric collection.</li><li>Fixed an issue where editing credentials for multiple Amazon RDS entities at once overwrote each entity's database instance identifier with a single shared value.</li></ul>]]></description>
   </item>
   <item>
+    <title>Test Data Manager 2.2.20.3766 — 16 July 2026</title>
+    <link>https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</link>
+    <guid isPermaLink="false">tdm:2.2.20.3766:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</guid>
+    <pubDate>Thu, 16 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where data in tables linked transitively from excluded tables caused an error.</li></ul>]]></description>
+  </item>
+  <item>
     <title>SQL Compare 16.1.1.29148 — 14 July 2026</title>
     <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
     <guid isPermaLink="false">sqlcmp:16.1.1.29148:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">tdm:2.2.7.2456:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</guid>
     <pubDate>Tue, 21 Oct 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where untrusted constraints were being restored as trusted, causing issues with existing data (SQL Server only).</li><li>Fixed an issue where copying large records to the target database can sometimes deadlock (SQL Server only).</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Test Data Manager 2.2.19.1475 — 21 October 2025</title>
-    <link>https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</link>
-    <guid isPermaLink="false">tdm:2.2.19.1475:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes</guid>
-    <pubDate>Tue, 21 Oct 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Added the ability to pass multiple classification files to the map command</li><li>Added the ability to pass multiple masking files to the mask command</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where connection timeouts set in a connection string were being ignored</li><li>Fixed an issue where uniqueness constraints were using included columns (SQL Server only)</li></ul>]]></description>
   </item>
   </channel>
 </rss>
