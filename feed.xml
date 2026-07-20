@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway CLI 13.0.0 — 20 July 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:13.0.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Mon, 20 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Add support for new 'IncludeOnlineIndexCreation' option for Oracle</li></ul><b>Improvements</b><ul><li>check drift and check changes JSON output now includes an id for each difference, allowing drift to be resolved against specific objects</li><li>Flyway MCP server now available, exposing development-time tools an AI agent can call. These tools run flyway commands for both state based and migrations projects</li><li>Include the offending SQL in error messages for Flyway Desktop when debug logging is disabled</li><li>the docker provisioner now reports a dedicated error code when a SQL Server or Oracle container is provisioned without accepting the database vendor's EULA</li><li>Upgraded RgCompare to 1.61.4.4850</li></ul><b>Bug Fixes</b><ul><li>Fixed the 'auth' command incorrectly showing a &quot;no locations configured&quot; warning that only applies to migration commands</li><li>Updated jackson-databind to 3.1.5 / 2.22.1 to address a High-severity Incorrect Authorization advisory</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.6.1 — 16 July 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.6.1:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.15.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Thu, 23 Oct 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>Flyway now provides clearer error messages when online authentication methods fail</li><li>Simplified setting debugMode and quietMode in Loggers. When using Flyway via the Java API, Log level is now configured via LogFactory.setLogLevel(LogLevel). All appropriate loggers will now honor the LogLevel including quietMode (most loggers were previously flawed and would ignore this)</li><li>Upgraded RgCompare.Cli from 1.44.0.1656 to 1.44.0.1673</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Test Data Manager 2.2.7.2456 — 21 October 2025</title>
-    <link>https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</link>
-    <guid isPermaLink="false">tdm:2.2.7.2456:https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes</guid>
-    <pubDate>Tue, 21 Oct 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where untrusted constraints were being restored as trusted, causing issues with existing data (SQL Server only).</li><li>Fixed an issue where copying large records to the target database can sometimes deadlock (SQL Server only).</li></ul>]]></description>
   </item>
   </channel>
 </rss>

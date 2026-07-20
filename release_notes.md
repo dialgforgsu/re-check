@@ -235,7 +235,23 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-07-10 | latest: 12.11.0 (9 July 2026) -->
+<!-- fetched: 2026-07-20 | latest: 13.0.0 (20 July 2026) -->
+
+## 13.0.0 — 20 July 2026
+
+### New Features
+- Add support for new 'IncludeOnlineIndexCreation' option for Oracle
+
+### Improvements
+- check drift and check changes JSON output now includes an id for each difference, allowing drift to be resolved against specific objects
+- Flyway MCP server now available, exposing development-time tools an AI agent can call. These tools run flyway commands for both state based and migrations projects
+- Include the offending SQL in error messages for Flyway Desktop when debug logging is disabled
+- the docker provisioner now reports a dedicated error code when a SQL Server or Oracle container is provisioned without accepting the database vendor's EULA
+- Upgraded RgCompare to 1.61.4.4850
+
+### Bug Fixes
+- Fixed the 'auth' command incorrectly showing a "no locations configured" warning that only applies to migration commands
+- Updated jackson-databind to 3.1.5 / 2.22.1 to address a High-severity Incorrect Authorization advisory
 
 ## 12.11.0 — 9 July 2026
 
