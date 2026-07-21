@@ -1,0 +1,55 @@
+name: Docs Diff
+
+# Manually compare two versions of a tracked product's release notes.
+# Run from the Actions tab (or `gh workflow run docs-diff.yml -f ...`).
+# Use `node docs-diff.mjs --list` locally to see valid product ids/versions.
+
+on:
+  workflow_dispatch:
+    inputs:
+      product:
+        description: 'Product id, e.g. sqlprompt, monitor, flyway-desktop, tdm'
+        required: true
+        type: string
+      from:
+        description: 'Older version to diff from, e.g. 11.3.0'
+        required: true
+        type: string
+      to:
+        description: 'Newer version to diff to, e.g. 11.3.9'
+        required: true
+        type: string
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Compute docs diff (Markdown → job summary)
+        run: |
+          node docs-diff.mjs \
+            --product "${{ inputs.product }}" \
+            --from "${{ inputs.from }}" \
+            --to "${{ inputs.to }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Compute docs diff (JSON → artifact)
+        run: |
+          node docs-diff.mjs \
+            --product "${{ inputs.product }}" \
+            --from "${{ inputs.from }}" \
+            --to "${{ inputs.to }}" \
+            --format json > docs-diff-result.json
+
+      - name: Upload diff artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-diff-${{ inputs.product }}-${{ inputs.from }}-to-${{ inputs.to }}
+          path: docs-diff-result.json
+          retention-days: 30

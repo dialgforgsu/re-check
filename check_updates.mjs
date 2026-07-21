@@ -173,7 +173,7 @@ const FEED_XML      = path.resolve(__dirname, 'feed.xml');
 const SITE_URL      = 'https://dialgforgsu.github.io/re-check';
 
 const MONTHS_MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,jan:1,feb:2,mar:3,apr:4,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
-function dateToSortNum(dateStr) {
+export function dateToSortNum(dateStr) {
   if (!dateStr) return 0;
   const s = dateStr.trim();
   let m = s.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
