@@ -5,9 +5,32 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-07-06 | latest: 9.6.0 (06 July 2026) -->
+<!-- fetched: 2026-07-21 | latest: 9.6.2 (21 July 2026) -->
 
 #
+## 9.6.2 — 21 July 2026
+
+### New Features
+- Add Oracle option to add ‘ONLINE’ clause to index creation scripts
+- The ‘Manage target databases’ dialog no longer shows an empty state; it now opens straight to adding a database when none are configured
+
+### Improvements
+- The Run clean button in the clean confirmation modal is no longer disabled. If clicked without ticking ‘Ok to erase’ it now shows a validation error instead
+- The project settings dialog no longer disables the state-based deployment option when the project already contains migration scripts
+- The All Objects rule in the PostgreSQL filter editor is now always evaluated first, so more specific rules can override it as intended
+
+### Bug Fixes
+- Fixed an issue where the Schema model contents would not show if no development database was connected
+
+## 9.6.1 — 16 July 2026
+
+### Improvements
+- Guided shadow provisioning is now always available to Enterprise customers, replacing the previous opt-out preview toggle.
+- The project settings dialog no longer disables the state-based deployment option when the project already contains migration scripts.
+
+### Bug Fixes
+- Fixed bug on Migration Scripts page where removal of a parameter would not be saved.
+
 ## 9.6.0 — 06 July 2026
 
 ### New Features
@@ -226,7 +249,23 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-07-10 | latest: 12.11.0 (9 July 2026) -->
+<!-- fetched: 2026-07-20 | latest: 13.0.0 (20 July 2026) -->
+
+## 13.0.0 — 20 July 2026
+
+### New Features
+- Add support for new 'IncludeOnlineIndexCreation' option for Oracle
+
+### Improvements
+- check drift and check changes JSON output now includes an id for each difference, allowing drift to be resolved against specific objects
+- Flyway MCP server now available, exposing development-time tools an AI agent can call. These tools run flyway commands for both state based and migrations projects
+- Include the offending SQL in error messages for Flyway Desktop when debug logging is disabled
+- the docker provisioner now reports a dedicated error code when a SQL Server or Oracle container is provisioned without accepting the database vendor's EULA
+- Upgraded RgCompare to 1.61.4.4850
+
+### Bug Fixes
+- Fixed the 'auth' command incorrectly showing a "no locations configured" warning that only applies to migration commands
+- Updated jackson-databind to 3.1.5 / 2.22.1 to address a High-severity Incorrect Authorization advisory
 
 ## 12.11.0 — 9 July 2026
 
@@ -2149,7 +2188,23 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-07-10 | latest: 14.24.0 (July 10, 2026) -->
+<!-- fetched: 2026-07-16 | latest: 14.25.0 (July 16, 2026) -->
+## 14.25.0 — July 16, 2026
+
+### Improvements
+- Enterprise edition - SQL Audit is now out of preview.
+- The Virtual Machines page now shows per-disk details (space used, capacity, and average IOPS and read, write, and total throughput over the selected period) for each machine's disks in the machine details panel.
+- Enterprise edition - Increased default pagination size of Configuration Compliance Templates table from 10 to 25 rows.
+- Replication job failure alerts can now be suppressed on secondary availability group nodes.
+- The Virtual Machines page is now out of preview.
+
+### Bug Fixes
+- Fixed an issue where setting an alias for suspended SQL Servers were not working correctly on the Overview page.
+- Fixed an issue where files in mapped folders were also assigned to the root drive on the Disk Usage pages.
+- Fixed an issue where some alerts could not be suppressed when the head blocker was idle with an open transaction.
+- Fixed an issue where enabling host monitoring for an Amazon RDS SQL Server without selecting a region was saved silently and broke host metric collection.
+- Fixed an issue where editing credentials for multiple Amazon RDS entities at once overwrote each entity's database instance identifier with a single shared value.
+
 ## 14.24.0 — July 10, 2026
 
 ### Improvements
@@ -2831,8 +2886,13 @@
 ---PRODUCT---
 # TDM — Subsetter
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes -->
-<!-- fetched: 2026-06-30 | latest: 2.2.19.3703 (30 June 2026) -->
+<!-- fetched: 2026-07-16 | latest: 2.2.20.3766 (16 July 2026) -->
 <!-- fetched: 2026-04-03 | latest: 0.6.0.0 (19 September 2
+## 2.2.20.3766 — 16 July 2026
+
+### Bug Fixes
+- Fixed an issue where data in tables linked transitively from excluded tables caused an error.
+
 ## 2.2.19.3703 — 30 June 2026
 
 ### Bug Fixes
@@ -7115,8 +7175,14 @@ arch 2025
 ---PRODUCT---
 # SQL Compare 16.0
 <!-- source: https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes -->
-<!-- fetched: 2026-07-06 | latest: 16.1.0.29116 (06 July 2026) -->
+<!-- fetched: 2026-07-14 | latest: 16.1.1.29148 (14 July 2026) -->
 <!-- fetched: 2026-04-03 | latest: 16.0.10.28672 (31 March 
+## 16.1.1.29148 — 14 July 2026
+
+### Bug Fixes
+- Fixed a NullReferenceException that could occur when comparing mappings for non-database sources such as backups, snapshots, or scripts folders
+- Fixed a NullReferenceException that could occur when navigating to the next/previous difference in the results grid
+
 ## 16.1.0.29116 — 06 July 2026
 
 ### Improvements
