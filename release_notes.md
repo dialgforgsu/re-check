@@ -5,9 +5,23 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-07-16 | latest: 9.6.1 (16 July 2026) -->
+<!-- fetched: 2026-07-21 | latest: 9.6.2 (21 July 2026) -->
 
 #
+## 9.6.2 — 21 July 2026
+
+### New Features
+- Add Oracle option to add ‘ONLINE’ clause to index creation scripts
+- The ‘Manage target databases’ dialog no longer shows an empty state; it now opens straight to adding a database when none are configured
+
+### Improvements
+- The Run clean button in the clean confirmation modal is no longer disabled. If clicked without ticking ‘Ok to erase’ it now shows a validation error instead
+- The project settings dialog no longer disables the state-based deployment option when the project already contains migration scripts
+- The All Objects rule in the PostgreSQL filter editor is now always evaluated first, so more specific rules can override it as intended
+
+### Bug Fixes
+- Fixed an issue where the Schema model contents would not show if no development database was connected
+
 ## 9.6.1 — 16 July 2026
 
 ### Improvements
