@@ -2188,7 +2188,21 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-07-16 | latest: 14.25.0 (July 16, 2026) -->
+<!-- fetched: 2026-07-22 | latest: 14.26.0 (July 22, 2026) -->
+## 14.26.0 — July 22, 2026
+
+### New Features
+- The Aurora PostgreSQL cluster monitoring experience been reworked and improved. The cluster overview page will now show detailed metrics about the cluster's DB instances, as well as cluster events, alongside aggregation of query performance metrics. The dashboard will show a single card for the cluster, with navigation to instances available inside the overview page. Additionally, clusters with auto-monitoring of instances enabled will now automatically monitor writer instances as well as readers. Auto-monitoring can be enabled when adding an Aurora PostgreSQL cluster, or when editing its credentials.
+
+### Improvements
+- Individual query execution monitoring is now available for Azure SQL Database, Azure SQL Managed Instance, and Google Cloud SQL for SQL Server. See https://www.red-gate.com/monitor14/individual-query-executions for details.
+- The Virtual Machines machine details panel has been replaced with a full-screen modal.
+
+### Bug Fixes
+- Fixed an issue where the service status of SQL Server 2025 Integration Services was not collected. Power BI Report Server, which replaces Reporting Services from SQL Server 2025, is now also monitored.
+- Fixed an issue where selecting from the instance dropdown while viewing some Server overview tabs could reset the view back to the History tab.
+- Fixed an issue on the Analysis page where Availability Group and Availability Group Replica never had their own row persisted to Postgres/TimescaleDB.
+
 ## 14.25.0 — July 16, 2026
 
 ### Improvements
