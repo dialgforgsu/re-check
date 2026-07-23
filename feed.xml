@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Redgate Monitor 14.26.0 — July 22, 2026</title>
+    <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
+    <guid isPermaLink="false">monitor:14.26.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
+    <pubDate>Wed, 22 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>The Aurora PostgreSQL cluster monitoring experience been reworked and improved. The cluster overview page will now show detailed metrics about the cluster's DB instances, as well as cluster events, alongside aggregation of query performance metrics. The dashboard will show a single card for the cluster, with navigation to instances available inside the overview page. Additionally, clusters with auto-monitoring of instances enabled will now automatically monitor writer instances as well as readers. Auto-monitoring can be enabled when adding an Aurora PostgreSQL cluster, or when editing its credentials.</li></ul><b>Improvements</b><ul><li>Individual query execution monitoring is now available for Azure SQL Database, Azure SQL Managed Instance, and Google Cloud SQL for SQL Server. See https://www.red-gate.com/monitor14/individual-query-executions for details.</li><li>The Virtual Machines machine details panel has been replaced with a full-screen modal.</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where the service status of SQL Server 2025 Integration Services was not collected. Power BI Report Server, which replaces Reporting Services from SQL Server 2025, is now also monitored.</li><li>Fixed an issue where selecting from the instance dropdown while viewing some Server overview tabs could reset the view back to the History tab.</li><li>Fixed an issue on the Analysis page where Availability Group and Availability Group Replica never had their own row persisted to Postgres/TimescaleDB.</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.6.2 — 21 July 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.6.2:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:10.18.1:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Tue, 24 Sep 2024 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed the issue that 'Check' command should throw an Exception if current environment and build environment are the same</li><li>Issue 3812 Fixed the bug that Flyway failed to load Callbacks which are configured as a 'classpath'</li><li>Issue 3812 Fixed the bug that Flyway failed to load Callbacks from default path 'db/callback'</li></ul><b>Improvements</b><ul><li>Update Parser createStatement method signature</li><li>Retire usage of https://nexus.flywaydb.org</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 10.18.0 — 12 September 2024</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:10.18.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Thu, 12 Sep 2024 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Issue 3915 Fixed an issue that could cause Flyway to hang when a database connection is unavailable and there are a large number of pending migrations</li></ul><b>Improvements</b><ul><li>cleanOnValidationError is now deprecated</li><li>Updated snowflake driver to 3.14.3</li></ul><b>New Features</b><ul><li>Flyway now supports setting personal access token (PAT) through API</li><li>Added a warning message if 'group' parameter is enabled for databases which don't support DDL transactions</li></ul>]]></description>
   </item>
   </channel>
 </rss>
