@@ -3620,8 +3620,13 @@
 ---PRODUCT---
 # TDM — Anonymize
 <!-- source: https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes -->
-<!-- fetched: 2026-06-30 | latest: 2.4.8.2699 (30 June 2026) -->
+<!-- fetched: 2026-07-23 | latest: 2.4.10.2787 (23 July 2026) -->
 <!-- fetched: 2026-04-04 | latest: 1.0.3.1787 (16 January 2024) 
+## 2.4.10.2787 — 23 July 2026
+
+### Bug Fixes
+- Fixed an issue where certain characters in table and/or trigger names caused masking to fail.
+
 ## 2.4.8.2699 — 30 June 2026
 
 ### Improvements
