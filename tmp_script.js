@@ -12,7 +12,6 @@ if(window.location.protocol === 'file:'){
 
 /* ═══════════════════════════════════════════
    PRODUCTS
-   TDM: multiple named sub-pages, each tagged
 ═══════════════════════════════════════════ */
 const PRODUCTS_DEF = [
   { id:'flyway-desktop', name:'Flyway Desktop',  abbr:'FD',  color:'#E66C1E', bg:'rgba(230,108,30,0.14)',
@@ -23,17 +22,6 @@ const PRODUCTS_DEF = [
 
   { id:'monitor', name:'Redgate Monitor', abbr:'MON', color:'#F59E0B', bg:'rgba(245,158,11,0.14)',
     urls:[{url:'https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html'}] },
-
-  // TDM: each sub-page gets a label badge (Subsetter / Anonymize / GUI / Workflows)
-  { id:'tdm', name:'Test Data Manager',   abbr:'TDM', color:'#06B6D4', bg:'rgba(6,182,212,0.14)',
-    urls:[
-      // Sub-pages only — the main page just has navigation links, not real release notes
-      { url:'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes',                       label:'Subsetter' },
-      { url:'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes',                    label:'Anonymize' },
-      { url:'https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes',                                      label:'GUI' },
-      { url:'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/using-workflows-rgworkflow/workflows-release-notes',       label:'Workflows' },
-    ]
-  },
 
   { id:'clone',   name:'SQL Clone',       abbr:'CLN', color:'#EC4899', bg:'rgba(236,72,153,0.14)',
     urls:[{url:'https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes'}] },
@@ -72,7 +60,6 @@ let latestDate = {};
 let releases   = {};   // id -> [{version,date,changes,summary,docsUrl}]
 let errors     = {};
 let upToDate   = {};   // id -> true when last check found no new versions
-let tdmSubVersions = {}; // url -> latest version string for TDM sub-pages
 let busy       = false;
 let dragId     = null;
 
@@ -393,147 +380,17 @@ async function fetchOneTab(id,e){
   setSyncLabel();
 }
 
-// Refresh a single TDM sub-page and re-merge all TDM data
-async function fetchTdmSub(url, label, e){
-  if(e) e.stopPropagation();
-  const prod = PRODUCTS_DEF.find(p=>p.id==='tdm');
-  if(!prod) return;
-
-  // Mark the entry being refreshed (highlight the button briefly)
-  setSt('tdm', 'fetching');
-  renderTabBar(); renderFeed();
-
-  try{
-    const md  = await fetchFresh(url);
-    const rels = parseContent(md, prod, url);
-    // Tag the new items with their sub-label
-    rels.forEach(r=>{ r.changes.forEach(c=>{ c.subLabel = label === 'TDM GUI' ? 'GUI' : label; }); });
-    // Store keyed by URL so we can replace just this sub-page's data
-    if(!window._tdmSubData) window._tdmSubData = {};
-    window._tdmSubData[url] = rels;
-    // Update latest version for this sub-page
-    if(rels.length) tdmSubVersions[url] = rels[0].version;
-  } catch(err){
-    console.warn('TDM sub fetch error:', err.message);
-  }
-
-  // Re-merge all cached sub-pages
-  const tdmProd = PRODUCTS_DEF.find(p=>p.id==='tdm');
-  const allRels = [];
-  for(const entry of tdmProd.urls){
-    const cached = window._tdmSubData?.[entry.url];
-    if(cached) allRels.push(...cached);
-  }
-
-  if(allRels.length > 0){
-    // Re-run the TDM date-merge logic (same as doFetch)
-    const TYPE_PRIORITY = {breaking:0,feature:1,fix:2,improvement:3};
-    const MONTHS_MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,
-      august:8,september:9,october:10,november:11,december:12,
-      jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
-    const dateToNum = dateStr => {
-      if(!dateStr) return 0;
-      const normalized = dateStr.trim();
-      const m1 = normalized.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
-      if(m1){const mn=MONTHS_MAP[m1[2].toLowerCase()];if(mn)return parseInt(m1[3])*10000+mn*100+parseInt(m1[1]);}
-      const m2 = normalized.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
-      if(m2){const mn=MONTHS_MAP[m2[1].toLowerCase()];if(mn)return parseInt(m2[3])*10000+mn*100+parseInt(m2[2]);}
-      const m3 = normalized.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
-      if(m3)return parseInt(m3[1])*10000+parseInt(m3[2])*100+parseInt(m3[3]);
-      return 0;
-    };
-    const numToDisplay={};
-    const flat=[];
-    allRels.forEach(r=>{
-      const num=dateToNum(r.date);
-      const key=num||r.date||'Recent';
-      if(num&&!numToDisplay[num])numToDisplay[num]=r.date;
-      r.changes.forEach(c=>flat.push({...c,_key:key,_docsUrl:r.docsUrl}));
-    });
-    const byKey={},keyOrder=[];
-    flat.forEach(c=>{
-      const k=c._key;
-      if(!byKey[k]){byKey[k]=[];keyOrder.push(k);}
-      if(!byKey[k].some(x=>x.text===c.text))byKey[k].push(c);
-    });
-    keyOrder.forEach(k=>byKey[k].sort((a,b)=>(TYPE_PRIORITY[a.type]??5)-(TYPE_PRIORITY[b.type]??5)));
-    keyOrder.sort((a,b)=>{const na=typeof a==='number'?a:dateToNum(String(a));const nb=typeof b==='number'?b:dateToNum(String(b));return nb-na;});
-    const tdmMerged=keyOrder.filter(k=>byKey[k].length>0).map(k=>{
-      const display=numToDisplay[k]||String(k);
-      return{id:'tdm_'+String(k),productId:'tdm',product:tdmProd,version:display,date:display,changes:byKey[k],docsUrl:tdmProd.urls[0]?.url||tdmProd.urls[0],summary:makeSummary(byKey[k])};
-    });
-    releases['tdm']=tdmMerged;
-    latestVer['tdm']='';
-    latestDate['tdm']=tdmMerged[0]?.date||'';
-    setProductSnapshot('tdm', latestDate['tdm'], latestVer['tdm'], tdmMerged);
-  }
-
-  setSt('tdm','done');
-  setSyncLabel();
-  renderTabBar(); renderFeed();
-}
-
 /* Apply pre-parsed entries to in-memory state (shared by page load and refresh paths). */
 function applyDbEntries(prod, entries){
   const allRels = [];
   for(const entry of entries){
     const changes = (entry.changes||[]).slice();
-    if(prod.id==='tdm' && entry.sourceUrl){
-      const label = entry.sourceUrl.includes('subsetter') ? 'Subsetter'
-                  : entry.sourceUrl.includes('anonymize') ? 'Anonymize'
-                  : entry.sourceUrl.includes('gui')       ? 'GUI'
-                  : entry.sourceUrl.includes('workflows') ? 'Workflows' : '';
-      if(label) changes.forEach(c=>c.subLabel = label);
-    }
     allRels.push({ version: entry.version, date: entry.date, changes, docsUrl: entry.docsUrl, product: prod, sourceUrl: entry.sourceUrl });
   }
 
   if(!allRels.length) return;
 
-  // Track latest version per TDM sub-page URL (entries arrive newest-first)
-  if(prod.id==='tdm'){
-    for(const r of allRels){
-      if(r.sourceUrl && r.version && !tdmSubVersions[r.sourceUrl]){
-        tdmSubVersions[r.sourceUrl] = r.version;
-      }
-    }
-  }
-
   const TYPE_PRIORITY = {breaking:0,feature:1,fix:2,improvement:3};
-
-  if(prod.id==='tdm'){
-    const MONTHS_MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,jan:1,feb:2,mar:3,apr:4,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
-    const dateToNum = dateStr => {
-      if(!dateStr) return 0;
-      const s = dateStr.trim();
-      const m1 = s.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
-      if(m1){ const mn=MONTHS_MAP[m1[2].toLowerCase()]; if(mn) return parseInt(m1[3])*10000+mn*100+parseInt(m1[1]); }
-      const m2 = s.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
-      if(m2){ const mn=MONTHS_MAP[m2[1].toLowerCase()]; if(mn) return parseInt(m2[3])*10000+mn*100+parseInt(m2[2]); }
-      const m3 = s.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
-      if(m3) return parseInt(m3[1])*10000+parseInt(m3[2])*100+parseInt(m3[3]);
-      return 0;
-    };
-    const numToDisplay={}, flat=[];
-    allRels.forEach(r=>{
-      const num=dateToNum(r.date), key=num||r.date||'Recent';
-      if(num&&!numToDisplay[num]) numToDisplay[num]=r.date;
-      r.changes.forEach(c=>flat.push({...c,_key:key,_docsUrl:r.docsUrl}));
-    });
-    const byKey={}, keyOrder=[];
-    flat.forEach(c=>{ const k=c._key; if(!byKey[k]){byKey[k]=[];keyOrder.push(k);} if(!byKey[k].some(x=>x.text===c.text)) byKey[k].push(c); });
-    keyOrder.forEach(k=>byKey[k].sort((a,b)=>(TYPE_PRIORITY[a.type]??5)-(TYPE_PRIORITY[b.type]??5)));
-    keyOrder.sort((a,b)=>{ const na=typeof a==='number'?a:dateToNum(String(a)); const nb=typeof b==='number'?b:dateToNum(String(b)); return nb-na; });
-    const tdmMerged = keyOrder.filter(k=>byKey[k].length>0).map(k=>({
-      id:'tdm_'+String(k), productId:'tdm', product:prod,
-      version: numToDisplay[k]||String(k), date: numToDisplay[k]||String(k),
-      changes: byKey[k], docsUrl: prod.urls[0]||'', summary: makeSummary(byKey[k])
-    }));
-    releases[prod.id]=tdmMerged; latestVer[prod.id]=''; latestDate[prod.id]=tdmMerged[0]?.date||'';
-    setProductSnapshot(prod.id, latestDate[prod.id], latestVer[prod.id], tdmMerged);
-    setSt(prod.id,'done');
-    return;
-  }
 
   const byVer={}, verOrder=[];
   allRels.forEach(r=>{
@@ -636,10 +493,6 @@ async function doFetchRemote(prod){
         });
         allRels.push(...rel);
         setUrlCache(url,prod.id,JSON.stringify(rel),fetchedHash);
-        if(prod.id==='tdm'){
-          if(!window._tdmSubData) window._tdmSubData={};
-          window._tdmSubData[url]=rel;
-        }
       }
     } catch(e){
       if(urlCache && urlCache.body){
@@ -664,98 +517,6 @@ async function doFetchRemote(prod){
   }
 
   const TYPE_PRIORITY = {breaking:0,feature:1,fix:2,improvement:3};
-
-  // ── TDM: merge ALL sub-pages into one unified list ──────────────────────────
-  // Sub-pages (Subsetter, Anonymize, GUI, Workflows) have independent version
-  // numbers and release on different days, so we group by a NUMERIC date key
-  // to ensure "12 March 2026" and "March 12, 2026" land in the same bucket.
-  if(prod.id === 'tdm'){
-
-    // Convert any date string → canonical YYYYMMDD integer for reliable grouping
-    const MONTHS_MAP = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,
-      august:8,september:9,october:10,november:11,december:12,
-      jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
-
-    const dateToNum = dateStr => {
-      if(!dateStr) return 0;
-      const normalized = dateStr.trim();
-      // "14 March 2026"
-      const m1 = normalized.match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/i);
-      if(m1){ const mn=MONTHS_MAP[m1[2].toLowerCase()]; if(mn) return parseInt(m1[3])*10000+mn*100+parseInt(m1[1]); }
-      // "March 14, 2026" or "March 14 2026"
-      const m2 = normalized.match(/([a-z]+)\s+(\d{1,2})[,\s]+(\d{4})/i);
-      if(m2){ const mn=MONTHS_MAP[m2[1].toLowerCase()]; if(mn) return parseInt(m2[3])*10000+mn*100+parseInt(m2[2]); }
-      // ISO 2026-03-14
-      const m3 = normalized.match(/(\d{4})[-\/](\d{2})[-\/](\d{2})/);
-      if(m3) return parseInt(m3[1])*10000+parseInt(m3[2])*100+parseInt(m3[3]);
-      return 0;
-    };
-
-    // Canonical display date from a numeric key + original string
-    // (we keep the first human-readable form we see for that numeric key)
-    const numToDisplay = {};
-
-    // Flatten all changes from every sub-page release
-    const flat = [];
-    allRels.forEach(r=>{
-      const num = dateToNum(r.date);
-      const key = num || r.date || 'Recent';
-      // Store first readable form of this date
-      if(num && !numToDisplay[num]) numToDisplay[num] = r.date;
-      r.changes.forEach(c=>{
-        flat.push({ ...c, _key: key, _docsUrl: r.docsUrl });
-      });
-    });
-
-    // Group by numeric-or-string key
-    const byKey = {}, keyOrder = [];
-    flat.forEach(c=>{
-      const k = c._key;
-      if(!byKey[k]){ byKey[k]=[]; keyOrder.push(k); }
-      // Dedup by exact text within the same date bucket
-      if(!byKey[k].some(x=>x.text===c.text)) byKey[k].push(c);
-    });
-
-    // Sort each bucket: Breaking → New → Fix → Improved
-    keyOrder.forEach(k=>{
-      byKey[k].sort((a,b)=>(TYPE_PRIORITY[a.type]??5)-(TYPE_PRIORITY[b.type]??5));
-    });
-
-    // Sort date keys newest first
-    keyOrder.sort((a,b)=>{
-      const na = typeof a==='number' ? a : dateToNum(String(a));
-      const nb = typeof b==='number' ? b : dateToNum(String(b));
-      return nb - na;
-    });
-
-    // Build one release record per date — using the human-readable date as both
-    // the version label and the date field so the UI shows it cleanly
-    const tdmMerged = keyOrder
-      .filter(k=>byKey[k].length>0)
-      .map(k=>{
-        const display = numToDisplay[k] || String(k);
-        return {
-          id: 'tdm_'+String(k),
-          productId:'tdm', product:prod,
-          version: display,   // shown as the release "version" in the UI
-          date: display,
-          changes: byKey[k],
-          docsUrl: prod.urls[0]?.url||prod.urls[0],
-          summary: makeSummary(byKey[k])
-        };
-      });
-
-    if(!tdmMerged.length){
-      errors[prod.id]='No release notes found across TDM sub-pages.';
-      setSt(prod.id,'err'); return;
-    }
-
-    releases[prod.id]  = tdmMerged;
-    latestVer[prod.id] = '';            // TDM has no single version number
-    latestDate[prod.id]= tdmMerged[0].date||'';
-    setSt(prod.id,'done');
-    return;
-  }
 
   // ── ALL OTHER PRODUCTS: standard version-based merge ──────────────────────
   const byVer = {}, verOrder = [];
@@ -967,19 +728,6 @@ const GLOBAL_IGNORE = [
   /\bv?\d+\.\d+[\d.]*-rc\d+/i,
 ];
 
-// TDM sub-page nav labels — bullets on the main TDM page that are just links
-// TO sub-pages rather than actual change descriptions.
-const TDM_NAV_LABELS = ['TDM GUI','GUI','Subsetter','Anonymize','Workflows','Component'];
-function isTdmNavLink(text){
-  // Matches items like "TDM GUI", "Subsetter", "[GUI](url)", "Component" that
-  // are navigation pointers to sub-pages, not actual release note entries.
-  const t = text.trim();
-  if(TDM_NAV_LABELS.some(l => t.toLowerCase()===l.toLowerCase())) return true;
-  // Raw markdown link not cleaned: [Label](url)
-  if(/^\[?(TDM GUI|GUI|Subsetter|Anonymize|Workflows|Component)\]?(?:\(https?:\/\/[^)]+\))?$/i.test(t)) return true;
-  return false;
-}
-
 const SQLPROMPT_IGNORE = [
   /^v?\d+\.\d+[\d.]*$/,  // bare version numbers like "11.3.9.22706"
 ];
@@ -1093,7 +841,7 @@ function parseContent(text, prod, sourceUrl){
         text+=` ${cleanMd(next)}`;
         i++;
       }
-      if(text.length>4&&text.length<1000&&!isIgnored(text,prod?.id)&&!isTdmNavLink(text)){
+      if(text.length>4&&text.length<1000&&!isIgnored(text,prod?.id)){
         cur.changes.push({type:classifyCtx(text,curSec),text});
       }
       continue;
@@ -1113,7 +861,7 @@ function parseContent(text, prod, sourceUrl){
     // ── PLAIN LINES (fallback) ──
     if(line.length>14&&line.length<500&&!line.startsWith('#')){
       const clean=cleanMd(line);
-      if(clean.length>10&&!isIgnored(clean)&&!isTdmNavLink(clean)&&/\b(add(ed|s|ing)?|fix(ed|es|ing)?|remov(ed|es|ing)?|improv(ed|es|ing)?|updat(ed|es|ing)?|support(s|ed|ing)?|enabl(ed|es|ing)?|resolv(ed|es|ing)?|deprecat(ed|es|ing)?|introduc(ed|es|ing)?|allow(s|ed|ing)?|replac(ed|es|ing)?|creat(ed|es|ing)?|chang(ed|es|ing)?|migrat(ed|es|ing)?|implement(ed|s|ing)?|now\s+support|no longer)/i.test(clean)){
+      if(clean.length>10&&!isIgnored(clean)&&/\b(add(ed|s|ing)?|fix(ed|es|ing)?|remov(ed|es|ing)?|improv(ed|es|ing)?|updat(ed|es|ing)?|support(s|ed|ing)?|enabl(ed|es|ing)?|resolv(ed|es|ing)?|deprecat(ed|es|ing)?|introduc(ed|es|ing)?|allow(s|ed|ing)?|replac(ed|es|ing)?|creat(ed|es|ing)?|chang(ed|es|ing)?|migrat(ed|es|ing)?|implement(ed|s|ing)?|now\s+support|no longer)/i.test(clean)){
         cur.changes.push({type:classifyCtx(clean,curSec),text:clean});
       }
     }
@@ -1382,23 +1130,6 @@ function buildQ1HTML(allData, productName){
     bullets.push(topFeat ? `"${topFeat.text}" is worth a specific mention in accounts that have experienced data discrepancy issues post-deployment. It shows the tool is being hardened for production scenarios, not just maintained.` : `Data Compare is often used as an investigative tool after something goes wrong. Its higher value is as a preventive gate in a deployment pipeline — make sure accounts know it can run automated, not just manually triggered.`);
   }
 
-  else if(productName === 'Test Data Manager'){
-    const entraMode  = topThemes.some(t => /entra|azure ad|rbac/i.test(t));
-    const dockerMode = topThemes.some(t => /docker|container/i.test(t));
-    if((entraMode || dockerMode) && topFeat){
-      const infra = [entraMode && 'Entra ID authentication', dockerMode && 'Docker container delivery'].filter(Boolean).join(' and ');
-      summary = `Test Data Manager is doing the infrastructure work that moves it past the "great in theory, can't deploy it here" objection. ${infra} ${entraMode && dockerMode ? 'together remove' : 'removes'} some of the most common deployment blockers for enterprise IT teams. "${topFeat.text}" is the specific capability that shifts a conversation from "we evaluated TDM" to "we're running TDM in our compliance pipeline." For GDPR and data protection conversations, removing the deployment and auth friction is what turns a pilot into a programme.${breakingNote}`;
-      bullets.push(entraMode ? `Accounts with centralised identity governance — financial services, healthcare, any org running Entra ID as their standard — now have a clean answer to "does TDM support our auth model?" Update your account notes; that objection no longer holds.` : `Platform teams that run everything in containers have historically faced friction with TDM deployment. The Docker delivery removes that entirely. Re-engage any account that deprioritised TDM for infrastructure reasons.`);
-      bullets.push(`Multi-target anonymization matters for teams maintaining dev, QA, UAT, and staging simultaneously. Pushing anonymized data to all targets in one pipeline step rather than managing them separately is the operational difference between TDM as a utility and TDM as infrastructure.`);
-      bullets.push(`"${topFeat.text}" is what you reference when an account says TDM couldn't fit their environment. The deployment and auth blockers have been addressed — what was true six months ago may not be true now.`);
-    } else {
-      summary = `${topFeat ? `"${topFeat.text}"` : 'This cycle'} ${topFeat ? 'is' : 'reflects'} Test Data Manager getting faster to configure and easier to trust at scale. For accounts where test data provisioning is currently manual, missing, or a compliance risk, TDM's value is easy to demonstrate — the question is almost always about deployment fit, not whether the problem is real. Every organisation testing with production data has the problem. Not all of them know there's a clean solution for it.${breakingNote}`;
-      bullets.push(`Compliance-sensitive accounts — GDPR, HIPAA, financial services — are the most motivated audience. The cost of not having a test data strategy isn't abstract; it's regulatory exposure and the operational cost of managing who can access production data for testing.`);
-      bullets.push(`Ask what data is currently sitting in their non-production environments. If the honest answer is "a copy of production," the TDM conversation writes itself from there.`);
-      bullets.push(topFeat ? `"${topFeat.text}" is worth referencing with accounts that cited configuration complexity as the reason they didn't proceed. This cycle shows the team is actively reducing that barrier.` : `The pipeline improvements this cycle make TDM more suitable for scheduled or event-driven anonymization, not just one-off tooling. That shift — from utility to infrastructure — is what drives enterprise deal sizes.`);
-    }
-  }
-
   else {
     // ── GENERIC / ALL PRODUCTS ─────────────────────────────────────────────────
     const coreOrder = ['sql server', 'oracle', 'postgres', 'mysql'];
@@ -1597,7 +1328,7 @@ function renderFeed(){
       <div class="controls">
           <select id="filterProd" onchange="renderRoadmap()">
           <option value="">All products</option>
-          <option>Monitor</option><option>Flyway</option><option>TDM</option><option>Productivity</option>
+          <option>Monitor</option><option>Flyway</option><option>Productivity</option>
         </select>
         <select id="filterPhase" onchange="renderRoadmap()">
           <option value="">All phases</option>
@@ -1627,29 +1358,14 @@ function renderFeed(){
     const ver=latestVer[p?.id]||'';
     const dt =latestDate[p?.id]||'';
 
-    // Product header — TDM gets per-sub-section refresh buttons; others get a single refresh
-    const isTdmPage = activeTab === 'tdm';
-    const tdmSubs = isTdmPage ? [
-      { label:'Subsetter',  url:'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes' },
-      { label:'Anonymize',  url:'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes' },
-      { label:'TDM GUI',    url:'https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes' },
-      { label:'Workflows',  url:'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/using-workflows-rgworkflow/workflows-release-notes' },
-    ] : [];
-    const tdmSubButtons = tdmSubs.map(s=>{
-      const subVer = tdmSubVersions[s.url] ? ` v${tdmSubVersions[s.url]}` : '';
-      return `<div style="display:flex;gap:2px">
-        <button class="btn btn-ghost" style="font-size:10px;padding:4px 9px" onclick="fetchTdmSub('${s.url}','${s.label}',event)">↻ ${s.label}${subVer}</button>
-        <a href="${s.url}" target="_blank" class="btn btn-ghost" style="font-size:10px;padding:4px 6px" title="Open ${s.label} docs">↗ Docs</a>
-      </div>`;
-    }).join('');
     html+=`<div class="prod-page-hdr" style="flex-wrap:wrap;gap:8px">
       <div class="prod-page-icon" style="background:${p?.bg};color:${p?.color}">${p?.abbr}</div>
       <div class="prod-page-name">${p?.name||''}</div>
-      ${!isTdmPage&&ver?`<div class="prod-page-ver">v${esc(ver)}</div>`:''}
-      ${!isTdmPage&&dt?`<div class="prod-page-date">${esc(dt)}</div>`:''}
+      ${ver?`<div class="prod-page-ver">v${esc(ver)}</div>`:''}
+      ${dt?`<div class="prod-page-date">${esc(dt)}</div>`:''}
       <div style="margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-        ${isTdmPage ? tdmSubButtons : `<button class="btn btn-ghost" onclick="fetchOneTab('${activeTab}',event)" style="font-size:11px;padding:5px 11px">↻ Refresh</button>`}
-        ${!isTdmPage ? `<a href="${p?.urls[0]?.url||p?.urls[0]||'#'}" target="_blank" class="btn btn-ghost" style="font-size:11px;padding:5px 11px">↗ Docs</a>` : ''}
+        <button class="btn btn-ghost" onclick="fetchOneTab('${activeTab}',event)" style="font-size:11px;padding:5px 11px">↻ Refresh</button>
+        <a href="${p?.urls[0]?.url||p?.urls[0]||'#'}" target="_blank" class="btn btn-ghost" style="font-size:11px;padding:5px 11px">↗ Docs</a>
       </div>
     </div>`;
 
@@ -1669,15 +1385,9 @@ function renderFeed(){
 
     verOrder.forEach((ver,vi)=>{
       const {rel,items}=byVer[ver];
-      // TDM: "version" field IS the date string — show as date heading, not version pill
-      // Other products: show version pill + date label
-      const isTdm = activeTab==='tdm';
       html+=`<div class="ver-block" style="animation:fadeUp .2s ease ${vi*40}ms both">
         <div class="ver-hdr">
-          ${isTdm
-            ? `<span class="ver-date" style="font-size:13px;font-weight:600;color:var(--t1);font-family:'Syne',sans-serif">${esc(rel.date||rel.version)}</span>`
-            : `<span class="ver-pill">v${esc(rel.version)}</span>${rel.date?`<span class="ver-date">${esc(rel.date)}</span>`:''}`
-          }
+          <span class="ver-pill">v${esc(rel.version)}</span>${rel.date?`<span class="ver-date">${esc(rel.date)}</span>`:''}
           <a href="${rel.docsUrl||p?.urls[0]?.url||'#'}" target="_blank" class="ver-docslink">↗ full notes</a>
         </div>
         <div class="change-list">${items.map(c=>changeRow(c)).join('')}</div>
@@ -1815,18 +1525,11 @@ function renderDocsDiffView(){
 
 function changeRow(c){
   const typeTag = `<span class="ctag ${CTAG[c.type]||'ctag-improvement'}">${CLABEL[c.type]||c.type}</span>`;
-  // Only show a sub-area badge for TDM component labels — not for Enterprise or Security
-  const TDM_SUB_LABELS = new Set(['Subsetter','Anonymize','GUI','Workflows']);
-  const showSub = c.subLabel && TDM_SUB_LABELS.has(c.subLabel);
-  const subBadgeLabel = c.subLabel === 'GUI' ? 'TDM GUI' : (c.subLabel||'');
-  const subBadge = showSub
-    ? `<span class="sub-badge sub-badge-${c.subLabel}">${esc(subBadgeLabel)}</span>`
-    : '';
   const enterpriseBadge = (c.productId === 'monitor' && /\benterprise\b/i.test(c.text))
     ? `<span class="sub-badge sub-badge-Enterprise">Enterprise</span>`
     : '';
   return `<div class="change-item">
-    <div class="ctag-col">${typeTag}${subBadge}${enterpriseBadge}</div>
+    <div class="ctag-col">${typeTag}${enterpriseBadge}</div>
     <span class="change-text">${esc(c.text)}</span>
   </div>`;
 }
@@ -1870,7 +1573,7 @@ function refreshSummary(btn){
 }
 
 function clearAll(){
-  releases={}; errors={}; statuses={}; latestVer={}; latestDate={}; upToDate={}; tdmSubVersions={};
+  releases={}; errors={}; statuses={}; latestVer={}; latestDate={}; upToDate={};
   activeTab='all';
   document.getElementById('sync-lbl').textContent='Not synced';
   document.getElementById('prog-fill').style.width='0%';
@@ -1898,14 +1601,6 @@ const ITEMS = [
   {id:12, product:"Flyway", phase:"Developing", item:"Oracle expansion — vector types, APEX, rerunnable scripts, capitalized synonyms"},
   {id:13, product:"Flyway", phase:"Developing", item:"Filter UI for PostgreSQL multi-rule and cross-type object filtering"},
   {id:14, product:"Flyway", phase:"Researching", item:"Performance impact analysis"},
-  // TDM: Entra ID auth and Docker container delivery shipped 2026
-  {id:15, product:"TDM", phase:"Developing", item:"AI classification – faster setup, broader PII coverage"},
-  {id:16, product:"TDM", phase:"Developing", item:"Simplified masking configuration & customization"},
-  {id:17, product:"TDM", phase:"Developing", item:"PG Aurora support"},
-  {id:18, product:"TDM", phase:"Developing", item:"Multi-target anonymization pipelines"},
-  {id:19, product:"TDM", phase:"Developing", item:"Entra ID authentication and container-first delivery (Docker)"},
-  {id:20, product:"TDM", phase:"Researching", item:"Automated audit-ready compliance reports"},
-  {id:21, product:"TDM", phase:"Researching", item:"RBAC — control who can access and transform sensitive data"},
   // Productivity: ADS support ending June 30 2026 is a known breaking transition
   {id:22, product:"Productivity", phase:"Developing", item:"AI Code Completion (SQL Prompt)"},
   {id:23, product:"Productivity", phase:"Developing", item:"Redgate Assistant (SQL Prompt)"},
@@ -1928,7 +1623,7 @@ function setRoadmapSort(col){
   renderRoadmap();
 }
 
-const prodColor = { Monitor:"monitor", Flyway:"flyway", TDM:"tdm", Productivity:"prod" };
+const prodColor = { Monitor:"monitor", Flyway:"flyway", Productivity:"prod" };
 const phaseColor = { Developing:"dev", Researching:"res" };
 const pctColor = p => p === 100 ? "#639922" : p >= 50 ? "#185FA5" : p > 0 ? "#BA7517" : "#B4B2A9";
 const typeWeight = { breaking: 5, security: 4, feature: 3, fix: 2, improvement: 1 };
@@ -2033,7 +1728,6 @@ function mapReleasesToRoadmap(allData) {
 const ROADMAP_PROD_FILTER = {
   'Flyway':       p => p.includes('Flyway'),
   'Productivity': p => p === 'SQL Prompt' || p === 'SQL Compare' || p === 'SQL Data Compare',
-  'TDM':          p => p.includes('Test Data Manager'),
   'Monitor':      p => p.includes('Monitor'),
 };
 

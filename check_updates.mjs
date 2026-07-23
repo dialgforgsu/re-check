@@ -17,12 +17,6 @@ export const PRODUCTS_DEF = [
   { id:'sqlprompt',      name:'SQL Prompt',        urls:['https://documentation.red-gate.com/sp/release-notes-and-other-versions/sql-prompt-11-3-release-notes'] },
   { id:'sqlcmp',         name:'SQL Compare',       urls:['https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes'] },
   { id:'sqldcmp',        name:'SQL Data Compare',  urls:['https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes'] },
-  { id:'tdm',            name:'Test Data Manager', urls:[
-    'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/subsetting/subsetter-release-notes',
-    'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/anonymization/anonymize-release-notes',
-    'https://documentation.red-gate.com/testdatamanager/graphical-user-interface-gui/gui-release-notes',
-    'https://documentation.red-gate.com/testdatamanager/command-line-interface-cli/using-workflows-rgworkflow/workflows-release-notes',
-  ]},
 ];
 
 const URL_TO_PRODUCT = {};

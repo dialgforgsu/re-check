@@ -13,7 +13,7 @@ A sales-focused summary layer built on top of the structured release data. Each 
 Summaries are not AI-generated. They are pattern-matched and rendered from pre-written, product-specific copy:
 
 - Jina Reader fetches and parses each product's release page, detecting which features are present in the loaded changes.
-- Each product has a set of predefined copy blocks written for specific feature signals — for example, Flyway Desktop branches on Oracle vs. CI/CD, Monitor branches on cloud FinOps vs. AI alerting vs. coverage depth, SQL Prompt surfaces the ADS end-of-life signal when breaking changes are detected, Test Data Manager routes on Entra ID and Docker shipping vs. the general compliance story.
+- Each product has a set of predefined copy blocks written for specific feature signals — for example, Flyway Desktop branches on Oracle vs. CI/CD, Monitor branches on cloud FinOps vs. AI alerting vs. coverage depth, SQL Prompt surfaces the ADS end-of-life signal when breaking changes are detected.
 - The matching copy is assembled into a paragraph that describes what the team is shipping, why it matters to customers, and what the conversation angle is.
 - Three "Next Quarter Outlook" bullets are appended, tailored to the product's buyer and the accounts most likely to care.
 
