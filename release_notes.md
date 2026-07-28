@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-07-21 | latest: 9.6.2 (21 July 2026) -->
+<!-- fetched: 2026-07-28 | latest: 9.6.3 (28 July 2026) -->
 
 #
+## 9.6.3 — 28 July 2026
+
+### New Features
+- Added support for Databricks Lakebase as a distinct database type; the existing Databricks database type has been renamed to Databricks Lakehouse (Unity Catalog)
+
 ## 9.6.2 — 21 July 2026
 
 ### New Features

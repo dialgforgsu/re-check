@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.6.3 — 28 July 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.6.3:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Tue, 28 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Added support for Databricks Lakebase as a distinct database type; the existing Databricks database type has been renamed to Databricks Lakehouse (Unity Catalog)</li></ul>]]></description>
+  </item>
+  <item>
     <title>Redgate Monitor 14.26.0 — July 22, 2026</title>
     <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
     <guid isPermaLink="false">monitor:14.26.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:10.18.2:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Thu, 26 Sep 2024 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>Resolved cascading failure when reporting results to Flyway Pipelines</li></ul><b>Bug Fixes</b><ul><li>Fix issue with createStatement override not being used in DB2 Z/OS</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 10.18.1 — 24 September 2024</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:10.18.1:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Tue, 24 Sep 2024 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed the issue that 'Check' command should throw an Exception if current environment and build environment are the same</li><li>Issue 3812 Fixed the bug that Flyway failed to load Callbacks which are configured as a 'classpath'</li><li>Issue 3812 Fixed the bug that Flyway failed to load Callbacks from default path 'db/callback'</li></ul><b>Improvements</b><ul><li>Update Parser createStatement method signature</li><li>Retire usage of https://nexus.flywaydb.org</li></ul>]]></description>
   </item>
   </channel>
 </rss>
