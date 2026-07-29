@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-07-28 | latest: 9.6.3 (28 July 2026) -->
+<!-- fetched: 2026-07-29 | latest: 9.6.4 (29 July 2026) -->
 
 #
+## 9.6.4 — 29 July 2026
+
+### Improvements
+- Notifications now stack up, and dismiss themselves after 20 seconds with a bar showing the time remaining. Errors still stay until you dismiss them
+
 ## 9.6.3 — 28 July 2026
 
 ### New Features
@@ -2193,7 +2198,24 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-07-22 | latest: 14.26.0 (July 22, 2026) -->
+<!-- fetched: 2026-07-29 | latest: 14.27.0 (July 29, 2026) -->
+## 14.27.0 — July 29, 2026
+
+### Improvements
+- Sensitive webhook notification headers, such as an Authorization header, are now masked in the notification settings UI and API instead of being shown in plaintext.
+
+### New Features
+- Added a new "Power BI Report Server status" alert, so Power BI Report Server (the successor to SQL Server Reporting Services from SQL Server 2025) can be alerted on independently from SQL Server Reporting Service.
+- A new Reports experience is now available, providing a more modern interface and improved layout. Click on the Try it out link on the Reports tab.
+- New alert type for IO stalls is now available for SQL Server and MySQL. This alert is raised when the average time an IO operation spends stalled waiting on storage exceeds a threshold for a sustained duration.
+- Read-only databases can now be included on the Estate > Backups page by enabling the new IncludeReadOnlyDatabasesInBackups setting in the repository database. They remain excluded by default.
+
+### Bug Fixes
+- Fixed an issue where testing an Oracle custom metric failed if the query took longer than 15 seconds, even though scheduled collection allows up to 300 seconds.
+- Fixed an issue where custom metric test collection stopped if the browser tab was in the background while the test ran, showing an error instead of the results on returning to the tab.
+- Fixed an issue where the Alert Summary report tile could intermittently fail to load data on estates with a large number of active monitored servers.
+- Fixed an issue where SQL Server configuration compliance data was collected for customers without an Enterprise license.
+
 ## 14.26.0 — July 22, 2026
 
 ### New Features

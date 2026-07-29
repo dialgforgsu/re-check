@@ -7,6 +7,20 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.6.4 — 29 July 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.6.4:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Wed, 29 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Notifications now stack up, and dismiss themselves after 20 seconds with a bar showing the time remaining. Errors still stay until you dismiss them</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Redgate Monitor 14.27.0 — July 29, 2026</title>
+    <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
+    <guid isPermaLink="false">monitor:14.27.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
+    <pubDate>Wed, 29 Jul 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Sensitive webhook notification headers, such as an Authorization header, are now masked in the notification settings UI and API instead of being shown in plaintext.</li></ul><b>New Features</b><ul><li>Added a new &quot;Power BI Report Server status&quot; alert, so Power BI Report Server (the successor to SQL Server Reporting Services from SQL Server 2025) can be alerted on independently from SQL Server Reporting Service.</li><li>A new Reports experience is now available, providing a more modern interface and improved layout. Click on the Try it out link on the Reports tab.</li><li>New alert type for IO stalls is now available for SQL Server and MySQL. This alert is raised when the average time an IO operation spends stalled waiting on storage exceeds a threshold for a sustained duration.</li><li>Read-only databases can now be included on the Estate &gt; Backups page by enabling the new IncludeReadOnlyDatabasesInBackups setting in the repository database. They remain excluded by default.</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where testing an Oracle custom metric failed if the query took longer than 15 seconds, even though scheduled collection allows up to 300 seconds.</li><li>Fixed an issue where custom metric test collection stopped if the browser tab was in the background while the test ran, showing an error instead of the results on returning to the tab.</li><li>Fixed an issue where the Alert Summary report tile could intermittently fail to load data on estates with a large number of active monitored servers.</li><li>Fixed an issue where SQL Server configuration compliance data was collected for customers without an Enterprise license.</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.6.3 — 28 July 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.6.3:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1391,20 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:10.20.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Wed, 16 Oct 2024 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Bug Fixes</b><ul><li>Fix a bug where error messages are produced when check -drift is run without setting deployedSnapshot</li><li>FLYWAY_PIPELINE_ID environment variable was previously broken but is now fixed</li></ul><b>Improvements</b><ul><li>The 'createSchema' callback is now deprecated and replaced by 'beforeCreateSchema'</li></ul><b>New Features</b><ul><li>Support PostgreSQL 17</li></ul><b>Security Fixes</b><ul><li>jetty-server 9.4.53.v20231009 to 9.4.56.v20240826 to fix CVE-2024-8184</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 10.19.0 — 3 October 2024</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:10.19.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Thu, 03 Oct 2024 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>Extracted FlywayMigrateException to its own class</li></ul><b>New Features</b><ul><li>Add support for DB2 ZOS</li><li>DB2 and Redshift now support AWS Secrets Manager</li><li>The following flyway commands are now available in preview: add, diff, diffApply, diffText and generate.</li></ul><b>Security Fixes</b><ul><li>Upgrade google-cloud-spanner-jdbc 2.18.1 to 2.22.1 to fix CVE-2024-7254</li><li>Upgrade google-cloud-secretmanager 2.20.0 to 2.51.0 to fix CVE-2024-7254</li><li>Upgrade google-cloud-storage version 2.22.5 to 2.43.1 to fix CVE-2024-7254</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 10.18.2 — 26 September 2024</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:10.18.2:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Thu, 26 Sep 2024 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>Resolved cascading failure when reporting results to Flyway Pipelines</li></ul><b>Bug Fixes</b><ul><li>Fix issue with createStatement override not being used in DB2 Z/OS</li></ul>]]></description>
   </item>
   </channel>
 </rss>
