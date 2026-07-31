@@ -259,7 +259,28 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-07-20 | latest: 13.0.0 (20 July 2026) -->
+<!-- fetched: 2026-07-31 | latest: 13.1.0 (30 July 2026) -->
+
+## 13.1.0 — 30 July 2026
+
+### Improvements
+- deploy command result now includes execution time in milliseconds
+- environments_<name>_<setting> and flyway_<setting> environment variables can now use any letter casing in their prefix, e.g. ENVIRONMENTS_PRODUCTION_PASSWORD
+- Databricks identifiers containing a backtick produced invalid SQL
+- Databricks migrations could fail at the unlock step with a Delta ConcurrentAppendException; the lock keepalive no longer races the unlock
+- Issue 4240 Log execution of Java callbacks, matching SQL/script callback logging
+- Upgraded jansi to use org.jline.jansi package
+- Upgraded RgCompare to 1.62.4.4998
+
+### New Features
+- Databricks Lakebase is now recognised as a supported PostgreSQL-derivative database type in public preview
+- snapshot history is now supported on Databricks
+
+### Bug Fixes
+- Issue 4259 Fixed afterConnect callback not being fired on the migration connection
+- Fixed an issue that prevented several after*OperationFinish SQL callback scripts (clean, validate, undo, repair, baseline) from ever running
+- Fixed an issue where the Docker provisioner for Oracle would immediately exit
+- Fixed dry run failing on Databricks with "Unable to switch connection to read-only" error
 
 ## 13.0.0 — 20 July 2026
 
