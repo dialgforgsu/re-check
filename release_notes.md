@@ -5,9 +5,18 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-07-29 | latest: 9.6.4 (29 July 2026) -->
+<!-- fetched: 2026-08-05 | latest: 9.6.5 (05 August 2026) -->
 
 #
+## 9.6.5 — 05 August 2026
+
+### New Features
+- New Automated deployment page is now available in public preview, it can be turned off via the Preview features menu
+
+### Improvements
+- The project settings dialog now asks for confirmation before closing if you have unsaved changes
+- The Backup and Create empty provisioners are no longer labelled as being in preview
+
 ## 9.6.4 — 29 July 2026
 
 ### Improvements
@@ -2219,7 +2228,34 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-07-29 | latest: 14.27.0 (July 29, 2026) -->
+<!-- fetched: 2026-08-05 | latest: 14.28.0 (August 5, 2026) -->
+## 14.28.0 — August 5, 2026
+
+### Improvements
+- Redgate Monitor can now run in a Docker container.
+- Redgate Assistant (RGA) (preview) is now available. See https://www.red-gate.com/monitor14/redgate-assistant for details.
+- MCP server (preview) is now available. See https://www.red-gate.com/monitor14/mcp-server for details.
+- Enterprise edition - Sensitive webhook notification headers are now masked in the Sensitive action log.
+- Improved SASL authentication handling when configuring an SMTP server for email notifications.
+- Alert notifications now include the value that triggered the alert and the threshold it crossed. For example, an email, Slack message or webhook for a Server waits alert now reads "Server waits reached 1.25 s/s (High threshold: 1 s/s)". For custom webhook templates, this text is available in the alertDetailText field.
+- Sorting the Alert Suppression Windows page by the Duration column now orders windows by their actual duration rather than alphabetically.
+- SaaS only - Sorting the Agents overview by the Last activity column now orders agents chronologically rather than alphabetically.
+
+### New Features
+- Enterprise edition - The SQL Server logon failure alert is now supported for Amazon RDS SQL Server instances.
+- Added an Instance Properties section to the Aurora PostgreSQL instance overview, showing key configuration details such as parameter group, size, and role.
+- Fixed an issue where refreshing the Analysis page after selecting one or more metrics could silently add an extra, unselected metric to the graph.
+
+### Bug Fixes
+- Fixed an issue where clicking an alert marker on the graph at the top of the Server overview page did not open the alert sidebar. The sidebar now opens showing the alert's details, or the list of alerts for a grouped marker.
+- Fixed an issue where a Logon failures report tile could crash the Base Monitor when targeting an entity that could not be resolved.
+- Fixed an issue where backup details supplied by Redgate SQL Backup, such as compression and encryption status, could be missing from the Backups page, most commonly for SQL Servers not running in UTC.
+- Fixed an issue introduced in 14.19 where Monitor ran more queries than necessary when collecting database size and space used from SQL Server instances. Offline databases on Amazon RDS and Azure Managed Instance are no longer sampled for size and space used, so they no longer log a collection error every minute.
+- Fixed an issue where SQL Server backups were not shown on the Estate > Backups page, and backup overdue alerts were raised incorrectly, when the database name recorded in the backup history differed in case from the actual database name.
+- Fixed an issue where server waits data was not collected from SQL Server instances whose database compatibility level was below 100.
+- Fixed an issue where some monitoring queries ran at the default deadlock priority rather than the lowest.
+- Fixed an issue where the blocking processes list on the Server overview omitted sessions depending on the selected time range.
+
 ## 14.27.0 — July 29, 2026
 
 ### Improvements
