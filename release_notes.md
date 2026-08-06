@@ -268,7 +268,28 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-07-31 | latest: 13.1.0 (30 July 2026) -->
+<!-- fetched: 2026-08-06 | latest: 13.2.0 (6 August 2026) -->
+
+## 13.2.0 — 6 August 2026
+
+### Improvements
+- JSON results with timestamps now include a UTC offset. Reports generated will not be compatible with previous versions of Flyway. API users relying on getTimestamp or setTimestamp will need to use OffsetDateTime instead
+- Flyway now warns when validate resolves no migrations from the configured locations but the schema history contains applied migrations
+- mcp server project load will no longer raise an error if a .conf project was detected in a default location outside of the project root
+- OSS no longer recognises the 'publishResult' or 'checkDriftOnMigrate' parameters which had no effect
+- Configuration details defined against a specific environment, such as a custom schema history table or default schema, were lost when Flyway switched to that environment
+- The Docker provisioner could not connect to Oracle 23 and later containers, failing with ORA-12514, because it requested the wrong pluggable database service
+- Upgraded adoptium/temurin25-binaries from 25.0.3+9 to 25.0.4+7
+- Upgraded RgCompare to 1.62.5.5071
+
+### New Features
+- CockroachDB is now provided as a standalone database module. API users targeting CockroachDB should include the new CockroachDB module instead of relying on the PostgreSQL module
+
+### Bug Fixes
+- Updated BouncyCastle to 1.85 to address a High severity Uncontrolled Recursion advisory
+
+### Security Fixes
+- Updated Oracle SQLcl in the Flyway Docker oracle image to 26.2.0.181.2110, resolving CVE-2026-68494 in jackson-core
 
 ## 13.1.0 — 30 July 2026
 

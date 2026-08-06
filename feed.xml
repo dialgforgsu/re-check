@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway CLI 13.2.0 — 6 August 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:13.2.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Thu, 06 Aug 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>JSON results with timestamps now include a UTC offset. Reports generated will not be compatible with previous versions of Flyway. API users relying on getTimestamp or setTimestamp will need to use OffsetDateTime instead</li><li>Flyway now warns when validate resolves no migrations from the configured locations but the schema history contains applied migrations</li><li>mcp server project load will no longer raise an error if a .conf project was detected in a default location outside of the project root</li><li>OSS no longer recognises the 'publishResult' or 'checkDriftOnMigrate' parameters which had no effect</li><li>Configuration details defined against a specific environment, such as a custom schema history table or default schema, were lost when Flyway switched to that environment</li><li>The Docker provisioner could not connect to Oracle 23 and later containers, failing with ORA-12514, because it requested the wrong pluggable database service</li><li>Upgraded adoptium/temurin25-binaries from 25.0.3+9 to 25.0.4+7</li><li>Upgraded RgCompare to 1.62.5.5071</li></ul><b>New Features</b><ul><li>CockroachDB is now provided as a standalone database module. API users targeting CockroachDB should include the new CockroachDB module instead of relying on the PostgreSQL module</li></ul><b>Bug Fixes</b><ul><li>Updated BouncyCastle to 1.85 to address a High severity Uncontrolled Recursion advisory</li></ul><b>Security Fixes</b><ul><li>Updated Oracle SQLcl in the Flyway Docker oracle image to 26.2.0.181.2110, resolving CVE-2026-68494 in jackson-core</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.6.5 — 05 August 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.6.5:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.0.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Thu, 21 Nov 2024 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>Stop deploying to deprecated org.flywaydb.enterprise group ID on the Redgate Maven Repository. Please use com.redgate.flyway</li><li>cleanOnValidationError function and configuration has been removed. An error will be thrown if this feature is configured</li><li>Flyway will no longer provide an interactive method to input database usernames and passwords. Please use other configuration or URL methods</li><li>Environments used with the 'check' command must have a provisioner defined or the '-cleanDisabled=false' parameter must instead be specified when running the check command. Please see here for more information.</li></ul><b>New Features</b><ul><li>The prepare and deploy flyway commands have been added, enabling a state-based deployment directly from a schema model or another database</li><li>The following flyway commands are now out of preview: 'add', 'diff', 'model', 'diffText' and 'generate'</li><li>Issue 3970 Add AWS Advanced MySQL wrapper support</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 10.22.0 — 20 November 2024</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:10.22.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Wed, 20 Nov 2024 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>(Preview) the preview verb 'diffApply' has been replaced with the verb 'model'</li><li>Resolved issue where Flyway would fail to publish an event to Flyway Pipelines using a PAT token in conjunction with using an offline permit for licensing</li><li>MySQL schema history table will create using default storage engine instead of being forced to InnoDB</li><li>Scoped Namespaces: when configuring on the command line, you can skip namespaces if they match the verb of which you are in the scope of. For example, rather than flyway init -init.projectName=test you can now shortcut to flyway init -projectName=test.</li></ul><b>Bug Fixes</b><ul><li>Fix error message when using unpopulated default placeholders with configured seperators</li><li>Fixed an issue where the 'Placeholders' configuration erased the 'jdbcProperties' configuration</li></ul><b>Breaking Changes</b><ul><li>collations will now be dropped on postgres</li></ul><b>New Features</b><ul><li>addTimestamp boolean option for generate and add verbs has been replaced with timestamp=always|auto|never option</li></ul>]]></description>
   </item>
   </channel>
 </rss>
