@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-08-05 | latest: 9.6.5 (05 August 2026) -->
+<!-- fetched: 2026-08-11 | latest: 9.7.0 (11 August 2026) -->
 
 #
+## 9.7.0 — 11 August 2026
+
+### Improvements
+- Code review policies can now be configured directly in Flyway Desktop, using the ‘Code Review Policies’ tab on the project settings screen
+
 ## 9.6.5 — 05 August 2026
 
 ### New Features
@@ -2249,7 +2254,23 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-08-05 | latest: 14.28.0 (August 5, 2026) -->
+<!-- fetched: 2026-08-11 | latest: 14.29.0 (August 11, 2026) -->
+## 14.29.0 — August 11, 2026
+
+### New Features
+- The -EncryptConnection parameter on the PowerShell cmdlets New-RedgateMonitorSqlServer, New-RedgateMonitorAzureSqlManagedInstance and New-RedgateMonitorGoogleCloudSqlServer now accepts Optional, Mandatory and Strict. $false and $true are still accepted, and mean Optional and Mandatory.
+- Fixed an issue introduced in 14.14 where adding a SQL Server instance through the PowerShell API used Strict connection encryption when none was specified, rather than Optional.
+- Added a DiskUsageDetailsWeeklyGranularity feature flag to reduce the Disk Usage Details history graph to weekly, rather than daily, granularity.
+
+### Improvements
+- All base monitors are now shown at once in the tree in the Alert Settings page, rather than using a Base Monitors dropdown in the corner.
+- Update-RedgateMonitorMonitoredObjectCredential PowerShell cmdlet now accepts -WmiConnectionMethod and -EncodePortInServicePrincipalNameForWinRM to switch a Windows Cluster or Standalone Machine between DCOM and WinRM.
+
+### Bug Fixes
+- Fixed an issue where error log alert settings for PostgreSQL instances would incorrectly return SQL Server settings with the PowerShell API.
+- Fixed an issue where the uptime figures on the Reports page, and in the emailed and printed PDF versions of a report, were wrong for any instance that had been unreachable.
+- Fix a issue introduced in 14.28.0 where, when editing an alert in alerts settings, the server tree would not render certain selected elements, such as disks and machines.
+
 ## 14.28.0 — August 5, 2026
 
 ### Improvements
