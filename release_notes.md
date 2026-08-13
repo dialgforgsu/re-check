@@ -273,7 +273,16 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-08-06 | latest: 13.2.0 (6 August 2026) -->
+<!-- fetched: 2026-08-13 | latest: 13.3.0 (13 August 2026) -->
+
+## 13.3.0 — 13 August 2026
+
+### Breaking Changes
+- Fixed a bug where Redshift CREATE, ALTER and DROP IDENTITY PROVIDER statements were run inside a migration transaction, which Redshift does not support
+
+### Improvements
+- ConfigurationExtension.copy() no longer requires jackson-databind on the classpath; if it's absent, copy() falls back to a shallow copy
+- Upgraded RgCompare to 1.62.6.5172
 
 ## 13.2.0 — 6 August 2026
 

@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway CLI 13.3.0 — 13 August 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:13.3.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Thu, 13 Aug 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Breaking Changes</b><ul><li>Fixed a bug where Redshift CREATE, ALTER and DROP IDENTITY PROVIDER statements were run inside a migration transaction, which Redshift does not support</li></ul><b>Improvements</b><ul><li>ConfigurationExtension.copy() no longer requires jackson-databind on the classpath; if it's absent, copy() falls back to a shallow copy</li><li>Upgraded RgCompare to 1.62.6.5172</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.7.0 — 11 August 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.7.0:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.1.1:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Tue, 07 Jan 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>the shouldExecuteExpression field now displays the expression correctly in the JSON output of the info command</li><li>Issue 3986 ship library org-reactive-streams</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where 'deploy' could fail due to null results despite having executed correctly</li></ul><b>New Features</b><ul><li>Native Connectors now supports validateMigrationNaming</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.1.0 — 12 December 2024</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.1.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Thu, 12 Dec 2024 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>Upgraded to .NET 9. Existing workflows that do not depend on .NET should not need to change</li><li>Improve error output of un-parsable TOML configuration to display line and point of failure</li><li>Native connectors for MongoDB released and enabled in OSS edition - Native connectors blog post</li></ul><b>Breaking Changes</b><ul><li>Issue 3438 Snowflake will only drop USER PROCEDURES instead of all PROCEDURES</li><li>Issue 3601 Snowflake will now drop stages when running clean</li></ul>]]></description>
   </item>
   </channel>
 </rss>
