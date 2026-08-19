@@ -5,9 +5,15 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-08-11 | latest: 9.7.0 (11 August 2026) -->
+<!-- fetched: 2026-08-19 | latest: 9.7.1 (19 August 2026) -->
 
 #
+## 9.7.1 — 19 August 2026
+
+### Improvements
+- The Create empty, Docker, Snapshot and Backup provisioners now have a link to their documentation in the connection dialog and in the shadow/environment configuration
+- Setting up a shadow database with the Docker provisioner no longer returns you to the ‘Select migration reference point’ screen instead of continuing
+
 ## 9.7.0 — 11 August 2026
 
 ### Improvements
