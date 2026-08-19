@@ -6460,7 +6460,15 @@ arch 2025
 ---PRODUCT---
 # SQL Clone 5
 <!-- source: https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes -->
-<!-- fetched: 2026-05-15 | latest: 5.6.28 (May 15, 2026) -->
+<!-- fetched: 2026-08-19 | latest: 5.6.29 (August 19, 2026) -->
+
+## 5.6.29 — August 19, 2026
+
+### New Features
+- Added -BlockSize parameter to New-SqlCloneImage PowerShell cmdlet for specifying block size when creating images from backups. This can improve restore performance when SQL Server reports Event 3285 filemark alignment warnings.
+
+### Improvements
+- Retain comments in the stored proc definition template
 
 ## 5.6.28 — May 15, 2026
 

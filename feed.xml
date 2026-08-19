@@ -14,6 +14,13 @@
     <description><![CDATA[<b>Improvements</b><ul><li>The Create empty, Docker, Snapshot and Backup provisioners now have a link to their documentation in the connection dialog and in the shadow/environment configuration</li><li>Setting up a shadow database with the Docker provisioner no longer returns you to the ‘Select migration reference point’ screen instead of continuing</li></ul>]]></description>
   </item>
   <item>
+    <title>SQL Clone 5.6.29 — August 19, 2026</title>
+    <link>https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes</link>
+    <guid isPermaLink="false">clone:5.6.29:https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes</guid>
+    <pubDate>Wed, 19 Aug 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Added -BlockSize parameter to New-SqlCloneImage PowerShell cmdlet for specifying block size when creating images from backups. This can improve restore performance when SQL Server reports Event 3285 filemark alignment warnings.</li></ul><b>Improvements</b><ul><li>Retain comments in the stored proc definition template</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway CLI 13.3.0 — 13 August 2026</title>
     <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
     <guid isPermaLink="false">flyway-cli:13.3.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.3.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Thu, 30 Jan 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>Converted FlywayTelemetryManager to use the plugin interface</li><li>Updated the ojdbc8 driver to ojdbc11 21.1</li></ul><b>New Features</b><ul><li>Add Community DB Support for Timeplus and DuckDB</li><li>Flyway now supports certain Callbacks with Native Connectors</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.2.0 — 16 January 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.2.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Thu, 16 Jan 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Removed ARM V7 support from docker images</li><li>Issue 4010 Snowflake now supports COMMENT IF EXISTS</li><li>placeholders support in Native Connectors</li></ul><b>Improvements</b><ul><li>check changes will not require a target url/environment when provided with snapshots</li><li>Converting .conf files to toml using flyway init now preserves conf defaults</li><li>Native connectors respects set schema for Mongodb using Mongosh</li><li>check no longer fails for SQLServer with the error: &quot;Database passed into LiveSQLProvider needs to have DbConnectionInstructions&quot;</li><li>check changes will now prefer using a given deployment snapshot over the live environment. In cases where drift appears in the live environment, this will mean that drift will now be excluded from the change report when possible.</li><li>the default filter file created upon SqlServer project initialization now ignores certificates</li><li>Update databricks to 10.16.4</li><li>Issue 4005 Update Databricks JDBC driver to 2.6.40</li><li>Include ARM 64 in the Alpine docker image</li><li>Updated Java version shipped with Docker and CLI to 21</li></ul><b>Bug Fixes</b><ul><li>Fixed issue where converting a .conf file to toml in place via flyway init might not rename the original .conf file to .conf.bak</li><li>Fixed an issue where callbacks were incorrectly loaded as migrations when Native Connectors mode was enabled</li></ul>]]></description>
   </item>
   </channel>
 </rss>
