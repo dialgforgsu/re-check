@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-08-19 | latest: 9.7.1 (19 August 2026) -->
+<!-- fetched: 2026-08-21 | latest: 9.7.2 (21 August 2026) -->
 
 #
+## 9.7.2 — 21 August 2026
+
+### Improvements
+- After a manual deployment, the review drawer now stays open and shows a dedicated summary of what was deployed, replacing the less prominent success banner
+
 ## 9.7.1 — 19 August 2026
 
 ### Improvements
