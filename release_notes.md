@@ -284,7 +284,22 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-08-13 | latest: 13.3.0 (13 August 2026) -->
+<!-- fetched: 2026-08-26 | latest: 13.4.0 (26 August 2026) -->
+
+## 13.4.0 — 26 August 2026
+
+### Improvements
+- The Flyway command line and Docker images now automatically use the proxy configured in your operating system. Set the FLYWAY_USE_SYSTEM_PROXIES environment variable to false to disable this.
+- removed the unused g++ compiler toolchain from the Redgate Azure Docker images
+- the docker provisioner rejected a sourceEnvironment that declared provisioner = "none", reporting it as already provisioned
+- Upgraded RgCompare to 1.62.7.5446
+
+### New Features
+- Issue 4269 Snowflake parser supports AGENT IF EXISTS clause
+- TOML support is no longer bundled with flyway-core and is now provided through the new flyway-core-utilities module
+
+### Bug Fixes
+- fixed Oracle parser failing with "Incomplete statement" when a PL/SQL package body referenced a table or column literally named CASE after INSERT INTO, UPDATE, JOIN, CREATE TABLE, or AS
 
 ## 13.3.0 — 13 August 2026
 
@@ -2274,7 +2289,44 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-08-11 | latest: 14.29.0 (August 11, 2026) -->
+<!-- fetched: 2026-08-26 | latest: 14.30.0 (August 26, 2026) -->
+## 14.30.0 — August 26, 2026
+
+### Improvements
+- The improved Reports experience is now the default experience, featuring enhanced tiles and a modern interface. Scheduled PDFs still use the classic experience, but can be opted-in via Report Settings. Users can still switch back to the classic experience if needed.
+- Enterprise edition: The CIS for SQL Server 2022 templates have been updated from v1.2.1 to v1.3.0.
+- Read-only MongoDB replica set secondaries can now be monitored.
+- Cleared alerts are now automatically uncleared if their severity subsequently increases.
+- Modernize Alert Settings table to improve multi-select experience.
+- The get_metrics tool (available to Redgate Assistant and third-party MCP clients) can now retrieve additional metrics - lock wait time, CPU/disk queue length, disk transfers/sec, and memory paging rate.
+- Show base monitor name in Alert Settings' "Inherited from" column when multiple base monitors exist and inheriting from the base monitor's settings.
+- Redgate Assistant (preview) - When the user's login has expired (for example after an upgrade), the assistant now explains that the page needs refreshing instead of failing with a 401 error.
+- Viewing the "current activity" tab on a server overview no longer prevents navigation away from that tab.
+- Error responses in the REST API now consistently show property names in camel case.
+
+### New Features
+- New alert type for repeated login failures. This alert is raised when there are a number of SQL Server login failures in a specified window of time. Requires the SQL Server audit log to be enabled on the database.
+- New alert type for table bloat on PostgreSQL. This alert is raised when the percentage of dead tuples on a PostgreSQL table exceeds a set threshold.
+- Added a Configuration tab to the PostgreSQL server overview page, showing the instance's current configuration parameters and recommendations for important settings.
+- The SQL Server configuration estate page is now Server configuration, with a new PostgreSQL tab listing your monitored PostgreSQL servers with the number of critical settings and warnings in each server's configuration, based on recommended values.
+- Enterprise edition: New Security user role that allows read-only access to Security pages without full admin access.
+- The new Cluster and Availability Group Overview pages are the new default experience.
+- New MCP tools to retrieve top blocking processes for SQL Server instances, and to drill into an individual blocked children processes.
+- Added the TopProcedures-SampleWindowHours key-value pair which configures how far back in time Redgate Monitor will look when sampling Top Procedures data. Increasing this will increase the load on all sampled servers, as more executions will be used when calculating the top stored procedures. The default is 25 hours, the maximum is 169 hours.
+
+### Bug Fixes
+- Fixed an issue where the "Instances ordered by lowest uptime" report tiles listed the instances with the _highest_ uptime, omitting the instances that had actually been unreachable.
+- Fixed an issue where backup overdue alerts would not raise if two clusters monitored by the same Base Monitor had Availability Groups with the same name.
+- Fixed an issue where databases and Availability Group replicas would show separately if their casing differed from the primary.
+- Fixed an issue where query executions would not be collected for SQL Server 2017 14.0.1000.169.
+- Fixed an issue where a read-only Azure SQL Database, such as a failover group secondary, would incorrectly show as being in an error state because the deadlock Extended Events session cannot be created on it.
+- Fixed an issue where an item could be missing its color in the legend of a chart when its name contained certain characters
+- Fixed an issue where the y-axis of a stacked graph could be scaled too low when one of its series had only recently started sampling
+- Fixed an issue where error log data for PostgreSQL on Google Cloud SQL was missing the database, user, or host if log_line_prefix didn't include all three.
+- Fixed an issue where the Base Monitor service could become unresponsive and require a manual restart after monitoring a large number of unreachable Windows-based SQL Server hosts for an extended period.
+- Fixed an issue where editing credentials for multiple SQL Server instances at once could unintentionally reset their Port and Trust Server Certificate settings.
+- Fixed an issue where an Amazon Aurora PostgreSQL cluster could show as healthy on the Global Dashboard while an instance in that cluster had an active alert. The cluster's row now shows the most severe alert raised on any of its instances or their hosts.
+
 ## 14.29.0 — August 11, 2026
 
 ### New Features
