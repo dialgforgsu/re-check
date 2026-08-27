@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.8.0 — 27 August 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.8.0:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Thu, 27 Aug 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>The Save button on the schema model page is no longer disabled when no changes have been detected</li><li>Deploying migrations to a non-empty target database that has never been baselined now offers to baseline it and continue, instead of failing with an error</li><li>The pending migrations warning on the Generate migrations page is now more concise, with the full explanation available on demand</li><li>The manage target/build databases dialog now lists your databases immediately, instead of briefly opening empty and resizing once their connection details had been read</li><li>Guided setup is offered whenever the schema model is empty, even once a development database has been linked</li><li>The shadow database setup for pending migrations has moved from the warning banner’s cog icon to a configure link within the warning details</li><li>Deleting the schema model no longer leaves the schema model page with no way to save it again</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway CLI 13.4.0 — 26 August 2026</title>
     <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
     <guid isPermaLink="false">flyway-cli:13.4.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.3.4:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Thu, 27 Feb 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where Flyway incorrectly examined an unused permit on disk and gave a misleading warning message</li><li>fixed an issue where check filterFile was not being used for check actions</li></ul><b>Improvements</b><ul><li>shouldExecute expressions are validated before being evaluated</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.3.3 — 19 February 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.3.3:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Wed, 19 Feb 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed missing Oracle Wallet dependencies after upgrading to ojdbc11</li><li>fixed an issue where clean, backup and snapshot provisioners would not use configured properties from the flyway namespace. This fixes an issue where script callbacks would not be called for the subset of flyway operations directly caused by these provisioners running.</li><li>Fixes issue where specifying an empty cherry pick list to the diff build database property would be treated as if cherry pick was not specified. This fixes an issue seen in the check reports when deploying to an empty target for the first time.</li></ul><b>Improvements</b><ul><li>Nested resolver definitions are disallowed and will result in an error</li><li>Flyway Enterprise now automatically configures 'javax.net.ssl.keyStore' and 'javax.net.ssl.trustStore' for MongoDB TLS connections in Native Connectors mode</li></ul><b>New Features</b><ul><li>Added user defined placeholder resolver</li></ul>]]></description>
   </item>
   </channel>
 </rss>

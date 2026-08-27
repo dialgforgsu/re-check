@@ -5,9 +5,20 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-08-21 | latest: 9.7.2 (21 August 2026) -->
+<!-- fetched: 2026-08-27 | latest: 9.8.0 (27 August 2026) -->
 
 #
+## 9.8.0 — 27 August 2026
+
+### Improvements
+- The Save button on the schema model page is no longer disabled when no changes have been detected
+- Deploying migrations to a non-empty target database that has never been baselined now offers to baseline it and continue, instead of failing with an error
+- The pending migrations warning on the Generate migrations page is now more concise, with the full explanation available on demand
+- The manage target/build databases dialog now lists your databases immediately, instead of briefly opening empty and resizing once their connection details had been read
+- Guided setup is offered whenever the schema model is empty, even once a development database has been linked
+- The shadow database setup for pending migrations has moved from the warning banner’s cog icon to a configure link within the warning details
+- Deleting the schema model no longer leaves the schema model page with no way to save it again
+
 ## 9.7.2 — 21 August 2026
 
 ### Improvements
