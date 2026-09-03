@@ -304,7 +304,23 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-08-26 | latest: 13.4.0 (26 August 2026) -->
+<!-- fetched: 2026-09-03 | latest: 13.5.0 (3 September 2026) -->
+
+## 13.5.0 — 3 September 2026
+
+### Improvements
+- Flyway debug logs now show the final configuration parameters along with where each value originated
+- Improve dry run script's reviewability by removing unnecessary statements
+- the Flyway MCP Server tool "create_before_pull_snapshot" has been renamed to "create_schema_model_checkpoint"
+- jackson-databind is now an optional dependency of flyway-core. If your application or integration relies jackson-databind, you should explicitly declare it as a dependency in your project rather than relying on flyway-core to provide it transitively
+- Upgraded com.fasterxml.jackson.core:jackson-annotations from 2.21 to 2.22
+- Upgraded com.fasterxml.jackson.core:jackson-core from 2.22.1 to 2.22.2
+- Upgraded com.fasterxml.jackson.core:jackson-databind from 2.22.1 to 2.22.2
+- Upgraded org.mariadb.jdbc:mariadb-java-client from 2.7.13 to 2.7.14
+- Upgraded RgCompare to 1.62.7.5532
+
+### New Features
+- JSON support is no longer bundled with flyway-core and is now provided through the new flyway-core-utilities module
 
 ## 13.4.0 — 26 August 2026
 
@@ -2309,7 +2325,31 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-08-26 | latest: 14.30.0 (August 26, 2026) -->
+<!-- fetched: 2026-09-03 | latest: 14.31.0 (September 3, 2026) -->
+## 14.31.0 — September 3, 2026
+
+### Improvements
+- Redgate Assistant (preview) is available now on Server overview pages for SQL Server on Windows.
+- Azure Flex hosts can now authenticate using a user-assigned managed identity, registered as a shared credential on the Configuration > Cloud Services page.
+- MCP tools now respond to a malformed CIR parameter with an actionable error message instead of a generic unexpected-error message.
+- The Virtual machines estate page now shows P50, P95 and P99 percentiles for machine metrics (CPU, memory, disk IOPS and network throughput) over the selected period. Usage figures, both for the machine and for each of its disks, now show the median (P50) rather than the average.
+- Enterprise edition: A preview of version 2 of the REST API is now available, with endpoints to list monitored servers and query their metric data.
+- The code property of 401/403 responses in the REST API has been removed because it duplicated the http status code.
+
+### New Features
+- Added a new PostgreSQL Aurora DB instance view to graph CloudWatch metrics across all instances within your cluster.
+- MongoDB instances can now be configured to connect over TLS, with options to trust self-signed certificates and customize connection and server-selection timeouts, via a new connection properties dialog on the Add server and Edit credentials pages.
+- Consolidated the SQL Server entity types into a single SQL Server option in the Add server dialog, in line with other entity types.
+- It is now possible to test Azure Managed Instance connection before adding it as a Monitored Server.
+
+### Bug Fixes
+- Fixed an issue where the PostgreSQL configuration table on the Server overview page failed to load.
+- Fixed an issue where the "Instances ordered by lowest uptime" report tiles listed the instances with the _highest_ uptime, omitting the instances that had actually been unreachable.
+- Fixed an issue where installing a custom metric from sqlmonitormetrics.red-gate.com pre-filled the alert to be raised when the metric falls _below_ the thresholds, even when the metric was designed to alert when the value rises above them.
+- Fixed an issue where cumulative metrics, such as Top queries execution count and wait time, could display incorrect values when the time period under inspection straddled the Base Monitor's data retention boundary.
+- Fixed an issue where very occasionally, sampled data was not inserted into the TimescaleDB data repository when the number of parameters exceeded the 65,535 limit.
+- Fixed an issue where index usage was not being reported accurately when using a TimescaleDB repository.
+
 ## 14.30.0 — August 26, 2026
 
 ### Improvements

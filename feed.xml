@@ -14,6 +14,20 @@
     <description><![CDATA[<b>Improvements</b><ul><li>Comparison filters can now be configured for Databricks Lakebase projects, using the same filter editor as PostgreSQL</li><li>The Docker provisioner is no longer offered for database types it cannot provision; it is now only listed for SQL Server, Oracle, PostgreSQL and MySQL projects</li></ul><b>New Features</b><ul><li>Added current position to the schema model &amp; version control drawer diff viewer’s previous/next buttons (e.g.‘2 of 5’)</li></ul>]]></description>
   </item>
   <item>
+    <title>Flyway CLI 13.5.0 — 3 September 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:13.5.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Thu, 03 Sep 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Flyway debug logs now show the final configuration parameters along with where each value originated</li><li>Improve dry run script's reviewability by removing unnecessary statements</li><li>the Flyway MCP Server tool &quot;create_before_pull_snapshot&quot; has been renamed to &quot;create_schema_model_checkpoint&quot;</li><li>jackson-databind is now an optional dependency of flyway-core. If your application or integration relies jackson-databind, you should explicitly declare it as a dependency in your project rather than relying on flyway-core to provide it transitively</li><li>Upgraded com.fasterxml.jackson.core:jackson-annotations from 2.21 to 2.22</li><li>Upgraded com.fasterxml.jackson.core:jackson-core from 2.22.1 to 2.22.2</li><li>Upgraded com.fasterxml.jackson.core:jackson-databind from 2.22.1 to 2.22.2</li><li>Upgraded org.mariadb.jdbc:mariadb-java-client from 2.7.13 to 2.7.14</li><li>Upgraded RgCompare to 1.62.7.5532</li></ul><b>New Features</b><ul><li>JSON support is no longer bundled with flyway-core and is now provided through the new flyway-core-utilities module</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Redgate Monitor 14.31.0 — September 3, 2026</title>
+    <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
+    <guid isPermaLink="false">monitor:14.31.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
+    <pubDate>Thu, 03 Sep 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Redgate Assistant (preview) is available now on Server overview pages for SQL Server on Windows.</li><li>Azure Flex hosts can now authenticate using a user-assigned managed identity, registered as a shared credential on the Configuration &gt; Cloud Services page.</li><li>MCP tools now respond to a malformed CIR parameter with an actionable error message instead of a generic unexpected-error message.</li><li>The Virtual machines estate page now shows P50, P95 and P99 percentiles for machine metrics (CPU, memory, disk IOPS and network throughput) over the selected period. Usage figures, both for the machine and for each of its disks, now show the median (P50) rather than the average.</li><li>Enterprise edition: A preview of version 2 of the REST API is now available, with endpoints to list monitored servers and query their metric data.</li><li>The code property of 401/403 responses in the REST API has been removed because it duplicated the http status code.</li></ul><b>New Features</b><ul><li>Added a new PostgreSQL Aurora DB instance view to graph CloudWatch metrics across all instances within your cluster.</li><li>MongoDB instances can now be configured to connect over TLS, with options to trust self-signed certificates and customize connection and server-selection timeouts, via a new connection properties dialog on the Add server and Edit credentials pages.</li><li>Consolidated the SQL Server entity types into a single SQL Server option in the Add server dialog, in line with other entity types.</li><li>It is now possible to test Azure Managed Instance connection before adding it as a Monitored Server.</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where the PostgreSQL configuration table on the Server overview page failed to load.</li><li>Fixed an issue where the &quot;Instances ordered by lowest uptime&quot; report tiles listed the instances with the _highest_ uptime, omitting the instances that had actually been unreachable.</li><li>Fixed an issue where installing a custom metric from sqlmonitormetrics.red-gate.com pre-filled the alert to be raised when the metric falls _below_ the thresholds, even when the metric was designed to alert when the value rises above them.</li><li>Fixed an issue where cumulative metrics, such as Top queries execution count and wait time, could display incorrect values when the time period under inspection straddled the Base Monitor's data retention boundary.</li><li>Fixed an issue where very occasionally, sampled data was not inserted into the TimescaleDB data repository when the number of parameters exceeded the 65,535 limit.</li><li>Fixed an issue where index usage was not being reported accurately when using a TimescaleDB repository.</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.8.0 — 27 August 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.8.0:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1391,20 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.5.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Wed, 26 Mar 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>If Mongosh is available, Flyway Redgate Edition will default to using the Native Connectors Mode for MongoDB</li><li>Upgraded RgCompare.Cli from 1.30.0.26008 to 1.30.1.26056</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.4.1 — 21 March 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.4.1:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Fri, 21 Mar 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Rule and configuration TOML files now support a BOM character at the start of the file</li><li>Added support for change reports to projects deploying from a Schema model. This can be enabled by setting '-check.changesSource=schemaModel' when running 'check -changes'</li><li>(preview) add support for migration tags. Tags can be used to cherry pick groups of migrations.</li></ul><b>Security Fixes</b><ul><li>Update Snowflake to 3.23.1 to fix CVE-2025-27496</li></ul><b>Improvements</b><ul><li>Upgraded RgCompare.Cli from 1.29.0.25860 to 1.30.0.25967</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.4.0 — 12 March 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.4.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Wed, 12 Mar 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where Flyway would fail to fall back to 'flywayDesktop.schemaModel' during 'diff'</li><li>Issue 4039 Fix OpenTelemetry dependencies not being shipped with GCP Spanner in open source</li></ul><b>Improvements</b><ul><li>Renamed error codes returned for database comparison errors</li><li>Issue 4039 Update OpenTelemetry dependencies to 1.42.1</li></ul>]]></description>
   </item>
   </channel>
 </rss>
