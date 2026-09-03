@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.8.1 — 03 September 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.8.1:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Thu, 03 Sep 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Comparison filters can now be configured for Databricks Lakebase projects, using the same filter editor as PostgreSQL</li><li>The Docker provisioner is no longer offered for database types it cannot provision; it is now only listed for SQL Server, Oracle, PostgreSQL and MySQL projects</li></ul><b>New Features</b><ul><li>Added current position to the schema model &amp; version control drawer diff viewer’s previous/next buttons (e.g.‘2 of 5’)</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.8.0 — 27 August 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.8.0:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.4.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Wed, 12 Mar 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where Flyway would fail to fall back to 'flywayDesktop.schemaModel' during 'diff'</li><li>Issue 4039 Fix OpenTelemetry dependencies not being shipped with GCP Spanner in open source</li></ul><b>Improvements</b><ul><li>Renamed error codes returned for database comparison errors</li><li>Issue 4039 Update OpenTelemetry dependencies to 1.42.1</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.3.4 — 27 February 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.3.4:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Thu, 27 Feb 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where Flyway incorrectly examined an unused permit on disk and gave a misleading warning message</li><li>fixed an issue where check filterFile was not being used for check actions</li></ul><b>Improvements</b><ul><li>shouldExecute expressions are validated before being evaluated</li></ul>]]></description>
   </item>
   </channel>
 </rss>

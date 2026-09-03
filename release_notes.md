@@ -5,9 +5,18 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-08-27 | latest: 9.8.0 (27 August 2026) -->
+<!-- fetched: 2026-09-03 | latest: 9.8.1 (03 September 2026) -->
 
 #
+## 9.8.1 — 03 September 2026
+
+### Improvements
+- Comparison filters can now be configured for Databricks Lakebase projects, using the same filter editor as PostgreSQL
+- The Docker provisioner is no longer offered for database types it cannot provision; it is now only listed for SQL Server, Oracle, PostgreSQL and MySQL projects
+
+### New Features
+- Added current position to the schema model & version control drawer diff viewer’s previous/next buttons (e.g.‘2 of 5’)
+
 ## 9.8.0 — 27 August 2026
 
 ### Improvements
