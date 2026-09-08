@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.8.2 — 08 September 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.8.2:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Tue, 08 Sep 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Connection details are no longer saved for an environment provisioned with Docker, where the provisioner supplies them from the container it starts</li><li>The Migration scripts page now shows a connection error instead of a misleading ‘no migrations found’ message when migrations fail to load</li><li>Signing in while an update is downloading no longer resets the update banner, which offered the update again and could start a second download of it</li><li>The Docker provisioner is no longer offered for database types it cannot provision; it is now only listed for SQL Server, Oracle, PostgreSQL and MySQL projects</li><li>The Deploy screen no longer shows a duplicate search box when deploying schema model changes; searching is done from the toolbar above the changes list</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.8.1 — 03 September 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.8.1:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.6.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Thu, 03 Apr 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>The shape of the JSON object during an error has changed to include 'sqlState' and 'sqlErrorCode' for conveying the SQL state and error code from a database-level exception</li><li>Upgraded RgCompare.Cli from 1.30.1.26056 to 1.30.2.26104</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.5.0 — 26 March 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.5.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Wed, 26 Mar 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>If Mongosh is available, Flyway Redgate Edition will default to using the Native Connectors Mode for MongoDB</li><li>Upgraded RgCompare.Cli from 1.30.0.26008 to 1.30.1.26056</li></ul>]]></description>
   </item>
   </channel>
 </rss>

@@ -5,9 +5,18 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-09-03 | latest: 9.8.1 (03 September 2026) -->
+<!-- fetched: 2026-09-08 | latest: 9.8.2 (08 September 2026) -->
 
 #
+## 9.8.2 — 08 September 2026
+
+### Improvements
+- Connection details are no longer saved for an environment provisioned with Docker, where the provisioner supplies them from the container it starts
+- The Migration scripts page now shows a connection error instead of a misleading ‘no migrations found’ message when migrations fail to load
+- Signing in while an update is downloading no longer resets the update banner, which offered the update again and could start a second download of it
+- The Docker provisioner is no longer offered for database types it cannot provision; it is now only listed for SQL Server, Oracle, PostgreSQL and MySQL projects
+- The Deploy screen no longer shows a duplicate search box when deploying schema model changes; searching is done from the toolbar above the changes list
+
 ## 9.8.1 — 03 September 2026
 
 ### Improvements
