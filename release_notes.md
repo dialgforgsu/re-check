@@ -5,9 +5,21 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-09-08 | latest: 9.8.2 (08 September 2026) -->
+<!-- fetched: 2026-09-09 | latest: 9.8.3 (09 September 2026) -->
 
 #
+## 9.8.3 — 09 September 2026
+
+### Improvements
+- Object level history is now enabled by default as a preview feature on Enterprise edition, and can be turned off from the Preview features dialog
+
+### New Features
+- Added alert to schema model page for when there are upstream changes in version control, now checked for automatically in the background on window focus
+
+### Bug Fixes
+- Fixed the schema model save summary showing the wrong count of dependencies pulled in automatically
+- Fixed issue where tooltips would not always show for files in the VCS drawer
+
 ## 9.8.2 — 08 September 2026
 
 ### Improvements
