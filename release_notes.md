@@ -325,7 +325,30 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-09-03 | latest: 13.5.0 (3 September 2026) -->
+<!-- fetched: 2026-09-10 | latest: 13.6.0 (10 September 2026) -->
+
+## 13.6.0 — 10 September 2026
+
+### New Features
+- Added a deployment overview table to the dry run report
+- Added a comment to check dryrun reports when they are truncated
+- Snowflake Postgres is now recognised as a supported PostgreSQL-derivative database type
+
+### Improvements
+- check.code.profile and check.code.profiles let a code analysis run exclude a named set of rules and rule groups, so analysing a schema model no longer reports violations from rules that cannot apply to it. A built-in schemaModel profile is included.
+- flyway deploy now publishes the deployment to Flyway Pipelines when publishResult is enabled
+- skip restoring sql server database name and 'ansi_nulls' if they're unchanged
+- The JSON report file now carries a top-level schemaVersion field identifying the version of the report format.
+- setting url, user or password on an environment using the docker provisioner is now rejected. The provisioner supplies these from the container it starts, and a configured value was silently used by operations that ran without provisioning.
+- the cached credentials from flyway auth are no longer invalidated when Flyway is upgraded. Note that upgrading to this version requires running flyway auth once more.
+- the docker provisioner's container connection details were discarded when the build environment was resolved without provisioning, so Flyway could migrate and compare against a url left in configuration instead of the container it started.
+- the docker provisioner showed the raw Docker CLI error instead of a clear message when the Docker daemon was not running
+- Docker images now run on JRE 25 (previously JRE 21)
+- Update upgrade org.eclipse.jetty:jetty-server to 12.1.12
+- Upgraded RgCompare to 1.62.10.5605
+
+### Bug Fixes
+- Fixed DB2 migrations failing with SQLCODE=-428 when a schema check introduced in a previous release broke the requirement that some statements (e.g. TRUNCATE) be first in a unit of work
 
 ## 13.5.0 — 3 September 2026
 
@@ -2346,7 +2369,13 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-09-03 | latest: 14.31.0 (September 3, 2026) -->
+<!-- fetched: 2026-09-10 | latest: 14.32.0 (September 10, 2026) -->
+## 14.32.0 — September 10, 2026
+
+### Improvements
+- The additional alert text query on a custom metric can now return more than one value. A query returning several columns or rows is collected as a table and shown as one on the Alert details page and in alert emails. A query returning a single string value behaves exactly as before.
+- Disk usage now shows for Azure Managed Instances in their server overview pages.
+
 ## 14.31.0 — September 3, 2026
 
 ### Improvements
