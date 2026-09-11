@@ -2369,7 +2369,12 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-09-10 | latest: 14.32.0 (September 10, 2026) -->
+<!-- fetched: 2026-09-11 | latest: 14.32.1 (September 11, 2026) -->
+## 14.32.1 — September 11, 2026
+
+### Bug Fixes
+- Cards on global dashboard now show the correct metric values
+
 ## 14.32.0 — September 10, 2026
 
 ### Improvements
