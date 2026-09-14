@@ -5,9 +5,19 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-09-09 | latest: 9.8.3 (09 September 2026) -->
+<!-- fetched: 2026-09-14 | latest: 9.8.4 (14 September 2026) -->
 
 #
+## 9.8.4 — 14 September 2026
+
+### New Features
+- Added support for Snowflake Postgres as a distinct database type
+
+### Improvements
+- The Databricks connection dialog now has dedicated fields for the server hostname, port, HTTP path and catalog
+- Custom JVM options set in the JAVA_ARGS environment variable are now passed through to the Flyway engine
+- The apply warning on the Update development page is now more concise, with the full explanation available on demand
+
 ## 9.8.3 — 09 September 2026
 
 ### Improvements
