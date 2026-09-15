@@ -7,6 +7,20 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.9.0 — 15 September 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.9.0:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Tue, 15 Sep 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Snowflake advanced capabilities support is now available in public preview</li><li>The Deploy tab now reloads its migrations after you add, generate or run migrations elsewhere in the project</li></ul><b>Improvements</b><ul><li>The progress bar shown while baselining no longer jumps back to the start between the check, the comparison and the script generation</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Flyway CLI 13.7.0 — 15 September 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:13.7.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Tue, 15 Sep 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Flyway MCP adds a new Test Migrate tool that runs pending migration scripts against your configured shadow database.</li><li>Flyway MCP now also supports 3-sided diff by creating a checkpoint of the schema model before updating, so it can be compared against the development database.</li></ul><b>Improvements</b><ul><li>remove unnecessary executable files from JRE package</li><li>drift results were published to Flyway Pipelines even when publishResult was false</li><li>dry runs no longer publish migrate events to Flyway Service as deployments</li><li>generated migration filename timestamps are now in UTC rather than the local system timezone</li><li>bump couchbase client to 3.12.3 and databricks-jdbc to 3.4.2</li><li>Upgraded RgCompare to 1.63.0.5650</li></ul><b>Bug Fixes</b><ul><li>Issue 4282 Fix older versions of the Snowflake driver using a legacy driver class being unable to connect to Flyway</li><li>Fixed an issue where an unusually long configuration value could cause Flyway's debug configuration table to render incorrectly</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.8.4 — 14 September 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.8.4:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1391,20 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.8.3:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Tue, 20 May 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>New Features</b><ul><li>Add cubrid community database</li></ul><b>Improvements</b><ul><li>Upgraded RgCompare.Cli from 1.32.0.269 to 1.33.3.408</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.8.2 — 13 May 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.8.2:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Tue, 13 May 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>Jackson-databind is now a dependency of flyway-core</li><li>Issue 4074 MongoDB Native Connectors now throws when there is a writeError</li><li>NC Mongo now uses temporary files to remove issues with &quot; characters in migrations</li><li>Reports will now display the environments used by Flyway</li><li>Upgraded RgCompare.Cli from 1.30.3.102 to 1.32.0.254</li></ul><b>Bug Fixes</b><ul><li>Fixed a bug where SQLFluff code analysis reported files with violations even when the violation count was zero</li></ul><b>New Features</b><ul><li>Support Create table inside IF THEN block for BigQuery</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.8.1 — 6 May 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.8.1:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Tue, 06 May 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>Issue 4068 Snowflake will not set a role after a migration if the current role is the same as the original role before a migration</li><li>Issue 4046 Make jackson libraries optional on flyway-core. JSON and TOML features will require these libraries</li><li>Flyway now throws error if PAT is set in OSS edition</li><li>Upgraded RgCompare.Cli from 1.30.2.26414 to 1.30.3.102</li></ul><b>New Features</b><ul><li>added Oracle debug information to documentation</li></ul>]]></description>
   </item>
   </channel>
 </rss>

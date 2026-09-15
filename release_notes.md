@@ -5,9 +5,18 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-09-14 | latest: 9.8.4 (14 September 2026) -->
+<!-- fetched: 2026-09-15 | latest: 9.9.0 (15 September 2026) -->
 
 #
+## 9.9.0 — 15 September 2026
+
+### New Features
+- Snowflake advanced capabilities support is now available in public preview
+- The Deploy tab now reloads its migrations after you add, generate or run migrations elsewhere in the project
+
+### Improvements
+- The progress bar shown while baselining no longer jumps back to the start between the check, the comparison and the script generation
+
 ## 9.8.4 — 14 September 2026
 
 ### New Features
@@ -335,7 +344,25 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-09-10 | latest: 13.6.0 (10 September 2026) -->
+<!-- fetched: 2026-09-15 | latest: 13.7.0 (15 September 2026) -->
+
+## 13.7.0 — 15 September 2026
+
+### New Features
+- Flyway MCP adds a new Test Migrate tool that runs pending migration scripts against your configured shadow database.
+- Flyway MCP now also supports 3-sided diff by creating a checkpoint of the schema model before updating, so it can be compared against the development database.
+
+### Improvements
+- remove unnecessary executable files from JRE package
+- drift results were published to Flyway Pipelines even when publishResult was false
+- dry runs no longer publish migrate events to Flyway Service as deployments
+- generated migration filename timestamps are now in UTC rather than the local system timezone
+- bump couchbase client to 3.12.3 and databricks-jdbc to 3.4.2
+- Upgraded RgCompare to 1.63.0.5650
+
+### Bug Fixes
+- Issue 4282 Fix older versions of the Snowflake driver using a legacy driver class being unable to connect to Flyway
+- Fixed an issue where an unusually long configuration value could cause Flyway's debug configuration table to render incorrectly
 
 ## 13.6.0 — 10 September 2026
 
