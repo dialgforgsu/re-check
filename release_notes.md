@@ -2406,7 +2406,12 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-09-11 | latest: 14.32.1 (September 11, 2026) -->
+<!-- fetched: 2026-09-16 | latest: 14.32.2 (September 16, 2026) -->
+## 14.32.2 — September 16, 2026
+
+### New Features
+- Fixed an issue where checking for new SQL Server Agent job history put a high load on the repository.
+
 ## 14.32.1 — September 11, 2026
 
 ### Bug Fixes

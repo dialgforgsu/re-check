@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Redgate Monitor 14.32.2 — September 16, 2026</title>
+    <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
+    <guid isPermaLink="false">monitor:14.32.2:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
+    <pubDate>Wed, 16 Sep 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Fixed an issue where checking for new SQL Server Agent job history put a high load on the repository.</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.9.0 — 15 September 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.9.0:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.9.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Mon, 02 Jun 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>OSS command-line artifacts will now be downloaded from the release tag on GitHub instead of Maven</li><li>Flyway now allows enabling or disabling Code Analysis Rules Engines via configuration</li><li>difference IDs are now included in diffText console output.</li><li>Upgraded RgCompare.Cli from 1.33.3.433 to 1.33.6.573</li><li>Databricks JDBC driver 2.7.1 -&gt; 2.7.3</li></ul><b>New Features</b><ul><li>diffText console output will use the unified diff format when -color=never is set or color support has not been detected.</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where the MongoDB connection string's 'defaultauthdb' configuration was not being correctly applied</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.8.3 — 20 May 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.8.3:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Tue, 20 May 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Add cubrid community database</li></ul><b>Improvements</b><ul><li>Upgraded RgCompare.Cli from 1.32.0.269 to 1.33.3.408</li></ul>]]></description>
   </item>
   </channel>
 </rss>
