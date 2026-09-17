@@ -5,9 +5,19 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-09-15 | latest: 9.9.0 (15 September 2026) -->
+<!-- fetched: 2026-09-17 | latest: 9.9.1 (17 September 2026) -->
 
 #
+## 9.9.1 — 17 September 2026
+
+### Improvements
+- Object level history can explain what a commit did to the selected object with Redgate AI, via an ‘Explain this change’ button in the Changes panel
+- Generate scripts now always opens the undo scripts prompt, instead of the click occasionally doing nothing and the prompt appearing later
+- Git failures now explain that Git is either not installed or not on the PATH, rather than reporting ‘spawn git ENOENT’
+- Docker provisioner problems, such as Docker not running, now report what went wrong instead of a failure to parse the response from the Flyway CLI
+- Working through the object, change and dependency lists no longer drops you on the unhandled error page with ‘Minified React error #185’
+- Testing a connection that provisions with Docker now uses that environment’s own container, so a passing test reflects the environment the rest of the app uses and no second container is left running
+
 ## 9.9.0 — 15 September 2026
 
 ### New Features
