@@ -5,9 +5,19 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-09-17 | latest: 9.9.1 (17 September 2026) -->
+<!-- fetched: 2026-09-22 | latest: 9.10.0 (22 September 2026) -->
 
 #
+## 9.10.0 — 22 September 2026
+
+### Improvements
+- Object level history diff header now shows the short hash of the selected commit, which can be manually copied
+- Deploying now saves a snapshot by default, so drift analysis and rollbacks are available without turning the option on first
+- The Object level history drawer now opens for an object whose file was first committed as a copy of another file, and shows only that object’s history
+
+### New Features
+- Added an in-app warning that Oracle 11g support will be removed in a future major release
+
 ## 9.9.1 — 17 September 2026
 
 ### Improvements
