@@ -2426,7 +2426,12 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-09-16 | latest: 14.32.2 (September 16, 2026) -->
+<!-- fetched: 2026-09-22 | latest: 14.32.3 (September 22, 2026) -->
+## 14.32.3 — September 22, 2026
+
+### Bug Fixes
+- Fixed an issue where the Server overview page was slow to load and put a high load on the repository for servers with a long history of blocking processes.
+
 ## 14.32.2 — September 16, 2026
 
 ### New Features
