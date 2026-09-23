@@ -2426,7 +2426,51 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-09-22 | latest: 14.32.3 (September 22, 2026) -->
+<!-- fetched: 2026-09-23 | latest: 14.33.0 (September 23, 2026) -->
+## 14.33.0 — September 23, 2026
+
+### Bug Fixes
+- Updated Moment.js to 2.31.0 to address a directory traversal vulnerability in the dependency (SNYK-JS-MOMENT-19821607). Monitor is not affected by this vulnerability because it uses Moment.js in the browser, whereas exploitation requires server-side Node.js execution with untrusted, non-string input passed to moment.locale().
+- Fixed an issue where reordering the columns on the Current activity page was lost on refresh.
+- Fixed an issue where logging out of Redgate Monitor would not log the user out of Redgate Assistant.
+- Fixed an issue preventing the temp I/O graph from rendering correctly on Oracle server overview pages.
+- Fixed an incorrectly labelled column on the Oracle top waits table ('Total wait time (ms)' corrected to 'Total waits').
+- Fixed an issue where the Configuration > Groups page couldn't move multiple selected items by dragging and dropping
+- Fixed an issue where logging out of Redgate Monitor with OpenID Connect authentication showed a "page cannot be found" error after the identity provider redirected back to Monitor.
+- Fixed an issue where a security read-only user saw no data on the Security pages.
+- Fixed an issue where removing an Oracle Data Guard configuration from Monitor stopped the retention job from running.
+- Fixed an issue causing no alerts to show on the Alert Summary tile in the Reports page when a large number of alerts were raised within the chosen time period.
+- Fixed an issue where the blocking processes grid on the Server overview page showed an error if the same blocked session appeared under more than one head blocker.
+- Fixed an issue where an analysis graph tile on the Reports page drew a straight line across a period with no data. The tile now breaks the line, as the Analysis page does.
+- Fixed an issue where Amazon RDS SQL Server instances showed an internal error if SQL Server Audit was configured to publish to CloudWatch only, without an S3 target.
+- Fixed an issue where machine percentiles were recalculated after every Base Monitor restart.
+
+### New Features
+- The Estate -> Cloud costs page has a new Cloud migration (preview) tab. Use it to plan a move of SQL Server instances on virtual machines to the cloud. AWS RDS is the only target for now.
+- Added a Multi subnet failover option to the repository connection properties in the Redgate Monitor Windows installers, for repositories hosted in a multi-subnet Availability Group.
+- Enterprise edition - Added SQL Audit support for Google Cloud Platform SQL Server.
+- Enterprise edition - Added alerts and alerts/data endpoints to V2 of the REST API. Allows fetching alert types and alert data across the estate.
+- The Configuration page section previously named PowerShell API is now named API, with a new icon, reflecting that it covers both the PowerShell API and the REST API.
+- Consolidated the SQL Server entity types into a single SQL Server option in the Add server dialog, in line with other entity types.
+- It is now possible to test Azure Managed Instance connection before adding it as a Monitored Server.
+- Fixed an issue where emails were not sent if SMTP authentication had been configured in Monitor but the SMTP server did not support authentication.
+
+### Improvements
+- Blocking processes on the Server overview page can now be viewed as a grid, in addition to the existing graphical view, with a toggle to switch between the two in the blocking process details dialog.
+- Query waits trend (preview) tab is now available on the server overview page for SQL Servers.
+- Redgate Assistant (RGA) (preview) is now available on Monitor SaaS.
+- The server overview page for Aurora clusters now shows CPU and Memory snapshot metrics for each instance instead of for the cluster as a whole.
+- The PostgreSQL Top queries table now shows the database user that ran each query.
+- Top queries search results are no longer limited to 1000.
+- MCP tools now respond to a malformed CIR parameter with an actionable error message instead of a generic unexpected-error message.
+- The Virtual machines estate page now shows P50, P95 and P99 percentiles for machine metrics (CPU, memory, disk IOPS and network throughput) over the selected period. Usage figures, both for the machine and for each of its disks, now show the median (P50) rather than the average.
+- The PostgreSQL configuration table on the Server overview page now has optional Requires reboot and Restart pending columns, available from the columns menu, and can now show 10, 25, 50 or 100 settings per page.
+- The get_sql_server_queries_per_wait MCP tool now also returns the wait types recorded for a single statement when given a statementId.
+- The get_sql_server_actual_query_plan and get_sql_server_estimated_query_plan MCP tools now return query plans in a compact RPN text notation instead of XML.
+- AI Query Analysis and AI Alert Analysis will now explicitly state that they cannot be used when offline licensing is in use.
+- The Cloud provider column in the Estate -> Cloud costs page has been renamed to Platform, and indicates machines considered on-premises as well.
+- The Estate -> Virtual machines page has been renamed to Estate -> Cloud costs to better reflect the content and value of the page.
+
 ## 14.32.3 — September 22, 2026
 
 ### Bug Fixes
