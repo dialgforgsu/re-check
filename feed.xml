@@ -14,6 +14,13 @@
     <description><![CDATA[<b>New Features</b><ul><li>Added diff settings button to object level history</li></ul>]]></description>
   </item>
   <item>
+    <title>Flyway CLI 13.8.0 — 24 September 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:13.8.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Thu, 24 Sep 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>connections now report their application name as &quot;Redgate_Flyway&quot; rather than &quot;Flyway by Redgate&quot; on every database that supports it</li><li>added Snowflake support for the snapshot history feature</li></ul><b>Improvements</b><ul><li>Databricks connections now identify Flyway to Databricks as &quot;Redgate_Flyway&quot; via the UserAgentEntry connection property</li><li>drift results are published to Flyway Pipelines for any drift check when publishResult is enabled, not only for checks against a Flyway Pipelines snapshot</li><li>Flyway now sets the pgjdbc assumeMinServerVersion property to 9.1 on PostgreSQL connections</li><li>testConnection.environmentName names the environment supplied on standard input, so provisioners act on the environment being tested rather than standing up a second one, and progress and error messages name it rather than default</li><li>connections to PostgreSQL and CockroachDB now report application_name as &quot;Flyway by Redgate&quot; rather than the pgjdbc default</li><li>Upgraded RgCompare to 1.66.1.5811</li></ul><b>Bug Fixes</b><ul><li>the docker provisioner built container connection URLs against localhost, which could resolve to an address the container was not published on, so clients failed to connect to a container Flyway had reported as ready</li></ul>]]></description>
+  </item>
+  <item>
     <title>Redgate Monitor 14.33.0 — September 23, 2026</title>
     <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
     <guid isPermaLink="false">monitor:14.33.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.10.1:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Thu, 03 Jul 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>The 'help' command now provides targeted help for individual 'check' sub-commands</li><li>Update terminology in docs from AAD to Microsoft Entra</li></ul><b>New Features</b><ul><li>New SQL Server projects will now surface 'PRINT' statements as info logs instead of warnings with a default error override in the project settings</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where the 'shouldExecute' configuration was ignored by Flyway during Callbacks execution in Native Connectors mode</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.10.0 — 26 June 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.10.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Thu, 26 Jun 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>error output is now a record and supports custom payloads for different exception types</li><li>It is now possible to set generate.usePlaceholders=true to allow the generate verb to place placeholders into generated files</li><li>Flyway now supports specifying the code analysis scope for migrations</li><li>Flyway now supports configuring the SQL dialect for code analysis via a dedicated configuration parameter</li></ul><b>Improvements</b><ul><li>Backup provisioner will no longer attempt to create users that already exist</li><li>Native Connectors is now available via the API</li><li>Issue 4092 Gradle tasks now use lazy instantiation</li><li>flyway prepare target parameter will now default to the value of the environment parameter if the source is schema model or migrations. This makes it more straightforward if the connection details are provided as parameters rather than as a toml environment, and makes the command neater if prepare and deploy are chained together.</li><li>Deleted migrations and baseline markers are now ignored when running check -drift and check -changes</li><li>Upgraded OJDBC 11 from 21.1.0.0 to 21.18.0.0</li></ul>]]></description>
   </item>
   </channel>
 </rss>

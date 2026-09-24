@@ -369,7 +369,24 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-09-15 | latest: 13.7.0 (15 September 2026) -->
+<!-- fetched: 2026-09-24 | latest: 13.8.0 (24 September 2026) -->
+
+## 13.8.0 — 24 September 2026
+
+### New Features
+- connections now report their application name as "Redgate_Flyway" rather than "Flyway by Redgate" on every database that supports it
+- added Snowflake support for the snapshot history feature
+
+### Improvements
+- Databricks connections now identify Flyway to Databricks as "Redgate_Flyway" via the UserAgentEntry connection property
+- drift results are published to Flyway Pipelines for any drift check when publishResult is enabled, not only for checks against a Flyway Pipelines snapshot
+- Flyway now sets the pgjdbc assumeMinServerVersion property to 9.1 on PostgreSQL connections
+- testConnection.environmentName names the environment supplied on standard input, so provisioners act on the environment being tested rather than standing up a second one, and progress and error messages name it rather than default
+- connections to PostgreSQL and CockroachDB now report application_name as "Flyway by Redgate" rather than the pgjdbc default
+- Upgraded RgCompare to 1.66.1.5811
+
+### Bug Fixes
+- the docker provisioner built container connection URLs against localhost, which could resolve to an address the container was not published on, so clients failed to connect to a container Flyway had reported as ready
 
 ## 13.7.0 — 15 September 2026
 
