@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.10.1 — 24 September 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.10.1:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Thu, 24 Sep 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Added diff settings button to object level history</li></ul>]]></description>
+  </item>
+  <item>
     <title>Redgate Monitor 14.33.0 — September 23, 2026</title>
     <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
     <guid isPermaLink="false">monitor:14.33.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.10.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Thu, 26 Jun 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>New Features</b><ul><li>error output is now a record and supports custom payloads for different exception types</li><li>It is now possible to set generate.usePlaceholders=true to allow the generate verb to place placeholders into generated files</li><li>Flyway now supports specifying the code analysis scope for migrations</li><li>Flyway now supports configuring the SQL dialect for code analysis via a dedicated configuration parameter</li></ul><b>Improvements</b><ul><li>Backup provisioner will no longer attempt to create users that already exist</li><li>Native Connectors is now available via the API</li><li>Issue 4092 Gradle tasks now use lazy instantiation</li><li>flyway prepare target parameter will now default to the value of the environment parameter if the source is schema model or migrations. This makes it more straightforward if the connection details are provided as parameters rather than as a toml environment, and makes the command neater if prepare and deploy are chained together.</li><li>Deleted migrations and baseline markers are now ignored when running check -drift and check -changes</li><li>Upgraded OJDBC 11 from 21.1.0.0 to 21.18.0.0</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.9.2 — 19 June 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.9.2:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Thu, 19 Jun 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>The snapshot command now creates any missing parent directories for the provided snapshot file path</li><li>Flyway code analysis now reports analyzed files more accurately</li><li>Deprecated MongoDB using legacy JDBC driver. Please make sure Mongosh is installed to use Native Connectors</li><li>improved error message information for script migration errors</li><li>Upgraded RgCompare.Cli from 1.33.6.583 to 1.34.8.647</li></ul><b>New Features</b><ul><li>MongoDB Native Connectors now supports outputQueryResults for Javascript migrations</li><li>Fabric SQL Database support added for foundational capabilities</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where Flyway would throw an error during code analysis if no specific connection URL was provided</li></ul>]]></description>
   </item>
   </channel>
 </rss>

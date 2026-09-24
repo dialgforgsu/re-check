@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-09-22 | latest: 9.10.0 (22 September 2026) -->
+<!-- fetched: 2026-09-24 | latest: 9.10.1 (24 September 2026) -->
 
 #
+## 9.10.1 — 24 September 2026
+
+### New Features
+- Added diff settings button to object level history
+
 ## 9.10.0 — 22 September 2026
 
 ### Improvements
