@@ -5,9 +5,23 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-09-24 | latest: 9.10.1 (24 September 2026) -->
+<!-- fetched: 2026-09-29 | latest: 9.10.2 (29 September 2026) -->
 
 #
+## 9.10.2 — 29 September 2026
+
+### Improvements
+- It is now possible to configure publishing to Flyway Insights from project settings
+- AI-generated migration descriptions are now shorter, at most 50 characters, so migration file names no longer risk Windows ‘path too long’ errors
+- Display the currently executing Flyway command when a command is in progress on the Migrations page
+- Creating the sample project now recreates all of its databases, so running through it again no longer fails when deploying to the Test or Prod environments
+
+### New Features
+- A search bar has been added to the code review settings page, allowing you to find the policies you’re interested in more easily
+
+### Bug Fixes
+- Object level history now shows commit authors by name, with their email address on hover
+
 ## 9.10.1 — 24 September 2026
 
 ### New Features
@@ -369,7 +383,15 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-09-24 | latest: 13.8.0 (24 September 2026) -->
+<!-- fetched: 2026-09-29 | latest: 13.8.1 (29 September 2026) -->
+
+## 13.8.1 — 29 September 2026
+
+### Bug Fixes
+- Fixed an issue where Cassandra database operations could hang when using Native Connectors mode
+
+### Improvements
+- Upgraded RgCompare to 1.66.2.5896
 
 ## 13.8.0 — 24 September 2026
 
