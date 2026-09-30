@@ -2470,7 +2470,39 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-09-23 | latest: 14.33.0 (September 23, 2026) -->
+<!-- fetched: 2026-09-30 | latest: 14.34.0 (September 30, 2026) -->
+## 14.34.0 — September 30, 2026
+
+### Improvements
+- Custom metrics are now disabled by default on installations that have no custom metrics for security reasons. Installations that already have custom metrics are not affected. See the documentation for more information.
+- The Save credentials option on the repository connection page of the Base Monitor installer now works for SQL Server authentication.
+- Native High Availability is now available for Base Monitors backed with TimescaleDB data repositories.
+- The get_sql_server_blocking_processes MCP tool now also returns the full blocking chains a single statement took part in when given a statementId.
+
+### New Features
+- Added the ability to choose which account runs the Base Monitor Windows service - a specific Windows user, a group Managed Service Account (gMSA), or Local System - independently of the repository connection. Previously, using SQL Server authentication or a PostgreSQL repository forced the service to run as Local System.
+- Enterprise edition - Added disk-usage endpoint to V2 of the REST API. Allows fetching of current disk usage data across the estate.
+- Connection properties, such as encryption and trust server certificate, can now be edited when adding a SQL Server hosted on Google Cloud, in line with the other SQL Server types.
+- Enterprise edition - Added dropdown options for product version, edition and collation in Configuration compliance.
+- Added a warning when adding a server without testing the connection first. You can turn this off in the display settings.
+- Linux-based Base Monitor now supports authenticating to Azure SQL Server and Azure SQL Managed Instance using Microsoft Entra Managed Identity.
+
+### Bug Fixes
+- Fixed an issue where monitored machines without a public IP address were not matched to their Azure or AWS virtual machine on the Estate -> Cloud costs page.
+- Fixed an issue where PostgreSQL database performance data stopped being collected when a server reported a negative rollback count.
+- Fixed an issue where Aurora PostgreSQL instances were missing from the Overview page if their cluster did not automatically monitor cluster instances.
+- Fixed an issue where top waits and top queries tabs on alert details page were showing no data available.
+- Fixed an issue where the PowerShell module's annotation cmdlets failed for a monitored SQL Server instance identified by its machine name, such as a local default instance.
+- Fixed an issue where collecting a large Aurora PostgreSQL log file could exhaust memory and stop monitoring.
+- Fixed an issue where PostgreSQL replication monitoring failed for a replica connection with no client address.
+- Fixed an issue where the Estimates and actuals drift metric on the Top queries page reported row drift for queries that SQL Server estimated correctly. Drift is now measured across all threads of a parallel plan, and it accounts for operators that run more than once, including on the inner side of a parallel join. Drift recorded before this release is not corrected.
+- Fixed an issue where an invalid regex in a Long running query alert's filters stopped the alert from raising, with no error shown when saved.
+- Fixed an issue that caused ServiceNow notifications to fail with an error when rate-limited
+
+### Breaking Changes
+- Fixed an issue where a cloud service credential could be deleted while still in use by a monitored server or a Microsoft Entra ID connection, breaking that entity's monitoring. Deleting an in-use credential is now blocked, including through the PowerShell module's deprecated Service Principal Credential cmdlets.
+- Fixed an issue where the MCP endpoint (/mcp) returned 404 Not Found for unsupported HTTP methods instead of 405 Method Not Allowed, which could cause some MCP clients to drop the connection unexpectedly.
+
 ## 14.33.0 — September 23, 2026
 
 ### Bug Fixes
