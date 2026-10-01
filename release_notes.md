@@ -5,9 +5,17 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-09-29 | latest: 9.10.2 (29 September 2026) -->
+<!-- fetched: 2026-10-01 | latest: 9.10.3 (01 October 2026) -->
 
 #
+## 9.10.3 — 01 October 2026
+
+### Improvements
+- The object level history heading now shows the current branch, schema and object type alongside the object name
+- Log files older than a month are now deleted when Flyway Desktop starts, rather than being kept indefinitely. Choose a different period, or keep them all, under Settings > Log retention
+- Refreshing a comparison no longer breaks viewing changes, generating migrations or saving to the schema model with ‘being used by another process’ errors
+- Reopening Flyway Desktop now restores the project you were last working in, rather than the oldest open one
+
 ## 9.10.2 — 29 September 2026
 
 ### Improvements
@@ -383,7 +391,20 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-09-29 | latest: 13.8.1 (29 September 2026) -->
+<!-- fetched: 2026-10-01 | latest: 13.9.0 (1 October 2026) -->
+
+## 13.9.0 — 1 October 2026
+
+### New Features
+- Oracle comparisons support a new preserveIdentifierCase option, which keeps schema names in deployment scripts in the capitalization Oracle stores them in (Preview).
+- Flyway Report has been updated to a new implementation and is now enabled by default. If you need to use the legacy implementation, set the FLYWAY_NEW_REPORTS environment variable to false
+
+### Improvements
+- Flyway now defaults FLYWAY_USE_SYSTEM_PROXIES to false, making inheritance of the operating system proxy configuration opt-in
+- init no longer writes the root redgateCompare.filterFile setting for SQL Server and Oracle projects
+- Flyway no longer reports that changes were successfully rolled back when an exception occurred during rollback
+- Oracle parser no longer fails when END CASE, END LOOP, or END IF is split across two lines
+- Upgraded RgCompare to 1.66.2.5916
 
 ## 13.8.1 — 29 September 2026
 

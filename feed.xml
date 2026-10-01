@@ -7,6 +7,20 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.10.3 — 01 October 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.10.3:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Thu, 01 Oct 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>The object level history heading now shows the current branch, schema and object type alongside the object name</li><li>Log files older than a month are now deleted when Flyway Desktop starts, rather than being kept indefinitely. Choose a different period, or keep them all, under Settings &gt; Log retention</li><li>Refreshing a comparison no longer breaks viewing changes, generating migrations or saving to the schema model with ‘being used by another process’ errors</li><li>Reopening Flyway Desktop now restores the project you were last working in, rather than the oldest open one</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Flyway CLI 13.9.0 — 1 October 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:13.9.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Thu, 01 Oct 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Oracle comparisons support a new preserveIdentifierCase option, which keeps schema names in deployment scripts in the capitalization Oracle stores them in (Preview).</li><li>Flyway Report has been updated to a new implementation and is now enabled by default. If you need to use the legacy implementation, set the FLYWAY_NEW_REPORTS environment variable to false</li></ul><b>Improvements</b><ul><li>Flyway now defaults FLYWAY_USE_SYSTEM_PROXIES to false, making inheritance of the operating system proxy configuration opt-in</li><li>init no longer writes the root redgateCompare.filterFile setting for SQL Server and Oracle projects</li><li>Flyway no longer reports that changes were successfully rolled back when an exception occurred during rollback</li><li>Oracle parser no longer fails when END CASE, END LOOP, or END IF is split across two lines</li><li>Upgraded RgCompare to 1.66.2.5916</li></ul>]]></description>
+  </item>
+  <item>
     <title>Redgate Monitor 14.34.0 — September 30, 2026</title>
     <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
     <guid isPermaLink="false">monitor:14.34.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
@@ -1391,20 +1405,6 @@
     <guid isPermaLink="false">clone:5.6.13:https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes</guid>
     <pubDate>Tue, 05 Aug 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>Updated third-party libraries.</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.10.5 — 31 July 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.10.5:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Thu, 31 Jul 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>New configuration option that allows a WHERE clause to be specified for comparison operations on each static data table to filter the returned rows</li><li>Added full aws-secretsmanager-jdbc dependencies</li></ul><b>Improvements</b><ul><li>Upgraded RgCompare.Cli from 1.38.0.1042 to 1.38.0.1077</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.10.4 — 24 July 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.10.4:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Thu, 24 Jul 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Oracle Database Flashback support for Native Connectors Oracle</li><li>Added community db IRIS</li><li>Added community db QuestDB</li></ul><b>Improvements</b><ul><li>'passOnRegexMatch' parameter in Regex Code Analysis is now deprecated</li><li>Upgraded RgCompare.Cli from 1.38.0.974 to 1.38.0.1042</li><li>Upgraded sqlfluff from 3.4.1 to 3.4.2</li></ul>]]></description>
   </item>
   </channel>
 </rss>
