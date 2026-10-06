@@ -5,9 +5,17 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-10-01 | latest: 9.10.3 (01 October 2026) -->
+<!-- fetched: 2026-10-06 | latest: 9.10.4 (06 October 2026) -->
 
 #
+## 9.10.4 — 06 October 2026
+
+### Improvements
+- The schema model page now shows a blue badge on objects and object groups with uncommitted changes
+
+### New Features
+- Add preview Oracle option to preserve the case of schema names in deployment scripts
+
 ## 9.10.3 — 01 October 2026
 
 ### Improvements

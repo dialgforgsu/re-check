@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.10.4 — 06 October 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.10.4:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Tue, 06 Oct 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>The schema model page now shows a blue badge on objects and object groups with uncommitted changes</li></ul><b>New Features</b><ul><li>Add preview Oracle option to preserve the case of schema names in deployment scripts</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.10.3 — 01 October 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.10.3:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.11.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Fri, 08 Aug 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>Removed flywayTelemetryManager from CommandExtension API signature</li><li>Update community dbs to 10.24.0</li><li>MongoDB Native Connectors now handles the case where no authentication is explicitly specified gracefully</li><li>Upgraded RgCompare.Cli from 1.38.0.1077 to 1.39.0.1098</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Clone 5.6.13 — 5 August 2025</title>
-    <link>https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes</link>
-    <guid isPermaLink="false">clone:5.6.13:https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes</guid>
-    <pubDate>Tue, 05 Aug 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>Updated third-party libraries.</li></ul>]]></description>
   </item>
   </channel>
 </rss>
