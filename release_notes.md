@@ -2499,7 +2499,40 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-09-30 | latest: 14.34.0 (September 30, 2026) -->
+<!-- fetched: 2026-10-07 | latest: 14.35.0 (October 7, 2026) -->
+## 14.35.0 — October 7, 2026
+
+### Improvements
+- Enterprise edition - Configuration compliance templates can now be limited to checking only certain SQL Server versions and platforms.
+- Enterprise edition - Center for Internet Security (CIS) SQL Server 2022 configuration compliance template now targets only SQL Server 2022 servers. (This is configurable if you want the old behavior back.)
+- Enterprise edition - CIS Configuration compliance templates for SQL Server 2025, 2022, and 2019 are certified by CIS.
+- On the Configure Alerts page, the Security alerts category is now visible but locked for customers without an Enterprise license.
+- The baseline, time, and refresh controls on the Server Overview activity graph can now be collapsed.
+- Updated notes in the custom metrics help that the read-only guidance is not enforced.
+- Enterprise edition: The help for the CIS Microsoft SQL Server 2019, 2022, and 2025 Benchmark templates on the Configuration compliance page now shows the "CIS Benchmarks Certified" logo.
+- On the Security -> Permissions pages, grid column order, width, sort order, filters, and page size now persist across a page refresh. Each grid has a Restore default view button. Filters and page size saved before this release reset once.
+- Cluster shared volume (CSV) mount points are now correctly displayed on the cluster overview page
+- PostgreSQL instances hosted in Google Cloud will now appear via the Get-RedgateMonitorMonitoredObject PowerShell cmdlet.
+- Redgate Monitor no longer includes the original Cluster and Availability Group overview pages.
+- Standard users can now create, edit, and delete annotations through the PowerShell module. Previously this required Administrator access.
+
+### New Features
+- Enterprise edition - Database-level configuration compliance template added for SQL Server 2022 based on CIS benchmark.
+- Enterprise edition - Server- and database-level templates added for SQL Server 2025, 2019, 2017, and 2016 using automated checks from the CIS benchmarks.
+- Monitoring of PostgreSQL instances running on Windows is now supported. See the documentation for more information.
+- Added help text about security best practices when configuring credentials to monitor SQL Server, PostgreSQL, and Oracle servers.
+- Fixed an issue where the sensitive action log did not record some actions, such as adding or testing an Oracle instance and adding a SQL Server.
+- Fixed an issue where the Server downtime tile on the Reports page did not list recent downtime events when many alerts had been raised in the chosen time period. This affected both the new and the classic Reports experience.
+
+### Bug Fixes
+- Fixed an issue where the Configuration tab for a PostgreSQL server showed no settings on a TimescaleDB data repository.
+- Fixed an issue where alert numbers on the Server overview page's activity graph could appear over the graph lines instead of below them.
+- Fixed an issue where a Backup overdue, Log backup overdue, or Differential backup overdue alert could raise a false alert on an Availability Group when one replica was briefly slow to report its backup status.
+- Fixed an issue where Top queries sampling failed for a MySQL server with the sql_require_primary_key setting enabled.
+- Fixed an issue where the backup overdue alert's details showed the backup time and replica name from the wrong availability group, on a cluster that hosted multiple availability groups with a database of the same name.
+- Fixed an issue where a percentage-based alert with multiple thresholds, such as Processor (CPU) utilization, could raise and label an alert at a disabled severity level.
+- Fixed an issue where saving a custom metric could fail and leave its schedule unregistered, if another metric on the same target used the same collection schedule.
+
 ## 14.34.0 — September 30, 2026
 
 ### Improvements
