@@ -399,7 +399,20 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-10-01 | latest: 13.9.0 (1 October 2026) -->
+<!-- fetched: 2026-10-08 | latest: 13.10.0 (8 October 2026) -->
+
+## 13.10.0 — 8 October 2026
+
+### Improvements
+- generate_migrations MCP tool accepts an optional generateUndoScripts parameter to override the project's undo-script generation setting for a single call
+- Plugin parameters such as undoSqlMigrationPrefix and check.buildEnvironment can now be set per environment under environments.name.flyway namespace in TOML
+- checkDriftOnMigrate is deprecated and now logs a warning when used
+- flywayServicePublish.publishReport is deprecated and now logs a warning when used
+- Upgraded RgCompare to 1.66.4.5964
+
+### New Features
+- New lakebase property resolver lets Flyway connect to Databricks Lakebase using an interactive Databricks sign-in, with no stored credentials
+- Fixed an issue where SQL Server clean mode configuration could cause operations on databases that do not support clean mode to fail
 
 ## 13.9.0 — 1 October 2026
 
