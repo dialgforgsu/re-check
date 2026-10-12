@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.10.5 — 12 October 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.10.5:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Mon, 12 Oct 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Surrounding double quotes are now removed from JDBC URLs pasted into connection dialogs, such as those copied from the Snowflake website</li><li>Script and file names are easier to read across the various preview panels, now that the heading above them takes up less space</li><li>Copying the Flyway command on the migrations page now confirms with a ‘Copied’ tooltip</li><li>Display progress logs when a Flyway command completes on the Migrations page</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway CLI 13.10.0 — 8 October 2026</title>
     <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
     <guid isPermaLink="false">flyway-cli:13.10.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">sqldcmp:15.4.24.29094:https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</guid>
     <pubDate>Tue, 02 Sep 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Bug Fixes</b><ul><li>ZD-338367: Fixed issue where the deploy now button is greyed out if the deployment script only deletes rows</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.11.2 — 21 August 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.11.2:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Thu, 21 Aug 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>afterConnect callback is now available outside of Native Connectors</li><li>Upgraded RgCompare.Cli from 1.39.4.1185 to 1.40.1.1194</li></ul><b>Bug Fixes</b><ul><li>Fixed jar for aws-secretsmanager</li></ul><b>Security Fixes</b><ul><li>Bump Netty-common, netty-resolver and netty-codec-http2 to 4.1.124 to fix CVE-2025-55163</li></ul>]]></description>
   </item>
   </channel>
 </rss>

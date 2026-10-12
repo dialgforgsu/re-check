@@ -5,9 +5,17 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-10-06 | latest: 9.10.4 (06 October 2026) -->
+<!-- fetched: 2026-10-12 | latest: 9.10.5 (12 October 2026) -->
 
 #
+## 9.10.5 — 12 October 2026
+
+### Improvements
+- Surrounding double quotes are now removed from JDBC URLs pasted into connection dialogs, such as those copied from the Snowflake website
+- Script and file names are easier to read across the various preview panels, now that the heading above them takes up less space
+- Copying the Flyway command on the migrations page now confirms with a ‘Copied’ tooltip
+- Display progress logs when a Flyway command completes on the Migrations page
+
 ## 9.10.4 — 06 October 2026
 
 ### Improvements
