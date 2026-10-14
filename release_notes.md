@@ -2528,7 +2528,34 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-10-07 | latest: 14.35.0 (October 7, 2026) -->
+<!-- fetched: 2026-10-14 | latest: 14.36.0 (October 14, 2026) -->
+## 14.36.0 — October 14, 2026
+
+### Improvements
+- Redgate Monitor MCP server: Connect an AI assistant such as Claude Code or GitHub Copilot in VS Code to your self-hosted Redgate Monitor. It can then answer your questions using read-only tools that pull data straight from Monitor. See https://www.red-gate.com/monitor14/mcp-server for details.
+- Baselines are now shown on report analysis tiles.
+- Blocking process grids on the Server overview page and in the blocking-tree table view can now be exported to CSV.
+- Configuration > Monitored servers page now reports a 'limited sampling' warning when SQL Server services are present on a monitored server, but are not visible to the account being used for monitoring.
+- The Availability Group and Cluster overview pages now show a "Last updated at" label next to the auto-refresh control.
+- Making changes to tiles of a report no longer fail if the report's schedule is in an invalid state.
+
+### New Features
+- The Server Overview activity graph has a new Annotations and Alerts filter to show or hide alert and annotation markers.
+
+### Bug Fixes
+- Fixed an issue where old alert numbers stayed on the Server overview page's activity graph after each refresh, away from their alert markers.
+- Fixed an issue where opening an alert detail page could show as "No alert found" if its monitored entity had not reported recent data.
+- Fixed an issue where Analysis tiles didn't respect the report level entity override.
+- Fixed an issue where the View alerts button on the Availability group and Cluster overview pages showed no alerts if the alert inbox was last set to a specific date range.
+- Fixed an issue where deleting an annotation on a TimescaleDB data repository deleted every annotation for that instance, instead of only the selected one.
+- Fixed an issue where a user and an API token with the same name could receive each other's access for up to 5 seconds.
+- Fixed an issue where the View actual plan button was replaced by a Learn how to enable actual plans link for queries on Azure SQL Database and Azure SQL Managed Instance, even though these always return actual plans without any opt-in setting.
+- Fixed an issue where changing one notification setting on an alert, using the API or PowerShell, could also turn on ServiceNow notifications for that alert.
+- Fixed an issue where a custom metric could get more than one alert. This stopped the Custom metrics page from loading and caused repeated errors in the Base Monitor log.
+- Fixed an issue where the Top waits tile on the Reports page could fail to load on a TimescaleDB data repository.
+- Fixed an issue where a locked Oracle monitoring account showed as an internal Redgate Monitor error.
+- Fixed an issue where Oracle wait class sampling wrote redo on the monitored database on every sample.
+
 ## 14.35.0 — October 7, 2026
 
 ### Improvements
