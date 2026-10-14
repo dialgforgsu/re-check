@@ -5,9 +5,17 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-10-12 | latest: 9.10.5 (12 October 2026) -->
+<!-- fetched: 2026-10-14 | latest: 9.10.6 (14 October 2026) -->
 
 #
+## 9.10.6 — 14 October 2026
+
+### Improvements
+- Databricks Lakebase connections can now sign in to Databricks interactively through the browser
+
+### New Features
+- Databricks Lakehouse connections can now sign in interactively through the browser. Choose ‘OAuth Interactive Sign-In’ from the new Authentication dropdown in the connection dialog
+
 ## 9.10.5 — 12 October 2026
 
 ### Improvements

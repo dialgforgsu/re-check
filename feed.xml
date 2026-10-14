@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.10.6 — 14 October 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.10.6:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Wed, 14 Oct 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Databricks Lakebase connections can now sign in to Databricks interactively through the browser</li></ul><b>New Features</b><ul><li>Databricks Lakehouse connections can now sign in interactively through the browser. Choose ‘OAuth Interactive Sign-In’ from the new Authentication dropdown in the connection dialog</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.10.5 — 12 October 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.10.5:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.12.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Thu, 04 Sep 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>New Features</b><ul><li>A new 'failOnError' mode has been introduced in Flyway 'check' code analysis</li><li>add support to generate undo script for state based model migration</li></ul><b>Improvements</b><ul><li>'majorRules' and 'minorRules' parameters in Code Analysis are now deprecated</li><li>Upgraded RgCompare.Cli from 1.40.0.1194 to 1.41.0.1246</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where fetching the list of static data tables may fail when using Azure AD interactive authentication</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Data Compare 15.4.24.29094 — 02 September 2025</title>
-    <link>https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqldcmp:15.4.24.29094:https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</guid>
-    <pubDate>Tue, 02 Sep 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>ZD-338367: Fixed issue where the deploy now button is greyed out if the deployment script only deletes rows</li></ul>]]></description>
   </item>
   </channel>
 </rss>
