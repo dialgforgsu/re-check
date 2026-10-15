@@ -415,7 +415,28 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-10-08 | latest: 13.10.0 (8 October 2026) -->
+<!-- fetched: 2026-10-15 | latest: 13.10.2 (15 October 2026) -->
+
+## 13.10.2 — 15 October 2026
+
+### Improvements
+- Upgraded RgCompare to 1.67.0.6161
+
+## 13.10.1 — 15 October 2026
+
+### Improvements
+- Flyway now prints the name of the environment it's working on
+- Issue 3604 Flyway identifies itself to Snowflake as Redgate_Flyway unless the application parameter is set
+- warn when environment names differ only by case
+- Issue 3604 Redshift and Databricks connections no longer modify the jdbcProperties passed to Flyway, or fail when they are immutable
+- Issue 4287 running flyway init in OSS Edition now reports that Redgate Edition is required instead of "Invalid flag: init"
+
+### New Features
+- New databricks property resolver to generate a token cache passphrase to support interactive sign-in
+- Issue 3604 Snowflake connections made from a JDBC URL no longer fail on Java 16 and later unless JDBC_QUERY_RESULT_FORMAT=JSON is added to the URL
+
+### Bug Fixes
+- Issue 4292 Fix an issue in Native Connectors mode where a baseline script was reported as Pending instead of Ignored for databases with already-applied migrations
 
 ## 13.10.0 — 8 October 2026
 
