@@ -5,9 +5,21 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-10-14 | latest: 9.10.6 (14 October 2026) -->
+<!-- fetched: 2026-10-20 | latest: 9.10.8 (20 October 2026) -->
 
 #
+## 9.10.8 — 20 October 2026
+
+### Improvements
+- Schema model history (preview) shows recent commits across the whole schema model, and can be filtered down to individual objects
+- The Snowflake connection dialog now has dedicated fields for the server hostname, warehouse, database, role and authentication
+- Development and target connections now ask for ‘Ok to erase and rebuild’ when using a provisioner that erases the database (Backup, Snapshot or Create Database)
+
+## 9.10.7 — 14 October 2026
+
+### Improvements
+- Object level history is now out of preview and in general availability
+
 ## 9.10.6 — 14 October 2026
 
 ### Improvements

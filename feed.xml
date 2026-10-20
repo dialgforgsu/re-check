@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.10.8 — 20 October 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.10.8:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Tue, 20 Oct 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Schema model history (preview) shows recent commits across the whole schema model, and can be filtered down to individual objects</li><li>The Snowflake connection dialog now has dedicated fields for the server hostname, warehouse, database, role and authentication</li><li>Development and target connections now ask for ‘Ok to erase and rebuild’ when using a provisioner that erases the database (Backup, Snapshot or Create Database)</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway CLI 13.10.2 — 15 October 2026</title>
     <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
     <guid isPermaLink="false">flyway-cli:13.10.2:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
@@ -19,6 +26,13 @@
     <guid isPermaLink="false">flyway-cli:13.10.1:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Thu, 15 Oct 2026 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>Flyway now prints the name of the environment it's working on</li><li>Issue 3604 Flyway identifies itself to Snowflake as Redgate_Flyway unless the application parameter is set</li><li>warn when environment names differ only by case</li><li>Issue 3604 Redshift and Databricks connections no longer modify the jdbcProperties passed to Flyway, or fail when they are immutable</li><li>Issue 4287 running flyway init in OSS Edition now reports that Redgate Edition is required instead of &quot;Invalid flag: init&quot;</li></ul><b>New Features</b><ul><li>New databricks property resolver to generate a token cache passphrase to support interactive sign-in</li><li>Issue 3604 Snowflake connections made from a JDBC URL no longer fail on Java 16 and later unless JDBC_QUERY_RESULT_FORMAT=JSON is added to the URL</li></ul><b>Bug Fixes</b><ul><li>Issue 4292 Fix an issue in Native Connectors mode where a baseline script was reported as Pending instead of Ignored for databases with already-applied migrations</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Flyway Desktop 9.10.7 — 14 October 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.10.7:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Wed, 14 Oct 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Object level history is now out of preview and in general availability</li></ul>]]></description>
   </item>
   <item>
     <title>Flyway Desktop 9.10.6 — 14 October 2026</title>
@@ -1391,20 +1405,6 @@
     <guid isPermaLink="false">sqlcmp:15.4.26.27858:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
     <pubDate>Thu, 02 Oct 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Improvements</b><ul><li>ZD-329373: Use sp_rename instead of dropping and recreating columns when collations are different</li></ul><b>Bug Fixes</b><ul><li>Fixes incorrect exit code being returned when a licensing error occurs</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Data Compare 15.4.26.27858 — 02 October 2025</title>
-    <link>https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqldcmp:15.4.26.27858:https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</guid>
-    <pubDate>Thu, 02 Oct 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>ZD-335741: Fixed an issue with “Use checksum comparison” option producing an “Object reference not set to an instance of an object” error</li><li>Fixes incorrect exit code being returned when a licensing error occurs</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.13.2 — 26 September 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.13.2:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Fri, 26 Sep 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Deprecated constructor on Location class. Use new static factory method instread.</li></ul><b>Improvements</b><ul><li>it is now possible to implement locations via plugins</li><li>Upgraded RgCompare.Cli from 1.42.2.1345 to 1.43.0.1498</li></ul>]]></description>
   </item>
   </channel>
 </rss>
