@@ -427,7 +427,19 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-10-15 | latest: 13.10.2 (15 October 2026) -->
+<!-- fetched: 2026-10-21 | latest: 13.11.0 (21 October 2026) -->
+
+## 13.11.0 — 21 October 2026
+
+### Improvements
+- Code review profiles can now exclude individual regex rules by rule code
+- Code Review reports now show the line that has a violation
+- Command-line errors now suggest running with -X for debug output
+- Docker images now upgrade ca-certificates at build time
+- info now honors baselineOnMigrate, so migrations at or below baselineVersion show as Below Baseline or Ignored, instead of Pending
+- The docker provisioner now builds SQL Server and PostgreSQL environments in a dedicated flyway database and Oracle environments in a dedicated FLYWAY schema, instead of master, postgres and SYSTEM
+- Issue 4286 PostgreSQL session role changes made in an afterConnect callback (e.g. SET ROLE) now persist into migrations, matching the behaviour of initSql
+- Upgraded RgCompare to 1.68.1.6299
 
 ## 13.10.2 — 15 October 2026
 
@@ -2561,7 +2573,36 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-10-14 | latest: 14.36.0 (October 14, 2026) -->
+<!-- fetched: 2026-10-21 | latest: 14.37.0 (October 21, 2026) -->
+## 14.37.0 — October 21, 2026
+
+### Improvements
+- Query analysis and Alert analysis are now powered by Redgate Assistant. See https://www.red-gate.com/monitor14/redgate-assistant for details.
+- The Cloud migration (preview) tab now recommends SQL Server on Amazon EC2 as well as Amazon RDS. Redgate Monitor collects EC2 instance prices from AWS to find the most suitable EC2 instance for the workload.
+- The Estate > Disks page now shows disks for all monitored Linux machines, not only machines running SQL Server.
+- The Auto detect cluster name option in the Windows Connection Properties dialog now has a help icon that explains what the option does.
+- SQL Server top queries data can now be exported to Excel. See 'Export' button in the Top queries section of the Server overview.
+- Typing an invalid date on the server overview no longer causes the page to crash.
+- The REST API and the PowerShell module now return HTTP 503 (Service Unavailable) instead of 500 or 401 when the base monitor is unavailable or is starting up. You can retry requests that only read data. Before you retry a request that changes data, check whether the change was made, because the connection can fail after the base monitor makes the change. When the base monitor version does not match the website version, they return HTTP 502 (Bad Gateway). Other server errors still return 500.
+
+### New Features
+- You can now add, edit, and delete annotations on the Server Overview activity graph. Select Annotations mode on the graph, then add a note to a point in time, such as a deployment or a configuration change.
+
+### Bug Fixes
+- Fixed an issue where Top queries for a PostgreSQL server could leave out queries that became busy recently.
+- Fixed an issue where the Log flushes column and graph on the Availability Group overview page showed no data for availability groups that are not on a cluster.
+- Fixed an issue where the export from the SQL Server licensing page showed a core license requirement for Developer, Express, and Evaluation editions. These editions do not need a license.
+- Fixed an issue where the upgrading database page wasn't shown when installing Monitor on a fresh database.
+- Fixed an issue where the Base Monitor could crash when an SSH connection to a Linux machine was slow.
+- Fixed an issue where some Linux machines stopped reporting processor data after several weeks of uptime.
+- Fixed an issue where the Analysis graph went blank and failed to render when two series had the same metric name on the same server.
+- Fixed an issue where servers in an alert suppression window appeared under the Suspended status filter on the Monitored servers page. These servers now have their own Alert suppression window filter option.
+- Fixed an issue where the Analysis tile on the Reports page wouldn't load for standalone Windows machine.
+- Fixed an issue where system databases that SQL Server itself hides, such as mssqlsystemresource and the platform-specific model_* databases on SQL Server 2022 and later, Azure SQL Database and Azure Managed Instance, were listed on the server overview's Databases tab.
+
+### Breaking Changes
+- Breaking change - The REST API V2 now returns entity type as an array of strings instead of a single string. This also includes refinements to the entity types to allow easier understanding of the monitored entities.
+
 ## 14.36.0 — October 14, 2026
 
 ### Improvements

@@ -7,6 +7,20 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway CLI 13.11.0 — 21 October 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:13.11.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Wed, 21 Oct 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Code review profiles can now exclude individual regex rules by rule code</li><li>Code Review reports now show the line that has a violation</li><li>Command-line errors now suggest running with -X for debug output</li><li>Docker images now upgrade ca-certificates at build time</li><li>info now honors baselineOnMigrate, so migrations at or below baselineVersion show as Below Baseline or Ignored, instead of Pending</li><li>The docker provisioner now builds SQL Server and PostgreSQL environments in a dedicated flyway database and Oracle environments in a dedicated FLYWAY schema, instead of master, postgres and SYSTEM</li><li>Issue 4286 PostgreSQL session role changes made in an afterConnect callback (e.g. SET ROLE) now persist into migrations, matching the behaviour of initSql</li><li>Upgraded RgCompare to 1.68.1.6299</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Redgate Monitor 14.37.0 — October 21, 2026</title>
+    <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
+    <guid isPermaLink="false">monitor:14.37.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
+    <pubDate>Wed, 21 Oct 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Query analysis and Alert analysis are now powered by Redgate Assistant. See https://www.red-gate.com/monitor14/redgate-assistant for details.</li><li>The Cloud migration (preview) tab now recommends SQL Server on Amazon EC2 as well as Amazon RDS. Redgate Monitor collects EC2 instance prices from AWS to find the most suitable EC2 instance for the workload.</li><li>The Estate &gt; Disks page now shows disks for all monitored Linux machines, not only machines running SQL Server.</li><li>The Auto detect cluster name option in the Windows Connection Properties dialog now has a help icon that explains what the option does.</li><li>SQL Server top queries data can now be exported to Excel. See 'Export' button in the Top queries section of the Server overview.</li><li>Typing an invalid date on the server overview no longer causes the page to crash.</li><li>The REST API and the PowerShell module now return HTTP 503 (Service Unavailable) instead of 500 or 401 when the base monitor is unavailable or is starting up. You can retry requests that only read data. Before you retry a request that changes data, check whether the change was made, because the connection can fail after the base monitor makes the change. When the base monitor version does not match the website version, they return HTTP 502 (Bad Gateway). Other server errors still return 500.</li></ul><b>New Features</b><ul><li>You can now add, edit, and delete annotations on the Server Overview activity graph. Select Annotations mode on the graph, then add a note to a point in time, such as a deployment or a configuration change.</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where Top queries for a PostgreSQL server could leave out queries that became busy recently.</li><li>Fixed an issue where the Log flushes column and graph on the Availability Group overview page showed no data for availability groups that are not on a cluster.</li><li>Fixed an issue where the export from the SQL Server licensing page showed a core license requirement for Developer, Express, and Evaluation editions. These editions do not need a license.</li><li>Fixed an issue where the upgrading database page wasn't shown when installing Monitor on a fresh database.</li><li>Fixed an issue where the Base Monitor could crash when an SSH connection to a Linux machine was slow.</li><li>Fixed an issue where some Linux machines stopped reporting processor data after several weeks of uptime.</li><li>Fixed an issue where the Analysis graph went blank and failed to render when two series had the same metric name on the same server.</li><li>Fixed an issue where servers in an alert suppression window appeared under the Suspended status filter on the Monitored servers page. These servers now have their own Alert suppression window filter option.</li><li>Fixed an issue where the Analysis tile on the Reports page wouldn't load for standalone Windows machine.</li><li>Fixed an issue where system databases that SQL Server itself hides, such as mssqlsystemresource and the platform-specific model_* databases on SQL Server 2022 and later, Azure SQL Database and Azure Managed Instance, were listed on the server overview's Databases tab.</li></ul><b>Breaking Changes</b><ul><li>Breaking change - The REST API V2 now returns entity type as an array of strings instead of a single string. This also includes refinements to the entity types to allow easier understanding of the monitored entities.</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.10.8 — 20 October 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.10.8:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1391,20 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.14.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Thu, 09 Oct 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>New Features</b><ul><li>Packaged SQL Fluff added to docker images</li><li>Enhanced exception handling during Code Analysis to allow Flyway to continue generating the Report if partial results are already available</li></ul><b>Improvements</b><ul><li>Flyway now provides more comprehensive details in code analysis results</li><li>Issue 4155 Schema history index is now created in a specified tablespace for Oracle and DB2</li><li>stop detecting schema model folder as a SQL server schema model when it was empty but had empty sub folders</li><li>S3ClientFactory has moved to the flyway-locations-s3 module</li><li>Upgraded RgCompare.Cli from 1.44.0.1569 to 1.44.0.1580</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.13.3 — 7 October 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.13.3:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Tue, 07 Oct 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>JVM Startup time added to verbose logs</li></ul><b>Improvements</b><ul><li>Issue 4119 Update shaded aws-secretsmanager-jdbc to not include io.netty to remove vulnerable dependencies</li><li>Upgraded RgCompare.Cli from 1.43.0.1498 to 1.44.0.1569</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Compare 15.4.26.27858 — 02 October 2025</title>
-    <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqlcmp:15.4.26.27858:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
-    <pubDate>Thu, 02 Oct 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>ZD-329373: Use sp_rename instead of dropping and recreating columns when collations are different</li></ul><b>Bug Fixes</b><ul><li>Fixes incorrect exit code being returned when a licensing error occurs</li></ul>]]></description>
   </item>
   </channel>
 </rss>
