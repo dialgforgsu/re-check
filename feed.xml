@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway CLI 13.11.1 — 21 October 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:13.11.1:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Wed, 21 Oct 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Distrusted CA certificates are now blocked in the Java trust store of the bundled JREs and Docker images</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway CLI 13.11.0 — 21 October 2026</title>
     <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
     <guid isPermaLink="false">flyway-cli:13.11.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.14.1:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Wed, 15 Oct 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>New Features</b><ul><li>Flyway now supports configuring Offline Permits via command-line parameters and TOML configuration</li></ul><b>Improvements</b><ul><li>Released first set of Redgate code analysis rules for SQLFLuff (RG01-RG08)</li><li>Issue 4129 Update Snowflake driver to 3.27.0</li><li>Issue 4135 Improved redaction of passwords in JDBC connection strings</li><li>Issue 4151 No longer crash when calling ClassUtils.getInstallDir if jars located at root of filesystem</li><li>Upgraded RgCompare.Cli from 1.44.0.1580 to 1.44.0.1656</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.14.0 — 9 October 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.14.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Thu, 09 Oct 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Packaged SQL Fluff added to docker images</li><li>Enhanced exception handling during Code Analysis to allow Flyway to continue generating the Report if partial results are already available</li></ul><b>Improvements</b><ul><li>Flyway now provides more comprehensive details in code analysis results</li><li>Issue 4155 Schema history index is now created in a specified tablespace for Oracle and DB2</li><li>stop detecting schema model folder as a SQL server schema model when it was empty but had empty sub folders</li><li>S3ClientFactory has moved to the flyway-locations-s3 module</li><li>Upgraded RgCompare.Cli from 1.44.0.1569 to 1.44.0.1580</li></ul>]]></description>
   </item>
   </channel>
 </rss>

@@ -427,7 +427,12 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-10-21 | latest: 13.11.0 (21 October 2026) -->
+<!-- fetched: 2026-10-21 | latest: 13.11.1 (21 October 2026) -->
+
+## 13.11.1 — 21 October 2026
+
+### Improvements
+- Distrusted CA certificates are now blocked in the Java trust store of the bundled JREs and Docker images
 
 ## 13.11.0 — 21 October 2026
 
