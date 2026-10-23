@@ -2578,7 +2578,12 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-10-21 | latest: 14.37.0 (October 21, 2026) -->
+<!-- fetched: 2026-10-23 | latest: 14.37.1 (October 23, 2026) -->
+## 14.37.1 — October 23, 2026
+
+### Improvements
+- Bumped .NET SDK version from 10.0.401 to 10.0.402.
+
 ## 14.37.0 — October 21, 2026
 
 ### Improvements
