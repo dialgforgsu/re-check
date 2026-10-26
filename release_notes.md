@@ -5,9 +5,19 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-10-20 | latest: 9.10.8 (20 October 2026) -->
+<!-- fetched: 2026-10-26 | latest: 9.10.10 (26 October 2026) -->
 
 #
+## 9.10.10 — 26 October 2026
+
+### New Features
+- Snowflake advanced capabilities support is now generally available
+- Databricks advanced capabilities support is now generally available
+- Fixed the command preview on the Migration scripts page being cut off when many parameters are added
+
+### Improvements
+- The sample project tour now includes the Automated Deployment page
+
 ## 9.10.8 — 20 October 2026
 
 ### Improvements
