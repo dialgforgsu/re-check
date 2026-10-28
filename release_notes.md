@@ -2588,7 +2588,34 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-10-23 | latest: 14.37.1 (October 23, 2026) -->
+<!-- fetched: 2026-10-28 | latest: 14.38.0 (October 28, 2026) -->
+## 14.38.0 — October 28, 2026
+
+### Improvements
+- Alert settings can now be copied across monitored servers from the Configuration > Alert settings page. See the documentation for more information.
+- Enterprise edition - Login failed events displayed in the SQL Audit tab of the Permissions page.
+
+### New Features
+- Enterprise edition - Monitoring of Microsoft Entra ID is now supported. See the documentation for more information.
+- MCP clients that call the get_sql_server_* tools by name stop working as the SQL Server-specific tools are no longer available. Please use the new set of database-agnostic tools.
+
+### Bug Fixes
+- Fixed an issue where the alert suppression window dialog crashed when you changed a window created with PowerShell to repeat monthly. PowerShell now saves a default schedule position for one-off and weekly windows.
+- Fixed an issue where, when the Alert inbox showed only unread alerts, Newer and Older on the alert details page also went to alerts that were already read when the inbox loaded. Also, when you select all alerts across all pages in the inbox, Clear, Read and the More actions no longer change alerts that were raised or updated after the inbox loaded.
+- Fixed an issue where the Month time range on the Reports page showed only the part of the month up to the end date. It now shows the month before the end date.
+- Fixed an issue where the SQL Server backup history query used more resources than before 14.28 on servers with a large msdb backup history.
+- Fixed an issue where Disk space alerts that were short or recently raised showed no database files for the disk. The alert details page now shows the database files on the disk and the disk space used by each SQL Server instance. The alert email now shows the disk space used by each SQL Server instance. This applies to Windows and Linux machines, Amazon RDS for SQL Server and Azure SQL Managed Instance.
+- Fixed an issue where SQL Audit could miss an event that happened within a few milliseconds after the last event collected in the previous sample.
+- Fixed an issue where users who logged in with OpenID Connect could not see servers on additional Base Monitors for up to 5 minutes after they logged in.
+- Fixed an issue where Enterprise features did not work with Enterprise trial licenses.
+- Fixed an issue where the alert counts on the cluster overview included alerts from suspended SQL Server instances while using a PostgreSQL with TimescaleDB repository. Also, a suspended SQL Server instance with an underscore in its name no longer hides the alerts of other instances with similar names.
+- Fixed an issue where the Server configuration change log showed changes to database encryption keys when no values had changed while using a TimescaleDB repository.
+- Fixed an issue where the Servers tab of the Permissions page showed no servers when monitored Active Directory groups shared a nested group.
+- Fixed an issue where Oracle top queries sampling wrote redo on the monitored database on every sample.
+- Fixed an issue where the SQL Server connection properties dialog did not show the default execution time-out of 300 seconds.
+- Fixed an issue where sampling of a Windows server failed with a dmtfDate error when WMI returned a date as a numeric string.
+- Fixed an issue where Monitor collected no CPU data for a Windows machine when the processor performance counters in WMI had no total instance.
+
 ## 14.37.1 — October 23, 2026
 
 ### Improvements
