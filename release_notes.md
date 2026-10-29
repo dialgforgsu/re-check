@@ -5,9 +5,15 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-10-26 | latest: 9.10.10 (26 October 2026) -->
+<!-- fetched: 2026-10-29 | latest: 9.11.0 (29 October 2026) -->
 
 #
+## 9.11.0 — 29 October 2026
+
+### Improvements
+- The manual deployment page can now check the target database for drift, and checks for it before deploying. Drifted objects can be reviewed, then incorporated into the project, filtered out, reverted or ignored
+- On macOS, the Local Network permission prompt now explains that Flyway Desktop uses it to connect to databases and source control servers on your local network
+
 ## 9.10.10 — 26 October 2026
 
 ### New Features
