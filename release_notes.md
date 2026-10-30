@@ -443,7 +443,22 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-10-21 | latest: 13.11.1 (21 October 2026) -->
+<!-- fetched: 2026-10-30 | latest: 13.12.0 (30 October 2026) -->
+
+## 13.12.0 — 30 October 2026
+
+### Improvements
+- The check report now warns when objects that have drifted will also be changed by the deployment
+- Issue 4272 With the H2 2.5.252 driver, LENGTH() on binary values returns the number of bytes rather than the number of decoded characters
+- Databricks browser sign-in no longer fails when DATABRICKS_CLIENT_SECRET, ARM_CLIENT_SECRET or a named profile's client secret is set
+- Flyway can handle more than 1000 migrations from an S3 bucket
+- SQL Server drift incorporate migrations now include object existence checks, so they can be run against databases that already contain the drifted objects
+- Issue 4280 jackson-annotations is now an optional dependency of flyway-core
+- Issue 4272 Upgraded com.h2database:h2 from 2.3.232 to 2.5.252
+- Upgraded RgCompare to 1.73.0.6434
+
+### Bug Fixes
+- Update msal4j to 1.23.1 to address vulnerabilities in transitive dependencies json-smart and asm
 
 ## 13.11.1 — 21 October 2026
 

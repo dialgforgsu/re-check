@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway CLI 13.12.0 — 30 October 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:13.12.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Fri, 30 Oct 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>The check report now warns when objects that have drifted will also be changed by the deployment</li><li>Issue 4272 With the H2 2.5.252 driver, LENGTH() on binary values returns the number of bytes rather than the number of decoded characters</li><li>Databricks browser sign-in no longer fails when DATABRICKS_CLIENT_SECRET, ARM_CLIENT_SECRET or a named profile's client secret is set</li><li>Flyway can handle more than 1000 migrations from an S3 bucket</li><li>SQL Server drift incorporate migrations now include object existence checks, so they can be run against databases that already contain the drifted objects</li><li>Issue 4280 jackson-annotations is now an optional dependency of flyway-core</li><li>Issue 4272 Upgraded com.h2database:h2 from 2.3.232 to 2.5.252</li><li>Upgraded RgCompare to 1.73.0.6434</li></ul><b>Bug Fixes</b><ul><li>Update msal4j to 1.23.1 to address vulnerabilities in transitive dependencies json-smart and asm</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.11.0 — 29 October 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.11.0:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1396,13 +1403,6 @@
     <title>SQL Compare 15.4.27.28006 — 04 November 2025</title>
     <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
     <guid isPermaLink="false">sqlcmp:15.4.27.28006:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
-    <pubDate>Tue, 04 Nov 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Added support for SSMS 21 as an external SQL Editor</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Data Compare 15.4.27.28006 — 04 November 2025</title>
-    <link>https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqldcmp:15.4.27.28006:https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</guid>
     <pubDate>Tue, 04 Nov 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>New Features</b><ul><li>Added support for SSMS 21 as an external SQL Editor</li></ul>]]></description>
   </item>
