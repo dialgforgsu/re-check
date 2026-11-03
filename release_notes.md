@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-10-29 | latest: 9.11.0 (29 October 2026) -->
+<!-- fetched: 2026-11-03 | latest: 9.11.1 (03 November 2026) -->
 
 #
+## 9.11.1 — 03 November 2026
+
+### New Features
+- Leading and trailing whitespace are now trimmed from the project name when creating a new project or filling out missing project details
+
 ## 9.11.0 — 29 October 2026
 
 ### Improvements
