@@ -2614,7 +2614,34 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-10-28 | latest: 14.38.0 (October 28, 2026) -->
+<!-- fetched: 2026-11-04 | latest: 14.39.0 (November 4, 2026) -->
+## 14.39.0 — November 4, 2026
+
+### New Features
+- Monitoring of PostgreSQL instances running on Google Cloud AlloyDB for PostgreSQL is now supported.
+- PowerShell alert settings cmdlets have a new optional -DatabaseEngine parameter. Without it, settings from Get or New keep their database engine, and other settings use SQL Server, so existing scripts are unaffected.
+- Monitoring of backups for self-managed PostgreSQL instances that use pgBackRest is now supported. See Monitoring PostgreSQL backups.
+- The Backup overdue and Differential backup overdue alerts now also support self-managed PostgreSQL instances that use pgBackRest. See List of alerts.
+- Added a warning banner about Query analysis and Alert analysis being deprecated and replaced by Redgate Assistant on settings page.
+
+### Improvements
+- Alerts pages load considerably faster on large estates. Filtering alerts by server no longer slows down as the number of monitored servers grows.
+- You can now export Top Queries data to Excel for all monitored server types: SQL Server, PostgreSQL, Oracle, MySQL and MongoDB.
+- The SQL Server replication page now scrolls only the table, not the whole page. The table has no pages, so you can scroll through every job.
+- The get_alerts, get_top_queries, get_top_waits and get_queries_per_wait MCP tools now take an optional maxResults parameter that sets how many results they return. The defaults do not change: 175 for get_alerts and 10 for the other tools.
+- With the RemoveUndetectedSqlServers feature flag on, Base Monitor now removes an undetected SQL Server instance only after it has stayed undetected for at least 10 minutes, not on the first missed detection run.
+- The MCP tools get_queries_per_wait, get_blocking_processes and analyse_query_history now identify a query only by its queryCir, as returned by get_top_queries. They no longer accept queryId. These tools and find_query_regressions return a statement's QueryCir instead of its QueryId.
+
+### Bug Fixes
+- Fixed an issue where the alert details page did not show the System processes tab for alerts on Windows machines that host PostgreSQL instances.
+- Fixed an issue where Oracle error log collection used a large share of the monitored server's CPU when the alert log was large.
+- Fixed an issue where the Base Monitor's memory use kept growing when the Log entry alert was enabled and a monitored SQL Server wrote multi-line entries to its error log.
+- Fixed an issue where the Top Queries table for an Amazon Aurora PostgreSQL cluster did not show some queries with a high execution count and a low duration, although they were in the Excel export.
+- Fixed an issue where Cluster failover alerts for Aurora PostgreSQL clusters showed that the alert data was purged.
+- Fixed an issue where the Top waits table on the Oracle overview showed a wait rate under the heading Avg wait time (ms). The column is now Wait time (ms/sec). The DB CPU row now shows n/a for Total waits and can no longer be expanded, because CPU time is not a wait event.
+- Fixed an issue where the API returned 404 for names that contain a forward slash, for example SQL Server Agent jobs and databases.
+- Fixed an issue where the date range on the Indexes tab started later than the selected Usage period, although index data existed for the whole period. The index usage values were correct for the whole period.
+
 ## 14.38.0 — October 28, 2026
 
 ### Improvements
