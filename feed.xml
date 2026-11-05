@@ -7,6 +7,20 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.11.3 — 05 November 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.11.3:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Thu, 05 Nov 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where selecting all differences in a large comparison froze the UI</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Flyway CLI 13.12.1 — 5 November 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:13.12.1:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Thu, 05 Nov 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>The Flyway Maven and Gradle plugins can now load TOML configuration files via configFiles parameter</li><li>Publishing migrate results no longer fails for databases without a catalog, such as SQLite</li></ul><b>Bug Fixes</b><ul><li>The migrate HTML report now shows the correct database version after a failed migration when versions such as 1.9 and 1.10 are involved</li></ul>]]></description>
+  </item>
+  <item>
     <title>Redgate Monitor 14.39.0 — November 4, 2026</title>
     <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
     <guid isPermaLink="false">monitor:14.39.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
@@ -1391,20 +1405,6 @@
     <guid isPermaLink="false">monitor:14.2.2:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
     <pubDate>Wed, 12 Nov 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where job failure alerts weren't raised correctly for users with pre-2020 alert configs.</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.17.0 — 11 November 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.17.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Tue, 11 Nov 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>It is now possible to capture and store snapshots in a target database in a flyway snapshot history table following a migrate, undo, or deploy action. These snapshots can be used for drift analysis and potentially for rollback. For more information see snapshots.</li><li>standard logging is now included with outputType=json; it is posted via STDERR</li><li>if deployed snapshot is configured but not found, drift detection will warn rather than fail, allowing for initial deployment to succeed</li><li>Test connection will only output success if it is successful</li><li>Upgraded RgCompare.Cli from 1.45.1.1821 to 1.45.1.1851</li></ul><b>Bug Fixes</b><ul><li>Fixed issue where namespace short-circuiting would not work when environment parameters were set</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Redgate Monitor 14.2.1 — November 7, 2025</title>
-    <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
-    <guid isPermaLink="false">monitor:14.2.1:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
-    <pubDate>Fri, 07 Nov 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed a memory issue that could occur for sites with a substantial volume of sampled data for SQL Server agent jobs.</li></ul><b>Improvements</b><ul><li>The SQL Server Replication estate page has been hidden by default.</li></ul>]]></description>
   </item>
   </channel>
 </rss>

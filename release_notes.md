@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-11-03 | latest: 9.11.1 (03 November 2026) -->
+<!-- fetched: 2026-11-05 | latest: 9.11.3 (05 November 2026) -->
 
 #
+## 9.11.3 — 05 November 2026
+
+### Bug Fixes
+- Fixed an issue where selecting all differences in a large comparison froze the UI
+
 ## 9.11.1 — 03 November 2026
 
 ### New Features
@@ -448,7 +453,16 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-10-30 | latest: 13.12.0 (30 October 2026) -->
+<!-- fetched: 2026-11-05 | latest: 13.12.1 (5 November 2026) -->
+
+## 13.12.1 — 5 November 2026
+
+### Improvements
+- The Flyway Maven and Gradle plugins can now load TOML configuration files via configFiles parameter
+- Publishing migrate results no longer fails for databases without a catalog, such as SQLite
+
+### Bug Fixes
+- The migrate HTML report now shows the correct database version after a failed migration when versions such as 1.9 and 1.10 are involved
 
 ## 13.12.0 — 30 October 2026
 
