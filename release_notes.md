@@ -5,9 +5,15 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-11-05 | latest: 9.11.3 (05 November 2026) -->
+<!-- fetched: 2026-11-09 | latest: 9.11.4 (09 November 2026) -->
 
 #
+## 9.11.4 — 09 November 2026
+
+### Improvements
+- Automated deployment no longer needs a Git repository, so you can generate GitHub Actions workflows, Bash scripts and PowerShell scripts for any project
+- When you create a branch, spaces in the name now become dashes as you type or paste
+
 ## 9.11.3 — 05 November 2026
 
 ### Bug Fixes

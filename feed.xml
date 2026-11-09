@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.11.4 — 09 November 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.11.4:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Mon, 09 Nov 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>Automated deployment no longer needs a Git repository, so you can generate GitHub Actions workflows, Bash scripts and PowerShell scripts for any project</li><li>When you create a branch, spaces in the name now become dashes as you type or paste</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.11.3 — 05 November 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.11.3:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">sqldcmp:15.4.28.28077:https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</guid>
     <pubDate>Fri, 14 Nov 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>New Features</b><ul><li>Support for SQL Server 2025. New SQL Server 2025 features may not function correctly.</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Redgate Monitor 14.2.2 — November 12, 2025</title>
-    <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
-    <guid isPermaLink="false">monitor:14.2.2:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
-    <pubDate>Wed, 12 Nov 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where job failure alerts weren't raised correctly for users with pre-2020 alert configs.</li></ul>]]></description>
   </item>
   </channel>
 </rss>
