@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.11.5 — 10 November 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.11.5:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Tue, 10 Nov 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>‘Update successful’ on the update development page is now a toast; a verified baseline script, a clean drift check and resolved drift before a deployment now show as success cards; and the shadow database summary after a comparison is now an informational banner</li><li>The Docker provisioner is no longer labelled as being in preview</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where the State and Undoable cells in the migrations table on the ‘Migration scripts’ and ‘Deploy’ pages were not vertically aligned with the rest of the row</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.11.4 — 09 November 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.11.4:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">sqlcmp:15.4.28.28077:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
     <pubDate>Fri, 14 Nov 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>New Features</b><ul><li>Support for SQL Server 2025. New SQL Server 2025 features may not function correctly.</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where the ‘Create snapshot of target before deployment’ option was not generating a snapshot</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Data Compare 15.4.28.28077 — 14 November 2025</title>
-    <link>https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqldcmp:15.4.28.28077:https://documentation.red-gate.com/sdc/release-notes-and-other-versions/sql-data-compare-16-0-release-notes</guid>
-    <pubDate>Fri, 14 Nov 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Support for SQL Server 2025. New SQL Server 2025 features may not function correctly.</li></ul>]]></description>
   </item>
   </channel>
 </rss>

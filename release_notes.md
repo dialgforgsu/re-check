@@ -5,9 +5,18 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-11-09 | latest: 9.11.4 (09 November 2026) -->
+<!-- fetched: 2026-11-10 | latest: 9.11.5 (10 November 2026) -->
 
 #
+## 9.11.5 — 10 November 2026
+
+### Improvements
+- ‘Update successful’ on the update development page is now a toast; a verified baseline script, a clean drift check and resolved drift before a deployment now show as success cards; and the shadow database summary after a comparison is now an informational banner
+- The Docker provisioner is no longer labelled as being in preview
+
+### Bug Fixes
+- Fixed an issue where the State and Undoable cells in the migrations table on the ‘Migration scripts’ and ‘Deploy’ pages were not vertically aligned with the rest of the row
+
 ## 9.11.4 — 09 November 2026
 
 ### Improvements
