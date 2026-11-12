@@ -7,6 +7,20 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.11.6 — 12 November 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.11.6:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Thu, 12 Nov 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>On macOS, when ‘Test connection’ fails with ‘No route to host’, Flyway Desktop now suggests checking its Local Network permission in System Settings</li></ul>]]></description>
+  </item>
+  <item>
+    <title>Redgate Monitor 14.40.0 — November 12, 2026</title>
+    <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
+    <guid isPermaLink="false">monitor:14.40.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
+    <pubDate>Thu, 12 Nov 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Redgate Monitor has changed the way it handles SSH verification of a host when using SSH to connect. All connections made to a given SSH endpoint are pinned to that endpoint’s public key. If a new key is provided to Monitor (including via an alternative key on the same trusted endpoint), Monitor will stop monitoring with the status &quot;SSH host key not trusted&quot;. From PowerShell, use Set-RedgateMonitorSshHostKey or the -SshHostKey parameter of New-RedgateMonitorLinuxHost to set the trusted key. Use Clear-RedgateMonitorSshHostKey to clear it.</li><li>Fixed an issue where a standalone SQL Server could not be added when the Failover Clustering feature was installed on the machine but the machine was not part of a cluster.</li><li>Fixed an issue where, with a group selected in the Alert inbox, adding a comment to all alerts added no comments on a Base Monitor with a PostgreSQL repository.</li></ul><b>Improvements</b><ul><li>Redgate Assistant is now generally available. See Redgate Assistant for more information.</li><li>Dates and times are now shown more consistently. More places follow your 12-hour or 24-hour clock setting, for example the low memory alert details and emails, deadlock process details, and the Last updated at time on cluster and availability group overviews.</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where an error from a proxy or load balancer between the browser and the Redgate Monitor website showed as a JSON parse error.</li><li>Fixed an issue where the Alert settings page showed &quot;Failed to load alert settings&quot; for a group or server on a PostgreSQL repository, when a custom metric alert did not apply to that group or server.</li><li>Fixed an issue where some servers and databases were filtered incorrectly on alerts pages.</li><li>Fixed an issue where custom PostgreSQL repository connection string settings, such as Maximum Pool Size, were lost on upgrade.</li><li>Fixed an issue where scheduled report emails did not include the report PDF when the report name contained special characters such as &amp;, #, + or %.</li><li>Fixed an issue where alert counts on overview pages and in summary reports included alerts from servers with similar names.</li><li>Fixed an issue where calculating machine CPU, memory and disk percentiles could raise Monitoring error (host machine data collection) alerts and leave the percentiles out of date.</li><li>Fixed an issue where, with a group selected, the Global dashboard showed no alerts from a Base Monitor with a PostgreSQL repository, and the alert details page could not move to the next or previous alert.</li><li>Fixed an issue where an Amazon RDS or Aurora host with an incorrect database identifier showed no error and collected no host metrics.</li><li>Fixed an issue where the sensitive action log sometimes did not record an action.</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway Desktop 9.11.5 — 10 November 2026</title>
     <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
     <guid isPermaLink="false">flyway-desktop:9.11.5:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
@@ -1391,20 +1405,6 @@
     <guid isPermaLink="false">clone:5.6.20:https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes</guid>
     <pubDate>Tue, 18 Nov 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>New Features</b><ul><li>Adds a new feature flag which, when enabled, forces images and clones to use the VHDX format (instead of VHD), no matter what size of database backup is used.</li></ul><b>Improvements</b><ul><li>This can be done by setting environment variable SQLCLONE_FORCE_VHDX with true.</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Redgate Monitor 14.3.0 — November 17, 2025</title>
-    <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
-    <guid isPermaLink="false">monitor:14.3.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
-    <pubDate>Mon, 17 Nov 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Improvements</b><ul><li>AI-powered query analysis (preview) - provides advice on why queries may be performing poorly, along with improvement suggestions.</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Compare 15.4.28.28077 — 14 November 2025</title>
-    <link>https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</link>
-    <guid isPermaLink="false">sqlcmp:15.4.28.28077:https://documentation.red-gate.com/sc/release-notes-and-other-versions/sql-compare-16-0-release-notes</guid>
-    <pubDate>Fri, 14 Nov 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Support for SQL Server 2025. New SQL Server 2025 features may not function correctly.</li></ul><b>Bug Fixes</b><ul><li>Fixed an issue where the ‘Create snapshot of target before deployment’ option was not generating a snapshot</li></ul>]]></description>
   </item>
   </channel>
 </rss>

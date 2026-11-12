@@ -5,9 +5,14 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-11-10 | latest: 9.11.5 (10 November 2026) -->
+<!-- fetched: 2026-11-12 | latest: 9.11.6 (12 November 2026) -->
 
 #
+## 9.11.6 — 12 November 2026
+
+### Improvements
+- On macOS, when ‘Test connection’ fails with ‘No route to host’, Flyway Desktop now suggests checking its Local Network permission in System Settings
+
 ## 9.11.5 — 10 November 2026
 
 ### Improvements
@@ -2643,7 +2648,30 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-11-04 | latest: 14.39.0 (November 4, 2026) -->
+<!-- fetched: 2026-11-12 | latest: 14.40.0 (November 12, 2026) -->
+## 14.40.0 — November 12, 2026
+
+### New Features
+- Redgate Monitor has changed the way it handles SSH verification of a host when using SSH to connect. All connections made to a given SSH endpoint are pinned to that endpoint’s public key. If a new key is provided to Monitor (including via an alternative key on the same trusted endpoint), Monitor will stop monitoring with the status "SSH host key not trusted". From PowerShell, use Set-RedgateMonitorSshHostKey or the -SshHostKey parameter of New-RedgateMonitorLinuxHost to set the trusted key. Use Clear-RedgateMonitorSshHostKey to clear it.
+- Fixed an issue where a standalone SQL Server could not be added when the Failover Clustering feature was installed on the machine but the machine was not part of a cluster.
+- Fixed an issue where, with a group selected in the Alert inbox, adding a comment to all alerts added no comments on a Base Monitor with a PostgreSQL repository.
+
+### Improvements
+- Redgate Assistant is now generally available. See Redgate Assistant for more information.
+- Dates and times are now shown more consistently. More places follow your 12-hour or 24-hour clock setting, for example the low memory alert details and emails, deadlock process details, and the Last updated at time on cluster and availability group overviews.
+
+### Bug Fixes
+- Fixed an issue where an error from a proxy or load balancer between the browser and the Redgate Monitor website showed as a JSON parse error.
+- Fixed an issue where the Alert settings page showed "Failed to load alert settings" for a group or server on a PostgreSQL repository, when a custom metric alert did not apply to that group or server.
+- Fixed an issue where some servers and databases were filtered incorrectly on alerts pages.
+- Fixed an issue where custom PostgreSQL repository connection string settings, such as Maximum Pool Size, were lost on upgrade.
+- Fixed an issue where scheduled report emails did not include the report PDF when the report name contained special characters such as &, #, + or %.
+- Fixed an issue where alert counts on overview pages and in summary reports included alerts from servers with similar names.
+- Fixed an issue where calculating machine CPU, memory and disk percentiles could raise Monitoring error (host machine data collection) alerts and leave the percentiles out of date.
+- Fixed an issue where, with a group selected, the Global dashboard showed no alerts from a Base Monitor with a PostgreSQL repository, and the alert details page could not move to the next or previous alert.
+- Fixed an issue where an Amazon RDS or Aurora host with an incorrect database identifier showed no error and collected no host metrics.
+- Fixed an issue where the sensitive action log sometimes did not record an action.
+
 ## 14.39.0 — November 4, 2026
 
 ### New Features
