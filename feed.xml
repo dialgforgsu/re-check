@@ -14,6 +14,13 @@
     <description><![CDATA[<b>Improvements</b><ul><li>On macOS, when ‘Test connection’ fails with ‘No route to host’, Flyway Desktop now suggests checking its Local Network permission in System Settings</li></ul>]]></description>
   </item>
   <item>
+    <title>Flyway CLI 13.12.2 — 12 November 2026</title>
+    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
+    <guid isPermaLink="false">flyway-cli:13.12.2:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
+    <pubDate>Thu, 12 Nov 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>New Features</b><ul><li>Flyway now supports the offlinePermit parameter for supplying an offline license permit directly, as an alternative to offlinePermitPath</li><li>Issue 4300 Fixed Maven builds failing with 401 Unauthorized from the flyway-community-db-support GitHub Packages repository. flyway-parent no longer declares it</li></ul><b>Improvements</b><ul><li>When Flyway is licensed through online authentication or a personal access token, the &quot;Licensed via&quot; message now shows when the license was last checked, including the time zone, for example &quot;Licensed via: Online Authentication (last checked 2026-10-09 08:14 BST)&quot;. This makes it clear that a recently renewed license may take up to 24 hours to appear.</li><li>Connection failures with no route to the database host now report the NO_ROUTE_TO_HOST sub error code in JSON output instead of CONNECTION_FAILURE</li><li>The docker provisioner is no longer in preview</li><li>The Flyway MCP server now starts without a license. load_project, reload_project, review_code and test_migrate work without one; the other tools still need Flyway Enterprise and return a licensing error explaining how to upgrade.</li><li>Migrate and deploy results are now published to Flyway Insights when using native connectors</li><li>Some published Redgate Flyway Maven artifacts could not be resolved because they referenced POMs that were never published; they now resolve correctly</li></ul><b>Bug Fixes</b><ul><li>Issue 4297 Fixed a NullPointerException that made Gradle plugin tasks fail with Native Connectors databases</li></ul>]]></description>
+  </item>
+  <item>
     <title>Redgate Monitor 14.40.0 — November 12, 2026</title>
     <link>https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</link>
     <guid isPermaLink="false">monitor:14.40.0:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">monitor:14.3.1:https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html</guid>
     <pubDate>Tue, 18 Nov 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where report analysis tiles would always appear at half width when saved as a PDF regardless of their actual width.</li><li>Fixed an issue where some report PDF urls generated for email notifications were invalid.</li></ul><b>New Features</b><ul><li>Fixed an issue with the new Analysis page that prevented it from loading in certain scenarios.</li></ul>]]></description>
-  </item>
-  <item>
-    <title>SQL Clone 5.6.20 — 18 November 2025</title>
-    <link>https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes</link>
-    <guid isPermaLink="false">clone:5.6.20:https://documentation.red-gate.com/clone/release-notes-and-other-versions/sql-clone-5-release-notes</guid>
-    <pubDate>Tue, 18 Nov 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>New Features</b><ul><li>Adds a new feature flag which, when enabled, forces images and clones to use the VHDX format (instead of VHD), no matter what size of database backup is used.</li></ul><b>Improvements</b><ul><li>This can be done by setting environment variable SQLCLONE_FORCE_VHDX with true.</li></ul>]]></description>
   </item>
   </channel>
 </rss>

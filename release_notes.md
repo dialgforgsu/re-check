@@ -473,7 +473,24 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-11-05 | latest: 13.12.1 (5 November 2026) -->
+<!-- fetched: 2026-11-12 | latest: 13.12.2 (12 November 2026) -->
+
+## 13.12.2 — 12 November 2026
+
+### New Features
+- Flyway now supports the offlinePermit parameter for supplying an offline license permit directly, as an alternative to offlinePermitPath
+- Issue 4300 Fixed Maven builds failing with 401 Unauthorized from the flyway-community-db-support GitHub Packages repository. flyway-parent no longer declares it
+
+### Improvements
+- When Flyway is licensed through online authentication or a personal access token, the "Licensed via" message now shows when the license was last checked, including the time zone, for example "Licensed via: Online Authentication (last checked 2026-10-09 08:14 BST)". This makes it clear that a recently renewed license may take up to 24 hours to appear.
+- Connection failures with no route to the database host now report the NO_ROUTE_TO_HOST sub error code in JSON output instead of CONNECTION_FAILURE
+- The docker provisioner is no longer in preview
+- The Flyway MCP server now starts without a license. load_project, reload_project, review_code and test_migrate work without one; the other tools still need Flyway Enterprise and return a licensing error explaining how to upgrade.
+- Migrate and deploy results are now published to Flyway Insights when using native connectors
+- Some published Redgate Flyway Maven artifacts could not be resolved because they referenced POMs that were never published; they now resolve correctly
+
+### Bug Fixes
+- Issue 4297 Fixed a NullPointerException that made Gradle plugin tasks fail with Native Connectors databases
 
 ## 13.12.1 — 5 November 2026
 
