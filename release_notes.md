@@ -473,7 +473,22 @@
 ---PRODUCT---
 # Flyway CLI
 <!-- source: https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html -->
-<!-- fetched: 2026-11-12 | latest: 13.12.2 (12 November 2026) -->
+<!-- fetched: 2026-11-19 | latest: 13.13.0 (19 November 2026) -->
+
+## 13.13.0 — 19 November 2026
+
+### Improvements
+- The REDGATE_LICENSING_PERMIT environment variable is deprecated. Use offlinePermit parameter (or FLYWAY_OFFLINE_PERMIT) instead
+- the flyway launcher script in the CLI archives is now executable by all users (0755), not just its owner
+- API users without the flyway-proprietary module now get a clear error when using dryRunOutput or errorOverrides, instead of a real migration or ignored overrides
+- Patch java4shell vulnerability by setting -XX:-UseBASE64Intrinsics
+- Issue 4303 Upgrade Snowflake-jdbc to 4.4.1
+
+### Bug Fixes
+- Fixed a bug where a very long configuration value made Flyway's debug configuration table extremely wide. Values longer than 150 characters are now cut short and marked with ...
+
+### New Features
+- Issue 4305 Fixed the Flyway Gradle plugin requiring JVM 25. The plugin now runs on Java 17 and later again, matching Flyway's supported Java versions
 
 ## 13.12.2 — 12 November 2026
 
@@ -2665,7 +2680,39 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-11-12 | latest: 14.40.0 (November 12, 2026) -->
+<!-- fetched: 2026-11-19 | latest: 14.41.0 (November 19, 2026) -->
+## 14.41.0 — November 19, 2026
+
+### Bug Fixes
+- Fixed an issue where users and access tokens with restricted access got alerts for every server on a Base Monitor with a PostgreSQL repository from the REST API alerts endpoints.
+- Fixed an issue where machine metrics for servers monitored over WinRM had gaps that lasted from minutes to hours. A WinRM request that does not finish now fails after 5 minutes, and Redgate Monitor no longer reconnects to a server when only a query failed.
+- Fixed an issue where the Physical memory alert details showed a later time than when memory went above the threshold.
+- Fixed an issue where a Windows machine could stop showing CPU data after it was unavailable, until the Base Monitor service restarted.
+- Fixed an issue where opening an alert or the Alerts page showed "Internal Server Error" on large estates with a SQL Server repository, because the alert query timed out.
+- Fixed an issue where overview pages with many databases, disks or SQL processes took several seconds to show the CPU, memory and other graphs at the top of the page.
+- Fixed an issue where a legacy report graph failed to load when one of its metrics no longer existed.
+- Fixed an issue where a Windows machine monitored over WinRM showed Internal Redgate Monitor error when it could not read volume labels. It now shows Monitoring with limited sampling.
+- Fixed an issue where the Instance unreachable alert stayed raised after the instance came back but rejected the monitoring login.
+- Enterprise edition - Fixed an issue where REST API v2 endpoints returned a 500 error when a list parameter, such as metricIds or entityIds, had an empty value. They now return a 422 error.
+- Enterprise edition - Fixed an issue where REST API v2 filters with comma-separated values, such as status=Monitoring,Suspended, returned the wrong results. Comma-separated and numeric values now return a 422 error. Repeat the parameter for each value instead.
+- Enterprise edition - Fixed an issue where the /api/v2/alerts/data REST API endpoint returned another Base Monitor's custom alerts when alertIds named a custom alert.
+- Enterprise edition - Fixed an issue where the /api/v2/alerts/data REST API endpoint returned alerts from every server on a Base Monitor with a PostgreSQL repository, when none of the requested entityIds was a monitored server.
+- Fixed an issue where REST API v2 metrics/data merged the replicas of an availability group into one series, and did not show the availability group and replica of availability group databases.
+- Fixed an issue where REST API v2 metrics/data and top queries endpoints returned error 500 for a startTime or endTime near the minimum or maximum date. They now return error 416.
+
+### New Features
+- Redgate Monitor now rejects an unknown role when you create an access token or add or edit a user through the API. Previously, an unknown role gave the Read Only User role.
+- The get_top_waits MCP tool now supports PostgreSQL instances and Aurora clusters. It returns the wait event types and wait events that the PostgreSQL Waits page shows, for all databases on the instance.
+- Fixed an issue where the website could not connect to the base monitor after a new install until the services were restarted.
+- Fixed an issue where the For box on the new reports page did not list the nodes of a cluster.
+- Fixed an issue where the Server uptime table tile on the new reports page showed only about 10 instances. It now shows every instance, as the classic report does.
+- Fixed an issue where the installer added Windows Firewall rules when it checked whether a port was available.
+
+### Improvements
+- get_monitored_servers now returns entity information for Azure SQL Databases and Azure SQL Elastic Pools.
+- A webhook request now times out after 30 seconds. A webhook that times out is retried once after 10 minutes.
+- REST API v2 responses now have an X-Unavailable-Base-Monitors header when a Base Monitor is unavailable. The header lists the unavailable Base Monitors, so a client can tell that the response leaves out their data.
+
 ## 14.40.0 — November 12, 2026
 
 ### New Features
