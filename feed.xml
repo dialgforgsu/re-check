@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://dialgforgsu.github.io/re-check/feed.xml" rel="self" type="application/rss+xml"/>
   <item>
+    <title>Flyway Desktop 9.11.7 — 24 November 2026</title>
+    <link>https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</link>
+    <guid isPermaLink="false">flyway-desktop:9.11.7:https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html</guid>
+    <pubDate>Tue, 24 Nov 2026 12:00:00 GMT</pubDate>
+    <description><![CDATA[<b>Improvements</b><ul><li>The diagrams on the ‘Choose deployment method’ screen now use real text, so screen readers can read them and they scale with text size</li><li>The development environment’s schemas are now saved to flyway.toml as schemaModelSchemas, so the Flyway CLI compares the schema model correctly against a target database when the schemas do not match</li><li>Table column headers stay whole when the window is narrow or zoomed in, and a cut-short table cell shows its full text when it has keyboard focus</li><li>Bash and PowerShell scripts from Automated deployment now stop at the first Flyway command that fails. Before, a failed drift check or code review did not stop the deployment</li><li>Bash and PowerShell scripts from Automated deployment now deploy to the environments in a step in parallel, as the step describes, instead of one after another</li></ul>]]></description>
+  </item>
+  <item>
     <title>Flyway CLI 13.13.0 — 19 November 2026</title>
     <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
     <guid isPermaLink="false">flyway-cli:13.13.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
@@ -1398,13 +1405,6 @@
     <guid isPermaLink="false">flyway-cli:11.18.0:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
     <pubDate>Thu, 27 Nov 2025 12:00:00 GMT</pubDate>
     <description><![CDATA[<b>New Features</b><ul><li>'testConnection' command is now supported in Native Connectors mode</li></ul><b>Improvements</b><ul><li>When using Oracle in 'Native Connectors' mode, Flyway now fails early during database initialization if the migration execution tool cannot connect</li><li>When using MongoDB in 'Native Connectors' mode, Flyway now fails early during database initialization if the migration execution tool cannot connect</li><li>Upgraded RgCompare.Cli from 1.45.1.2021 to 1.45.1.2083</li><li>Upgraded sqlfluff from 3.4.2 to 3.5.0</li></ul><b>Bug Fixes</b><ul><li>Fix issue with obtaining the value of SQLPlus placeholders on Oracle 26ai</li><li>fixed an issue with using the create-database provisioner where a reprovision operation would not fully occur if no additional provisioner configuration was specified</li></ul>]]></description>
-  </item>
-  <item>
-    <title>Flyway CLI 11.17.2 — 24 November 2025</title>
-    <link>https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</link>
-    <guid isPermaLink="false">flyway-cli:11.17.2:https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html</guid>
-    <pubDate>Mon, 24 Nov 2025 12:00:00 GMT</pubDate>
-    <description><![CDATA[<b>Bug Fixes</b><ul><li>Fixed an issue where the bundled SqlFluff was not included with some versions of the CLI</li></ul>]]></description>
   </item>
   </channel>
 </rss>

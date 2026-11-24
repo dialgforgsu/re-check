@@ -5,9 +5,18 @@
 ---PRODUCT---
 # Flyway Desktop
 <!-- source: https://documentation.red-gate.com/fd/flyway-desktop-9-release-notes-329778435.html -->
-<!-- fetched: 2026-11-12 | latest: 9.11.6 (12 November 2026) -->
+<!-- fetched: 2026-11-24 | latest: 9.11.7 (24 November 2026) -->
 
 #
+## 9.11.7 — 24 November 2026
+
+### Improvements
+- The diagrams on the ‘Choose deployment method’ screen now use real text, so screen readers can read them and they scale with text size
+- The development environment’s schemas are now saved to flyway.toml as schemaModelSchemas, so the Flyway CLI compares the schema model correctly against a target database when the schemas do not match
+- Table column headers stay whole when the window is narrow or zoomed in, and a cut-short table cell shows its full text when it has keyboard focus
+- Bash and PowerShell scripts from Automated deployment now stop at the first Flyway command that fails. Before, a failed drift check or code review did not stop the deployment
+- Bash and PowerShell scripts from Automated deployment now deploy to the environments in a step in parallel, as the step describes, instead of one after another
+
 ## 9.11.6 — 12 November 2026
 
 ### Improvements
