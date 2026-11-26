@@ -2689,7 +2689,40 @@
 ---PRODUCT---
 # Redgate Monitor 14
 <!-- source: https://documentation.red-gate.com/monitor14/redgate-monitor-14-1+-release-notes-317489801.html -->
-<!-- fetched: 2026-11-19 | latest: 14.41.0 (November 19, 2026) -->
+<!-- fetched: 2026-11-26 | latest: 14.42.0 (November 25, 2026) -->
+## 14.42.0 — November 25, 2026
+
+### Security Fixes
+- CVE-2026-118747 Updated the System.Formats.Cbor package to 10.0.15 to address a reported vulnerability. The vulnerability has a CVSS base score of 7.5 (High), but Redgate Monitor's use of this library has an environmental score of 6.5 (Medium). See https://github.com/advisories/GHSA-vmv3-wvjp-wqpj for more details.
+
+### New Features
+- The History tab of a PostgreSQL instance has a new Blocking processes (preview) section. It shows each blocking chain in the selected time range, with its total blocking time. Select a process to see its full blocking chain, and which sessions each process waits for or is queued behind. See Blocking processes.
+- Extended get_metrics MCP tool to add instance metrics for PostgreSQL, MySQL, Oracle and MongoDB.
+- Clicking the "custom message parameters" chips in the notification settings page will now add their contents to your custom message.
+
+### Improvements
+- Enterprise edition - REST API v2 is now out of preview.
+- Enterprise edition - The Permissions page now includes Azure SQL Database servers, databases and users.
+- On the Analysis page, you can now hide a metric from the graph and show it again, without removing it from the list. Select the eye icon on the metric.
+- The help text for SQL Server Logical reads and Physical reads now explains how the two relate.
+- Collecting Aurora PostgreSQL error logs and query plans now uses less memory and CPU.
+- The chips (also known as labels, tags, or pills) in Monitor have been visually revamped to match Redgate's design system.
+- With more than one Base Monitor, pages such as the Alert inbox now load faster. The website connects to all Base Monitors at the same time, and reuses idle connections between requests.
+- Alert counts on the "All server" node of the tree in the Alert Inbox now correctly sums up values across Base Monitors.
+
+### Bug Fixes
+- Fixed an issue where PowerShell cmdlets such as Get-RedgateMonitorMonitoredObjectStatus did not say which monitored object was not found, when they were called with -ErrorAction Stop.
+- Fixed an issue where the Include copy-only backups toggle on the Backups page worked the opposite way to its label, and the Databases with no backups filter did not use it.
+- Fixed an issue where the Excel export on the Backups page ignored the tag filter and the Include copy-only backups toggle.
+- Fixed an issue where if SQL Audit failed to read due to a timeout, it wouldn't attempt again for 24 hours.
+- Fixed an issue where some Aurora PostgreSQL error log entries and query plans were missing.
+- Fixed an issue where the Global Dashboard did not show why collection was paused for a suspended PostgreSQL, Oracle, MySQL, MongoDB or Amazon RDS instance, or a suspended Azure SQL server or database.
+- Fixed Postgres top queries tracking
+
+### Breaking Changes
+- Enterprise edition - Breaking change - The REST API v2 now uses one metric id for each of these database metrics on all SQL Server instances and Azure SQL Database: the virtual log file count, Database.File.VirtualLogFile.Count, and the transactions and log flush metrics, Database.Performance.TransactionsPerSecond, Database.Performance.ActiveTransactions, Database.Performance.LogBytesFlushedPerSecond, Database.Performance.LogFlushesPerSecond and Database.Performance.LogFlushWaitsPerSecond. The ids of these metrics that start with SqlInstance.Database. no longer exist.
+- Enterprise edition - Breaking change - The REST API v2 now uses one metric id, Database.File.VirtualLogFile.Count, for the virtual log file count of all SQL Server instances and Azure SQL Database. The id SqlInstance.Database.File.VirtualLogFile.Count no longer exists.
+
 ## 14.41.0 — November 19, 2026
 
 ### Bug Fixes
